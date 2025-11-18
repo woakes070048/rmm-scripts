@@ -15,6 +15,88 @@
 # ============================================================================
 #
 # ============================================================================
+#      ██╗     ██╗███╗   ███╗███████╗██╗  ██╗ █████╗ ██╗    ██╗██╗  ██╗
+#      ██║     ██║████╗ ████║██╔════╝██║  ██║██╔══██╗██║    ██║██║ ██╔╝
+#      ██║     ██║██╔████╔██║█████╗  ███████║███████║██║ █╗ ██║█████╔╝
+#      ██║     ██║██║╚██╔╝██║██╔══╝  ██╔══██║██╔══██║██║███╗██║██╔═██╗
+#      ███████╗██║██║ ╚═╝ ██║███████╗██║  ██║██║  ██║╚███╔███╔╝██║  ██╗
+#      ╚══════╝╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚══╝╚══╝ ╚═╝  ╚═╝
+# ============================================================================
+#
+#  PURPOSE
+#  -----------------------------------------------------------------------
+#  Automates system package updates for Ubuntu/Debian systems with verbose
+#  output and error handling. Updates package lists, upgrades installed
+#  packages, removes unused dependencies, and cleans package cache.
+#  Provides color-coded status messages and reboot detection.
+#
+#  CONFIGURATION
+#  -----------------------------------------------------------------------
+#  - ENSURE_APT_UTILS: Install apt-utils if missing (recommended: true)
+#  - ENABLE_FULL_UPGRADE: Use dist-upgrade instead of upgrade (default: false)
+#  - ENABLE_AUTOREMOVE: Remove unused packages after upgrade (default: true)
+#  - ENABLE_CACHE_CLEAN: Clean apt cache to free disk space (default: true)
+#  - ENABLE_COLOR_OUTPUT: Use colored terminal output (default: true)
+#
+#  BEHAVIOR
+#  -----------------------------------------------------------------------
+#  1. Updates package lists from repositories
+#  2. Ensures apt-utils is installed for proper configuration
+#  3. Upgrades all system packages (or performs dist-upgrade if enabled)
+#  4. Removes unused packages and dependencies if enabled
+#  5. Cleans apt cache if enabled
+#  6. Checks if system reboot is required and notifies user
+#
+#  PREREQUISITES
+#  -----------------------------------------------------------------------
+#  - Root/sudo access required
+#  - Ubuntu or Debian-based Linux distribution
+#  - Network connectivity to package repositories
+#  - apt package manager
+#
+#  SECURITY NOTES
+#  -----------------------------------------------------------------------
+#  - No secrets exposed in output
+#  - Uses DEBIAN_FRONTEND=noninteractive to prevent interactive prompts
+#  - Runs with elevated privileges (sudo required)
+#
+#  EXIT CODES
+#  -----------------------------------------------------------------------
+#  0 - Success (all updates completed)
+#  Non-zero - Failure (error occurred during execution)
+#
+#  EXAMPLE OUTPUT
+#  -----------------------------------------------------------------------
+#  === Starting System Update ===
+#
+#  --- Starting: Updating package lists ---
+#  Hit:1 http://archive.ubuntu.com/ubuntu jammy InRelease
+#  +++ Success: Updating package lists +++
+#
+#  --- apt-utils already installed ---
+#
+#  --- Starting: Upgrading all system packages ---
+#  Reading package lists...
+#  Building dependency tree...
+#  +++ Success: Upgrading all system packages +++
+#
+#  --- Starting: Removing unused packages ---
+#  +++ Success: Removing unused packages +++
+#
+#  --- Starting: Cleaning up apt cache ---
+#  +++ Success: Cleaning up apt cache +++
+#
+#  === All System Update Tasks Complete ===
+#
+#  *** System reboot required ***
+#
+#  CHANGELOG
+#  -----------------------------------------------------------------------
+#  2024-11-18 v1.0.0 Updated with Limehawk Style A formatting
+#
+# ============================================================================
+#
+# ============================================================================
 # CONFIGURATION SETTINGS - Modify these as needed
 # ============================================================================
 ENSURE_APT_UTILS=true                 # Ensure apt-utils is installed (recommended)
