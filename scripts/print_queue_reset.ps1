@@ -9,7 +9,7 @@ $ErrorActionPreference = 'Stop'
 ╚══════╝╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚══╝╚══╝ ╚═╝  ╚═╝
 
 ================================================================================
-SCRIPT: Print Queue Reset                                       VERSION: 1.0.0
+SCRIPT: Print Queue Reset                                       VERSION: 1.0.1
 ================================================================================
 FILE: print_queue_reset.ps1
 
@@ -110,6 +110,7 @@ Result  : Print queue cleared and service restarted successfully
 
 CHANGELOG
 --------------------------------------------------------------
+2025-01-17 v1.0.1 Fix Count property error for single file case
 2025-01-17 v1.0.0 Initial release - Print queue reset script
 
 ================================================================================
@@ -216,7 +217,7 @@ try {
     Write-Host "Spooler Directory : $spoolPath"
 
     $files = Get-ChildItem -Path $spoolPath -File -ErrorAction SilentlyContinue
-    $fileCount = if ($files) { $files.Count } else { 0 }
+    $fileCount = @($files).Count
 
     if ($fileCount -gt 0) {
         Remove-Item -Path "$spoolPath\*.*" -Force -ErrorAction Stop
