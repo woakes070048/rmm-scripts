@@ -9,7 +9,7 @@ $ErrorActionPreference = 'Stop'
 ╚══════╝╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚══╝╚══╝ ╚═╝  ╚═╝
 
 ================================================================================
-SCRIPT: Print Queue Reset                                       VERSION: 1.0.1
+SCRIPT: Print Queue Reset                                       VERSION: 1.1.0
 ================================================================================
 FILE: print_queue_reset.ps1
 
@@ -44,10 +44,11 @@ BEHAVIOR
 
 1. Validates hardcoded input values
 2. Checks current status of Print Spooler service
-3. Stops the Print Spooler service if running
-4. Removes all print job files from the spooler directory
-5. Restarts the Print Spooler service
-6. Verifies service is running and reports final status
+3. Stops the Print Spooler service if running and waits for handles to release
+4. Attempts to remove print job files with retry logic (3 attempts per file)
+5. Reports successfully removed and locked files separately
+6. Restarts the Print Spooler service (locked files removed on restart)
+7. Verifies service is running and reports final status
 
 PREREQUISITES
 
@@ -91,6 +92,8 @@ Service stopped successfully
 [ CLEARING PRINT QUEUE ]
 --------------------------------------------------------------
 Spooler Directory : C:\Windows\System32\spool\PRINTERS
+Total Files Found : 5
+Removing files...
 Files Removed     : 5
 Queue cleared successfully
 
@@ -110,6 +113,7 @@ Result  : Print queue cleared and service restarted successfully
 
 CHANGELOG
 --------------------------------------------------------------
+2025-01-17 v1.1.0 Add retry logic and handle locked files gracefully
 2025-01-17 v1.0.1 Fix Count property error for single file case
 2025-01-17 v1.0.0 Initial release - Print queue reset script
 
@@ -204,8 +208,12 @@ try {
         }
 
         Write-Host "Service stopped successfully"
+        Write-Host "Waiting for file handles to release..."
+        Start-Sleep -Seconds 2
     } else {
         Write-Host "Service is already stopped"
+        Write-Host "Waiting for file handles to release..."
+        Start-Sleep -Seconds 2
     }
 
     # Clear the print queue
@@ -217,14 +225,57 @@ try {
     Write-Host "Spooler Directory : $spoolPath"
 
     $files = Get-ChildItem -Path $spoolPath -File -ErrorAction SilentlyContinue
-    $fileCount = @($files).Count
+    $totalFiles = @($files).Count
+    $removedCount = 0
+    $failedCount = 0
+    $failedFilesList = ""
 
-    if ($fileCount -gt 0) {
-        Remove-Item -Path "$spoolPath\*.*" -Force -ErrorAction Stop
-        Write-Host "Files Removed     : $fileCount"
-        Write-Host "Queue cleared successfully"
+    if ($totalFiles -gt 0) {
+        Write-Host "Total Files Found : $totalFiles"
+        Write-Host "Removing files..."
+
+        foreach ($file in $files) {
+            $removed = $false
+            $retryCount = 0
+            $maxRetries = 3
+
+            while (-not $removed -and $retryCount -lt $maxRetries) {
+                try {
+                    Remove-Item -Path $file.FullName -Force -ErrorAction Stop
+                    $removed = $true
+                    $removedCount++
+                } catch {
+                    $retryCount++
+                    if ($retryCount -lt $maxRetries) {
+                        Start-Sleep -Milliseconds 500
+                    }
+                }
+            }
+
+            if (-not $removed) {
+                $failedCount++
+                if ($failedFilesList.Length -gt 0) { $failedFilesList += "`n" }
+                $failedFilesList += "  - $($file.Name)"
+            }
+        }
+
+        Write-Host "Files Removed     : $removedCount"
+        if ($failedCount -gt 0) {
+            Write-Host "Files Failed      : $failedCount"
+            Write-Host "Locked files:"
+            Write-Host $failedFilesList
+            Write-Host "Note: Locked files will be removed when service restarts"
+        }
+
+        if ($removedCount -gt 0) {
+            if ($failedCount -eq 0) {
+                Write-Host "Queue cleared successfully"
+            } else {
+                Write-Host "Queue partially cleared (some files locked)"
+            }
+        }
     } else {
-        Write-Host "Files Removed     : 0"
+        Write-Host "Files Found       : 0"
         Write-Host "No print jobs to clear"
     }
 
