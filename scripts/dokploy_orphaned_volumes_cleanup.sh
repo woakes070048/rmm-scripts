@@ -15,6 +15,92 @@
 # ============================================================================
 #
 # ============================================================================
+#      ██╗     ██╗███╗   ███╗███████╗██╗  ██╗ █████╗ ██╗    ██╗██╗  ██╗
+#      ██║     ██║████╗ ████║██╔════╝██║  ██║██╔══██╗██║    ██║██║ ██╔╝
+#      ██║     ██║██╔████╔██║█████╗  ███████║███████║██║ █╗ ██║█████╔╝
+#      ██║     ██║██║╚██╔╝██║██╔══╝  ██╔══██║██╔══██║██║███╗██║██╔═██╗
+#      ███████╗██║██║ ╚═╝ ██║███████╗██║  ██║██║  ██║╚███╔███╔╝██║  ██╗
+#      ╚══════╝╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚══╝╚══╝ ╚═╝  ╚═╝
+# ============================================================================
+#
+#  PURPOSE
+#  -----------------------------------------------------------------------
+#  Scans Docker containers and Swarm services to identify volumes that are
+#  not currently mounted or in use. Provides detailed information about
+#  orphaned volumes including size, creation date, and mount point. Can
+#  optionally remove orphaned volumes automatically to free up disk space.
+#
+#  CONFIGURATION
+#  -----------------------------------------------------------------------
+#  - AUTO_REMOVE: Set to true to automatically remove orphaned volumes,
+#    false for safe mode (list only)
+#
+#  BEHAVIOR
+#  -----------------------------------------------------------------------
+#  1. Scans all Docker containers (running and stopped) for volume mounts
+#  2. Scans all Docker Swarm services for volume usage
+#  3. Compares all system volumes against used volumes
+#  4. Displays detailed information for each orphaned volume
+#  5. Optionally removes orphaned volumes if AUTO_REMOVE is true
+#
+#  PREREQUISITES
+#  -----------------------------------------------------------------------
+#  - Docker installed and running
+#  - Root/sudo access for volume inspection and removal
+#  - Docker Swarm (optional, script works without it)
+#
+#  SECURITY NOTES
+#  -----------------------------------------------------------------------
+#  - No secrets exposed in output
+#  - Requires privileged access to Docker daemon
+#  - Volume data is permanently deleted when removed
+#
+#  EXIT CODES
+#  -----------------------------------------------------------------------
+#  0 - Success
+#  1 - Failure (error occurred)
+#
+#  EXAMPLE OUTPUT
+#  -----------------------------------------------------------------------
+#  ===================================
+#  Dokploy Orphaned Volumes Finder
+#  ===================================
+#
+#  Step 1: Scanning containers for volume usage...
+#    ✓ Scanned 15 containers
+#
+#  Step 2: Scanning Docker Swarm services for volume usage...
+#    ✓ Scanned 3 Swarm services
+#
+#  Step 3: Getting all volumes on system...
+#    ✓ Found 20 total volumes
+#    ✓ Found 18 volumes in use
+#
+#  Step 4: Identifying orphaned volumes...
+#
+#  Found 2 orphaned volume(s):
+#
+#  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+#  Volume: old_app_data
+#    Created: 2024-10-15 14:23:45
+#    Driver: local
+#    Size: 2.3G
+#    Path: /var/lib/docker/volumes/old_app_data/_data
+#    Status: ⚠️  NOT USED by any container or service
+#  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+#
+#  ===================================
+#
+#  Removing 2 orphaned volumes...
+#  Done!
+#
+#  CHANGELOG
+#  -----------------------------------------------------------------------
+#  2024-11-18 v1.0.0 Initial release with Limehawk Style A formatting
+#
+# ============================================================================
+#
+# ============================================================================
 # CONFIGURATION SETTINGS - Modify these as needed
 # ============================================================================
 AUTO_REMOVE=true                      # Set to true to automatically remove orphaned volumes
