@@ -9,8 +9,8 @@ $ErrorActionPreference = 'Stop'
 ███████╗██║██║ ╚═╝ ██║███████╗██║  ██║██║  ██║╚███╔███╔╝██║  ██╗
 ╚══════╝╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚══╝╚══╝ ╚═╝  ╚═╝
 ================================================================================
- SCRIPT   : Set Always-On Power Profile v1.0.0
- VERSION  : v1.0.0
+ SCRIPT   : Set Always-On Power Profile v2.0.0
+ VERSION  : v2.0.0
 ================================================================================
  FILE     : set_always_on_power_profile.ps1
 --------------------------------------------------------------------------------
@@ -18,21 +18,23 @@ $ErrorActionPreference = 'Stop'
 --------------------------------------------------------------------------------
  PURPOSE
 
-  Configures the active Windows power profile to an always-on state suitable
-  for workstations. Adjusts timeouts for display, hard disk, sleep, and
-  hibernation to prevent the machine from sleeping while plugged in, while
-  applying conservative settings for battery use.
+  Creates a custom "Always On - Limehawk" power plan optimized for workstations
+  that should never sleep while on AC power. If the plan already exists, it will
+  be reused and reconfigured. The plan is based on High Performance settings and
+  includes configurable timeouts for display, hard disk, sleep, and hibernation.
 
  DATA SOURCES & PRIORITY
 
   - Local System WMI/CIM: Used to detect the presence of a battery
     (Win32_Battery class) to determine if hibernation should be disabled
     or configured with timeouts
-  - Active Power Plan: Modified via powercfg.exe commands
+  - Windows Power Plans: Creates or modifies custom plan via powercfg.exe
+  - High Performance Plan: Used as the base template for the custom plan
 
  REQUIRED INPUTS
 
   All inputs are hardcoded in the script body:
+    - $customPlanName     : Name of the custom power plan (non-empty string)
     - $displayTimeoutAC   : Display timeout on AC power (minutes, 0-999)
     - $displayTimeoutDC   : Display timeout on battery (minutes, 0-999)
     - $diskTimeoutAC      : Hard disk timeout on AC power (minutes, 0-999)
@@ -44,7 +46,8 @@ $ErrorActionPreference = 'Stop'
 
  SETTINGS
 
-  Default Configuration:
+  Custom Plan Configuration:
+    - Plan Name                : Always On - Limehawk
     - Display Timeout (AC)     : 30 minutes
     - Display Timeout (DC)     : 10 minutes
     - Disk Timeout (AC)        : 60 minutes
@@ -54,23 +57,32 @@ $ErrorActionPreference = 'Stop'
     - Hibernate Timeout (AC)   : 0 (Never, if battery present)
     - Hibernate Timeout (DC)   : 45 minutes (if battery present)
 
+  Plan Management:
+    - If plan exists: Reuses existing plan GUID and reconfigures settings
+    - If plan does not exist: Creates new plan by duplicating High Performance
+    - The custom plan is automatically set as the active power plan
+    - Original power plans are not modified
+
   Hibernation Behavior:
     - Desktop systems (no battery): Hibernation is fully disabled via powercfg -h off
     - Laptop systems (battery detected): Hibernation timeouts are configured
-    - All settings apply to the currently active power plan
     - Changes take effect immediately without requiring a reboot
 
  BEHAVIOR
 
   The script performs the following actions in order:
-  1. Validates all hardcoded timeout values are non-negative integers
+  1. Validates all hardcoded timeout values and plan name
   2. Verifies script is running with Administrator privileges
-  3. Reports current host name and active power plan
-  4. Sets AC and DC timeouts for display, hard disk, and sleep
-  5. Checks for the presence of a system battery via WMI
-  6. If no battery found (desktop): disables hibernation completely
-  7. If battery found (laptop): sets hibernation timeouts for AC and DC
-  8. Reports final success status
+  3. Reports current host name and previously active power plan
+  4. Checks if custom power plan already exists by name
+  5. If plan exists, retrieves its GUID and reports reuse
+  6. If plan does not exist, duplicates High Performance plan to create it
+  7. Sets the custom plan as the active power plan
+  8. Sets AC and DC timeouts for display, hard disk, and sleep
+  9. Checks for the presence of a system battery via WMI
+  10. If no battery found (desktop): disables hibernation completely
+  11. If battery found (laptop): sets hibernation timeouts for AC and DC
+  12. Reports final success status with new active plan name
 
  PREREQUISITES
 
@@ -78,6 +90,7 @@ $ErrorActionPreference = 'Stop'
   - Must be run with local Administrator rights
   - Network access is not required
   - Windows OS with powercfg.exe utility
+  - High Performance power plan must exist on the system
 
  SECURITY NOTES
 
@@ -85,6 +98,7 @@ $ErrorActionPreference = 'Stop'
   - No secrets are handled or logged
   - All operations are local to the machine running the script
   - No network connections are made
+  - Creates a new power plan but does not delete existing plans
 
  ENDPOINTS
 
@@ -92,7 +106,7 @@ $ErrorActionPreference = 'Stop'
 
  EXIT CODES
 
-  0 = Success - power profile configured successfully
+  0 = Success - custom power plan created/configured and activated
   1 = Failure - input validation failed or insufficient privileges
 
  EXAMPLE RUN
@@ -105,7 +119,14 @@ $ErrorActionPreference = 'Stop'
   --------------------------------------------------------------
    Privilege Check          : Administrator
    Host Name                : WKSTN-LIMEHAWK
-   Active Power Plan        : Balanced
+   Previous Active Plan     : Lenovo Default
+
+  [ POWER PLAN SETUP ]
+  --------------------------------------------------------------
+   Custom Plan Name         : Always On - Limehawk
+   Plan Status              : Already exists (reusing)
+   Plan GUID                : a1b2c3d4-e5f6-7890-1234-567890abcdef
+   Active Plan              : Always On - Limehawk
 
   [ APPLYING POWER SETTINGS ]
   --------------------------------------------------------------
@@ -123,7 +144,8 @@ $ErrorActionPreference = 'Stop'
 
   [ FINAL STATUS ]
   --------------------------------------------------------------
-   Power profile has been configured successfully
+   Power plan configured successfully
+   Active plan is now: Always On - Limehawk
    Settings are effective immediately
 
   [ SCRIPT COMPLETED ]
@@ -133,6 +155,8 @@ $ErrorActionPreference = 'Stop'
  CHANGELOG
  2025-09-12 v1.0.0 Initial Style A compliant version for workstation power
                    profile management
+ 2025-11-19 v2.0.0 Changed to create custom "Always On - Limehawk" plan instead
+                   of modifying existing active plan
 ================================================================================
 #>
 
@@ -142,6 +166,7 @@ Set-StrictMode -Version Latest
 # HARDCODED INPUTS
 # ============================================================================
 
+$customPlanName     = "Always On - Limehawk"   # Name of the custom power plan
 $displayTimeoutAC   = 30   # Minutes until display turns off on AC power
 $displayTimeoutDC   = 10   # Minutes until display turns off on battery
 $diskTimeoutAC      = 60   # Minutes until hard disk spins down on AC power
@@ -150,6 +175,9 @@ $standbyTimeoutAC   = 0    # Minutes until system sleeps on AC power (0 = never)
 $standbyTimeoutDC   = 20   # Minutes until system sleeps on battery
 $hibernateTimeoutAC = 0    # Minutes until system hibernates on AC (0 = never)
 $hibernateTimeoutDC = 45   # Minutes until system hibernates on battery
+
+# High Performance plan GUID (standard across Windows installations)
+$highPerfGuid = "8c5e7fda-e8bf-4a96-9a85-a6e23a8c635c"
 
 # ============================================================================
 # INPUT VALIDATION
@@ -161,6 +189,12 @@ Write-Host "--------------------------------------------------------------"
 
 $errorOccurred = $false
 $errorText     = ""
+
+if ([string]::IsNullOrWhiteSpace($customPlanName)) {
+    $errorOccurred = $true
+    if ($errorText.Length -gt 0) { $errorText += "`n" }
+    $errorText += "- Custom plan name cannot be empty"
+}
 
 if ($displayTimeoutAC -lt 0 -or $displayTimeoutAC -gt 999) {
     $errorOccurred = $true
@@ -253,8 +287,64 @@ $hostName = $env:COMPUTERNAME
 Write-Host (" {0} : {1}" -f "Host Name".PadRight(24), $hostName)
 
 $activePlanRaw = powercfg /getactivescheme
-$activePlanName = if ($activePlanRaw -match '\(([^)]+)\)') { $matches[1] } else { "Unknown" }
-Write-Host (" {0} : {1}" -f "Active Power Plan".PadRight(24), $activePlanName)
+$previousPlanName = if ($activePlanRaw -match '\(([^)]+)\)') { $matches[1] } else { "Unknown" }
+Write-Host (" {0} : {1}" -f "Previous Active Plan".PadRight(24), $previousPlanName)
+
+# ============================================================================
+# CREATE OR REUSE CUSTOM POWER PLAN
+# ============================================================================
+
+Write-Host ""
+Write-Host "[ POWER PLAN SETUP ]"
+Write-Host "--------------------------------------------------------------"
+
+Write-Host (" {0} : {1}" -f "Custom Plan Name".PadRight(24), $customPlanName)
+
+$allPlansRaw = powercfg /list
+$customPlanGuid = $null
+
+foreach ($line in $allPlansRaw) {
+    if ($line -match '([a-f0-9-]{36}).*\((.+)\)') {
+        $guid = $matches[1]
+        $name = $matches[2]
+        if ($name -eq $customPlanName) {
+            $customPlanGuid = $guid
+            break
+        }
+    }
+}
+
+if ($customPlanGuid) {
+    Write-Host (" {0} : {1}" -f "Plan Status".PadRight(24), "Already exists (reusing)")
+    Write-Host (" {0} : {1}" -f "Plan GUID".PadRight(24), $customPlanGuid)
+}
+else {
+    Write-Host (" {0} : {1}" -f "Plan Status".PadRight(24), "Creating new plan")
+
+    $duplicateOutput = powercfg /duplicatescheme $highPerfGuid
+
+    if ($duplicateOutput -match '([a-f0-9-]{36})') {
+        $customPlanGuid = $matches[1]
+        Write-Host (" {0} : {1}" -f "Plan GUID".PadRight(24), $customPlanGuid)
+
+        powercfg /changename $customPlanGuid $customPlanName "Limehawk managed always-on power plan for workstations" | Out-Null
+        Write-Host (" {0} : {1}" -f "Plan Created".PadRight(24), "Based on High Performance")
+    }
+    else {
+        Write-Host ""
+        Write-Host "[ ERROR OCCURRED ]"
+        Write-Host "--------------------------------------------------------------"
+        Write-Host "Failed to create custom power plan"
+        Write-Host "Could not duplicate High Performance plan"
+        Write-Host ""
+        Write-Host "[ SCRIPT COMPLETED ]"
+        Write-Host "--------------------------------------------------------------"
+        exit 1
+    }
+}
+
+powercfg /setactive $customPlanGuid
+Write-Host (" {0} : {1}" -f "Active Plan".PadRight(24), $customPlanName)
 
 # ============================================================================
 # APPLY POWER SETTINGS
@@ -322,7 +412,8 @@ else {
 Write-Host ""
 Write-Host "[ FINAL STATUS ]"
 Write-Host "--------------------------------------------------------------"
-Write-Host " Power profile has been configured successfully"
+Write-Host " Power plan configured successfully"
+Write-Host (" Active plan is now: {0}" -f $customPlanName)
 Write-Host " Settings are effective immediately"
 
 Write-Host ""
