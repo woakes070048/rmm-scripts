@@ -166,7 +166,7 @@ Set-StrictMode -Version Latest
 # HARDCODED INPUTS
 # ============================================================================
 
-$customPlanName     = "Always On - Limehawk"   # Name of the custom power plan
+$customPlanName     = "Always On - Limehawk.io"   # Name of the custom power plan
 $displayTimeoutAC   = 30   # Minutes until display turns off on AC power
 $displayTimeoutDC   = 10   # Minutes until display turns off on battery
 $diskTimeoutAC      = 60   # Minutes until hard disk spins down on AC power
