@@ -149,7 +149,9 @@ try {
 
     Write-Section "SUPEROPS SYNC"
     $headers=@{"Content-Type"="application/json";"CustomerSubDomain"=$SUPEROPS_SUBDOMAIN;"Authorization"="Bearer $SUPEROPS_API_KEY"}
-    $mutation=@'mutation updateAsset($input: UpdateAssetInput!){updateAsset(input:$input){assetId name}}'@
+    $mutation=@'
+mutation updateAsset($input: UpdateAssetInput!){updateAsset(input:$input){assetId name}}
+'@
     $variables=@{input=@{assetId=$ASSET_ID;name=$DESIRED_NAME}}
     $body=@{query=$mutation;variables=$variables}|ConvertTo-Json -Depth 6 -Compress
     $resp=Invoke-RestMethod -Uri $GraphQlEndpoint -Method POST -Headers $headers -Body $body
