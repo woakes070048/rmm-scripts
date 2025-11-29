@@ -128,7 +128,7 @@ $DaysOld = 30
 $CleanupAfter = $true
 
 # DelProf2 download settings
-$DelProf2Url = "https://helgeklein.com/downloads/DelProf2/current/DelProf2.zip"
+$DelProf2Url = "https://helgeklein.com/downloads/DelProf2/current/Delprof2%201.6.0.zip"
 $DelProf2CacheDir = Join-Path $env:TEMP "delprof2_cache"
 
 # ==== VALIDATION ====
