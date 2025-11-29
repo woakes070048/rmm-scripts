@@ -1,0 +1,226 @@
+$ErrorActionPreference = 'Stop'
+
+<#
+██╗     ██╗███╗   ███╗███████╗██╗  ██╗ █████╗ ██╗    ██╗██╗  ██╗
+██║     ██║████╗ ████║██╔════╝██║  ██║██╔══██╗██║    ██║██║ ██╔╝
+██║     ██║██╔████╔██║█████╗  ███████║███████║██║ █╗ ██║█████╔╝
+██║     ██║██║╚██╔╝██║██╔══╝  ██╔══██║██╔══██║██║███╗██║██╔═██╗
+███████╗██║██║ ╚═╝ ██║███████╗██║  ██║██║  ██║╚███╔███╔╝██║  ██╗
+╚══════╝╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚══╝╚══╝ ╚═╝  ╚═╝
+================================================================================
+ SCRIPT   : Local User Delete v1.0.0
+ VERSION  : v1.0.0
+================================================================================
+ FILE     : local_user_delete.ps1
+--------------------------------------------------------------------------------
+ README
+--------------------------------------------------------------------------------
+ PURPOSE
+
+ Deletes a local user account and its associated profile directory.
+ Completely removes the user from the system including their files.
+
+ DATA SOURCES & PRIORITY
+
+ 1) Hardcoded values (username)
+ 2) WMI/CIM for profile removal
+
+ REQUIRED INPUTS
+
+ - UserToDelete : Username of the account to delete
+                  Set to "listusers" to only list current users
+
+ SETTINGS
+
+ - Removes user profile via CIM (preferred method)
+ - Falls back to direct filesystem removal if CIM fails
+ - Lists users if no username provided or "listusers" specified
+
+ BEHAVIOR
+
+ 1. If "listusers" mode: lists all local users and exits
+ 2. Validates user exists
+ 3. Removes user profile (CIM then filesystem fallback)
+ 4. Removes local user account
+ 5. Reports final status
+
+ PREREQUISITES
+
+ - Windows 10/11
+ - Admin privileges required
+ - PowerShell 5.1+
+
+ SECURITY NOTES
+
+ - DESTRUCTIVE OPERATION - data cannot be recovered
+ - No secrets in logs
+ - Backup important data before running
+
+ EXIT CODES
+
+ - 0: Success
+ - 1: Failure
+
+ EXAMPLE RUN
+
+ [ INPUT VALIDATION ]
+ --------------------------------------------------------------
+ User to Delete : tempuser
+
+ [ OPERATION ]
+ --------------------------------------------------------------
+ Found user: tempuser
+ Removing user profile...
+ Profile removed via CIM
+ Removing user account...
+ User account removed
+
+ [ RESULT ]
+ --------------------------------------------------------------
+ Status : Success
+ User   : tempuser (deleted)
+
+ [ SCRIPT COMPLETED ]
+ --------------------------------------------------------------
+--------------------------------------------------------------------------------
+ CHANGELOG
+ 2025-11-29 v1.0.0 Initial Style A implementation
+================================================================================
+#>
+
+Set-StrictMode -Version Latest
+
+# ==== STATE ====
+$errorOccurred = $false
+$errorText = ""
+$profileRemoved = $false
+$userRemoved = $false
+
+# ==== HARDCODED INPUTS ====
+$UserToDelete = "$YourUsernameHere"  # Set to "listusers" to list all users
+
+# ==== HELPER FUNCTIONS ====
+function Show-LocalUsers {
+    Write-Host ""
+    Write-Host "[ CURRENT LOCAL USERS ]"
+    Write-Host "--------------------------------------------------------------"
+    Get-LocalUser | ForEach-Object {
+        $status = if ($_.Enabled) { "Enabled" } else { "Disabled" }
+        Write-Host " $($_.Name.PadRight(20)) : $status"
+    }
+    Write-Host "--------------------------------------------------------------"
+}
+
+# ==== LIST USERS MODE ====
+if ([string]::IsNullOrWhiteSpace($UserToDelete) -or $UserToDelete -eq "listusers" -or $UserToDelete -eq '$YourUsernameHere') {
+    Show-LocalUsers
+    Write-Host ""
+    Write-Host "[ RESULT ]"
+    Write-Host "--------------------------------------------------------------"
+    Write-Host "Status : Listed users only"
+    Write-Host "Action : Set UserToDelete variable to delete a user"
+    Write-Host ""
+    Write-Host "[ SCRIPT COMPLETED ]"
+    Write-Host "--------------------------------------------------------------"
+    exit 0
+}
+
+# ==== RUNTIME OUTPUT ====
+Write-Host ""
+Write-Host "[ INPUT VALIDATION ]"
+Write-Host "--------------------------------------------------------------"
+Write-Host "User to Delete : $UserToDelete"
+
+Write-Host ""
+Write-Host "[ OPERATION ]"
+Write-Host "--------------------------------------------------------------"
+
+try {
+    # Check if user exists
+    $user = Get-LocalUser -Name $UserToDelete -ErrorAction SilentlyContinue
+    if (-not $user) {
+        Write-Host "User '$UserToDelete' not found."
+        Show-LocalUsers
+        throw "User account '$UserToDelete' does not exist."
+    }
+    Write-Host "Found user: $UserToDelete"
+
+    # Step 1: Remove user profile
+    Write-Host "Removing user profile..."
+
+    # Try CIM method first (cleaner)
+    $profile = Get-CimInstance Win32_UserProfile -ErrorAction SilentlyContinue | Where-Object { $_.LocalPath -like "*\$UserToDelete" }
+
+    if ($profile) {
+        try {
+            Remove-CimInstance $profile -ErrorAction Stop
+            Write-Host "Profile removed via CIM"
+            $profileRemoved = $true
+        } catch {
+            Write-Host "CIM removal failed, trying filesystem..."
+        }
+    }
+
+    # Fallback: Direct filesystem removal
+    if (-not $profileRemoved) {
+        $profilePath = "$env:SystemDrive\Users\$UserToDelete"
+        if (Test-Path $profilePath) {
+            Write-Host "Removing profile folder: $profilePath"
+            Remove-Item -Path $profilePath -Recurse -Force -ErrorAction Stop
+            Write-Host "Profile folder removed via filesystem"
+            $profileRemoved = $true
+        } else {
+            Write-Host "No profile folder found (may not exist)"
+            $profileRemoved = $true  # Not an error if no profile exists
+        }
+    }
+
+    # Step 2: Remove user account
+    Write-Host "Removing user account..."
+    Remove-LocalUser -Name $UserToDelete -ErrorAction Stop
+    Write-Host "User account removed"
+    $userRemoved = $true
+
+} catch {
+    $errorOccurred = $true
+    $errorText = $_.Exception.Message
+}
+
+if ($errorOccurred) {
+    Write-Host ""
+    Write-Host "[ ERROR OCCURRED ]"
+    Write-Host "--------------------------------------------------------------"
+    Write-Host $errorText
+    Show-LocalUsers
+}
+
+Write-Host ""
+Write-Host "[ RESULT ]"
+Write-Host "--------------------------------------------------------------"
+if ($errorOccurred) {
+    Write-Host "Status  : Failure"
+} else {
+    Write-Host "Status  : Success"
+    Write-Host "User    : $UserToDelete (deleted)"
+    Write-Host "Profile : $(if ($profileRemoved) { 'Removed' } else { 'Not found' })"
+}
+
+Write-Host ""
+Write-Host "[ FINAL STATUS ]"
+Write-Host "--------------------------------------------------------------"
+if ($errorOccurred) {
+    Write-Host "User deletion failed. See error above."
+} else {
+    Write-Host "User '$UserToDelete' and profile have been deleted."
+    Write-Host "WARNING: This action cannot be undone."
+}
+
+Write-Host ""
+Write-Host "[ SCRIPT COMPLETED ]"
+Write-Host "--------------------------------------------------------------"
+
+if ($errorOccurred) {
+    exit 1
+} else {
+    exit 0
+}
