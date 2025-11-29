@@ -8,8 +8,8 @@ $ErrorActionPreference = 'Stop'
 ███████╗██║██║ ╚═╝ ██║███████╗██║  ██║██║  ██║╚███╔███╔╝██║  ██╗
 ╚══════╝╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚══╝╚══╝ ╚═╝  ╚═╝
 ================================================================================
- SCRIPT   : DelProf2 Profile Cleanup v1.0.0
- VERSION  : v1.0.0
+ SCRIPT   : DelProf2 Profile Cleanup v1.1.0
+ VERSION  : v1.1.0
 ================================================================================
  FILE     : delprof2_profile_cleanup.ps1
 --------------------------------------------------------------------------------
@@ -24,7 +24,7 @@ $ErrorActionPreference = 'Stop'
  DATA SOURCES & PRIORITY
 
  1) Hardcoded values (mode, profile names, age threshold)
- 2) Chocolatey for DelProf2 installation
+ 2) Direct download from helgeklein.com
 
  REQUIRED INPUTS
 
@@ -43,27 +43,29 @@ $ErrorActionPreference = 'Stop'
 
  SETTINGS
 
- - Uses Chocolatey to install/upgrade DelProf2
+ - Downloads DelProf2 directly from helgeklein.com (no Chocolatey required)
+ - Caches executable in Windows TEMP directory
  - Always protects specified profiles (default: gaia, administrator)
  - Unattended mode (/u flag)
 
  BEHAVIOR
 
- 1. Installs/upgrades DelProf2 via Chocolatey
+ 1. Downloads/extracts DelProf2 if not cached
  2. Builds command based on selected mode
  3. Executes DelProf2 with appropriate flags
- 4. Reports results
+ 4. Optionally cleans up cached files
+ 5. Reports results
 
  PREREQUISITES
 
  - Windows 10/11
  - Admin privileges required
- - Chocolatey installed (for DelProf2 installation)
  - Internet access for initial DelProf2 download
 
  SECURITY NOTES
 
  - DESTRUCTIVE OPERATION - profiles cannot be recovered
+ - Downloads from official helgeklein.com source
  - No secrets in logs
  - Backup important data before running
 
@@ -82,8 +84,8 @@ $ErrorActionPreference = 'Stop'
 
  [ OPERATION ]
  --------------------------------------------------------------
- Installing/upgrading DelProf2...
- Executing: delprof2.exe /u /d:30 /ed:gaia /ed:administrator
+ Downloading DelProf2...
+ Executing: DelProf2.exe /u /d:30 /ed:gaia /ed:administrator
  DelProf2 completed successfully
 
  [ RESULT ]
@@ -94,6 +96,7 @@ $ErrorActionPreference = 'Stop'
  --------------------------------------------------------------
 --------------------------------------------------------------------------------
  CHANGELOG
+ 2025-11-29 v1.1.0 Removed Chocolatey dependency, direct download from source
  2025-11-29 v1.0.0 Initial Style A implementation (consolidated 4 scripts)
 ================================================================================
 #>
@@ -121,8 +124,12 @@ $ProfileToDelete = "$YourProfileToDeleteHere"
 # For "older_than" mode - age in days
 $DaysOld = 30
 
-# Whether to uninstall DelProf2 after completion
-$UninstallAfter = $false
+# Whether to cleanup DelProf2 after completion
+$CleanupAfter = $true
+
+# DelProf2 download settings
+$DelProf2Url = "https://helgeklein.com/downloads/DelProf2/current/DelProf2.zip"
+$DelProf2CacheDir = Join-Path $env:TEMP "delprof2_cache"
 
 # ==== VALIDATION ====
 $validModes = @("delete_all", "older_than", "keep_only", "delete_specific")
@@ -171,28 +178,60 @@ switch ($Mode) {
     "delete_specific" { Write-Host "Profile to Delete : $ProfileToDelete" }
 }
 
-Write-Host "Uninstall After   : $UninstallAfter"
+Write-Host "Cleanup After     : $CleanupAfter"
 
 Write-Host ""
 Write-Host "[ OPERATION ]"
 Write-Host "--------------------------------------------------------------"
 
 try {
-    # Install/upgrade DelProf2
-    Write-Host "Installing/upgrading DelProf2 via Chocolatey..."
-    $chocoResult = choco upgrade delprof2 -y --no-progress 2>&1
-    if ($LASTEXITCODE -ne 0) {
-        throw "Chocolatey failed to install DelProf2: $chocoResult"
+    # Ensure cache directory exists
+    if (-not (Test-Path $DelProf2CacheDir)) {
+        Write-Host "Creating cache directory..."
+        New-Item -Path $DelProf2CacheDir -ItemType Directory -Force | Out-Null
     }
-    Write-Host "DelProf2 ready"
+
+    $delprof2Exe = Join-Path $DelProf2CacheDir "DelProf2.exe"
+
+    # Download and extract DelProf2 if not present
+    if (-not (Test-Path $delprof2Exe)) {
+        Write-Host "Downloading DelProf2 from helgeklein.com..."
+
+        $zipPath = Join-Path $DelProf2CacheDir "DelProf2.zip"
+
+        # Use TLS 1.2
+        [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
+
+        # Download
+        $webClient = New-Object System.Net.WebClient
+        $webClient.DownloadFile($DelProf2Url, $zipPath)
+        $webClient.Dispose()
+
+        Write-Host "Download complete, extracting..."
+
+        # Extract
+        Add-Type -AssemblyName System.IO.Compression.FileSystem
+        [System.IO.Compression.ZipFile]::ExtractToDirectory($zipPath, $DelProf2CacheDir)
+
+        # Cleanup zip
+        Remove-Item $zipPath -Force -ErrorAction SilentlyContinue
+
+        if (-not (Test-Path $delprof2Exe)) {
+            throw "DelProf2.exe not found after extraction"
+        }
+
+        Write-Host "DelProf2 ready"
+    } else {
+        Write-Host "Using cached DelProf2"
+    }
 
     # Build the command arguments
-    $delprof2Args = "/u"  # Unattended mode
+    $delprof2Args = @("/u")  # Unattended mode
 
     # Add protected profiles
     $protectedList = $ProtectedProfiles -split "," | ForEach-Object { $_.Trim() } | Where-Object { $_ -ne "" }
     foreach ($profile in $protectedList) {
-        $delprof2Args += " /ed:$profile"
+        $delprof2Args += "/ed:$profile"
     }
 
     # Add mode-specific arguments
@@ -201,22 +240,22 @@ try {
             # No additional args needed - deletes all except protected
         }
         "older_than" {
-            $delprof2Args += " /d:$DaysOld"
+            $delprof2Args += "/d:$DaysOld"
         }
         "keep_only" {
-            $delprof2Args += " /ed:$ProfileToKeep"
+            $delprof2Args += "/ed:$ProfileToKeep"
         }
         "delete_specific" {
-            $delprof2Args += " /id:$ProfileToDelete"
+            $delprof2Args += "/id:$ProfileToDelete"
         }
     }
 
-    Write-Host "Executing: delprof2.exe $delprof2Args"
+    Write-Host "Executing: DelProf2.exe $($delprof2Args -join ' ')"
 
     # Execute DelProf2
     $processInfo = New-Object System.Diagnostics.ProcessStartInfo
-    $processInfo.FileName = "delprof2.exe"
-    $processInfo.Arguments = $delprof2Args
+    $processInfo.FileName = $delprof2Exe
+    $processInfo.Arguments = $delprof2Args -join ' '
     $processInfo.RedirectStandardOutput = $true
     $processInfo.RedirectStandardError = $true
     $processInfo.UseShellExecute = $false
@@ -241,11 +280,11 @@ try {
         Write-Host $delprof2Output
     }
 
-    # Uninstall if requested
-    if ($UninstallAfter) {
-        Write-Host "Uninstalling DelProf2..."
-        choco uninstall delprof2 -y --no-progress 2>&1 | Out-Null
-        Write-Host "DelProf2 uninstalled"
+    # Cleanup if requested
+    if ($CleanupAfter) {
+        Write-Host "Cleaning up cache directory..."
+        Remove-Item $DelProf2CacheDir -Recurse -Force -ErrorAction SilentlyContinue
+        Write-Host "Cleanup complete"
     }
 
 } catch {
