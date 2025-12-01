@@ -8,8 +8,8 @@ $ErrorActionPreference = 'Stop'
 ███████╗██║██║ ╚═╝ ██║███████╗██║  ██║██║  ██║╚███╔███╔╝██║  ██╗
 ╚══════╝╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚══╝╚══╝ ╚═╝  ╚═╝
 ================================================================================
- SCRIPT   : Dell Command Update v2.0.0
- VERSION  : v2.0.0
+ SCRIPT   : Dell Command Update v2.1.0
+ VERSION  : v2.1.0
 ================================================================================
  FILE     : dell_command_update.ps1
 --------------------------------------------------------------------------------
@@ -46,8 +46,8 @@ $ErrorActionPreference = 'Stop'
  2. Installs Dell Command Update if not present
  3. Verifies DCU CLI exists
  4. Configures DCU for silent operation
- 5. Scans for available updates
- 6. Applies updates without rebooting
+ 5. Scans for available updates and outputs log to console
+ 6. Applies updates without rebooting and outputs log to console
 
  PREREQUISITES
 
@@ -78,11 +78,24 @@ $ErrorActionPreference = 'Stop'
  Checking for winget...
  winget found
  Checking for Dell Command Update...
- Installing Dell.CommandUpdate...
- Installation complete
+ Dell Command Update already installed
  Configuring Dell Command Update...
+ Configuration complete
  Scanning for updates...
+ Scan complete
+
+ [ SCAN LOG ]
+ --------------------------------------------------------------
+ <Dell Command Update scan results displayed here>
+
+ [ OPERATION ]
+ --------------------------------------------------------------
  Applying updates...
+ Updates applied
+
+ [ APPLY UPDATES LOG ]
+ --------------------------------------------------------------
+ <Dell Command Update apply results displayed here>
 
  [ RESULT ]
  --------------------------------------------------------------
@@ -92,6 +105,7 @@ $ErrorActionPreference = 'Stop'
  --------------------------------------------------------------
 --------------------------------------------------------------------------------
  CHANGELOG
+ 2025-12-01 v2.1.0 Output scan and apply log contents to console for RMM visibility
  2025-12-01 v2.0.0 Switched from Chocolatey to winget for package management
  2025-11-29 v1.0.0 Initial Style A implementation
 ================================================================================
@@ -195,12 +209,35 @@ try {
     # Scan for updates
     Write-Host "Scanning for updates..."
     & $DcuCliPath /scan -outputLog="$DcuLogPath\scan.log"
-    Write-Host "Scan complete (log: $DcuLogPath\scan.log)"
+    Write-Host "Scan complete"
+
+    # Output scan log
+    Write-Host ""
+    Write-Host "[ SCAN LOG ]"
+    Write-Host "--------------------------------------------------------------"
+    if (Test-Path "$DcuLogPath\scan.log") {
+        Get-Content "$DcuLogPath\scan.log" | ForEach-Object { Write-Host $_ }
+    } else {
+        Write-Host "Scan log not found."
+    }
 
     # Apply updates without rebooting
+    Write-Host ""
+    Write-Host "[ OPERATION ]"
+    Write-Host "--------------------------------------------------------------"
     Write-Host "Applying updates..."
     & $DcuCliPath /applyUpdates -reboot=disable -outputLog="$DcuLogPath\applyUpdates.log"
-    Write-Host "Updates applied (log: $DcuLogPath\applyUpdates.log)"
+    Write-Host "Updates applied"
+
+    # Output apply log
+    Write-Host ""
+    Write-Host "[ APPLY UPDATES LOG ]"
+    Write-Host "--------------------------------------------------------------"
+    if (Test-Path "$DcuLogPath\applyUpdates.log") {
+        Get-Content "$DcuLogPath\applyUpdates.log" | ForEach-Object { Write-Host $_ }
+    } else {
+        Write-Host "Apply updates log not found."
+    }
 
 } catch {
     $errorOccurred = $true
