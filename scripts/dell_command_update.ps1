@@ -8,8 +8,8 @@ $ErrorActionPreference = 'Stop'
 ███████╗██║██║ ╚═╝ ██║███████╗██║  ██║██║  ██║╚███╔███╔╝██║  ██╗
 ╚══════╝╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚══╝╚══╝ ╚═╝  ╚═╝
 ================================================================================
- SCRIPT   : Dell Command Update v1.0.0
- VERSION  : v1.0.0
+ SCRIPT   : Dell Command Update v2.0.0
+ VERSION  : v2.0.0
 ================================================================================
  FILE     : dell_command_update.ps1
 --------------------------------------------------------------------------------
@@ -17,33 +17,33 @@ $ErrorActionPreference = 'Stop'
 --------------------------------------------------------------------------------
  PURPOSE
 
- Installs Dell Command Update via Chocolatey and runs it to scan and apply
+ Installs Dell Command Update via winget and runs it to scan and apply
  driver/firmware updates silently. Designed for automated Dell system maintenance
  in RMM environments.
 
  DATA SOURCES & PRIORITY
 
  1) Hardcoded values (defined within the script body)
- 2) Chocolatey package manager
+ 2) winget package manager
  3) Dell Command Update CLI
 
  REQUIRED INPUTS
 
  - DcuCliPath    : Path to Dell Command Update CLI executable
  - DcuLogPath    : Directory for DCU log files
- - PackageName   : Chocolatey package name for Dell Command Update
+ - WingetId      : winget package ID for Dell Command Update
 
  SETTINGS
 
- - Uses Chocolatey for package management
+ - Uses winget for package management
  - Configures DCU to auto-suspend BitLocker and disable user consent prompts
  - Applies updates without rebooting (reboot=disable)
  - Logs scan and apply operations to C:\dell\logs
 
  BEHAVIOR
 
- 1. Verifies Chocolatey is installed
- 2. Installs Dell Command Update UWP package if not present
+ 1. Verifies winget is available
+ 2. Installs Dell Command Update if not present
  3. Verifies DCU CLI exists
  4. Configures DCU for silent operation
  5. Scans for available updates
@@ -51,7 +51,7 @@ $ErrorActionPreference = 'Stop'
 
  PREREQUISITES
 
- - Chocolatey package manager installed
+ - Windows 10 1809+ or Windows 11 with winget
  - Dell system (script will fail on non-Dell hardware)
  - Admin privileges for installation and updates
 
@@ -63,7 +63,7 @@ $ErrorActionPreference = 'Stop'
  EXIT CODES
 
  - 0: Success
- - 1: Failure (Chocolatey not found, DCU not installed, etc.)
+ - 1: Failure (winget not found, DCU not installed, etc.)
 
  EXAMPLE RUN
 
@@ -71,12 +71,15 @@ $ErrorActionPreference = 'Stop'
  --------------------------------------------------------------
  DCU CLI Path : C:\Program Files\Dell\CommandUpdate\dcu-cli.exe
  DCU Log Path : C:\dell\logs
- Package Name : DellCommandUpdate-UWP
+ Winget ID    : Dell.CommandUpdate
 
  [ OPERATION ]
  --------------------------------------------------------------
- Checking for Chocolatey...
- Installing Dell Command Update...
+ Checking for winget...
+ winget found
+ Checking for Dell Command Update...
+ Installing Dell.CommandUpdate...
+ Installation complete
  Configuring Dell Command Update...
  Scanning for updates...
  Applying updates...
@@ -89,6 +92,7 @@ $ErrorActionPreference = 'Stop'
  --------------------------------------------------------------
 --------------------------------------------------------------------------------
  CHANGELOG
+ 2025-12-01 v2.0.0 Switched from Chocolatey to winget for package management
  2025-11-29 v1.0.0 Initial Style A implementation
 ================================================================================
 #>
@@ -102,7 +106,7 @@ $errorText = ""
 # ==== HARDCODED INPUTS ====
 $DcuCliPath = "C:\Program Files\Dell\CommandUpdate\dcu-cli.exe"
 $DcuLogPath = "C:\dell\logs"
-$PackageName = "DellCommandUpdate-UWP"
+$WingetId = "Dell.CommandUpdate"
 
 # ==== VALIDATION ====
 if ([string]::IsNullOrWhiteSpace($DcuCliPath)) {
@@ -115,10 +119,10 @@ if ([string]::IsNullOrWhiteSpace($DcuLogPath)) {
     if ($errorText.Length -gt 0) { $errorText += "`n" }
     $errorText += "- DcuLogPath is required."
 }
-if ([string]::IsNullOrWhiteSpace($PackageName)) {
+if ([string]::IsNullOrWhiteSpace($WingetId)) {
     $errorOccurred = $true
     if ($errorText.Length -gt 0) { $errorText += "`n" }
-    $errorText += "- PackageName is required."
+    $errorText += "- WingetId is required."
 }
 
 if ($errorOccurred) {
@@ -135,32 +139,41 @@ Write-Host "[ INPUT VALIDATION ]"
 Write-Host "--------------------------------------------------------------"
 Write-Host "DCU CLI Path : $DcuCliPath"
 Write-Host "DCU Log Path : $DcuLogPath"
-Write-Host "Package Name : $PackageName"
+Write-Host "Winget ID    : $WingetId"
 
 Write-Host ""
 Write-Host "[ OPERATION ]"
 Write-Host "--------------------------------------------------------------"
 
 try {
-    # Check for Chocolatey
-    Write-Host "Checking for Chocolatey..."
-    if (-not (Get-Command "choco" -ErrorAction SilentlyContinue)) {
-        throw "Chocolatey is not installed. Please install Chocolatey first."
+    # Check for winget
+    Write-Host "Checking for winget..."
+    $wingetPath = Get-Command "winget" -ErrorAction SilentlyContinue
+    if (-not $wingetPath) {
+        throw "winget is not available. Windows 10 1809+ or Windows 11 required."
     }
-    Write-Host "Chocolatey found"
+    Write-Host "winget found"
 
-    # Install Dell Command Update if not present
+    # Check if Dell Command Update is already installed
     Write-Host "Checking for Dell Command Update..."
-    $installed = choco list --local-only 2>$null | Select-String $PackageName
+    $installed = winget list -e --id $WingetId --accept-source-agreements 2>$null | Select-String $WingetId
+
     if (-not $installed) {
-        Write-Host "Installing $PackageName..."
-        $result = choco install $PackageName -y 2>&1
+        Write-Host "Installing $WingetId..."
+        $installResult = winget install -e --id $WingetId --silent --accept-package-agreements --accept-source-agreements 2>&1
         if ($LASTEXITCODE -ne 0) {
-            throw "Failed to install $PackageName"
+            throw "Failed to install $WingetId. Exit code: $LASTEXITCODE"
         }
         Write-Host "Installation complete"
     } else {
         Write-Host "Dell Command Update already installed"
+
+        # Check for updates
+        Write-Host "Checking for DCU updates..."
+        $upgradeResult = winget upgrade -e --id $WingetId --silent --accept-package-agreements --accept-source-agreements 2>&1
+        if ($LASTEXITCODE -eq 0) {
+            Write-Host "DCU upgraded to latest version"
+        }
     }
 
     # Verify DCU CLI exists
