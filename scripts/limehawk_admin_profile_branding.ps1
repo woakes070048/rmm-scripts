@@ -309,16 +309,6 @@ try {
     PrintKV "Admin Profile Path"     ($(if ($AdminProfilePath) { $AdminProfilePath } else { "<none>" }))
     PrintKV "Admin NTUSER.DAT"       ($(if ($NtUserDatPath)   { $NtUserDatPath   } else { "<none>" }))
 
-    # Get MSP Admin SID and Profile Path
-    $MspAdmin = Get-LocalUser -Name $MspAdminName # Re-get to ensure it's fresh after creation/update
-    $MspAdminSID = $MspAdmin.SID.Value
-    $MspAdminProfileObj = Get-CimInstance Win32_UserProfile | Where-Object { $_.SID -eq $MspAdminSID }
-    $MspAdminProfilePath = if ($MspAdminProfileObj) { $MspAdminProfileObj.LocalPath } else { "C:\Users\$MspAdminName" }
-    $MspAdminNtUserDatPath = if ($MspAdminProfilePath) { Join-Path $MspAdminProfilePath 'NTUSER.DAT' } else { $null }
-
-    PrintKV "MSP Admin Profile Path"     ($(if ($MspAdminProfilePath) { $MspAdminProfilePath } else { "<none>" }))
-    PrintKV "MSP Admin NTUSER.DAT"       ($(if ($MspAdminNtUserDatPath)   { $MspAdminNtUserDatPath   } else { "<none>" }))
-
     # =============================================================================
     # BUILT-IN ADMINISTRATOR MANAGEMENT
     # =============================================================================
@@ -407,6 +397,17 @@ try {
     } catch {
         throw "Failed to enable MSP admin account: $($_.Exception.Message)"
     }
+
+    # Get MSP Admin SID and Profile Path (after account is created/verified)
+    $MspAdmin = Get-LocalUser -Name $MspAdminName
+    $MspAdminSID = $MspAdmin.SID.Value
+    $MspAdminProfileObj = Get-CimInstance Win32_UserProfile | Where-Object { $_.SID -eq $MspAdminSID }
+    $MspAdminProfilePath = if ($MspAdminProfileObj) { $MspAdminProfileObj.LocalPath } else { "C:\Users\$MspAdminName" }
+    $MspAdminNtUserDatPath = if ($MspAdminProfilePath) { Join-Path $MspAdminProfilePath 'NTUSER.DAT' } else { $null }
+
+    PrintKV "MSP Admin SID"              $MspAdminSID
+    PrintKV "MSP Admin Profile Path"     ($(if ($MspAdminProfilePath) { $MspAdminProfilePath } else { "<none>" }))
+    PrintKV "MSP Admin NTUSER.DAT"       ($(if ($MspAdminNtUserDatPath) { $MspAdminNtUserDatPath } else { "<none>" }))
 
     # =============================================================================
     # OLD MSP ACCOUNT CLEANUP
