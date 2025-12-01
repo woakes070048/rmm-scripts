@@ -157,7 +157,7 @@ mutation updateAsset($input: UpdateAssetInput!){updateAsset(input:$input){assetI
     $variables=@{input=@{assetId=$ASSET_ID;name=$DESIRED_NAME}}
     $body=@{query=$mutation;variables=$variables}|ConvertTo-Json -Depth 6 -Compress
     $resp=Invoke-RestMethod -Uri $GraphQlEndpoint -Method POST -Headers $headers -Body $body
-    if($resp.errors){throw ("SUPEROPS ERROR: "+($resp.errors|ConvertTo-Json -Compress))}
+    if($resp.PSObject.Properties['errors'] -and $resp.errors){throw ("SUPEROPS ERROR: "+($resp.errors|ConvertTo-Json -Compress))}
     PrintKV "RESULT" "SUPEROPS ASSET NAME UPDATED"
 
     Write-Section "FINAL STATUS"
