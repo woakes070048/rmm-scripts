@@ -10,7 +10,7 @@ $ErrorActionPreference = 'Stop'
 ╚══════╝╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚══╝╚══╝ ╚═╝  ╚═╝
 ================================================================================
  SCRIPT    : limehawk_admin_profile_branding.ps1
- VERSION   : v3.1.4
+ VERSION   : v3.1.5
 ================================================================================
  README
 --------------------------------------------------------------------------------
@@ -46,6 +46,7 @@ $ErrorActionPreference = 'Stop'
 --------------------------------------------------------------------------------
  CHANGELOG
 --------------------------------------------------------------------------------
+ v3.1.5  (2025-12-01)  Fix typo in OldMspAccounts: tiltlocal -> tlitlocal.
  v3.1.4  (2025-12-01)  Fix cleanup section using old admin name after rename.
  v3.1.3  (2025-12-01)  Fix error when limehawk account doesn't exist by moving
                        MSP admin profile lookup to after account creation.
@@ -418,7 +419,7 @@ try {
     # OLD MSP ACCOUNT CLEANUP
     # =============================================================================
     Write-Section "OLD MSP ACCOUNT CLEANUP"
-    $OldMspAccounts = @("m5sadmin", "tiltlocal", "clientadmin")
+    $OldMspAccounts = @("m5sadmin", "tlitlocal", "clientadmin")
     $BuiltInAdminSID = (Get-LocalUser -Name $BuiltInAdminNewName).SID.Value # Get SID of the built-in admin
 
     foreach ($accountName in $OldMspAccounts) {
