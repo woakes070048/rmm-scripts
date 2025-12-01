@@ -10,7 +10,7 @@ $ErrorActionPreference = 'Stop'
 ╚══════╝╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚══╝╚══╝ ╚═╝  ╚═╝
 ================================================================================
  SCRIPT    : limehawk_admin_profile_branding.ps1
- VERSION   : v3.1.1 (Reordered)
+ VERSION   : v3.1.3
 ================================================================================
  README
 --------------------------------------------------------------------------------
@@ -46,8 +46,12 @@ $ErrorActionPreference = 'Stop'
 --------------------------------------------------------------------------------
  CHANGELOG
 --------------------------------------------------------------------------------
+ v3.1.3  (2025-12-01)  Fix error when limehawk account doesn't exist by moving
+                       MSP admin profile lookup to after account creation.
+ v3.1.2  (2025-10-31)  Improved wallpaper application by defaulting profile paths
+                       and adding clearer warnings for missing profiles. Set
+                       'Limehawk' MSP admin full name.
  v3.1.1  (2025-09-05)  Reordered sections to set/sync password before profile check.
- v3.1.2  (2025-10-31)  Improved wallpaper application by defaulting profile paths and adding clearer warnings for missing profiles. Set 'Limehawk' MSP admin full name.
  v3.1.0  (2025-08-20)  Standardized sections (ASCII headers), PS5.1-safe helpers,
                        consolidated diagnostics, strong password generator, file
                        existence checks, registry hive load/unload hardening.
