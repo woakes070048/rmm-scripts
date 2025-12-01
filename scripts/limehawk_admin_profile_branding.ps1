@@ -10,7 +10,7 @@ $ErrorActionPreference = 'Stop'
 ╚══════╝╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚══╝╚══╝ ╚═╝  ╚═╝
 ================================================================================
  SCRIPT    : limehawk_admin_profile_branding.ps1
- VERSION   : v3.1.3
+ VERSION   : v3.1.4
 ================================================================================
  README
 --------------------------------------------------------------------------------
@@ -46,6 +46,7 @@ $ErrorActionPreference = 'Stop'
 --------------------------------------------------------------------------------
  CHANGELOG
 --------------------------------------------------------------------------------
+ v3.1.4  (2025-12-01)  Fix cleanup section using old admin name after rename.
  v3.1.3  (2025-12-01)  Fix error when limehawk account doesn't exist by moving
                        MSP admin profile lookup to after account creation.
  v3.1.2  (2025-10-31)  Improved wallpaper application by defaulting profile paths
@@ -472,14 +473,14 @@ Write-Section "CLEANUP"
 if ($ReturnToOriginalState) {
     if ($InitialAdminState) {
         PrintKV "Administrator Account" "Returning to original state: Enabled"
-        Enable-LocalUser -Name $AdminUser
+        Enable-LocalUser -Name $BuiltInAdminNewName
     } else {
         PrintKV "Administrator Account" "Returning to original state: Disabled"
-        Disable-LocalUser -Name $AdminUser
+        Disable-LocalUser -Name $BuiltInAdminNewName
     }
 } elseif ($DisableAdminOnExit) {
     PrintKV "Administrator Account" "Disabling as per setting"
-    Disable-LocalUser -Name $AdminUser
+    Disable-LocalUser -Name $BuiltInAdminNewName
 } else {
     PrintKV "Administrator Account" "Leaving enabled as per setting"
 }
