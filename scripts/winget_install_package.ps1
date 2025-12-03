@@ -23,8 +23,8 @@ $ErrorActionPreference = 'Stop'
    2) Winget package repository
 
  REQUIRED INPUTS
-   - $SoftwareName - SuperOps runtime replacement variable for winget package ID
-                     (e.g., "Google.Chrome", "Mozilla.Firefox")
+   - $PackageName - SuperOps runtime replacement variable for winget package ID
+                    (e.g., "Google.Chrome", "Mozilla.Firefox")
 
  SETTINGS
    - Silent installation mode
@@ -85,7 +85,7 @@ Set-StrictMode -Version Latest
 # HARDCODED INPUTS (SuperOps runtime replacement)
 # ============================================================================
 
-$PackageId = '$SoftwareName'    # Winget package ID - SuperOps replaces $SoftwareName
+$PackageId = '$PackageName'    # Winget package ID - SuperOps replaces $PackageName
 
 # ============================================================================
 # INPUT VALIDATION
@@ -98,7 +98,7 @@ Write-Host ""
 Write-Host "[ INPUT VALIDATION ]"
 Write-Host "--------------------------------------------------------------"
 
-if ([string]::IsNullOrWhiteSpace($PackageId) -or $PackageId -eq '$' + 'SoftwareName') {
+if ([string]::IsNullOrWhiteSpace($PackageId) -or $PackageId -eq '$' + 'PackageName') {
     $errorOccurred = $true
     if ($errorText.Length -gt 0) { $errorText += "`n" }
     $errorText += "- Package ID is required (set via SuperOps runtime replacement)"
