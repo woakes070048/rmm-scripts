@@ -23,7 +23,8 @@ $ErrorActionPreference = 'Stop'
    2) Winget package repository
 
  REQUIRED INPUTS
-   - $SoftwareName - Winget package ID (e.g., "Google.Chrome", "Mozilla.Firefox")
+   - $SoftwareName - SuperOps runtime replacement variable for winget package ID
+                     (e.g., "Google.Chrome", "Mozilla.Firefox")
 
  SETTINGS
    - Silent installation mode
@@ -84,7 +85,7 @@ Set-StrictMode -Version Latest
 # HARDCODED INPUTS (SuperOps runtime replacement)
 # ============================================================================
 
-$SoftwareName = '$SoftwareName'    # Winget package ID (e.g., "Google.Chrome")
+$PackageId = '$SoftwareName'    # Winget package ID - SuperOps replaces $SoftwareName
 
 # ============================================================================
 # INPUT VALIDATION
@@ -97,10 +98,10 @@ Write-Host ""
 Write-Host "[ INPUT VALIDATION ]"
 Write-Host "--------------------------------------------------------------"
 
-if ([string]::IsNullOrWhiteSpace($SoftwareName) -or $SoftwareName -eq '$SoftwareName') {
+if ([string]::IsNullOrWhiteSpace($PackageId) -or $PackageId -eq '$' + 'SoftwareName') {
     $errorOccurred = $true
     if ($errorText.Length -gt 0) { $errorText += "`n" }
-    $errorText += "- Software name is required (set via SuperOps runtime replacement)"
+    $errorText += "- Package ID is required (set via SuperOps runtime replacement)"
 }
 
 if ($errorOccurred) {
@@ -113,7 +114,7 @@ if ($errorOccurred) {
     exit 1
 }
 
-Write-Host "Software Name   : $SoftwareName"
+Write-Host "Package ID      : $PackageId"
 
 # ============================================================================
 # WINGET CHECK
@@ -175,12 +176,12 @@ Write-Host ""
 Write-Host "[ INSTALLATION ]"
 Write-Host "--------------------------------------------------------------"
 
-Write-Host "Installing $SoftwareName..."
+Write-Host "Installing $PackageId..."
 
 try {
     $installArgs = @(
         "install"
-        "--id", $SoftwareName
+        "--id", $PackageId
         "--silent"
         "--accept-package-agreements"
         "--accept-source-agreements"
@@ -219,14 +220,14 @@ Write-Host "--------------------------------------------------------------"
 
 if ($installSuccess) {
     Write-Host "Status          : Success"
-    Write-Host "Package         : $SoftwareName installed"
+    Write-Host "Package         : $PackageId installed"
     Write-Host ""
     Write-Host "[ SCRIPT COMPLETED ]"
     Write-Host "--------------------------------------------------------------"
     exit 0
 } else {
     Write-Host "Status          : Failed"
-    Write-Host "Package         : $SoftwareName"
+    Write-Host "Package         : $PackageId"
     Write-Host "Action          : Check winget logs or try manual installation"
     Write-Host ""
     Write-Host "[ SCRIPT COMPLETED ]"
