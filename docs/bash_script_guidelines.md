@@ -162,6 +162,16 @@ MAX_RETRIES=3                             # Maximum retry attempts
   - "Docker Volume Cleanup" → `docker_volume_cleanup.sh`
   - "User Account Manager" → `user_account_manager.sh`
 
+### Updating Scripts (IMPORTANT)
+
+When modifying an existing script, you **MUST** update:
+1. **VERSION** - Increment appropriately (major.minor.patch)
+   - Major: Breaking changes or significant rewrites
+   - Minor: New features or functionality
+   - Patch: Bug fixes or minor tweaks
+2. **CHANGELOG** - Add a new entry at the top with format: `YYYY-MM-DD vX.Y.Z Description of changes`
+3. **Header sections** - Update any sections affected by your changes (PURPOSE, BEHAVIOR, CONFIGURATION, etc.)
+
 ---
 
 ## Hardcoded Inputs (MANDATORY)
