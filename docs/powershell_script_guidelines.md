@@ -78,11 +78,22 @@ After StrictMode: State variables, hardcoded inputs, validation, then main code
   - PREREQUISITES (modules, permissions, etc.)
   - SECURITY NOTES (always include "No secrets in logs")
   - ENDPOINTS (if applicable - APIs, URLs)
+
   - EXIT CODES (0 = success, 1 = failure, others if needed)
   - EXAMPLE RUN (sanitized example of console output)
 - CHANGELOG header with divider
 - CHANGELOG entries: `YYYY-MM-DD vX.Y.Z Description`
 - Bottom ruler: exactly 80 `=` characters
+
+### Updating Scripts (IMPORTANT)
+
+When modifying an existing script, you **MUST** update:
+1. **VERSION** - Increment appropriately (major.minor.patch)
+   - Major: Breaking changes or significant rewrites
+   - Minor: New features or functionality
+   - Patch: Bug fixes or minor tweaks
+2. **CHANGELOG** - Add a new entry at the top with format: `YYYY-MM-DD vX.Y.Z Description of changes`
+3. **README sections** - Update any sections affected by your changes (PURPOSE, BEHAVIOR, REQUIRED INPUTS, etc.)
 
 ### Filename Convention
 
