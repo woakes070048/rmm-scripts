@@ -96,6 +96,18 @@ After StrictMode: State variables, hardcoded inputs, validation, then main code
   $timeout     = 300
 ```
 
+**SuperOps Runtime Text Replacement:**
+* SuperOps does a literal find/replace on runtime variables throughout the entire script
+* To avoid breaking variable references, assign the placeholder to a differently-named variable
+* Example: `$PackageId = '$PackageName'` - SuperOps replaces `$PackageName` with user input, which gets assigned to `$PackageId`
+* The script then uses `$PackageId` everywhere, not the placeholder name
+* For validation, check if the value equals the literal placeholder using string concatenation to avoid replacement:
+```powershell
+  if ($PackageId -eq '$' + 'PackageName') {
+      # Placeholder was not replaced - show error
+  }
+```
+
 **Environment Variable Exception:**
 * `$env:` is ALLOWED for standard system paths and properties:
   - `$env:TEMP`, `$env:ProgramData`, `$env:ProgramFiles`
