@@ -26,6 +26,10 @@ $ErrorActionPreference = 'Stop'
    - $PackageName - SuperOps runtime replacement variable for winget package ID
                     (e.g., "Google.Chrome", "Mozilla.Firefox")
 
+   NOTE: SuperOps does literal find/replace on runtime variables. We assign
+   the placeholder to a differently-named variable ($PackageId = '$PackageName')
+   to avoid the replacement breaking variable references throughout the script.
+
  SETTINGS
    - Silent installation mode
    - Accepts package and source agreements automatically
