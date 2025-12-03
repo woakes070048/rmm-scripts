@@ -85,7 +85,7 @@ Set-StrictMode -Version Latest
 # HARDCODED INPUTS (SuperOps runtime replacement)
 # ============================================================================
 
-$PackageId = '$PackageName'    # Winget package ID - SuperOps replaces $PackageName
+$PackageId = "$PackageName"    # Winget package ID - SuperOps replaces $PackageName
 
 # ============================================================================
 # INPUT VALIDATION
@@ -98,7 +98,7 @@ Write-Host ""
 Write-Host "[ INPUT VALIDATION ]"
 Write-Host "--------------------------------------------------------------"
 
-if ([string]::IsNullOrWhiteSpace($PackageId) -or $PackageId -eq '$' + 'PackageName') {
+if ([string]::IsNullOrWhiteSpace($PackageId)) {
     $errorOccurred = $true
     if ($errorText.Length -gt 0) { $errorText += "`n" }
     $errorText += "- Package ID is required (set via SuperOps runtime replacement)"
