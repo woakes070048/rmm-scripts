@@ -10,7 +10,7 @@ $ErrorActionPreference = 'Stop'
 ╚══════╝╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚══╝╚══╝ ╚═╝  ╚═╝
 ================================================================================
  SCRIPT    : limehawk_admin_profile_branding.ps1
- VERSION   : v3.2.0
+ VERSION   : v3.2.1
 ================================================================================
  README
 --------------------------------------------------------------------------------
@@ -43,6 +43,7 @@ $ErrorActionPreference = 'Stop'
 --------------------------------------------------------------------------------
  CHANGELOG
 --------------------------------------------------------------------------------
+ v3.2.1  (2025-12-04)  Add account labels to branding output for clarity.
  v3.2.0  (2025-12-04)  Change profile photo to .jpg; auto-delete old .png file.
  v3.1.8  (2025-12-03)  Unhide limehawk from login screen if hidden via registry.
  v3.1.7  (2025-12-03)  Clean up settings: remove dead variables, clarify which
@@ -461,13 +462,15 @@ try {
     PrintKV "Wallpaper Path"          ($(if (Test-Path $WallpaperPath) {$WallpaperPath}else{"<missing>"}))
 
     # Branding for Built-in Admin (renamed to hawkadmin)
-    Write-Host "   Applying branding for built-in Administrator (renamed to $BuiltInAdminNewName)"
+    Write-Host "   [$BuiltInAdminNewName] Applying profile picture..."
     Set-AdminAccountPictures -ImageSourcePng $PhotoSource -AdminSid $AdminSID
+    Write-Host "   [$BuiltInAdminNewName] Applying wallpaper..."
     Set-AdminWallpaper        -WallpaperPng  $WallpaperPath -AdminProfileNtuserPath $NtUserDatPath
 
     # Branding for MSP Admin (limehawk)
-    Write-Host "   Applying branding for MSP Administrator ($MspAdminName)"
+    Write-Host "   [$MspAdminName] Applying profile picture..."
     Set-AdminAccountPictures -ImageSourcePng $PhotoSource -AdminSid $MspAdminSID
+    Write-Host "   [$MspAdminName] Applying wallpaper..."
     Set-AdminWallpaper        -WallpaperPng  $WallpaperPath -AdminProfileNtuserPath $MspAdminNtUserDatPath
 
     # =============================================================================
