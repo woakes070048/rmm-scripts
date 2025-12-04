@@ -10,7 +10,7 @@ $ErrorActionPreference = 'Stop'
 ╚══════╝╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚══╝╚══╝ ╚═╝  ╚═╝
 ================================================================================
  SCRIPT    : limehawk_admin_profile_branding.ps1
- VERSION   : v3.2.1
+ VERSION   : v3.2.2
 ================================================================================
  README
 --------------------------------------------------------------------------------
@@ -43,6 +43,7 @@ $ErrorActionPreference = 'Stop'
 --------------------------------------------------------------------------------
  CHANGELOG
 --------------------------------------------------------------------------------
+ v3.2.2  (2025-12-04)  Fix white line artifact - use dark background color instead of white.
  v3.2.1  (2025-12-04)  Add account labels to branding output for clarity.
  v3.2.0  (2025-12-04)  Change profile photo to .jpg; auto-delete old .png file.
  v3.1.8  (2025-12-03)  Unhide limehawk from login screen if hidden via registry.
@@ -222,7 +223,7 @@ function Set-AdminAccountPictures {
             $bmp = New-Object System.Drawing.Bitmap $sz, $sz
             $gfx = [System.Drawing.Graphics]::FromImage($bmp)
             $gfx.InterpolationMode = [System.Drawing.Drawing2D.InterpolationMode]::HighQualityBicubic
-            $gfx.Clear([System.Drawing.Color]::White)
+            $gfx.Clear([System.Drawing.Color]::FromArgb(20, 21, 25))  # Dark background matching logo
             $gfx.DrawImage($photo, 0, 0, $sz, $sz)
             $destFile = Join-Path $destDir ("{0}-Image{1}.png" -f $prefixGuid,$sz)
             $bmp.Save($destFile, $pngCodec, $params)
