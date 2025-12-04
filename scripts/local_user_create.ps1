@@ -8,8 +8,8 @@ $ErrorActionPreference = 'Stop'
 ███████╗██║██║ ╚═╝ ██║███████╗██║  ██║██║  ██║╚███╔███╔╝██║  ██╗
 ╚══════╝╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚══╝╚══╝ ╚═╝  ╚═╝
 ================================================================================
- SCRIPT   : Local User Create v1.0.0
- VERSION  : v1.0.0
+ SCRIPT   : Local User Create v1.1.0
+ VERSION  : v1.1.0
 ================================================================================
  FILE     : local_user_create.ps1
 --------------------------------------------------------------------------------
@@ -26,9 +26,9 @@ $ErrorActionPreference = 'Stop'
 
  REQUIRED INPUTS
 
- - Username    : Username for the new account
- - Password    : Password for the account
- - AddToAdmin  : "Yes" or "No" - whether to add to Administrators group
+ - Username    : Username for the new account (via SuperOps $UsernameInput)
+ - Password    : Password for the account (via SuperOps $PasswordInput)
+ - AddToAdmin  : "Yes" or "No" (via SuperOps $AddToAdminInput)
 
  SETTINGS
 
@@ -80,6 +80,7 @@ $ErrorActionPreference = 'Stop'
  --------------------------------------------------------------
 --------------------------------------------------------------------------------
  CHANGELOG
+ 2025-12-03 v1.1.0 Use SuperOps runtime variables for all inputs
  2025-11-29 v1.0.0 Initial Style A implementation
 ================================================================================
 #>
@@ -91,24 +92,28 @@ $errorOccurred = $false
 $errorText = ""
 
 # ==== HARDCODED INPUTS ====
-$Username = "$YourUsernameHere"
-$Password = "$YourPasswordHere"
-$AddToAdmin = "No"  # "Yes" or "No"
+$Username = '$UsernameInput'
+$Password = '$PasswordInput'
+$AddToAdmin = '$AddToAdminInput'  # "Yes" or "No"
 
 # ==== VALIDATION ====
-if ([string]::IsNullOrWhiteSpace($Username)) {
+if ([string]::IsNullOrWhiteSpace($Username) -or $Username -eq '$' + 'UsernameInput') {
     $errorOccurred = $true
     if ($errorText.Length -gt 0) { $errorText += "`n" }
-    $errorText += "- Username is required."
+    $errorText += "- Username is required (set via SuperOps runtime variable)."
 }
 
-if ([string]::IsNullOrWhiteSpace($Password)) {
+if ([string]::IsNullOrWhiteSpace($Password) -or $Password -eq '$' + 'PasswordInput') {
     $errorOccurred = $true
     if ($errorText.Length -gt 0) { $errorText += "`n" }
-    $errorText += "- Password is required."
+    $errorText += "- Password is required (set via SuperOps runtime variable)."
 }
 
-if ($AddToAdmin -ne "Yes" -and $AddToAdmin -ne "No") {
+if ($AddToAdmin -eq '$' + 'AddToAdminInput') {
+    $errorOccurred = $true
+    if ($errorText.Length -gt 0) { $errorText += "`n" }
+    $errorText += "- AddToAdmin is required (set via SuperOps runtime variable)."
+} elseif ($AddToAdmin -ne "Yes" -and $AddToAdmin -ne "No") {
     $errorOccurred = $true
     if ($errorText.Length -gt 0) { $errorText += "`n" }
     $errorText += "- AddToAdmin must be 'Yes' or 'No'."
