@@ -10,7 +10,7 @@ $ErrorActionPreference = 'Stop'
 ╚══════╝╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚══╝╚══╝ ╚═╝  ╚═╝
 ================================================================================
  SCRIPT    : limehawk_admin_profile_branding.ps1
- VERSION   : v3.1.8
+ VERSION   : v3.1.9
 ================================================================================
  README
 --------------------------------------------------------------------------------
@@ -43,6 +43,7 @@ $ErrorActionPreference = 'Stop'
 --------------------------------------------------------------------------------
  CHANGELOG
 --------------------------------------------------------------------------------
+ v3.1.9  (2025-12-04)  Change profile photo from .png to .jpg format.
  v3.1.8  (2025-12-03)  Unhide limehawk from login screen if hidden via registry.
  v3.1.7  (2025-12-03)  Clean up settings: remove dead variables, clarify which
                        account is which, update README to reflect current behavior.
@@ -78,7 +79,7 @@ $MspAdminFullName          = "Limehawk"                     # Display name on lo
 $MspAdminPasswordField     = "MSP Admin Password"           # SuperOps custom field for password
 
 # Branding assets (applied to both accounts)
-$PhotoSource               = "$env:PUBLIC\Pictures\limehawk_profile.png"
+$PhotoSource               = "$env:PUBLIC\Pictures\limehawk_profile.jpg"
 $WallpaperPath             = "$env:PUBLIC\Pictures\limehawk_wallpaper.png"
 
 # Misc
