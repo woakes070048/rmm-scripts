@@ -8,8 +8,8 @@ $ErrorActionPreference = 'Stop'
 ███████╗██║██║ ╚═╝ ██║███████╗██║  ██║██║  ██║╚███╔███╔╝██║  ██╗
 ╚══════╝╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚══╝╚══╝ ╚═╝  ╚═╝
 ================================================================================
- SCRIPT   : Local User Create v1.1.0
- VERSION  : v1.1.0
+ SCRIPT   : Local User Create v1.2.0
+ VERSION  : v1.2.0
 ================================================================================
  FILE     : local_user_create.ps1
 --------------------------------------------------------------------------------
@@ -26,8 +26,8 @@ $ErrorActionPreference = 'Stop'
 
  REQUIRED INPUTS
 
- - Username    : Username for the new account (via SuperOps $YourUsernameHere)
- - Password    : Password for the account (via SuperOps $YourPasswordHere)
+ - Username    : Username for the new account (via SuperOps $NewUsername)
+ - Password    : Password for the account (via SuperOps $NewPassword)
  - AddToAdmin  : "Yes" or "No" (default: "No")
 
  SETTINGS
@@ -80,6 +80,7 @@ $ErrorActionPreference = 'Stop'
  --------------------------------------------------------------
 --------------------------------------------------------------------------------
  CHANGELOG
+ 2025-12-03 v1.2.0 Use descriptive runtime variable names ($NewUsername, $NewPassword)
  2025-12-03 v1.1.0 Use SuperOps runtime variables for all inputs
  2025-11-29 v1.0.0 Initial Style A implementation
 ================================================================================
@@ -92,18 +93,18 @@ $errorOccurred = $false
 $errorText = ""
 
 # ==== HARDCODED INPUTS ====
-$Username = "$YourUsernameHere"
-$Password = "$YourPasswordHere"
+$Username = "$NewUsername"
+$Password = "$NewPassword"
 $AddToAdmin = "No"  # "Yes" or "No"
 
 # ==== VALIDATION ====
-if ([string]::IsNullOrWhiteSpace($Username) -or $Username -eq '$' + 'YourUsernameHere') {
+if ([string]::IsNullOrWhiteSpace($Username) -or $Username -eq '$' + 'NewUsername') {
     $errorOccurred = $true
     if ($errorText.Length -gt 0) { $errorText += "`n" }
     $errorText += "- Username is required (set via SuperOps runtime variable)."
 }
 
-if ([string]::IsNullOrWhiteSpace($Password) -or $Password -eq '$' + 'YourPasswordHere') {
+if ([string]::IsNullOrWhiteSpace($Password) -or $Password -eq '$' + 'NewPassword') {
     $errorOccurred = $true
     if ($errorText.Length -gt 0) { $errorText += "`n" }
     $errorText += "- Password is required (set via SuperOps runtime variable)."

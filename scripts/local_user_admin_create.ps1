@@ -8,8 +8,8 @@ $ErrorActionPreference = 'Stop'
 ███████╗██║██║ ╚═╝ ██║███████╗██║  ██║██║  ██║╚███╔███╔╝██║  ██╗
 ╚══════╝╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚══╝╚══╝ ╚═╝  ╚═╝
 ================================================================================
- SCRIPT   : Local Admin Create v1.2.0
- VERSION  : v1.2.0
+ SCRIPT   : Local Admin Create v1.3.0
+ VERSION  : v1.3.0
 ================================================================================
  FILE     : local_user_admin_create.ps1
 --------------------------------------------------------------------------------
@@ -28,7 +28,7 @@ $ErrorActionPreference = 'Stop'
 
  REQUIRED INPUTS
 
- - Username : Username for the local admin account (via SuperOps $YourUsernameHere)
+ - Username : Username for the local admin account (via SuperOps $NewAdminUsername)
 
  SETTINGS
 
@@ -85,6 +85,7 @@ $ErrorActionPreference = 'Stop'
  --------------------------------------------------------------
 --------------------------------------------------------------------------------
  CHANGELOG
+ 2025-12-03 v1.3.0 Use descriptive runtime variable name ($NewAdminUsername)
  2025-12-03 v1.2.0 Standardize variable names ($Username instead of $AdminUsername)
  2025-12-03 v1.1.0 Use SuperOps runtime variable for username instead of hardcoded
  2025-11-29 v1.0.0 Initial Style A implementation
@@ -100,7 +101,7 @@ $actionTaken = ""
 $generatedPassword = ""
 
 # ==== HARDCODED INPUTS ====
-$Username = "$YourUsernameHere"
+$Username = "$NewAdminUsername"
 $PasswordLength = 16
 
 # ==== HELPER FUNCTIONS ====
@@ -122,7 +123,7 @@ function Get-SecureRandomPassword {
 }
 
 # ==== VALIDATION ====
-if ([string]::IsNullOrWhiteSpace($Username) -or $Username -eq '$' + 'YourUsernameHere') {
+if ([string]::IsNullOrWhiteSpace($Username) -or $Username -eq '$' + 'NewAdminUsername') {
     $errorOccurred = $true
     if ($errorText.Length -gt 0) { $errorText += "`n" }
     $errorText += "- Username is required (set via SuperOps runtime variable)."
