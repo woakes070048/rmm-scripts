@@ -8,8 +8,8 @@ $ErrorActionPreference = 'Stop'
 ███████╗██║██║ ╚═╝ ██║███████╗██║  ██║██║  ██║╚███╔███╔╝██║  ██╗
 ╚══════╝╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚══╝╚══╝ ╚═╝  ╚═╝
 ================================================================================
- SCRIPT   : Local User Delete v1.0.0
- VERSION  : v1.0.0
+ SCRIPT   : Local User Delete v1.1.0
+ VERSION  : v1.1.0
 ================================================================================
  FILE     : local_user_delete.ps1
 --------------------------------------------------------------------------------
@@ -84,6 +84,7 @@ $ErrorActionPreference = 'Stop'
  --------------------------------------------------------------
 --------------------------------------------------------------------------------
  CHANGELOG
+ 2025-12-03 v1.1.0 Delete orphaned profiles even if user account doesn't exist
  2025-11-29 v1.0.0 Initial Style A implementation
 ================================================================================
 #>
@@ -95,6 +96,7 @@ $errorOccurred = $false
 $errorText = ""
 $profileRemoved = $false
 $userRemoved = $false
+$userExists = $false
 
 # ==== HARDCODED INPUTS ====
 $UserToDelete = "$YourUsernameHere"  # Set to "listusers" to list all users
@@ -139,20 +141,22 @@ try {
     # Check if user exists
     $user = Get-LocalUser -Name $UserToDelete -ErrorAction SilentlyContinue
     if (-not $user) {
-        Write-Host "User '$UserToDelete' not found."
-        Show-LocalUsers
-        throw "User account '$UserToDelete' does not exist."
+        Write-Host "User account '$UserToDelete' not found (will still check for orphaned profile)"
+        $userExists = $false
+    } else {
+        Write-Host "Found user: $UserToDelete"
+        $userExists = $true
     }
-    Write-Host "Found user: $UserToDelete"
 
-    # Step 1: Remove user profile
-    Write-Host "Removing user profile..."
+    # Step 1: Remove user profile (even if user account doesn't exist)
+    Write-Host "Checking for user profile..."
 
     # Try CIM method first (cleaner)
     $profile = Get-CimInstance Win32_UserProfile -ErrorAction SilentlyContinue | Where-Object { $_.LocalPath -like "*\$UserToDelete" }
 
     if ($profile) {
         try {
+            Write-Host "Found profile via CIM, removing..."
             Remove-CimInstance $profile -ErrorAction Stop
             Write-Host "Profile removed via CIM"
             $profileRemoved = $true
@@ -165,21 +169,24 @@ try {
     if (-not $profileRemoved) {
         $profilePath = "$env:SystemDrive\Users\$UserToDelete"
         if (Test-Path $profilePath) {
-            Write-Host "Removing profile folder: $profilePath"
+            Write-Host "Found profile folder: $profilePath"
             Remove-Item -Path $profilePath -Recurse -Force -ErrorAction Stop
             Write-Host "Profile folder removed via filesystem"
             $profileRemoved = $true
         } else {
-            Write-Host "No profile folder found (may not exist)"
-            $profileRemoved = $true  # Not an error if no profile exists
+            Write-Host "No profile folder found"
         }
     }
 
-    # Step 2: Remove user account
-    Write-Host "Removing user account..."
-    Remove-LocalUser -Name $UserToDelete -ErrorAction Stop
-    Write-Host "User account removed"
-    $userRemoved = $true
+    # Step 2: Remove user account (only if it exists)
+    if ($userExists) {
+        Write-Host "Removing user account..."
+        Remove-LocalUser -Name $UserToDelete -ErrorAction Stop
+        Write-Host "User account removed"
+        $userRemoved = $true
+    } else {
+        Write-Host "Skipping user account removal (account doesn't exist)"
+    }
 
 } catch {
     $errorOccurred = $true
@@ -199,9 +206,13 @@ Write-Host "[ RESULT ]"
 Write-Host "--------------------------------------------------------------"
 if ($errorOccurred) {
     Write-Host "Status  : Failure"
+} elseif (-not $userExists -and -not $profileRemoved) {
+    Write-Host "Status  : Nothing to delete"
+    Write-Host "User    : Not found"
+    Write-Host "Profile : Not found"
 } else {
     Write-Host "Status  : Success"
-    Write-Host "User    : $UserToDelete (deleted)"
+    Write-Host "User    : $(if ($userRemoved) { 'Deleted' } else { 'Not found' })"
     Write-Host "Profile : $(if ($profileRemoved) { 'Removed' } else { 'Not found' })"
 }
 
@@ -209,9 +220,11 @@ Write-Host ""
 Write-Host "[ FINAL STATUS ]"
 Write-Host "--------------------------------------------------------------"
 if ($errorOccurred) {
-    Write-Host "User deletion failed. See error above."
+    Write-Host "Deletion failed. See error above."
+} elseif (-not $userExists -and -not $profileRemoved) {
+    Write-Host "Nothing found for '$UserToDelete'."
 } else {
-    Write-Host "User '$UserToDelete' and profile have been deleted."
+    Write-Host "Cleanup complete for '$UserToDelete'."
     Write-Host "WARNING: This action cannot be undone."
 }
 
