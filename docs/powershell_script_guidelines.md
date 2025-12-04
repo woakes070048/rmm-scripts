@@ -139,7 +139,7 @@ $AdminUsername = '$AdminUsername'
 
 **RIGHT - different names:**
 ```powershell
-$AdminUsername = '$UsernameInput'
+$AdminUsername = '$YourUsernameHere'
 # SuperOps only replaces the placeholder, resulting in:
 # $AdminUsername = 'JohnDoe'  <-- This works!
 ```
@@ -149,7 +149,7 @@ The script then uses `$AdminUsername` everywhere, not the placeholder name.
 **For validation**, check if the value equals the literal placeholder using string concatenation to avoid replacement:
 
 ```powershell
-if ($AdminUsername -eq '$' + 'UsernameInput') {
+if ($AdminUsername -eq '$' + 'YourUsernameHere') {
     # Placeholder was not replaced - show error
 }
 ```
