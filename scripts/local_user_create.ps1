@@ -92,8 +92,8 @@ $errorOccurred = $false
 $errorText = ""
 
 # ==== HARDCODED INPUTS ====
-$Username = '$YourUsernameHere'
-$Password = '$YourPasswordHere'
+$Username = "$YourUsernameHere"
+$Password = "$YourPasswordHere"
 $AddToAdmin = "No"  # "Yes" or "No"
 
 # ==== VALIDATION ====
