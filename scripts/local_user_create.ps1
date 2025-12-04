@@ -28,7 +28,7 @@ $ErrorActionPreference = 'Stop'
 
  - Username    : Username for the new account (via SuperOps $YourUsernameHere)
  - Password    : Password for the account (via SuperOps $YourPasswordHere)
- - AddToAdmin  : "Yes" or "No" (via SuperOps $YourAddToAdminHere)
+ - AddToAdmin  : "Yes" or "No" (default: "No")
 
  SETTINGS
 
@@ -94,7 +94,7 @@ $errorText = ""
 # ==== HARDCODED INPUTS ====
 $Username = '$YourUsernameHere'
 $Password = '$YourPasswordHere'
-$AddToAdmin = '$YourAddToAdminHere'  # "Yes" or "No"
+$AddToAdmin = "No"  # "Yes" or "No"
 
 # ==== VALIDATION ====
 if ([string]::IsNullOrWhiteSpace($Username) -or $Username -eq '$' + 'YourUsernameHere') {
@@ -109,11 +109,7 @@ if ([string]::IsNullOrWhiteSpace($Password) -or $Password -eq '$' + 'YourPasswor
     $errorText += "- Password is required (set via SuperOps runtime variable)."
 }
 
-if ($AddToAdmin -eq '$' + 'YourAddToAdminHere') {
-    $errorOccurred = $true
-    if ($errorText.Length -gt 0) { $errorText += "`n" }
-    $errorText += "- AddToAdmin is required (set via SuperOps runtime variable)."
-} elseif ($AddToAdmin -ne "Yes" -and $AddToAdmin -ne "No") {
+if ($AddToAdmin -ne "Yes" -and $AddToAdmin -ne "No") {
     $errorOccurred = $true
     if ($errorText.Length -gt 0) { $errorText += "`n" }
     $errorText += "- AddToAdmin must be 'Yes' or 'No'."
