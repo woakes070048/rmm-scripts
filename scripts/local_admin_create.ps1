@@ -99,7 +99,7 @@ $actionTaken = ""
 $generatedPassword = ""
 
 # ==== HARDCODED INPUTS ====
-$AdminUsername = '$YourUsernameHere'
+$AdminUsername = "$YourUsernameHere"
 $PasswordLength = 16
 
 # ==== HELPER FUNCTIONS ====
