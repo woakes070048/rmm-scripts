@@ -8,8 +8,8 @@ $ErrorActionPreference = 'Stop'
 ███████╗██║██║ ╚═╝ ██║███████╗██║  ██║██║  ██║╚███╔███╔╝██║  ██╗
 ╚══════╝╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚══╝╚══╝ ╚═╝  ╚═╝
 ================================================================================
- SCRIPT   : Local Admin Create/Update v1.1.0
- VERSION  : v1.1.0
+ SCRIPT   : Local Admin Create v1.2.0
+ VERSION  : v1.2.0
 ================================================================================
  FILE     : local_admin_create.ps1
 --------------------------------------------------------------------------------
@@ -28,7 +28,7 @@ $ErrorActionPreference = 'Stop'
 
  REQUIRED INPUTS
 
- - AdminUsername : Username for the local admin account (via SuperOps $YourUsernameHere)
+ - Username : Username for the local admin account (via SuperOps $YourUsernameHere)
 
  SETTINGS
 
@@ -65,7 +65,7 @@ $ErrorActionPreference = 'Stop'
 
  [ INPUT VALIDATION ]
  --------------------------------------------------------------
- Admin Username   : sudohawk
+ Username         : sudohawk
  Password Length  : 16
 
  [ OPERATION ]
@@ -85,6 +85,7 @@ $ErrorActionPreference = 'Stop'
  --------------------------------------------------------------
 --------------------------------------------------------------------------------
  CHANGELOG
+ 2025-12-03 v1.2.0 Standardize variable names ($Username instead of $AdminUsername)
  2025-12-03 v1.1.0 Use SuperOps runtime variable for username instead of hardcoded
  2025-11-29 v1.0.0 Initial Style A implementation
 ================================================================================
@@ -99,7 +100,7 @@ $actionTaken = ""
 $generatedPassword = ""
 
 # ==== HARDCODED INPUTS ====
-$AdminUsername = "$YourUsernameHere"
+$Username = "$YourUsernameHere"
 $PasswordLength = 16
 
 # ==== HELPER FUNCTIONS ====
@@ -121,10 +122,10 @@ function Get-SecureRandomPassword {
 }
 
 # ==== VALIDATION ====
-if ([string]::IsNullOrWhiteSpace($AdminUsername) -or $AdminUsername -eq '$' + 'YourUsernameHere') {
+if ([string]::IsNullOrWhiteSpace($Username) -or $Username -eq '$' + 'YourUsernameHere') {
     $errorOccurred = $true
     if ($errorText.Length -gt 0) { $errorText += "`n" }
-    $errorText += "- AdminUsername is required (set via SuperOps runtime variable)."
+    $errorText += "- Username is required (set via SuperOps runtime variable)."
 }
 
 if ($PasswordLength -lt 8) {
@@ -145,7 +146,7 @@ if ($errorOccurred) {
 Write-Host ""
 Write-Host "[ INPUT VALIDATION ]"
 Write-Host "--------------------------------------------------------------"
-Write-Host "Admin Username   : $AdminUsername"
+Write-Host "Username         : $Username"
 Write-Host "Password Length  : $PasswordLength"
 
 Write-Host ""
@@ -158,7 +159,7 @@ try {
     $securePass = ConvertTo-SecureString $generatedPassword -AsPlainText -Force
 
     Write-Host "Checking for existing account..."
-    $existingAccount = Get-LocalUser -Name $AdminUsername -ErrorAction SilentlyContinue
+    $existingAccount = Get-LocalUser -Name $Username -ErrorAction SilentlyContinue
 
     if ($existingAccount) {
         Write-Host "Account exists, resetting password..."
@@ -167,12 +168,12 @@ try {
         Write-Host "Password reset successfully"
     } else {
         Write-Host "Account does not exist, creating..."
-        New-LocalUser -Name $AdminUsername -Password $securePass -FullName "Local Administrator" -Description "Local Administrator Account" -ErrorAction Stop | Out-Null
+        New-LocalUser -Name $Username -Password $securePass -FullName "Local Administrator" -Description "Local Administrator Account" -ErrorAction Stop | Out-Null
         $actionTaken = "Created"
         Write-Host "Account created successfully"
 
         Write-Host "Adding to Administrators group..."
-        Add-LocalGroupMember -Group "Administrators" -Member $AdminUsername -ErrorAction Stop
+        Add-LocalGroupMember -Group "Administrators" -Member $Username -ErrorAction Stop
         Write-Host "Added to Administrators group"
     }
 
@@ -196,7 +197,7 @@ if ($errorOccurred) {
 } else {
     Write-Host "Status   : Success"
     Write-Host "Action   : $actionTaken"
-    Write-Host "Username : $AdminUsername"
+    Write-Host "Username : $Username"
     Write-Host "Password : $generatedPassword"
 }
 
@@ -206,7 +207,7 @@ Write-Host "--------------------------------------------------------------"
 if ($errorOccurred) {
     Write-Host "Local admin account operation failed. See error above."
 } else {
-    Write-Host "Local admin account '$AdminUsername' is ready."
+    Write-Host "Local admin account '$Username' is ready."
     Write-Host "Store the password securely in your RMM system."
 }
 

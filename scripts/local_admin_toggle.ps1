@@ -8,8 +8,8 @@ $ErrorActionPreference = 'Stop'
 ███████╗██║██║ ╚═╝ ██║███████╗██║  ██║██║  ██║╚███╔███╔╝██║  ██╗
 ╚══════╝╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚══╝╚══╝ ╚═╝  ╚═╝
 ================================================================================
- SCRIPT   : Local Admin Toggle v1.0.0
- VERSION  : v1.0.0
+ SCRIPT   : Local Admin Toggle v1.1.0
+ VERSION  : v1.1.0
 ================================================================================
  FILE     : local_admin_toggle.ps1
 --------------------------------------------------------------------------------
@@ -27,7 +27,7 @@ $ErrorActionPreference = 'Stop'
 
  REQUIRED INPUTS
 
- - Username : The local user account to manage
+ - Username : The local user account to manage (via SuperOps $YourUsernameHere)
  - Action   : "add" or "remove"
 
  SETTINGS
@@ -80,6 +80,7 @@ $ErrorActionPreference = 'Stop'
  --------------------------------------------------------------
 --------------------------------------------------------------------------------
  CHANGELOG
+ 2025-12-03 v1.1.0 Add SuperOps runtime variable validation
  2025-11-29 v1.0.0 Initial Style A implementation
 ================================================================================
 #>
@@ -96,10 +97,10 @@ $Username = "$YourUsernameHere"
 $Action = "add"  # "add" or "remove"
 
 # ==== VALIDATION ====
-if ([string]::IsNullOrWhiteSpace($Username)) {
+if ([string]::IsNullOrWhiteSpace($Username) -or $Username -eq '$' + 'YourUsernameHere') {
     $errorOccurred = $true
     if ($errorText.Length -gt 0) { $errorText += "`n" }
-    $errorText += "- Username is required."
+    $errorText += "- Username is required (set via SuperOps runtime variable)."
 }
 
 if ($Action -ne "add" -and $Action -ne "remove") {
