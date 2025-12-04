@@ -10,7 +10,7 @@ $ErrorActionPreference = 'Stop'
 ╚══════╝╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚══╝╚══╝ ╚═╝  ╚═╝
 ================================================================================
  SCRIPT    : limehawk_admin_profile_branding.ps1
- VERSION   : v3.2.3
+ VERSION   : v3.2.4
 ================================================================================
  README
 --------------------------------------------------------------------------------
@@ -43,7 +43,7 @@ $ErrorActionPreference = 'Stop'
 --------------------------------------------------------------------------------
  CHANGELOG
 --------------------------------------------------------------------------------
- v3.2.3  (2025-12-04)  Enable user switching on login screen (Windows 11 fix).
+ v3.2.4  (2025-12-04)  Remove UserSwitch registry fix (didn't help, showed all users).
  v3.2.2  (2025-12-04)  Fix white line artifact - use dark background color instead of white.
  v3.2.1  (2025-12-04)  Add account labels to branding output for clarity.
  v3.2.0  (2025-12-04)  Change profile photo to .jpg; auto-delete old .png file.
@@ -408,20 +408,6 @@ try {
         }
     } else {
         PrintKV "MSP Admin Visibility" "No hidden accounts registry"
-    }
-
-    # Ensure user switching is enabled on login screen (Windows 11 requirement)
-    $userSwitchPath = "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Authentication\LogonUI\UserSwitch"
-    if (Test-Path $userSwitchPath) {
-        $userSwitchValue = Get-ItemProperty -Path $userSwitchPath -Name "Enabled" -ErrorAction SilentlyContinue
-        if ($null -ne $userSwitchValue -and $userSwitchValue.Enabled -eq 0) {
-            Set-ItemProperty -Path $userSwitchPath -Name "Enabled" -Value 1 -ErrorAction SilentlyContinue
-            PrintKV "User Switch" "Enabled (was disabled)"
-        } else {
-            PrintKV "User Switch" "Already enabled"
-        }
-    } else {
-        PrintKV "User Switch" "Registry key not found"
     }
 
     # Get MSP Admin SID and Profile Path (after account is created/verified)
