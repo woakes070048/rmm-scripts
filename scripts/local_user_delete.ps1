@@ -8,8 +8,8 @@ $ErrorActionPreference = 'Stop'
 ███████╗██║██║ ╚═╝ ██║███████╗██║  ██║██║  ██║╚███╔███╔╝██║  ██╗
 ╚══════╝╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚══╝╚══╝ ╚═╝  ╚═╝
 ================================================================================
- SCRIPT   : Local User Delete v1.2.0
- VERSION  : v1.2.0
+ SCRIPT   : Local User Delete v1.3.0
+ VERSION  : v1.3.0
 ================================================================================
  FILE     : local_user_delete.ps1
 --------------------------------------------------------------------------------
@@ -27,7 +27,7 @@ $ErrorActionPreference = 'Stop'
 
  REQUIRED INPUTS
 
- - Username : Username of the account to delete (via SuperOps $YourUsernameHere)
+ - Username : Username of the account to delete (via SuperOps $UsernameToDelete)
               Set to "listusers" to only list current users
 
  SETTINGS
@@ -84,6 +84,7 @@ $ErrorActionPreference = 'Stop'
  --------------------------------------------------------------
 --------------------------------------------------------------------------------
  CHANGELOG
+ 2025-12-03 v1.3.0 Use descriptive runtime variable name ($UsernameToDelete)
  2025-12-03 v1.2.0 Standardize variable names ($Username instead of $UserToDelete)
  2025-12-03 v1.1.0 Delete orphaned profiles even if user account doesn't exist
  2025-11-29 v1.0.0 Initial Style A implementation
@@ -100,7 +101,7 @@ $userRemoved = $false
 $userExists = $false
 
 # ==== HARDCODED INPUTS ====
-$Username = "$YourUsernameHere"  # Set to "listusers" to list all users
+$Username = "$UsernameToDelete"  # Set to "listusers" to list all users
 
 # ==== HELPER FUNCTIONS ====
 function Show-LocalUsers {
@@ -115,7 +116,7 @@ function Show-LocalUsers {
 }
 
 # ==== LIST USERS MODE ====
-if ([string]::IsNullOrWhiteSpace($Username) -or $Username -eq "listusers" -or $Username -eq '$' + 'YourUsernameHere') {
+if ([string]::IsNullOrWhiteSpace($Username) -or $Username -eq "listusers" -or $Username -eq '$' + 'UsernameToDelete') {
     Show-LocalUsers
     Write-Host ""
     Write-Host "[ RESULT ]"
