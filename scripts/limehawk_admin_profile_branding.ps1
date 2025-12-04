@@ -10,34 +10,31 @@ $ErrorActionPreference = 'Stop'
 ╚══════╝╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚══╝╚══╝ ╚═╝  ╚═╝
 ================================================================================
  SCRIPT    : limehawk_admin_profile_branding.ps1
- VERSION   : v3.1.6
+ VERSION   : v3.1.7
 ================================================================================
  README
 --------------------------------------------------------------------------------
  PURPOSE
    Standardized Limehawk MSP automation to:
-     1) Remove the provisioning account "limehawk" (user + profile) safely
-     2) Ensure the built-in Administrator account (SID *-500) is enabled and named
-     3) Set Administrator Full Name (display) per policy
-     4) Generate & set a strong random password, push to SuperOps custom field
-     5) Apply Administrator account picture (multi-size) and wallpaper
+     1) Rename built-in Administrator (SID *-500) to "hawkadmin" and disable it
+     2) Create/update "limehawk" MSP admin account (enabled for daily use)
+     3) Generate strong passwords for both, push to SuperOps custom fields
+     4) Clean up old MSP accounts (m5sadmin, tlitlocal, clientadmin)
+     5) Apply account pictures and wallpaper branding
 
  WINDOWS / RUNTIME REQUIREMENTS
    - PowerShell 5.1+
    - Run as local Administrator (elevated)
    - Local user management available (Server/Client SKUs)
-   - Access to C:\Users\Administrator\NTUSER.DAT (profile must exist/loaded steps below)
 
  SUPEROPS REQUIREMENTS
    - $SuperOpsModule available (Import-Module on line 1)
-   - Runtime cmdlet Send-CustomField available to update "Admin Password"
-   - Internet egress to SuperOps endpoint via the SuperOps agent/runtime
+   - Runtime cmdlet Send-CustomField available
+   - Custom fields: "Built-in Admin Password", "MSP Admin Password"
 
  SAFETY / IDEMPOTENCE
-   - Deleting the "limehawk" user/profile is gated by $RemoveLimehawkAccount
-   - Administrator profile handling is SID-based (never by name alone)
-   - If Administrator profile path is not C:\Users\Administrator, the script moves
-     into a “prepare” flow: removes the old profile and instructs a one-time login
+   - Built-in admin identified by SID *-500, not by name
+   - If limehawk account exists, password is reset (safe for existing clients)
    - Account picture & wallpaper operations are no-throw best-effort
 
  EXIT CODES
@@ -46,6 +43,8 @@ $ErrorActionPreference = 'Stop'
 --------------------------------------------------------------------------------
  CHANGELOG
 --------------------------------------------------------------------------------
+ v3.1.7  (2025-12-03)  Clean up settings: remove dead variables, clarify which
+                       account is which, update README to reflect current behavior.
  v3.1.6  (2025-12-03)  Remove re-enable logic for hawkadmin; clear FullName to
                        avoid login screen confusion; remove dead $SuperOpsPasswordField.
  v3.1.5  (2025-12-01)  Fix typo in OldMspAccounts: tiltlocal -> tlitlocal.
@@ -67,27 +66,22 @@ $ErrorActionPreference = 'Stop'
 Set-StrictMode -Version Latest
 
 # ============================== SETTINGS =====================================
-# Feature toggles
-$RemoveLimehawkAccount = $true         # Remove local "limehawk" user + profile(s)
-$StandardizeAdminName  = $true         # Ensure account name is literally "Administrator"
 
-# Branding
-$AdminFullName         = "Limehawk"    # Administrator Full Name (display)
+# Built-in Administrator (SID *-500) - DISABLED, password stored as backup
+$BuiltInAdminNewName       = "hawkadmin"                    # Rename built-in admin to this
+$BuiltInAdminPasswordField = "Built-in Admin Password"      # SuperOps custom field for password
 
-# Account Names
-$BuiltInAdminNewName = "hawkadmin"
-$MspAdminName = "limehawk"
+# MSP Administrator - ENABLED, used for daily MSP access
+$MspAdminName              = "limehawk"                     # MSP admin account name
+$MspAdminFullName          = "Limehawk"                     # Display name on login screen
+$MspAdminPasswordField     = "MSP Admin Password"           # SuperOps custom field for password
 
-# SuperOps Custom Fields
-$BuiltInAdminPasswordField = "Built-in Admin Password"
-$MspAdminPasswordField     = "MSP Admin Password"
+# Branding assets (applied to both accounts)
+$PhotoSource               = "$env:PUBLIC\Pictures\limehawk_profile.png"
+$WallpaperPath             = "$env:PUBLIC\Pictures\limehawk_wallpaper.png"
 
-# Branding assets (ensure these paths exist before execution)
-$PhotoSource           = "$env:PUBLIC\Pictures\limehawk_profile.png"
-$WallpaperPath         = "$env:PUBLIC\Pictures\limehawk_wallpaper.png"
-
-# Misc policy
-$GeneratedPasswordLength = 16          # length for random password
+# Misc
+$GeneratedPasswordLength   = 16                             # Password length for both accounts
 
 # =============================================================================
 # VALIDATION
@@ -95,20 +89,20 @@ $GeneratedPasswordLength = 16          # length for random password
 $errorOccurred = $false
 $errorText = ""
 
-if ($null -eq $RemoveLimehawkAccount -or $RemoveLimehawkAccount -isnot [bool]) {
+if ([string]::IsNullOrWhiteSpace($BuiltInAdminNewName)) {
     $errorOccurred = $true
     if ($errorText.Length -gt 0) { $errorText += "`n" }
-    $errorText += "- RemoveLimehawkAccount must be a boolean value."
+    $errorText += "- BuiltInAdminNewName is required."
 }
-if ($null -eq $StandardizeAdminName -or $StandardizeAdminName -isnot [bool]) {
+if ([string]::IsNullOrWhiteSpace($MspAdminName)) {
     $errorOccurred = $true
     if ($errorText.Length -gt 0) { $errorText += "`n" }
-    $errorText += "- StandardizeAdminName must be a boolean value."
+    $errorText += "- MspAdminName is required."
 }
-if ([string]::IsNullOrWhiteSpace($AdminFullName)) {
+if ([string]::IsNullOrWhiteSpace($MspAdminFullName)) {
     $errorOccurred = $true
     if ($errorText.Length -gt 0) { $errorText += "`n" }
-    $errorText += "- AdminFullName is required."
+    $errorText += "- MspAdminFullName is required."
 }
 if ([string]::IsNullOrWhiteSpace($PhotoSource)) {
     $errorOccurred = $true
@@ -356,7 +350,7 @@ try {
         # Create the MSP admin account
         $MspAdminPassword = New-RandomPassword -Length $GeneratedPasswordLength
         try {
-            $MspAdmin = New-LocalUser -Name $MspAdminName -Password (ConvertTo-SecureString $MspAdminPassword -AsPlainText -Force) -FullName "Limehawk" -Description "Limehawk MSP Admin Account"
+            $MspAdmin = New-LocalUser -Name $MspAdminName -Password (ConvertTo-SecureString $MspAdminPassword -AsPlainText -Force) -FullName $MspAdminFullName -Description "Limehawk MSP Admin Account"
             PrintKV "MSP Admin Account" "Created '$MspAdminName'"
         } catch {
             throw "Failed to create MSP admin account: $($_.Exception.Message)"
