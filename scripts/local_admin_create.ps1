@@ -28,7 +28,7 @@ $ErrorActionPreference = 'Stop'
 
  REQUIRED INPUTS
 
- - AdminUsername : Username for the local admin account (via SuperOps $UsernameInput)
+ - AdminUsername : Username for the local admin account (via SuperOps $YourUsernameHere)
 
  SETTINGS
 
@@ -99,7 +99,7 @@ $actionTaken = ""
 $generatedPassword = ""
 
 # ==== HARDCODED INPUTS ====
-$AdminUsername = '$UsernameInput'
+$AdminUsername = '$YourUsernameHere'
 $PasswordLength = 16
 
 # ==== HELPER FUNCTIONS ====
@@ -121,7 +121,7 @@ function Get-SecureRandomPassword {
 }
 
 # ==== VALIDATION ====
-if ([string]::IsNullOrWhiteSpace($AdminUsername) -or $AdminUsername -eq '$' + 'UsernameInput') {
+if ([string]::IsNullOrWhiteSpace($AdminUsername) -or $AdminUsername -eq '$' + 'YourUsernameHere') {
     $errorOccurred = $true
     if ($errorText.Length -gt 0) { $errorText += "`n" }
     $errorText += "- AdminUsername is required (set via SuperOps runtime variable)."

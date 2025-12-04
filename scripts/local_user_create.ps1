@@ -26,9 +26,9 @@ $ErrorActionPreference = 'Stop'
 
  REQUIRED INPUTS
 
- - Username    : Username for the new account (via SuperOps $UsernameInput)
- - Password    : Password for the account (via SuperOps $PasswordInput)
- - AddToAdmin  : "Yes" or "No" (via SuperOps $AddToAdminInput)
+ - Username    : Username for the new account (via SuperOps $YourUsernameHere)
+ - Password    : Password for the account (via SuperOps $YourPasswordHere)
+ - AddToAdmin  : "Yes" or "No" (via SuperOps $YourAddToAdminHere)
 
  SETTINGS
 
@@ -92,24 +92,24 @@ $errorOccurred = $false
 $errorText = ""
 
 # ==== HARDCODED INPUTS ====
-$Username = '$UsernameInput'
-$Password = '$PasswordInput'
-$AddToAdmin = '$AddToAdminInput'  # "Yes" or "No"
+$Username = '$YourUsernameHere'
+$Password = '$YourPasswordHere'
+$AddToAdmin = '$YourAddToAdminHere'  # "Yes" or "No"
 
 # ==== VALIDATION ====
-if ([string]::IsNullOrWhiteSpace($Username) -or $Username -eq '$' + 'UsernameInput') {
+if ([string]::IsNullOrWhiteSpace($Username) -or $Username -eq '$' + 'YourUsernameHere') {
     $errorOccurred = $true
     if ($errorText.Length -gt 0) { $errorText += "`n" }
     $errorText += "- Username is required (set via SuperOps runtime variable)."
 }
 
-if ([string]::IsNullOrWhiteSpace($Password) -or $Password -eq '$' + 'PasswordInput') {
+if ([string]::IsNullOrWhiteSpace($Password) -or $Password -eq '$' + 'YourPasswordHere') {
     $errorOccurred = $true
     if ($errorText.Length -gt 0) { $errorText += "`n" }
     $errorText += "- Password is required (set via SuperOps runtime variable)."
 }
 
-if ($AddToAdmin -eq '$' + 'AddToAdminInput') {
+if ($AddToAdmin -eq '$' + 'YourAddToAdminHere') {
     $errorOccurred = $true
     if ($errorText.Length -gt 0) { $errorText += "`n" }
     $errorText += "- AddToAdmin is required (set via SuperOps runtime variable)."
