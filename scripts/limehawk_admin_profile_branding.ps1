@@ -10,7 +10,7 @@ $ErrorActionPreference = 'Stop'
 ╚══════╝╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚══╝╚══╝ ╚═╝  ╚═╝
 ================================================================================
  SCRIPT    : limehawk_admin_profile_branding.ps1
- VERSION   : v3.1.9
+ VERSION   : v3.2.0
 ================================================================================
  README
 --------------------------------------------------------------------------------
@@ -43,7 +43,7 @@ $ErrorActionPreference = 'Stop'
 --------------------------------------------------------------------------------
  CHANGELOG
 --------------------------------------------------------------------------------
- v3.1.9  (2025-12-04)  Change profile photo from .png to .jpg format.
+ v3.2.0  (2025-12-04)  Change profile photo to .jpg; auto-delete old .png file.
  v3.1.8  (2025-12-03)  Unhide limehawk from login screen if hidden via registry.
  v3.1.7  (2025-12-03)  Clean up settings: remove dead variables, clarify which
                        account is which, update README to reflect current behavior.
@@ -81,6 +81,7 @@ $MspAdminPasswordField     = "MSP Admin Password"           # SuperOps custom fi
 # Branding assets (applied to both accounts)
 $PhotoSource               = "$env:PUBLIC\Pictures\limehawk_profile.jpg"
 $WallpaperPath             = "$env:PUBLIC\Pictures\limehawk_wallpaper.png"
+$OldPhotoSource            = "$env:PUBLIC\Pictures\limehawk_profile.png"  # Legacy file to clean up
 
 # Misc
 $GeneratedPasswordLength   = 16                             # Password length for both accounts
@@ -449,6 +450,13 @@ try {
     # ACCOUNT PICTURE + WALLPAPER
     # =============================================================================
     Write-Section "ADMIN PICTURE & WALLPAPER"
+
+    # Clean up old .png profile photo if it exists
+    if (Test-Path $OldPhotoSource) {
+        Remove-Item -Path $OldPhotoSource -Force -ErrorAction SilentlyContinue
+        PrintKV "Removed Old Photo" $OldPhotoSource
+    }
+
     PrintKV "Photo Source"            ($(if (Test-Path $PhotoSource) {$PhotoSource}else{"<missing>"}))
     PrintKV "Wallpaper Path"          ($(if (Test-Path $WallpaperPath) {$WallpaperPath}else{"<missing>"}))
 
