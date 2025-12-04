@@ -10,7 +10,7 @@ $ErrorActionPreference = 'Stop'
 ╚══════╝╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚══╝╚══╝ ╚═╝  ╚═╝
 ================================================================================
  SCRIPT    : limehawk_admin_profile_branding.ps1
- VERSION   : v3.1.7
+ VERSION   : v3.1.8
 ================================================================================
  README
 --------------------------------------------------------------------------------
@@ -43,6 +43,7 @@ $ErrorActionPreference = 'Stop'
 --------------------------------------------------------------------------------
  CHANGELOG
 --------------------------------------------------------------------------------
+ v3.1.8  (2025-12-03)  Unhide limehawk from login screen if hidden via registry.
  v3.1.7  (2025-12-03)  Clean up settings: remove dead variables, clarify which
                        account is which, update README to reflect current behavior.
  v3.1.6  (2025-12-03)  Remove re-enable logic for hawkadmin; clear FullName to
@@ -388,6 +389,20 @@ try {
         PrintKV "MSP Admin Status" "Enabled"
     } catch {
         throw "Failed to enable MSP admin account: $($_.Exception.Message)"
+    }
+
+    # Ensure MSP admin is visible on login screen (remove from hidden accounts list)
+    $hiddenUsersPath = "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\SpecialAccounts\UserList"
+    if (Test-Path $hiddenUsersPath) {
+        $hiddenValue = Get-ItemProperty -Path $hiddenUsersPath -Name $MspAdminName -ErrorAction SilentlyContinue
+        if ($null -ne $hiddenValue -and $hiddenValue.$MspAdminName -eq 0) {
+            Remove-ItemProperty -Path $hiddenUsersPath -Name $MspAdminName -ErrorAction SilentlyContinue
+            PrintKV "MSP Admin Visibility" "Unhidden from login screen"
+        } else {
+            PrintKV "MSP Admin Visibility" "Already visible"
+        }
+    } else {
+        PrintKV "MSP Admin Visibility" "No hidden accounts registry"
     }
 
     # Get MSP Admin SID and Profile Path (after account is created/verified)
