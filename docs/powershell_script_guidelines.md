@@ -128,14 +128,28 @@ $timeout     = 300
 
 SuperOps does a literal find/replace on runtime variables throughout the entire script. To avoid breaking variable references, assign the placeholder to a differently-named variable.
 
-**Example:** `$PackageId = '$PackageName'` - SuperOps replaces `$PackageName` with user input, which gets assigned to `$PackageId`
+**Why different names?** SuperOps replaces ALL occurrences of the placeholder text. If you use the same name for both the variable and placeholder, BOTH get replaced and the script breaks.
 
-The script then uses `$PackageId` everywhere, not the placeholder name.
+**WRONG - same name for both:**
+```powershell
+$AdminUsername = '$AdminUsername'
+# SuperOps replaces BOTH occurrences, resulting in:
+# JohnDoe = 'JohnDoe'  <-- This is broken PowerShell!
+```
+
+**RIGHT - different names:**
+```powershell
+$AdminUsername = '$UsernameInput'
+# SuperOps only replaces the placeholder, resulting in:
+# $AdminUsername = 'JohnDoe'  <-- This works!
+```
+
+The script then uses `$AdminUsername` everywhere, not the placeholder name.
 
 **For validation**, check if the value equals the literal placeholder using string concatenation to avoid replacement:
 
 ```powershell
-if ($PackageId -eq '$' + 'PackageName') {
+if ($AdminUsername -eq '$' + 'UsernameInput') {
     # Placeholder was not replaced - show error
 }
 ```

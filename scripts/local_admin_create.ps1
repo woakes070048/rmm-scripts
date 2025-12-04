@@ -8,8 +8,8 @@ $ErrorActionPreference = 'Stop'
 ███████╗██║██║ ╚═╝ ██║███████╗██║  ██║██║  ██║╚███╔███╔╝██║  ██╗
 ╚══════╝╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚══╝╚══╝ ╚═╝  ╚═╝
 ================================================================================
- SCRIPT   : Local Admin Create/Update v1.0.0
- VERSION  : v1.0.0
+ SCRIPT   : Local Admin Create/Update v1.1.0
+ VERSION  : v1.1.0
 ================================================================================
  FILE     : local_admin_create.ps1
 --------------------------------------------------------------------------------
@@ -28,7 +28,7 @@ $ErrorActionPreference = 'Stop'
 
  REQUIRED INPUTS
 
- - AdminUsername : Username for the local admin account (default: sudohawk)
+ - AdminUsername : Username for the local admin account (via SuperOps $UsernameInput)
 
  SETTINGS
 
@@ -85,6 +85,7 @@ $ErrorActionPreference = 'Stop'
  --------------------------------------------------------------
 --------------------------------------------------------------------------------
  CHANGELOG
+ 2025-12-03 v1.1.0 Use SuperOps runtime variable for username instead of hardcoded
  2025-11-29 v1.0.0 Initial Style A implementation
 ================================================================================
 #>
@@ -98,7 +99,7 @@ $actionTaken = ""
 $generatedPassword = ""
 
 # ==== HARDCODED INPUTS ====
-$AdminUsername = "sudohawk"
+$AdminUsername = '$UsernameInput'
 $PasswordLength = 16
 
 # ==== HELPER FUNCTIONS ====
@@ -120,10 +121,10 @@ function Get-SecureRandomPassword {
 }
 
 # ==== VALIDATION ====
-if ([string]::IsNullOrWhiteSpace($AdminUsername)) {
+if ([string]::IsNullOrWhiteSpace($AdminUsername) -or $AdminUsername -eq '$' + 'UsernameInput') {
     $errorOccurred = $true
     if ($errorText.Length -gt 0) { $errorText += "`n" }
-    $errorText += "- AdminUsername is required."
+    $errorText += "- AdminUsername is required (set via SuperOps runtime variable)."
 }
 
 if ($PasswordLength -lt 8) {
