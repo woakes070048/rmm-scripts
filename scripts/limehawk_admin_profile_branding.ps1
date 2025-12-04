@@ -10,7 +10,7 @@ $ErrorActionPreference = 'Stop'
 ╚══════╝╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚══╝╚══╝ ╚═╝  ╚═╝
 ================================================================================
  SCRIPT    : limehawk_admin_profile_branding.ps1
- VERSION   : v3.1.5
+ VERSION   : v3.1.6
 ================================================================================
  README
 --------------------------------------------------------------------------------
@@ -46,6 +46,8 @@ $ErrorActionPreference = 'Stop'
 --------------------------------------------------------------------------------
  CHANGELOG
 --------------------------------------------------------------------------------
+ v3.1.6  (2025-12-03)  Remove re-enable logic for hawkadmin; clear FullName to
+                       avoid login screen confusion; remove dead $SuperOpsPasswordField.
  v3.1.5  (2025-12-01)  Fix typo in OldMspAccounts: tiltlocal -> tlitlocal.
  v3.1.4  (2025-12-01)  Fix cleanup section using old admin name after rename.
  v3.1.3  (2025-12-01)  Fix error when limehawk account doesn't exist by moving
@@ -84,13 +86,8 @@ $MspAdminPasswordField     = "MSP Admin Password"
 $PhotoSource           = "$env:PUBLIC\Pictures\limehawk_profile.png"
 $WallpaperPath         = "$env:PUBLIC\Pictures\limehawk_wallpaper.png"
 
-# SuperOps
-$SuperOpsPasswordField = "Admin Password"
-
 # Misc policy
 $GeneratedPasswordLength = 16          # length for random password
-$DisableAdminOnExit = $true        # Disable the Administrator account on exit
-$ReturnToOriginalState = $true     # Return the Administrator account to its original state on exit
 
 # =============================================================================
 # VALIDATION
@@ -122,11 +119,6 @@ if ([string]::IsNullOrWhiteSpace($WallpaperPath)) {
     $errorOccurred = $true
     if ($errorText.Length -gt 0) { $errorText += "`n" }
     $errorText += "- WallpaperPath is required."
-}
-if ([string]::IsNullOrWhiteSpace($SuperOpsPasswordField)) {
-    $errorOccurred = $true
-    if ($errorText.Length -gt 0) { $errorText += "`n" }
-    $errorText += "- SuperOpsPasswordField is required."
 }
 if ($GeneratedPasswordLength -lt 8) {
     $errorOccurred = $true
@@ -302,11 +294,7 @@ try {
     $admin = Get-BuiltInAdmin
     $AdminUser = $admin.Name
     $AdminSID  = $admin.SID.Value
-    $InitialAdminState = $admin.Enabled # Remember the initial state
     PrintKV "Built-in Admin"      "$AdminUser ($AdminSID)"
-    PrintKV "Initial Admin State" $InitialAdminState
-
-    
 
     $AdminProfileObj  = Get-CimInstance Win32_UserProfile | Where-Object { $_.SID -eq $AdminSID }
     $AdminProfilePath = if ($AdminProfileObj) { $AdminProfileObj.LocalPath } else { "C:\Users\Administrator" }
@@ -327,6 +315,10 @@ try {
     } else {
         PrintKV "Built-in Admin Name" "Already '$BuiltInAdminNewName'"
     }
+
+    # Clear FullName to avoid confusion with limehawk account on login screen
+    Set-LocalUser -Name $BuiltInAdminNewName -FullName ""
+    PrintKV "Built-in Admin FullName" "Cleared"
 
     # Set a new password for the built-in admin
     $BuiltInAdminPassword = New-RandomPassword -Length $GeneratedPasswordLength
@@ -464,27 +456,8 @@ try {
     # DONE
     # =============================================================================
     Write-Section "FINAL STATUS"
-    Write-Host " Administrator account is enabled, named, branded, and password synced to SuperOps."
-    Write-Host " If this was a first-time branding (profile relocation), you may have already exited earlier with a notice."
-
-    # =============================================================================
-# CLEANUP: MANAGE ADMINISTRATOR ACCOUNT STATE
-# =============================================================================
-Write-Section "CLEANUP"
-if ($ReturnToOriginalState) {
-    if ($InitialAdminState) {
-        PrintKV "Administrator Account" "Returning to original state: Enabled"
-        Enable-LocalUser -Name $BuiltInAdminNewName
-    } else {
-        PrintKV "Administrator Account" "Returning to original state: Disabled"
-        Disable-LocalUser -Name $BuiltInAdminNewName
-    }
-} elseif ($DisableAdminOnExit) {
-    PrintKV "Administrator Account" "Disabling as per setting"
-    Disable-LocalUser -Name $BuiltInAdminNewName
-} else {
-    PrintKV "Administrator Account" "Leaving enabled as per setting"
-}
+    PrintKV "hawkadmin (built-in)" "Disabled, password synced to SuperOps"
+    PrintKV "limehawk (MSP admin)" "Enabled, password synced to SuperOps"
 
     Write-Section "SCRIPT COMPLETED"
     exit 0
