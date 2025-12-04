@@ -8,8 +8,8 @@ $ErrorActionPreference = 'Stop'
 ███████╗██║██║ ╚═╝ ██║███████╗██║  ██║██║  ██║╚███╔███╔╝██║  ██╗
 ╚══════╝╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚══╝╚══╝ ╚═╝  ╚═╝
 ================================================================================
- SCRIPT   : Local User Delete v1.1.0
- VERSION  : v1.1.0
+ SCRIPT   : Local User Delete v1.2.0
+ VERSION  : v1.2.0
 ================================================================================
  FILE     : local_user_delete.ps1
 --------------------------------------------------------------------------------
@@ -27,8 +27,8 @@ $ErrorActionPreference = 'Stop'
 
  REQUIRED INPUTS
 
- - UserToDelete : Username of the account to delete
-                  Set to "listusers" to only list current users
+ - Username : Username of the account to delete (via SuperOps $YourUsernameHere)
+              Set to "listusers" to only list current users
 
  SETTINGS
 
@@ -65,7 +65,7 @@ $ErrorActionPreference = 'Stop'
 
  [ INPUT VALIDATION ]
  --------------------------------------------------------------
- User to Delete : tempuser
+ Username : tempuser
 
  [ OPERATION ]
  --------------------------------------------------------------
@@ -84,6 +84,7 @@ $ErrorActionPreference = 'Stop'
  --------------------------------------------------------------
 --------------------------------------------------------------------------------
  CHANGELOG
+ 2025-12-03 v1.2.0 Standardize variable names ($Username instead of $UserToDelete)
  2025-12-03 v1.1.0 Delete orphaned profiles even if user account doesn't exist
  2025-11-29 v1.0.0 Initial Style A implementation
 ================================================================================
@@ -99,7 +100,7 @@ $userRemoved = $false
 $userExists = $false
 
 # ==== HARDCODED INPUTS ====
-$UserToDelete = "$YourUsernameHere"  # Set to "listusers" to list all users
+$Username = "$YourUsernameHere"  # Set to "listusers" to list all users
 
 # ==== HELPER FUNCTIONS ====
 function Show-LocalUsers {
@@ -114,13 +115,13 @@ function Show-LocalUsers {
 }
 
 # ==== LIST USERS MODE ====
-if ([string]::IsNullOrWhiteSpace($UserToDelete) -or $UserToDelete -eq "listusers" -or $UserToDelete -eq '$YourUsernameHere') {
+if ([string]::IsNullOrWhiteSpace($Username) -or $Username -eq "listusers" -or $Username -eq '$' + 'YourUsernameHere') {
     Show-LocalUsers
     Write-Host ""
     Write-Host "[ RESULT ]"
     Write-Host "--------------------------------------------------------------"
     Write-Host "Status : Listed users only"
-    Write-Host "Action : Set UserToDelete variable to delete a user"
+    Write-Host "Action : Set Username variable to delete a user"
     Write-Host ""
     Write-Host "[ SCRIPT COMPLETED ]"
     Write-Host "--------------------------------------------------------------"
@@ -131,7 +132,7 @@ if ([string]::IsNullOrWhiteSpace($UserToDelete) -or $UserToDelete -eq "listusers
 Write-Host ""
 Write-Host "[ INPUT VALIDATION ]"
 Write-Host "--------------------------------------------------------------"
-Write-Host "User to Delete : $UserToDelete"
+Write-Host "Username : $Username"
 
 Write-Host ""
 Write-Host "[ OPERATION ]"
@@ -139,12 +140,12 @@ Write-Host "--------------------------------------------------------------"
 
 try {
     # Check if user exists
-    $user = Get-LocalUser -Name $UserToDelete -ErrorAction SilentlyContinue
+    $user = Get-LocalUser -Name $Username -ErrorAction SilentlyContinue
     if (-not $user) {
-        Write-Host "User account '$UserToDelete' not found (will still check for orphaned profile)"
+        Write-Host "User account '$Username' not found (will still check for orphaned profile)"
         $userExists = $false
     } else {
-        Write-Host "Found user: $UserToDelete"
+        Write-Host "Found user: $Username"
         $userExists = $true
     }
 
@@ -152,7 +153,7 @@ try {
     Write-Host "Checking for user profile..."
 
     # Try CIM method first (cleaner)
-    $profile = Get-CimInstance Win32_UserProfile -ErrorAction SilentlyContinue | Where-Object { $_.LocalPath -like "*\$UserToDelete" }
+    $profile = Get-CimInstance Win32_UserProfile -ErrorAction SilentlyContinue | Where-Object { $_.LocalPath -like "*\$Username" }
 
     if ($profile) {
         try {
@@ -167,7 +168,7 @@ try {
 
     # Fallback: Direct filesystem removal
     if (-not $profileRemoved) {
-        $profilePath = "$env:SystemDrive\Users\$UserToDelete"
+        $profilePath = "$env:SystemDrive\Users\$Username"
         if (Test-Path $profilePath) {
             Write-Host "Found profile folder: $profilePath"
             Remove-Item -Path $profilePath -Recurse -Force -ErrorAction Stop
@@ -181,7 +182,7 @@ try {
     # Step 2: Remove user account (only if it exists)
     if ($userExists) {
         Write-Host "Removing user account..."
-        Remove-LocalUser -Name $UserToDelete -ErrorAction Stop
+        Remove-LocalUser -Name $Username -ErrorAction Stop
         Write-Host "User account removed"
         $userRemoved = $true
     } else {
@@ -222,9 +223,9 @@ Write-Host "--------------------------------------------------------------"
 if ($errorOccurred) {
     Write-Host "Deletion failed. See error above."
 } elseif (-not $userExists -and -not $profileRemoved) {
-    Write-Host "Nothing found for '$UserToDelete'."
+    Write-Host "Nothing found for '$Username'."
 } else {
-    Write-Host "Cleanup complete for '$UserToDelete'."
+    Write-Host "Cleanup complete for '$Username'."
     Write-Host "WARNING: This action cannot be undone."
 }
 
