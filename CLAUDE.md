@@ -25,6 +25,16 @@ Key points:
 - Include Limehawk ASCII art header and README block
 - Exit 0 on success, exit 1 on failure
 
+## Version Bumping (MANDATORY)
+
+When modifying ANY existing script, you **MUST** update:
+1. **VERSION** - Increment appropriately (major.minor.patch)
+   - Major: Breaking changes or significant rewrites
+   - Minor: New features or functionality
+   - Patch: Bug fixes or minor tweaks
+2. **CHANGELOG** - Add entry at top: `YYYY-MM-DD vX.Y.Z Description of changes`
+3. **README sections** - Update any affected sections (PURPOSE, BEHAVIOR, REQUIRED INPUTS, etc.)
+
 ## Migration Context
 
 Scripts are being migrated from SuperOps. See `MIGRATION_PLAN.md` for status. The `tools/` directory contains migration helpers for local use only.
