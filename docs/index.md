@@ -1,11 +1,11 @@
 # Documentation Index
 
-## Root Documents
+## Limehawk Script Framework
 
-### [Limehawk Script Generation Guidelines](./limehawk_script_generation_guidelines.txt)
+### [PowerShell Script Guidelines](./powershell_script_guidelines.md)
 
-Comprehensive guidelines for the Limehawk PowerShell RMM scripting specialist. This document defines the 4-phase methodology (Understand, Architect, Structure, Generate) and Style A core rules for creating production-ready PowerShell scripts optimized for RMM environments like SuperOps, Datto, and NinjaRMM. Includes formatting rules, hardcoded input requirements, validation patterns, console output standards, error handling practices, and operating modes (Standard, Quick, Conversion, Review).
+Comprehensive guidelines for generating production-ready PowerShell scripts for RMM environments. Defines the 4-phase methodology (Understand, Architect, Structure, Generate) and core rules for creating scripts optimized for SuperOps, Datto, and NinjaRMM. Includes formatting rules, hardcoded input requirements, validation patterns, console output standards, error handling practices, and operating modes.
 
-### [Limehawk Bash Script Guidelines](./limehawk_bash_script_guidelines.txt)
+### [Bash Script Guidelines](./bash_script_guidelines.md)
 
-Comprehensive guidelines for the Limehawk Bash scripting specialist. This document defines the 4-phase methodology adapted for Bash scripts and Style A core rules for creating production-ready Bash scripts optimized for Linux/Unix systems in RMM environments. Includes the Limehawk ASCII art header, configuration section formatting, validation patterns, console output standards with section dividers, error handling practices, and operating modes. Designed for Ubuntu, Debian, and other Linux distributions.
+Comprehensive guidelines for generating production-ready Bash scripts for Linux/Unix RMM environments. Defines the 4-phase methodology adapted for Bash and core rules for creating scripts optimized for Ubuntu, Debian, and other distributions. Includes ASCII art header format, configuration section formatting, validation patterns, console output standards, and error handling practices.
