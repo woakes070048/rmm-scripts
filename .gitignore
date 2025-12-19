@@ -1,13 +1,12 @@
 # Wiki is a separate git repository
 wiki/
 
-# Migration planning (internal use only)
-MIGRATION_PLAN.md
-tools/
-
 # SuperOps export files (sensitive)
 *.json
-all_my_scripts.json
+
+# Environment files
+.env
+.env.*
 
 # Temporary files
 *.tmp

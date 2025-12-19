@@ -9,7 +9,6 @@ Production-ready PowerShell and shell scripts for RMM platforms (SuperOps, Datto
 ## Repository Structure
 
 - `scripts/` - Production scripts (`.ps1` and `.sh`)
-- `tools/` - Migration helpers (local use only, gitignored)
 - `docs/` - Documentation and style guidelines
 - `wiki/` - GitHub wiki content
 
@@ -37,6 +36,3 @@ When modifying ANY existing script, you **MUST** update:
 2. **CHANGELOG** - Add entry at top: `YYYY-MM-DD vX.Y.Z Description of changes`
 3. **README sections** - Update any affected sections (PURPOSE, BEHAVIOR, REQUIRED INPUTS, etc.)
 
-## Migration Context
-
-Scripts are being migrated from SuperOps. See `MIGRATION_PLAN.md` for status. The `tools/` directory contains migration helpers for local use only.
