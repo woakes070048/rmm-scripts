@@ -9,8 +9,8 @@ $ErrorActionPreference = 'Stop' # Rule 1: Enable early error mode (fail on any n
 ███████╗██║██║ ╚═╝ ██║███████╗██║  ██║██║  ██║╚███╔███╔╝██║  ██╗
 ╚══════╝╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚══╝╚══╝ ╚═╝  ╚═╝
 ================================================================================
- SCRIPT    : invoke_reboot_on_uptime.ps1
- VERSION   : v7.2.0
+ SCRIPT    : maintenance_reboot.ps1
+ VERSION   : v7.2.1
 ================================================================================
  README
 --------------------------------------------------------------------------------
@@ -102,6 +102,7 @@ $ErrorActionPreference = 'Stop' # Rule 1: Enable early error mode (fail on any n
 --------------------------------------------------------------------------------
  CHANGELOG
 --------------------------------------------------------------------------------
+ 2025-12-18  v7.2.1  Renamed from invoke_reboot_on_uptime.ps1 to maintenance_reboot.ps1.
  2025-12-15  v7.2.0  Simplified configuration section to follow style guidelines.
                      Added toggle settings for each reboot flag check.
  2025-12-15  v7.0.0  Added reboot flag detection - script now reboots if uptime
