@@ -12,11 +12,11 @@ A collection of production-ready PowerShell scripts optimized for Remote Monitor
 
 ## About
 
-This repository contains PowerShell automation scripts designed specifically for RMM environments. All scripts follow the **Limehawk Style A** methodology, ensuring consistency, reliability, and production-readiness across the entire collection.
+This repository contains PowerShell and Bash automation scripts designed specifically for RMM environments. All scripts follow the **Limehawk Script Framework**, ensuring consistency, reliability, and production-readiness across the entire collection.
 
-## Limehawk Style A Guidelines
+## Limehawk Script Framework
 
-All scripts in this repository adhere to the **Style A** standard for PowerShell RMM scripting. This methodology ensures:
+All scripts in this repository adhere to the **Limehawk Script Framework** for RMM scripting. This methodology ensures:
 
 - **Hardcoded inputs** - No param blocks or command-line arguments; all configuration is defined within the script
 - **Comprehensive documentation** - Every script includes a detailed README/CHANGELOG block with purpose, behavior, prerequisites, and examples
@@ -24,7 +24,9 @@ All scripts in this repository adhere to the **Style A** standard for PowerShell
 - **Robust error handling** - Uses `$ErrorActionPreference = 'Stop'` with contextual error messages
 - **Production-ready code** - No secrets in logs, proper validation, and consistent exit codes
 
-For complete guidelines on creating Style A scripts, see: [`limehawk_script_generation_guidelines.txt`](docs/limehawk_script_generation_guidelines.txt)
+For complete guidelines, see:
+- [PowerShell Script Guidelines](docs/powershell_script_guidelines.md)
+- [Bash Script Guidelines](docs/bash_script_guidelines.md)
 
 ## Scripts
 
@@ -74,9 +76,9 @@ Browse the [complete script index](https://github.com/limehawk/rmm-scripts/wiki)
 
 ## Creating New Scripts
 
-To create new scripts following the Limehawk Style A methodology:
+To create new scripts following the Limehawk Script Framework:
 
-1. **Review the guidelines** - Read [`limehawk_script_generation_guidelines.txt`](limehawk_script_generation_guidelines.txt)
+1. **Review the guidelines** - Read [PowerShell](docs/powershell_script_guidelines.md) or [Bash](docs/bash_script_guidelines.md) guidelines
 
 2. **Follow the 4-phase approach**:
    - **Understand** - Define the automation task and requirements
@@ -97,7 +99,7 @@ To create new scripts following the Limehawk Style A methodology:
 
 Contributions are welcome! When submitting scripts:
 
-1. **Follow Style A guidelines** - All scripts must comply with the Limehawk methodology
+1. **Follow the framework** - All scripts must comply with the Limehawk Script Framework
 2. **Include comprehensive README** - Document purpose, inputs, behavior, and examples
 3. **Test thoroughly** - Ensure scripts work in target RMM environments
 4. **Use descriptive commit messages** - Explain what the script does and why
@@ -120,5 +122,5 @@ This repository is provided as-is for use in RMM environments. Review and test a
 
 For issues or questions:
 - Review the script's README block for troubleshooting guidance
-- Check the Style A guidelines for scripting standards
+- Check the Limehawk Script Framework guidelines for scripting standards
 - Open an issue for bug reports or feature requests

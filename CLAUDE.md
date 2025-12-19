@@ -15,14 +15,16 @@ Production-ready PowerShell and shell scripts for RMM platforms (SuperOps, Datto
 
 ## Script Style Requirements
 
-**All scripts must follow Limehawk Style A methodology.**
+**All scripts must follow the Limehawk Script Framework.**
 
-Read the complete guidelines before creating or modifying scripts: `docs/limehawk_script_generation_guidelines.txt`
+Read the complete guidelines before creating or modifying scripts:
+- PowerShell: `docs/powershell_script_guidelines.md`
+- Bash: `docs/bash_script_guidelines.md`
 
 Key points:
 - Use snake_case filenames (`speedtest_to_superops.ps1`)
 - Hardcode all inputs (no `param()` blocks)
-- Include Limehawk ASCII art header and README block
+- Include ASCII art header and README block
 - Exit 0 on success, exit 1 on failure
 
 ## Version Bumping (MANDATORY)
