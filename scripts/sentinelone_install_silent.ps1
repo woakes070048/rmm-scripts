@@ -35,7 +35,7 @@ $installerPath  - Full path to SentinelOne MSI installer
 $siteToken      - SentinelOne site token for agent registration
                   Obtained from SentinelOne console > Sentinels > Site Token
                   Must be valid for the target site
-                  Example: "eyJ1cmwiOiAiaHR0cHM6Ly91c2VhMS0wMDEuc2VudGluZWxvbmUubmV0..."
+                  Example: "eyJYWFhYWFhYWCI6ICJodHRwczovL2V4YW1wbGUuc2VudGluZWxvbmUubmV0Iiwg..."
 
 SETTINGS
 
@@ -127,7 +127,7 @@ $installerPath = "C:\Temp\SentinelInstaller.msi"
 
 # SentinelOne site token (obtain from SentinelOne console)
 # Navigate to: Sentinels > Actions > Download Agent > Copy Site Token
-# Example: "eyJ1cmwiOiAiaHR0cHM6Ly91c2VhMS0wMDEuc2VudGluZWxvbmUubmV0..."
+# Example: "eyJYWFhYWFhYWCI6ICJodHRwczovL2V4YW1wbGUuc2VudGluZWxvbmUubmV0Iiwg..."
 $siteToken = ""
 
 # ============================================================================
