@@ -1,25 +1,116 @@
 #!/bin/bash
+#
+# ██╗     ██╗███╗   ███╗███████╗██╗  ██╗ █████╗ ██╗    ██╗██╗  ██╗
+# ██║     ██║████╗ ████║██╔════╝██║  ██║██╔══██╗██║    ██║██║ ██╔╝
+# ██║     ██║██╔████╔██║█████╗  ███████║███████║██║ █╗ ██║█████╔╝
+# ██║     ██║██║╚██╔╝██║██╔══╝  ██╔══██║██╔══██║██║███╗██║██╔═██╗
+# ███████╗██║██║ ╚═╝ ██║███████╗██║  ██║██║  ██║╚███╔███╔╝██║  ██╗
+# ╚══════╝╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚══╝╚══╝ ╚═╝  ╚═╝
+# ================================================================================
+#  SCRIPT   : Enable macOS Auto-Updates                                    v1.1.0
+#  AUTHOR   : Limehawk.io
+#  DATE     : December 2024
+#  USAGE    : sudo ./macos_auto_updates_enable.sh
+# ================================================================================
+#  FILE     : macos_auto_updates_enable.sh
+# --------------------------------------------------------------------------------
+#  README
+# --------------------------------------------------------------------------------
+#  PURPOSE
+#
+#    Enables all automatic update settings on macOS including automatic checking,
+#    downloading, and installation of macOS updates, App Store updates, and
+#    security/critical updates. Ensures systems stay patched and secure.
+#
+#  DATA SOURCES & PRIORITY
+#
+#    - macOS defaults system: Writes to SoftwareUpdate and commerce preferences
+#
+#  REQUIRED INPUTS
+#
+#    No hardcoded inputs required.
+#
+#  SETTINGS
+#
+#    The following settings are enabled:
+#      - AutomaticCheckEnabled: Check for updates automatically
+#      - AutomaticDownload: Download updates in background
+#      - AutoUpdate: App Store auto-updates
+#      - ConfigDataInstall: Config data file updates
+#      - CriticalUpdateInstall: Security updates
+#      - AutomaticallyInstallMacOSUpdates: macOS system updates
+#
+#  BEHAVIOR
+#
+#    The script performs the following actions in order:
+#    1. Verifies root/sudo privileges
+#    2. Enables automatic check for updates
+#    3. Enables automatic download of updates
+#    4. Enables App Store auto-updates
+#    5. Enables config data file updates
+#    6. Enables critical security updates
+#    7. Enables automatic macOS updates
+#    8. Verifies all settings were applied
+#
+#  PREREQUISITES
+#
+#    - macOS 10.14 or later
+#    - Root/sudo privileges
+#
+#  SECURITY NOTES
+#
+#    - No secrets exposed in output
+#    - Requires elevated privileges to modify system preferences
+#    - Enables automatic security patching (recommended)
+#
+#  ENDPOINTS
+#
+#    Not applicable - local system configuration only
+#
+#  EXIT CODES
+#
+#    0 = Success
+#    1 = Failure (not running as root)
+#
+#  EXAMPLE RUN
+#
+#    [ ENABLING AUTO-UPDATES ]
+#    --------------------------------------------------------------
+#    Enabling automatic check for updates...
+#    Enabling automatic download of updates...
+#    Enabling App Store auto-updates...
+#    Enabling config data file updates...
+#    Enabling critical security updates...
+#    Enabling automatic macOS updates...
+#
+#    [ VERIFICATION ]
+#    --------------------------------------------------------------
+#    AutomaticCheckEnabled           : 1
+#    AutomaticDownload               : 1
+#    AutoUpdate (App Store)          : 1
+#    ConfigDataInstall               : 1
+#    CriticalUpdateInstall           : 1
+#    AutomaticallyInstallMacOSUpdates: 1
+#
+#    [ FINAL STATUS ]
+#    --------------------------------------------------------------
+#    All auto-update settings have been enabled.
+#
+#    [ SCRIPT COMPLETE ]
+#    --------------------------------------------------------------
+#
+# --------------------------------------------------------------------------------
+#  CHANGELOG
+# --------------------------------------------------------------------------------
+#  2024-12-23 v1.1.0 Updated to Limehawk Script Framework
+#  2024-01-01 v1.0.0 Initial release
+# ================================================================================
+
 set -euo pipefail
-# ==============================================================================
-# SCRIPT : Enable macOS Auto-Updates                                     v1.0.0
-# FILE   : macos_auto_updates_enable.sh
-# ==============================================================================
-# PURPOSE:
-#   Enables all automatic update settings on macOS including:
-#   - Automatic checking for updates
-#   - Automatic downloading of updates
-#   - Automatic installation of macOS updates
-#   - Automatic App Store updates
-#   - Automatic security/data file updates
-#
-# PREREQUISITES:
-#   - macOS 10.14 or later
-#   - Root/sudo privileges
-#
-# EXIT CODES:
-#   0 = Success
-#   1 = Failure
-# ==============================================================================
+
+# ============================================================================
+# MAIN EXECUTION
+# ============================================================================
 
 echo ""
 echo "[ ENABLING AUTO-UPDATES ]"
@@ -27,45 +118,48 @@ echo "--------------------------------------------------------------"
 
 # Check if running as root
 if [[ $EUID -ne 0 ]]; then
-    echo "ERROR: This script must be run as root (use sudo)"
+    echo ""
+    echo "[ ERROR OCCURRED ]"
+    echo "--------------------------------------------------------------"
+    echo "This script must be run as root (use sudo)"
+    echo ""
     exit 1
 fi
 
-echo " Enabling automatic check for updates..."
+echo "Enabling automatic check for updates..."
 defaults write /Library/Preferences/com.apple.SoftwareUpdate AutomaticCheckEnabled -bool true
 
-echo " Enabling automatic download of updates..."
+echo "Enabling automatic download of updates..."
 defaults write /Library/Preferences/com.apple.SoftwareUpdate AutomaticDownload -bool true
 
-echo " Enabling App Store auto-updates..."
+echo "Enabling App Store auto-updates..."
 defaults write /Library/Preferences/com.apple.commerce AutoUpdate -bool true
 
-echo " Enabling config data file updates..."
+echo "Enabling config data file updates..."
 defaults write /Library/Preferences/com.apple.SoftwareUpdate ConfigDataInstall -bool true
 
-echo " Enabling critical security updates..."
+echo "Enabling critical security updates..."
 defaults write /Library/Preferences/com.apple.SoftwareUpdate CriticalUpdateInstall -bool true
 
-echo " Enabling automatic macOS updates..."
+echo "Enabling automatic macOS updates..."
 defaults write /Library/Preferences/com.apple.SoftwareUpdate AutomaticallyInstallMacOSUpdates -bool true
 
 echo ""
 echo "[ VERIFICATION ]"
 echo "--------------------------------------------------------------"
-echo " AutomaticCheckEnabled          : $(defaults read /Library/Preferences/com.apple.SoftwareUpdate AutomaticCheckEnabled 2>/dev/null || echo 'not set')"
-echo " AutomaticDownload              : $(defaults read /Library/Preferences/com.apple.SoftwareUpdate AutomaticDownload 2>/dev/null || echo 'not set')"
-echo " AutoUpdate (App Store)         : $(defaults read /Library/Preferences/com.apple.commerce AutoUpdate 2>/dev/null || echo 'not set')"
-echo " ConfigDataInstall              : $(defaults read /Library/Preferences/com.apple.SoftwareUpdate ConfigDataInstall 2>/dev/null || echo 'not set')"
-echo " CriticalUpdateInstall          : $(defaults read /Library/Preferences/com.apple.SoftwareUpdate CriticalUpdateInstall 2>/dev/null || echo 'not set')"
-echo " AutomaticallyInstallMacOSUpdates: $(defaults read /Library/Preferences/com.apple.SoftwareUpdate AutomaticallyInstallMacOSUpdates 2>/dev/null || echo 'not set')"
+echo "AutomaticCheckEnabled           : $(defaults read /Library/Preferences/com.apple.SoftwareUpdate AutomaticCheckEnabled 2>/dev/null || echo 'not set')"
+echo "AutomaticDownload               : $(defaults read /Library/Preferences/com.apple.SoftwareUpdate AutomaticDownload 2>/dev/null || echo 'not set')"
+echo "AutoUpdate (App Store)          : $(defaults read /Library/Preferences/com.apple.commerce AutoUpdate 2>/dev/null || echo 'not set')"
+echo "ConfigDataInstall               : $(defaults read /Library/Preferences/com.apple.SoftwareUpdate ConfigDataInstall 2>/dev/null || echo 'not set')"
+echo "CriticalUpdateInstall           : $(defaults read /Library/Preferences/com.apple.SoftwareUpdate CriticalUpdateInstall 2>/dev/null || echo 'not set')"
+echo "AutomaticallyInstallMacOSUpdates: $(defaults read /Library/Preferences/com.apple.SoftwareUpdate AutomaticallyInstallMacOSUpdates 2>/dev/null || echo 'not set')"
 
 echo ""
 echo "[ FINAL STATUS ]"
 echo "--------------------------------------------------------------"
-echo " All auto-update settings have been enabled."
+echo "All auto-update settings have been enabled."
 
 echo ""
-echo "[ SCRIPT COMPLETED ]"
+echo "[ SCRIPT COMPLETE ]"
 echo "--------------------------------------------------------------"
-
 exit 0
