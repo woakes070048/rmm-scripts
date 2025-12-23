@@ -1,85 +1,129 @@
 #!/bin/bash
 #
-# ============================================================================
-#                     WORKSTATION AUTO-RENAME SCRIPT (macOS)
-# ============================================================================
-#  Script Name: rename_workstation_auto_macos.sh
-#  Description: Automatically renames a macOS device using a standardized
-#               naming pattern: CLIENT3-USER-UUID. Sets HostName, ComputerName,
-#               and LocalHostName. Designed for RMM deployment.
-#  Author:      Limehawk.io
-#  Version:     1.0.0
-#  Date:        November 2024
-#  Usage:       sudo ./rename_workstation_auto_macos.sh
-# ============================================================================
-#
-# ============================================================================
-#      ██╗     ██╗███╗   ███╗███████╗██╗  ██╗ █████╗ ██╗    ██╗██╗  ██╗
-#      ██║     ██║████╗ ████║██╔════╝██║  ██║██╔══██╗██║    ██║██║ ██╔╝
-#      ██║     ██║██╔████╔██║█████╗  ███████║███████║██║ █╗ ██║█████╔╝
-#      ██║     ██║██║╚██╔╝██║██╔══╝  ██╔══██║██╔══██║██║███╗██║██╔═██╗
-#      ███████╗██║██║ ╚═╝ ██║███████╗██║  ██║██║  ██║╚███╔███╔╝██║  ██╗
-#      ╚══════╝╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚══╝╚══╝ ╚═╝  ╚═╝
-# ============================================================================
-#
+# ██╗     ██╗███╗   ███╗███████╗██╗  ██╗ █████╗ ██╗    ██╗██╗  ██╗
+# ██║     ██║████╗ ████║██╔════╝██║  ██║██╔══██╗██║    ██║██║ ██╔╝
+# ██║     ██║██╔████╔██║█████╗  ███████║███████║██║ █╗ ██║█████╔╝
+# ██║     ██║██║╚██╔╝██║██╔══╝  ██╔══██║██╔══██║██║███╗██║██╔═██╗
+# ███████╗██║██║ ╚═╝ ██║███████╗██║  ██║██║  ██║╚███╔███╔╝██║  ██╗
+# ╚══════╝╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚══╝╚══╝ ╚═╝  ╚═╝
+# ================================================================================
+#  SCRIPT   : Workstation Auto-Rename (macOS)                              v1.1.0
+#  AUTHOR   : Limehawk.io
+#  DATE     : December 2024
+#  USAGE    : sudo ./rename_workstation_auto_macos.sh
+# ================================================================================
+#  FILE     : rename_workstation_auto_macos.sh
+# --------------------------------------------------------------------------------
+#  README
+# --------------------------------------------------------------------------------
 #  PURPOSE
-#  -----------------------------------------------------------------------
-#  Automatically renames a macOS device using a standardized naming pattern.
 #
-#  Naming Pattern (max 15 chars for NetBIOS compatibility):
-#    CLIENT3-USERUUID
-#      CLIENT3 : 3-character abbreviation of client name (RMM variable)
-#      USER    : Sanitized username (maximized, truncated if needed)
-#      UUID    : Hardware UUID tail (at least 3 chars)
+#    Automatically renames a macOS device using a standardized naming pattern:
+#    CLIENT3-USER-UUID. Sets HostName, ComputerName, and LocalHostName.
+#    Designed for RMM deployment with automatic client/user detection.
 #
-#  Notes:
-#    - Only A-Z, 0-9, and hyphen used
-#    - Name never starts or ends with '-'
-#    - Always exactly 15 chars
-#    - Sets HostName, ComputerName, and LocalHostName
+#  DATA SOURCES & PRIORITY
 #
-#  CONFIGURATION
-#  -----------------------------------------------------------------------
-#  - CLIENT_NAME: RMM variable $YourClientNameHere (3-char abbreviation used)
-#  - MAX_HOST_LEN: Maximum hostname length (default: 15)
-#  - MIN_UUID_LEN: Minimum UUID suffix length (default: 3)
+#    - RMM Variable: $YourClientNameHere for client name
+#    - Console User: Current logged-in user
+#    - Hardware UUID: System's unique identifier
+#
+#  REQUIRED INPUTS
+#
+#    All inputs are hardcoded or from RMM variables:
+#      - CLIENT_NAME: RMM variable $YourClientNameHere (3-char abbreviation used)
+#
+#  SETTINGS
+#
+#    Naming Pattern (max 15 chars for NetBIOS compatibility):
+#      CLIENT3-USERUUID
+#        CLIENT3 : 3-character abbreviation of client name
+#        USER    : Sanitized username (maximized, truncated if needed)
+#        UUID    : Hardware UUID tail (at least 3 chars)
+#
+#    Configuration:
+#      - MAX_HOST_LEN: 15 (NetBIOS limit)
+#      - MIN_UUID_LEN: 3 (minimum UUID suffix)
+#      - MAX_USER_LEN: 8 (maximum user segment)
 #
 #  BEHAVIOR
-#  -----------------------------------------------------------------------
-#  1. Gets client name from RMM variable
-#  2. Retrieves current logged-in user
-#  3. Gets hardware UUID from system
-#  4. Builds hostname: CLIENT3-USER-UUID (exactly 15 chars)
-#  5. Sets HostName, ComputerName, and LocalHostName
-#  6. Flushes DNS cache
+#
+#    The script performs the following actions in order:
+#    1. Gets client name from RMM variable
+#    2. Retrieves current logged-in console user
+#    3. Gets hardware UUID from system
+#    4. Builds hostname: CLIENT3-USER-UUID (exactly 15 chars)
+#    5. Sets HostName, ComputerName, and LocalHostName
+#    6. Flushes DNS cache
 #
 #  PREREQUISITES
-#  -----------------------------------------------------------------------
-#  - Root/sudo access required
-#  - macOS 10.14 or later
-#  - RMM variable $YourClientNameHere must be set
+#
+#    - Root/sudo access required
+#    - macOS 10.14 or later
+#    - RMM variable $YourClientNameHere must be set
 #
 #  SECURITY NOTES
-#  -----------------------------------------------------------------------
-#  - No secrets exposed in output
-#  - Runs with elevated privileges (sudo required)
+#
+#    - No secrets exposed in output
+#    - Runs with elevated privileges (sudo required)
+#    - Only alphanumeric characters and hyphens in hostname
+#
+#  ENDPOINTS
+#
+#    Not applicable - local system configuration only
 #
 #  EXIT CODES
-#  -----------------------------------------------------------------------
-#  0 - Success
-#  1 - Failure (missing inputs, rename failed)
 #
-# ============================================================================
+#    0 = Success
+#    1 = Failure (missing inputs, rename failed)
+#
+#  EXAMPLE RUN
+#
+#    [ INPUT VALIDATION ]
+#    --------------------------------------------------------------
+#     Client Name              : Acme Corp
+#     Client Segment (3-char)  : ACM
+#
+#    [ SYSTEM VALUES ]
+#    --------------------------------------------------------------
+#     Console User             : jsmith
+#     User Segment             : JSMITH
+#     Hardware UUID            : 12345678-90AB-CDEF-1234-567890ABCDEF
+#
+#    [ BUILD HOSTNAME ]
+#    --------------------------------------------------------------
+#     Desired Name             : ACM-JSMITH-CDEF
+#     Name Length              : 15
+#
+#    [ RENAME ACTION ]
+#    --------------------------------------------------------------
+#     Status                   : RENAMING TO ACM-JSMITH-CDEF
+#     Result                   : RENAME SUCCESSFUL
+#
+#    [ SCRIPT COMPLETE ]
+#    --------------------------------------------------------------
+#
+# --------------------------------------------------------------------------------
+#  CHANGELOG
+# --------------------------------------------------------------------------------
+#  2024-12-23 v1.1.0 Updated to Limehawk Script Framework
+#  2024-11-01 v1.0.0 Initial release
+# ================================================================================
 
 set -e
 
-# ==== CONFIGURATION ====
+# ============================================================================
+# HARDCODED INPUTS
+# ============================================================================
 CLIENT_NAME="$YourClientNameHere"
 MAX_HOST_LEN=15
 MIN_UUID_LEN=3
 MAX_USER_LEN=8
+# ============================================================================
 
-# ==== HELPER FUNCTIONS ====
+# ============================================================================
+# HELPER FUNCTIONS
+# ============================================================================
 
 # Sanitize string: uppercase, alphanumeric only
 sanitize() {
@@ -105,13 +149,19 @@ print_kv() {
     printf " %-24s : %s\n" "$1" "$2"
 }
 
-# ==== MAIN SCRIPT ====
+# ============================================================================
+# MAIN EXECUTION
+# ============================================================================
 
 print_section "INPUT VALIDATION"
 
 # Validate client name
 if [ -z "$CLIENT_NAME" ]; then
-    echo "ERROR: CLIENT_NAME is required (set \$YourClientNameHere in RMM)"
+    echo ""
+    echo "[ ERROR OCCURRED ]"
+    echo "--------------------------------------------------------------"
+    echo "CLIENT_NAME is required (set \$YourClientNameHere in RMM)"
+    echo ""
     exit 1
 fi
 
@@ -135,7 +185,11 @@ print_kv "User Segment" "$USER_SEG"
 # Get hardware UUID
 HARDWARE_UUID=$(ioreg -rd1 -c IOPlatformExpertDevice | awk -F'"' '/IOPlatformUUID/{print $4}')
 if [ -z "$HARDWARE_UUID" ]; then
-    echo "ERROR: Could not retrieve hardware UUID"
+    echo ""
+    echo "[ ERROR OCCURRED ]"
+    echo "--------------------------------------------------------------"
+    echo "Could not retrieve hardware UUID"
+    echo ""
     exit 1
 fi
 UUID_CLEAN=$(echo "$HARDWARE_UUID" | tr -d '-' | tr '[:lower:]' '[:upper:]')
@@ -204,7 +258,11 @@ else
        sudo scutil --set LocalHostName "$DESIRED_NAME"; then
         print_kv "Result" "RENAME SUCCESSFUL"
     else
-        echo "ERROR: Failed to set hostname"
+        echo ""
+        echo "[ ERROR OCCURRED ]"
+        echo "--------------------------------------------------------------"
+        echo "Failed to set hostname"
+        echo ""
         exit 1
     fi
 
@@ -217,5 +275,7 @@ print_section "FINAL STATUS"
 echo " Hostname set to: $DESIRED_NAME"
 echo " HostName, ComputerName, and LocalHostName updated"
 
-print_section "SCRIPT COMPLETED"
+echo ""
+echo "[ SCRIPT COMPLETE ]"
+echo "--------------------------------------------------------------"
 exit 0

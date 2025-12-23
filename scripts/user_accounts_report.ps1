@@ -8,12 +8,13 @@ $ErrorActionPreference = 'Stop'
 ███████╗██║██║ ╚═╝ ██║███████╗██║  ██║██║  ██║╚███╔███╔╝██║  ██╗
 ╚══════╝╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚══╝╚══╝ ╚═╝  ╚═╝
 ================================================================================
- SCRIPT   : User Accounts Report v1.0.0
- VERSION  : v1.0.0
+SCRIPT  : User Accounts Report v1.0.1
+AUTHOR  : Limehawk.io
+DATE    : December 2024
+USAGE   : .\user_accounts_report.ps1
+FILE    : user_accounts_report.ps1
 ================================================================================
- FILE     : user_accounts_report.ps1
---------------------------------------------------------------------------------
- README
+README
 --------------------------------------------------------------------------------
  PURPOSE
 
@@ -94,9 +95,11 @@ $ErrorActionPreference = 'Stop'
 
  [ SCRIPT COMPLETED ]
  --------------------------------------------------------------
+
+CHANGELOG
 --------------------------------------------------------------------------------
- CHANGELOG
- 2025-12-01 v1.0.0 Initial Style A implementation
+2024-12-23 v1.0.1 Updated to Limehawk Script Framework
+2025-12-01 v1.0.0 Initial Style A implementation
 ================================================================================
 #>
 

@@ -9,9 +9,13 @@ $ErrorActionPreference = 'Stop'
 ███████╗██║██║ ╚═╝ ██║███████╗██║  ██║██║  ██║╚███╔███╔╝██║  ██╗
 ╚══════╝╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚══╝╚══╝ ╚═╝  ╚═╝
 ================================================================================
- SCRIPT    : limehawk_admin_profile_branding.ps1
- VERSION   : v3.2.4
+ SCRIPT   : Limehawk Admin Profile Branding v3.2.5
+ AUTHOR   : Limehawk.io
+ DATE     : December 2024
+ USAGE    : .\limehawk_admin_profile_branding.ps1
 ================================================================================
+ FILE     : limehawk_admin_profile_branding.ps1
+--------------------------------------------------------------------------------
  README
 --------------------------------------------------------------------------------
  PURPOSE
@@ -43,28 +47,13 @@ $ErrorActionPreference = 'Stop'
 --------------------------------------------------------------------------------
  CHANGELOG
 --------------------------------------------------------------------------------
- v3.2.4  (2025-12-04)  Remove UserSwitch registry fix (didn't help, showed all users).
- v3.2.2  (2025-12-04)  Fix white line artifact - use dark background color instead of white.
- v3.2.1  (2025-12-04)  Add account labels to branding output for clarity.
- v3.2.0  (2025-12-04)  Change profile photo to .jpg; auto-delete old .png file.
- v3.1.8  (2025-12-03)  Unhide limehawk from login screen if hidden via registry.
- v3.1.7  (2025-12-03)  Clean up settings: remove dead variables, clarify which
-                       account is which, update README to reflect current behavior.
- v3.1.6  (2025-12-03)  Remove re-enable logic for hawkadmin; clear FullName to
-                       avoid login screen confusion; remove dead $SuperOpsPasswordField.
- v3.1.5  (2025-12-01)  Fix typo in OldMspAccounts: tiltlocal -> tlitlocal.
- v3.1.4  (2025-12-01)  Fix cleanup section using old admin name after rename.
- v3.1.3  (2025-12-01)  Fix error when limehawk account doesn't exist by moving
-                       MSP admin profile lookup to after account creation.
- v3.1.2  (2025-10-31)  Improved wallpaper application by defaulting profile paths
-                       and adding clearer warnings for missing profiles. Set
-                       'Limehawk' MSP admin full name.
- v3.1.1  (2025-09-05)  Reordered sections to set/sync password before profile check.
- v3.1.0  (2025-08-20)  Standardized sections (ASCII headers), PS5.1-safe helpers,
-                       consolidated diagnostics, strong password generator, file
-                       existence checks, registry hive load/unload hardening.
- v3.0.0  (2025-08-19)  Initial combined automation (user/profile cleanup, branding,
-                       password handling, SuperOps custom field update).
+ 2024-12-23 v3.2.5 Updated to Limehawk Script Framework
+ 2025-12-04 v3.2.4 Remove UserSwitch registry fix (didn't help, showed all users)
+ 2025-12-04 v3.2.2 Fix white line artifact - use dark background color instead of white; 2025-12-04 v3.2.1 Add account labels to branding output for clarity
+ 2025-12-04 v3.2.0 Change profile photo to .jpg; auto-delete old .png file; 2025-12-03 v3.1.8 Unhide limehawk from login screen if hidden via registry
+ 2025-12-03 v3.1.7 Clean up settings; 2025-12-03 v3.1.6 Remove re-enable logic for hawkadmin; clear FullName; 2025-12-01 v3.1.5 Fix typo in OldMspAccounts
+ 2025-12-01 v3.1.4 Fix cleanup section using old admin name after rename; 2025-12-01 v3.1.3 Fix error when limehawk account doesn't exist
+ 2025-10-31 v3.1.2 Improved wallpaper application; 2025-09-05 v3.1.1 Reordered sections; 2025-08-20 v3.1.0 Standardized sections; 2025-08-19 v3.0.0 Initial combined automation
 #>
 
 # Optional strict mode

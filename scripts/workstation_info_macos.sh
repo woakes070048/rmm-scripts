@@ -1,26 +1,108 @@
 #!/bin/bash
-# ==============================================================================
-# SCRIPT : Workstation Information Popup (macOS)                         v1.0.0
-# FILE   : workstation_info_macos.sh
-# ==============================================================================
-# PURPOSE:
-#   Displays a popup dialog showing system information to the end user.
-#   Designed to be triggered from the RMM tray icon for user self-service.
 #
-# COLLECTS:
-#   - Operating System name and version
-#   - Computer name and current user
-#   - CPU name and core count
-#   - Total RAM
-#   - Network adapter info
+# ██╗     ██╗███╗   ███╗███████╗██╗  ██╗ █████╗ ██╗    ██╗██╗  ██╗
+# ██║     ██║████╗ ████║██╔════╝██║  ██║██╔══██╗██║    ██║██║ ██╔╝
+# ██║     ██║██╔████╔██║█████╗  ███████║███████║██║ █╗ ██║█████╔╝
+# ██║     ██║██║╚██╔╝██║██╔══╝  ██╔══██║██╔══██║██║███╗██║██╔═██╗
+# ███████╗██║██║ ╚═╝ ██║███████╗██║  ██║██║  ██║╚███╔███╔╝██║  ██╗
+# ╚══════╝╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚══╝╚══╝ ╚═╝  ╚═╝
+# ================================================================================
+#  SCRIPT   : Workstation Information Popup (macOS)                        v1.1.0
+#  AUTHOR   : Limehawk.io
+#  DATE     : December 2024
+#  USAGE    : ./workstation_info_macos.sh
+# ================================================================================
+#  FILE     : workstation_info_macos.sh
+# --------------------------------------------------------------------------------
+#  README
+# --------------------------------------------------------------------------------
+#  PURPOSE
 #
-# PREREQUISITES:
-#   - macOS 10.14 or later
-#   - No special privileges required
+#    Displays a popup dialog showing system information to the end user.
+#    Designed to be triggered from the RMM tray icon for user self-service.
+#    Provides quick access to basic system details without opening System
+#    Preferences.
 #
-# CHANGELOG:
-#   2024-12-01 v1.0.0  Initial release - migrated from SuperOps
-# ==============================================================================
+#  DATA SOURCES & PRIORITY
+#
+#    - sw_vers: OS name and version
+#    - scutil: Computer name
+#    - sysctl: CPU and RAM information
+#    - ipconfig: Network information
+#
+#  REQUIRED INPUTS
+#
+#    No hardcoded inputs required.
+#
+#  SETTINGS
+#
+#    Collects and displays:
+#      - Operating System name and version
+#      - Computer name and current user
+#      - CPU name and core count
+#      - Total RAM
+#      - Network adapter info (IP address)
+#
+#  BEHAVIOR
+#
+#    The script performs the following actions in order:
+#    1. Collects system information
+#    2. Builds an AppleScript dialog
+#    3. Displays popup to user (runs in background)
+#    4. Exits immediately (popup remains)
+#
+#  PREREQUISITES
+#
+#    - macOS 10.14 or later
+#    - No special privileges required
+#    - AppleScript/osascript available
+#
+#  SECURITY NOTES
+#
+#    - No secrets exposed in output
+#    - Displays system info in user-facing dialog
+#    - Runs in background to avoid blocking RMM
+#
+#  ENDPOINTS
+#
+#    Not applicable - local system operation only
+#
+#  EXIT CODES
+#
+#    0 = Success
+#
+#  EXAMPLE RUN
+#
+#    (Displays GUI popup to user with system information)
+#
+#    === Workstation Information ===
+#
+#    === Operating System ===
+#    Name: macOS
+#    Version: 14.2
+#
+#    === Computer ===
+#    Name: WORKSTATION-01
+#    User: jsmith
+#
+#    === Hardware ===
+#    CPU: Apple M1
+#    Cores: 8
+#    RAM: 16.00 GB
+#
+#    === Network ===
+#    IP Address: 192.168.1.100
+#
+# --------------------------------------------------------------------------------
+#  CHANGELOG
+# --------------------------------------------------------------------------------
+#  2024-12-23 v1.1.0 Updated to Limehawk Script Framework
+#  2024-12-01 v1.0.0 Initial release - migrated from SuperOps
+# ================================================================================
+
+# ============================================================================
+# MAIN EXECUTION
+# ============================================================================
 
 # Collect system information
 os_name=$(sw_vers -productName 2>/dev/null || echo "macOS")

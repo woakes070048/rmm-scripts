@@ -6,9 +6,13 @@
  ███████╗██║██║ ╚═╝ ██║███████╗██║  ██║██║  ██║╚███╔███╔╝██║  ██╗
  ╚══════╝╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚══╝╚══╝ ╚═╝  ╚═╝
 ================================================================================
- SCRIPT   : superops_agent_uninstall_windows.ps1
- VERSION  : v1.0.0
+ SCRIPT   : SuperOps Agent Uninstall (Windows)                            v1.1.0
+ AUTHOR   : Limehawk.io
+ DATE     : December 2024
+ USAGE    : .\superops_agent_uninstall_windows.ps1
 ================================================================================
+ FILE     : superops_agent_uninstall_windows.ps1
+--------------------------------------------------------------------------------
  README
 --------------------------------------------------------------------------------
  PURPOSE
@@ -84,14 +88,9 @@
 
 --------------------------------------------------------------------------------
  CHANGELOG
- 2025-11-02 v1.0.0 Initial migration from SuperOps
-                   - Modernized from legacy WMI approach
-                   - Added vendor uninstaller detection
-                   - Added registry-based fallback method
-                   - Removed hardcoded GUID dependency
-                   - Converted to Limehawk Style A format
-                   - Added comprehensive error handling
-                   - Added structured console output
+--------------------------------------------------------------------------------
+ 2024-12-23 v1.1.0 Updated to Limehawk Script Framework
+ 2025-11-02 v1.0.0 Initial release
 ================================================================================
 #>
 

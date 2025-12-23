@@ -8,12 +8,15 @@ $ErrorActionPreference = 'Stop'
 ╚══════╝╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚══╝╚══╝ ╚═╝  ╚═╝
 
 ================================================================================
-SCRIPT : Network IP Scanner                                             v1.0.0
-FILE   : network_scan.ps1
+ SCRIPT  : Network IP Scanner v1.0.1
+ AUTHOR  : Limehawk.io
+ DATE    : December 2024
+ FILE    : network_scan.ps1
+ USAGE   : .\network_scan.ps1
 ================================================================================
-README
+ README
 --------------------------------------------------------------------------------
-PURPOSE:
+ PURPOSE:
     Scans a range of IP addresses using multi-threaded ping requests to discover
     active hosts on the network. Optionally resolves hostnames via DNS.
 
@@ -69,9 +72,11 @@ EXAMPLE RUN:
     [ SCRIPT COMPLETED ]
     --------------------------------------------------------------
 
-CHANGELOG
 --------------------------------------------------------------------------------
-2024-12-01 v1.0.0  Initial release - migrated from SuperOps
+ CHANGELOG
+--------------------------------------------------------------------------------
+ 2024-12-23 v1.0.1 Updated to Limehawk Script Framework
+ 2024-12-01 v1.0.0 Initial release - migrated from SuperOps
 ================================================================================
 #>
 Set-StrictMode -Version Latest

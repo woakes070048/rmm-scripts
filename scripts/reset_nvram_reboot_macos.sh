@@ -1,81 +1,119 @@
 #!/bin/bash
 #
-# ============================================================================
-#                       RESET NVRAM AND REBOOT SCRIPT (macOS)
-# ============================================================================
-#  Script Name: reset_nvram_reboot_macos.sh
-#  Description: Schedules an NVRAM reset on the next reboot and immediately
-#               reboots the Mac. NVRAM stores system settings like startup
-#               disk selection, display resolution, speaker volume, etc.
-#  Author:      Limehawk.io
-#  Version:     1.0.0
-#  Date:        November 2024
-#  Usage:       sudo ./reset_nvram_reboot_macos.sh
-# ============================================================================
-#
-# ============================================================================
-#      ██╗     ██╗███╗   ███╗███████╗██╗  ██╗ █████╗ ██╗    ██╗██╗  ██╗
-#      ██║     ██║████╗ ████║██╔════╝██║  ██║██╔══██╗██║    ██║██║ ██╔╝
-#      ██║     ██║██╔████╔██║█████╗  ███████║███████║██║ █╗ ██║█████╔╝
-#      ██║     ██║██║╚██╔╝██║██╔══╝  ██╔══██║██╔══██║██║███╗██║██╔═██╗
-#      ███████╗██║██║ ╚═╝ ██║███████╗██║  ██║██║  ██║╚███╔███╔╝██║  ██╗
-#      ╚══════╝╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚══╝╚══╝ ╚═╝  ╚═╝
-# ============================================================================
-#
+# ██╗     ██╗███╗   ███╗███████╗██╗  ██╗ █████╗ ██╗    ██╗██╗  ██╗
+# ██║     ██║████╗ ████║██╔════╝██║  ██║██╔══██╗██║    ██║██║ ██╔╝
+# ██║     ██║██╔████╔██║█████╗  ███████║███████║██║ █╗ ██║█████╔╝
+# ██║     ██║██║╚██╔╝██║██╔══╝  ██╔══██║██╔══██║██║███╗██║██╔═██╗
+# ███████╗██║██║ ╚═╝ ██║███████╗██║  ██║██║  ██║╚███╔███╔╝██║  ██╗
+# ╚══════╝╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚══╝╚══╝ ╚═╝  ╚═╝
+# ================================================================================
+#  SCRIPT   : Reset NVRAM and Reboot (macOS)                               v1.1.0
+#  AUTHOR   : Limehawk.io
+#  DATE     : December 2024
+#  USAGE    : sudo ./reset_nvram_reboot_macos.sh
+# ================================================================================
+#  FILE     : reset_nvram_reboot_macos.sh
+# --------------------------------------------------------------------------------
+#  README
+# --------------------------------------------------------------------------------
 #  PURPOSE
-#  -----------------------------------------------------------------------
-#  Resets NVRAM (Non-Volatile Random-Access Memory) on Intel-based Macs.
-#  NVRAM stores settings that macOS accesses quickly, including:
-#    - Startup disk selection
-#    - Display resolution
-#    - Speaker volume
-#    - Time zone information
-#    - Recent kernel panic information
 #
-#  Useful for troubleshooting:
-#    - Boot issues
-#    - Display problems
-#    - Audio issues
-#    - Startup disk not found errors
-#    - Time/date problems
+#    Schedules an NVRAM reset on the next reboot and immediately reboots the Mac.
+#    NVRAM (Non-Volatile Random-Access Memory) stores system settings that macOS
+#    accesses quickly, including:
+#      - Startup disk selection
+#      - Display resolution
+#      - Speaker volume
+#      - Time zone information
+#      - Recent kernel panic information
 #
-#  NOTE: On Apple Silicon Macs (M1/M2/M3), NVRAM is automatically reset
-#  during the update process and this manual reset may not be needed.
+#    Useful for troubleshooting:
+#      - Boot issues
+#      - Display problems
+#      - Audio issues
+#      - Startup disk not found errors
+#      - Time/date problems
 #
-#  CONFIGURATION
-#  -----------------------------------------------------------------------
-#  No configuration required.
+#  DATA SOURCES & PRIORITY
+#
+#    - nvram: macOS NVRAM utility
+#    - sysctl: System information
+#
+#  REQUIRED INPUTS
+#
+#    No hardcoded inputs required.
+#
+#  SETTINGS
+#
+#    No configuration required.
 #
 #  BEHAVIOR
-#  -----------------------------------------------------------------------
-#  1. Checks for root privileges
-#  2. Detects Mac architecture (Intel vs Apple Silicon)
-#  3. Sets NVRAM variable to trigger reset on next boot
-#  4. Immediately reboots the system
+#
+#    The script performs the following actions in order:
+#    1. Checks for root privileges
+#    2. Detects Mac architecture (Intel vs Apple Silicon)
+#    3. Displays current NVRAM values (subset)
+#    4. Sets NVRAM variable to trigger reset on next boot
+#    5. Immediately reboots the system
 #
 #  PREREQUISITES
-#  -----------------------------------------------------------------------
-#  - Root/sudo access required
-#  - macOS 10.14 or later
-#  - Intel-based Mac (Apple Silicon uses different reset method)
+#
+#    - Root/sudo access required
+#    - macOS 10.14 or later
+#    - Intel-based Mac (Apple Silicon uses different reset method)
 #
 #  SECURITY NOTES
-#  -----------------------------------------------------------------------
-#  - No secrets exposed in output
-#  - Runs with elevated privileges (sudo required)
-#  - WILL IMMEDIATELY REBOOT THE SYSTEM
-#  - User data is not affected (only system settings reset)
+#
+#    - No secrets exposed in output
+#    - Runs with elevated privileges (sudo required)
+#    - WILL IMMEDIATELY REBOOT THE SYSTEM
+#    - User data is not affected (only system settings reset)
+#
+#  ENDPOINTS
+#
+#    Not applicable - local system operation only
 #
 #  EXIT CODES
-#  -----------------------------------------------------------------------
-#  0 - Success (reboot initiated)
-#  1 - Failure (permission denied, unsupported architecture)
 #
-# ============================================================================
+#    0 = Success (reboot initiated)
+#    1 = Failure (permission denied)
+#
+#  EXAMPLE RUN
+#
+#    [ INPUT VALIDATION ]
+#    --------------------------------------------------------------
+#     Running as root          : Yes
+#
+#    [ SYSTEM DETECTION ]
+#    --------------------------------------------------------------
+#     Architecture             : x86_64
+#     Mac Model                : MacBookPro15,1
+#
+#    [ CURRENT NVRAM ]
+#    --------------------------------------------------------------
+#    Current NVRAM values (subset):
+#      SystemAudioVolume       50
+#
+#    [ OPERATION ]
+#    --------------------------------------------------------------
+#    Setting NVRAM reset flag...
+#     NVRAM Reset Flag         : Set
+#     Action                   : Initiating reboot
+#
+#    *** SYSTEM WILL REBOOT NOW ***
+#
+# --------------------------------------------------------------------------------
+#  CHANGELOG
+# --------------------------------------------------------------------------------
+#  2024-12-23 v1.1.0 Updated to Limehawk Script Framework
+#  2024-11-01 v1.0.0 Initial release
+# ================================================================================
 
 set -e
 
-# ==== HELPER FUNCTIONS ====
+# ============================================================================
+# HELPER FUNCTIONS
+# ============================================================================
 
 print_section() {
     echo ""
@@ -87,13 +125,19 @@ print_kv() {
     printf " %-24s : %s\n" "$1" "$2"
 }
 
-# ==== MAIN SCRIPT ====
+# ============================================================================
+# MAIN EXECUTION
+# ============================================================================
 
 print_section "INPUT VALIDATION"
 
 # Check for root privileges
 if [ "$(id -u)" != "0" ]; then
-    echo "ERROR: This script must be run with root privileges (sudo)"
+    echo ""
+    echo "[ ERROR OCCURRED ]"
+    echo "--------------------------------------------------------------"
+    echo "This script must be run with root privileges (sudo)"
+    echo ""
     exit 1
 fi
 print_kv "Running as root" "Yes"

@@ -8,8 +8,11 @@ $ErrorActionPreference = 'Stop'
 ╚══════╝╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚══╝╚══╝ ╚═╝  ╚═╝
 
 ================================================================================
-SCRIPT : Google Update Task Trigger                                      v1.0.0
-FILE   : google_update_trigger.ps1
+SCRIPT  : Google Update Task Trigger v1.0.1
+AUTHOR  : Limehawk.io
+DATE    : December 2024
+USAGE   : .\google_update_trigger.ps1
+FILE    : google_update_trigger.ps1
 ================================================================================
 README
 --------------------------------------------------------------------------------
@@ -56,7 +59,8 @@ EXAMPLE RUN:
 
 CHANGELOG
 --------------------------------------------------------------------------------
-2024-12-01 v1.0.0  Initial release - migrated from SuperOps
+2024-12-23 v1.0.1 Updated to Limehawk Script Framework
+2024-12-01 v1.0.0 Initial release - migrated from SuperOps
 ================================================================================
 #>
 Set-StrictMode -Version Latest

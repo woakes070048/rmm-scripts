@@ -1,38 +1,126 @@
 #!/bin/bash
-# ==============================================================================
-# SCRIPT : Network Printer Install (Linux)                              v1.0.0
-# FILE   : printer_install_linux.sh
-# ==============================================================================
-# PURPOSE:
-#   Installs network printers on Linux using CUPS/lpadmin. Supports PPD files
-#   for driver functionality. Automatically installs CUPS and required packages.
 #
-# CONFIGURATION:
-#   Edit the variables below to configure:
-#   - PRINTERS array: hostname|location|printername for each printer
-#   - PPD_PATH: Path to the PPD file (must be installed first)
-#   - PROTOCOL: lpd, ipp, or socket
+# ██╗     ██╗███╗   ███╗███████╗██╗  ██╗ █████╗ ██╗    ██╗██╗  ██╗
+# ██║     ██║████╗ ████║██╔════╝██║  ██║██╔══██╗██║    ██║██║ ██╔╝
+# ██║     ██║██╔████╔██║█████╗  ███████║███████║██║ █╗ ██║█████╔╝
+# ██║     ██║██║╚██╔╝██║██╔══╝  ██╔══██║██╔══██║██║███╗██║██╔═██╗
+# ███████╗██║██║ ╚═╝ ██║███████╗██║  ██║██║  ██║╚███╔███╔╝██║  ██╗
+# ╚══════╝╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚══╝╚══╝ ╚═╝  ╚═╝
+# ================================================================================
+#  SCRIPT   : Network Printer Install (Linux)                              v1.1.0
+#  AUTHOR   : Limehawk.io
+#  DATE     : December 2024
+#  USAGE    : sudo ./printer_install_linux.sh
+# ================================================================================
+#  FILE     : printer_install_linux.sh
+# --------------------------------------------------------------------------------
+#  README
+# --------------------------------------------------------------------------------
+#  PURPOSE
 #
-# USAGE:
-#   sudo ./printer_install_linux.sh
+#    Installs network printers on Linux using CUPS/lpadmin. Supports PPD files
+#    for driver functionality. Automatically installs CUPS and required packages
+#    if not present.
 #
-# PREREQUISITES:
-#   - Debian/Ubuntu or compatible Linux
-#   - Root/sudo privileges
-#   - Internet access for package installation
-#   - PPD file for the printer model
+#  DATA SOURCES & PRIORITY
 #
-# EXIT CODES:
-#   0 = Success
-#   1 = Failure
-# ==============================================================================
+#    - CUPS: Print server for managing printers
+#    - PPD files: Printer driver definitions
+#
+#  REQUIRED INPUTS
+#
+#    All inputs are hardcoded in the script body:
+#      - PRINTERS: Array of "hostname|location|display_name" entries
+#      - PROTOCOL: lpd, ipp, or socket
+#      - PPD_PATH: Path to the PPD driver file
+#      - AUTO_INSTALL_CUPS: Whether to install CUPS if missing
+#
+#  SETTINGS
+#
+#    Default configuration:
+#      - Protocol: lpd
+#      - Auto-install CUPS: true
+#      - PPD search paths: /usr/share/cups/model/, /usr/share/ppd/, /etc/cups/ppd/
+#
+#  BEHAVIOR
+#
+#    The script performs the following actions in order:
+#    1. Verifies root/sudo privileges
+#    2. Detects OS and verifies Linux
+#    3. Installs CUPS if needed and enabled
+#    4. Verifies or finds PPD file
+#    5. Removes existing printers with same name
+#    6. Installs each configured printer via lpadmin
+#    7. Enables and accepts jobs for each printer
+#    8. Reports final status
+#
+#  PREREQUISITES
+#
+#    - Debian/Ubuntu or compatible Linux (apt, yum, or dnf)
+#    - Root/sudo privileges
+#    - Internet access for package installation
+#    - PPD file for the printer model
+#
+#  SECURITY NOTES
+#
+#    - No secrets exposed in output
+#    - Requires elevated privileges for printer management
+#    - Package installation from official repositories only
+#
+#  ENDPOINTS
+#
+#    - Configured printer hostnames via selected protocol
+#
+#  EXIT CODES
+#
+#    0 = Success (all printers installed)
+#    1 = Failure or partial failure
+#
+#  EXAMPLE RUN
+#
+#    [ NETWORK PRINTER INSTALL - Linux ]
+#    --------------------------------------------------------------
+#    Protocol : lpd
+#    PPD Path : /usr/share/cups/model/YourPrinter.ppd
+#    Printers : 2
+#
+#    [ CHECKING CUPS ]
+#    --------------------------------------------------------------
+#    CUPS is already installed
+#    CUPS service started
+#
+#    [ VERIFYING PPD ]
+#    --------------------------------------------------------------
+#    PPD file verified: /usr/share/cups/model/YourPrinter.ppd
+#
+#    [ INSTALLING PRINTERS ]
+#    --------------------------------------------------------------
+#    Installing: Office Printer
+#      Hostname : printer1.example.com
+#      Location : Main Office
+#      Status   : SUCCESS
+#
+#    [ FINAL STATUS ]
+#    --------------------------------------------------------------
+#    Installed : 2 printer(s)
+#    Failed    : 0 printer(s)
+#    Result    : SUCCESS
+#
+#    [ SCRIPT COMPLETE ]
+#    --------------------------------------------------------------
+#
+# --------------------------------------------------------------------------------
+#  CHANGELOG
+# --------------------------------------------------------------------------------
+#  2024-12-23 v1.1.0 Updated to Limehawk Script Framework
+#  2024-01-01 v1.0.0 Initial release
+# ================================================================================
 
 set -euo pipefail
 
-# ==============================================================================
-# CONFIGURATION - EDIT THESE VALUES
-# ==============================================================================
-
+# ============================================================================
+# HARDCODED INPUTS
+# ============================================================================
 # Printer definitions: "hostname|location|display_name"
 PRINTERS=(
     "printer1.example.com|Main Office|Office Printer"
@@ -43,18 +131,15 @@ PRINTERS=(
 PROTOCOL="lpd"
 
 # Path to PPD file (must exist on the system)
-# Common locations:
-#   /usr/share/cups/model/
-#   /usr/share/ppd/
-#   /etc/cups/ppd/
 PPD_PATH="/usr/share/cups/model/YourPrinter.ppd"
 
 # Install CUPS and dependencies if missing
 AUTO_INSTALL_CUPS="true"
+# ============================================================================
 
-# ==============================================================================
-# SCRIPT START
-# ==============================================================================
+# ============================================================================
+# MAIN EXECUTION
+# ============================================================================
 
 echo ""
 echo "[ NETWORK PRINTER INSTALL - Linux ]"
@@ -62,24 +147,32 @@ echo "--------------------------------------------------------------"
 
 # Ensure script is run as root
 if [ "$(id -u)" -ne 0 ]; then
-    echo "[ERROR] This script must be run as root (sudo)."
+    echo ""
+    echo "[ ERROR OCCURRED ]"
+    echo "--------------------------------------------------------------"
+    echo "This script must be run as root (sudo)"
+    echo ""
     exit 1
 fi
 
 # Detect OS
 OS_TYPE=$(uname)
 if [ "$OS_TYPE" != "Linux" ]; then
-    echo "[ERROR] This script is designed for Linux systems."
+    echo ""
+    echo "[ ERROR OCCURRED ]"
+    echo "--------------------------------------------------------------"
+    echo "This script is designed for Linux systems"
+    echo ""
     exit 1
 fi
 
-echo "Protocol   : $PROTOCOL"
-echo "PPD Path   : $PPD_PATH"
-echo "Printers   : ${#PRINTERS[@]}"
+echo "Protocol : $PROTOCOL"
+echo "PPD Path : $PPD_PATH"
+echo "Printers : ${#PRINTERS[@]}"
 
-# ==============================================================================
+# ============================================================================
 # INSTALL CUPS IF NEEDED
-# ==============================================================================
+# ============================================================================
 if [ "$AUTO_INSTALL_CUPS" = "true" ]; then
     echo ""
     echo "[ CHECKING CUPS ]"
@@ -96,7 +189,11 @@ if [ "$AUTO_INSTALL_CUPS" = "true" ]; then
         elif command -v dnf > /dev/null 2>&1; then
             dnf install -y cups
         else
-            echo "[ERROR] Unable to install CUPS - unsupported package manager"
+            echo ""
+            echo "[ ERROR OCCURRED ]"
+            echo "--------------------------------------------------------------"
+            echo "Unable to install CUPS - unsupported package manager"
+            echo ""
             exit 1
         fi
 
@@ -113,15 +210,15 @@ if [ "$AUTO_INSTALL_CUPS" = "true" ]; then
     fi
 fi
 
-# ==============================================================================
+# ============================================================================
 # VERIFY PPD FILE
-# ==============================================================================
+# ============================================================================
 echo ""
 echo "[ VERIFYING PPD ]"
 echo "--------------------------------------------------------------"
 
 if [ ! -f "$PPD_PATH" ]; then
-    echo "[WARNING] PPD file not found: $PPD_PATH"
+    echo "PPD file not found: $PPD_PATH"
     echo "Attempting to use generic driver..."
 
     # Try to find a generic PPD
@@ -131,17 +228,21 @@ if [ ! -f "$PPD_PATH" ]; then
         PPD_PATH="$GENERIC_PPD"
         echo "Using generic PPD: $PPD_PATH"
     else
-        echo "[ERROR] No PPD files found. Please install printer drivers."
+        echo ""
+        echo "[ ERROR OCCURRED ]"
+        echo "--------------------------------------------------------------"
+        echo "No PPD files found. Please install printer drivers."
         echo "Try: apt-get install printer-driver-all"
+        echo ""
         exit 1
     fi
 else
     echo "PPD file verified: $PPD_PATH"
 fi
 
-# ==============================================================================
+# ============================================================================
 # INSTALL PRINTERS
-# ==============================================================================
+# ============================================================================
 echo ""
 echo "[ INSTALLING PRINTERS ]"
 echo "--------------------------------------------------------------"
@@ -207,30 +308,32 @@ for PRINTER_ENTRY in "${PRINTERS[@]}"; do
     echo ""
 done
 
-# ==============================================================================
+# ============================================================================
 # SHOW INSTALLED PRINTERS
-# ==============================================================================
+# ============================================================================
 echo "[ INSTALLED PRINTERS ]"
 echo "--------------------------------------------------------------"
 lpstat -p 2>/dev/null || echo "No printers installed"
 
-# ==============================================================================
+# ============================================================================
 # FINAL STATUS
-# ==============================================================================
+# ============================================================================
 echo ""
 echo "[ FINAL STATUS ]"
 echo "--------------------------------------------------------------"
-echo "Installed  : $INSTALLED printer(s)"
-echo "Failed     : $FAILED printer(s)"
+echo "Installed : $INSTALLED printer(s)"
+echo "Failed    : $FAILED printer(s)"
 
 if [ "$FAILED" -eq 0 ]; then
-    echo "Result     : SUCCESS"
+    echo "Result    : SUCCESS"
+    echo ""
+    echo "[ SCRIPT COMPLETE ]"
+    echo "--------------------------------------------------------------"
     exit 0
 else
-    echo "Result     : PARTIAL (some printers failed)"
+    echo "Result    : PARTIAL (some printers failed)"
+    echo ""
+    echo "[ SCRIPT COMPLETE ]"
+    echo "--------------------------------------------------------------"
     exit 1
 fi
-
-echo ""
-echo "[ SCRIPT COMPLETED ]"
-echo "--------------------------------------------------------------"

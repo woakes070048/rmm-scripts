@@ -8,12 +8,15 @@ $ErrorActionPreference = 'Stop'
 ╚══════╝╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚══╝╚══╝ ╚═╝  ╚═╝
 
 ================================================================================
-SCRIPT : Remote Wipe                                                     v1.0.0
-FILE   : remote_wipe.ps1
+ SCRIPT  : Remote Wipe v1.0.1
+ AUTHOR  : Limehawk.io
+ DATE    : December 2024
+ FILE    : remote_wipe.ps1
+ USAGE   : .\remote_wipe.ps1
 ================================================================================
-README
+ README
 --------------------------------------------------------------------------------
-PURPOSE:
+ PURPOSE:
     Initiates a remote wipe of the Windows device using the MDM RemoteWipe CSP.
     This completely erases all data on the device and resets it to factory state.
 
@@ -62,9 +65,11 @@ EXAMPLE RUN:
     [ SCRIPT COMPLETED ]
     --------------------------------------------------------------
 
-CHANGELOG
 --------------------------------------------------------------------------------
-2024-12-01 v1.0.0  Initial release - migrated from SuperOps
+ CHANGELOG
+--------------------------------------------------------------------------------
+ 2024-12-23 v1.0.1 Updated to Limehawk Script Framework
+ 2024-12-01 v1.0.0 Initial release - migrated from SuperOps
 ================================================================================
 #>
 Set-StrictMode -Version Latest

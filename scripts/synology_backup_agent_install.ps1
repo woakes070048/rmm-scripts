@@ -8,8 +8,11 @@ $ErrorActionPreference = 'Stop'
 ╚══════╝╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚══╝╚══╝ ╚═╝  ╚═╝
 
 ================================================================================
-SCRIPT : Synology Active Backup Agent Install                           v1.0.0
-FILE   : synology_backup_agent_install.ps1
+SCRIPT  : Synology Active Backup Agent Install v1.1.0
+AUTHOR  : Limehawk.io
+DATE    : December 2024
+USAGE   : .\synology_backup_agent_install.ps1
+FILE    : synology_backup_agent_install.ps1
 ================================================================================
 README
 --------------------------------------------------------------------------------
@@ -60,7 +63,8 @@ EXAMPLE RUN:
 
 CHANGELOG
 --------------------------------------------------------------------------------
-2024-12-01 v1.0.0  Initial release - migrated from SuperOps
+2024-12-23 v1.1.0 Updated to Limehawk Script Framework
+2024-12-01 v1.0.0 Initial release - migrated from SuperOps
 ================================================================================
 #>
 Set-StrictMode -Version Latest

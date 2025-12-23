@@ -9,9 +9,13 @@ $ErrorActionPreference = 'Stop' # Rule 1: Enable early error mode (fail on any n
 ███████╗██║██║ ╚═╝ ██║███████╗██║  ██║██║  ██║╚███╔███╔╝██║  ██╗
 ╚══════╝╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚══╝╚══╝ ╚═╝  ╚═╝
 ================================================================================
- SCRIPT    : maintenance_reboot.ps1
- VERSION   : v7.2.1
+ SCRIPT   : Maintenance Reboot v7.2.2
+ AUTHOR   : Limehawk.io
+ DATE     : December 2024
+ USAGE    : .\maintenance_reboot.ps1
 ================================================================================
+ FILE     : maintenance_reboot.ps1
+--------------------------------------------------------------------------------
  README
 --------------------------------------------------------------------------------
  PURPOSE
@@ -102,27 +106,13 @@ $ErrorActionPreference = 'Stop' # Rule 1: Enable early error mode (fail on any n
 --------------------------------------------------------------------------------
  CHANGELOG
 --------------------------------------------------------------------------------
- 2025-12-18  v7.2.1  Renamed from invoke_reboot_on_uptime.ps1 to maintenance_reboot.ps1.
- 2025-12-15  v7.2.0  Simplified configuration section to follow style guidelines.
-                     Added toggle settings for each reboot flag check.
- 2025-12-15  v7.0.0  Added reboot flag detection - script now reboots if uptime
-                     threshold exceeded OR if Windows reboot-pending flags are
-                     detected (CBS, Windows Update, PendingFileRenameOperations).
- 2025-09-25  v6.0.0  FINAL FIX: Reverted conditional logic to robust IF/ELSEIF/ELSE structure
-                     to ensure compatibility with PowerShell 5.1 and earlier, fixing the '?' operator error.
- 2025-09-25  v5.0.1  Revised input resolution to assume RMM performs LITERAL TEXT REPLACEMENT,
-                     simplifying the check for the $maxuptimedays variable.
- 2025-09-25  v5.0.0  Code simplification using smarter ternary-like assignment and [WMI] accelerator.
- 2025-09-25  v4.0.0  FINAL FIX: Eliminated the 'param()' keyword entirely to satisfy the highly constrained
-                     RMM environment; input is now resolved RMM -> ENV -> Default.
- 2025-09-25  v3.0.0  Massive simplification: Removed complex helper functions and implemented input resolution
-                     using direct variable assignment priority chain.
- 2025-09-25  v2.0.3  Encapsulated main logic in a function to isolate param() from large header block.
- 2025-09-25  v2.0.2  Corrected $env:$EnvName syntax to use ${env:Name} for dynamic variable access.
- 2025-09-25  v2.0.1  Fixed 'param' positioning for PowerShell parser compatibility.
- 2025-09-25  v2.0.0  Adopted Limehawk Style A, implemented RMM-aware input resolution.
- 2025-09-05  v1.0.1  Added ASCII block to highlight config options.
- 2025-09-05  v1.0.0  Initial script creation.
+ 2024-12-23 v7.2.2 Updated to Limehawk Script Framework
+ 2025-12-18 v7.2.1 Renamed from invoke_reboot_on_uptime.ps1 to maintenance_reboot.ps1
+ 2025-12-15 v7.2.0 Simplified configuration section to follow style guidelines; Added toggle settings for each reboot flag check
+ 2025-12-15 v7.0.0 Added reboot flag detection - script now reboots if uptime threshold exceeded OR if Windows reboot-pending flags detected
+ 2025-09-25 v6.0.0 FINAL FIX: Reverted conditional logic to robust IF/ELSEIF/ELSE structure; 2025-09-25 v5.0.1 Revised input resolution; 2025-09-25 v5.0.0 Code simplification
+ 2025-09-25 v4.0.0 FINAL FIX: Eliminated param() keyword; 2025-09-25 v3.0.0 Massive simplification; 2025-09-25 v2.0.3 Encapsulated main logic in function
+ 2025-09-25 v2.0.2 Corrected env syntax; 2025-09-25 v2.0.1 Fixed param positioning; 2025-09-25 v2.0.0 Adopted Limehawk Style A; 2025-09-05 v1.0.1 Added ASCII block; 2025-09-05 v1.0.0 Initial script creation
 ================================================================================
 #>
 

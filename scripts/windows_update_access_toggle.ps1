@@ -8,8 +8,11 @@ $ErrorActionPreference = 'Stop'
 ╚══════╝╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚══╝╚══╝ ╚═╝  ╚═╝
 
 ================================================================================
-SCRIPT : Windows Update Access Toggle                                    v1.0.0
-FILE   : windows_update_access_toggle.ps1
+SCRIPT  : Windows Update Access Toggle v1.0.1
+AUTHOR  : Limehawk.io
+DATE    : December 2024
+USAGE   : .\windows_update_access_toggle.ps1
+FILE    : windows_update_access_toggle.ps1
 ================================================================================
 README
 --------------------------------------------------------------------------------
@@ -61,7 +64,8 @@ EXAMPLE RUN:
 
 CHANGELOG
 --------------------------------------------------------------------------------
-2024-12-01 v1.0.0  Initial release - migrated from SuperOps
+2024-12-23 v1.0.1 Updated to Limehawk Script Framework
+2024-12-01 v1.0.0 Initial release - migrated from SuperOps
 ================================================================================
 #>
 Set-StrictMode -Version Latest

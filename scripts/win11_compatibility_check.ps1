@@ -8,8 +8,11 @@ $ErrorActionPreference = 'Stop'
 ╚══════╝╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚══╝╚══╝ ╚═╝  ╚═╝
 
 ================================================================================
-SCRIPT : Windows 11 Compatibility Check                                  v1.0.0
-FILE   : win11_compatibility_check.ps1
+SCRIPT  : Windows 11 Compatibility Check v1.0.1
+AUTHOR  : Limehawk.io
+DATE    : December 2024
+USAGE   : .\win11_compatibility_check.ps1
+FILE    : win11_compatibility_check.ps1
 ================================================================================
 README
 --------------------------------------------------------------------------------
@@ -84,7 +87,8 @@ EXAMPLE RUN:
 
 CHANGELOG
 --------------------------------------------------------------------------------
-2024-12-01 v1.0.0  Initial release - migrated from SuperOps (removed module dependency)
+2024-12-23 v1.0.1 Updated to Limehawk Script Framework
+2024-12-01 v1.0.0 Initial release - migrated from SuperOps (removed module dependency)
 ================================================================================
 #>
 Set-StrictMode -Version Latest

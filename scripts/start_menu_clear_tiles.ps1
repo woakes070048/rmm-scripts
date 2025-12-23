@@ -8,8 +8,11 @@ $ErrorActionPreference = 'Stop'
 ╚══════╝╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚══╝╚══╝ ╚═╝  ╚═╝
 
 ================================================================================
-SCRIPT : Clear Windows 10 Start Menu Tiles                              v1.0.0
-FILE   : start_menu_clear_tiles.ps1
+SCRIPT  : Clear Windows 10 Start Menu Tiles v1.1.0
+AUTHOR  : Limehawk.io
+DATE    : December 2024
+USAGE   : .\start_menu_clear_tiles.ps1
+FILE    : start_menu_clear_tiles.ps1
 ================================================================================
 README
 --------------------------------------------------------------------------------
@@ -71,7 +74,8 @@ EXAMPLE RUN:
 
 CHANGELOG
 --------------------------------------------------------------------------------
-2024-12-01 v1.0.0  Initial release - migrated from SuperOps
+2024-12-23 v1.1.0 Updated to Limehawk Script Framework
+2024-12-01 v1.0.0 Initial release - migrated from SuperOps
 ================================================================================
 #>
 Set-StrictMode -Version Latest

@@ -8,8 +8,11 @@ $ErrorActionPreference = 'Stop'
 ╚══════╝╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚══╝╚══╝ ╚═╝  ╚═╝
 
 ================================================================================
-SCRIPT : Duplicati Backup Status Check                                  v1.0.0
-FILE   : duplicati_backup_status.ps1
+SCRIPT  : Duplicati Backup Status Check v1.1.0
+AUTHOR  : Limehawk.io
+DATE    : December 2024
+USAGE   : .\duplicati_backup_status.ps1
+FILE    : duplicati_backup_status.ps1
 ================================================================================
 README
 --------------------------------------------------------------------------------
@@ -73,7 +76,8 @@ EXAMPLE RUN:
 
 CHANGELOG
 --------------------------------------------------------------------------------
-2024-12-01 v1.0.0  Initial release - migrated from SuperOps
+2024-12-23 v1.1.0 Updated to Limehawk Script Framework
+2024-12-01 v1.0.0 Initial release - migrated from SuperOps
 ================================================================================
 #>
 Set-StrictMode -Version Latest

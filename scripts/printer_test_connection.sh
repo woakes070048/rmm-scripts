@@ -1,35 +1,112 @@
 #!/bin/bash
-# ==============================================================================
-# SCRIPT : Printer Connection Test                                      v1.0.0
-# FILE   : printer_test_connection.sh
-# ==============================================================================
-# PURPOSE:
-#   Tests network connectivity to configured printers by pinging their
-#   hostnames/IPs. Reports success/failure for each printer and optionally
-#   sends an email alert if any tests fail.
 #
-# CONFIGURATION:
-#   Edit the PRINTERS array below with your printer hostnames or IPs.
-#   Optionally configure email settings for failure notifications.
+# ██╗     ██╗███╗   ███╗███████╗██╗  ██╗ █████╗ ██╗    ██╗██╗  ██╗
+# ██║     ██║████╗ ████║██╔════╝██║  ██║██╔══██╗██║    ██║██║ ██╔╝
+# ██║     ██║██╔████╔██║█████╗  ███████║███████║██║ █╗ ██║█████╔╝
+# ██║     ██║██║╚██╔╝██║██╔══╝  ██╔══██║██╔══██║██║███╗██║██╔═██╗
+# ███████╗██║██║ ╚═╝ ██║███████╗██║  ██║██║  ██║╚███╔███╔╝██║  ██╗
+# ╚══════╝╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚══╝╚══╝ ╚═╝  ╚═╝
+# ================================================================================
+#  SCRIPT   : Printer Connection Test                                      v1.1.0
+#  AUTHOR   : Limehawk.io
+#  DATE     : December 2024
+#  USAGE    : ./printer_test_connection.sh
+# ================================================================================
+#  FILE     : printer_test_connection.sh
+# --------------------------------------------------------------------------------
+#  README
+# --------------------------------------------------------------------------------
+#  PURPOSE
 #
-# USAGE:
-#   ./printer_test_connection.sh
+#    Tests network connectivity to configured printers by pinging their
+#    hostnames/IPs. Reports success/failure for each printer and optionally
+#    sends an email alert if any tests fail.
 #
-# PREREQUISITES:
-#   - macOS or Linux
-#   - Network access to printer hosts
-#   - (Optional) sendmail for email alerts
+#  DATA SOURCES & PRIORITY
 #
-# EXIT CODES:
-#   0 = All printers reachable
-#   1 = One or more printers unreachable
-# ==============================================================================
+#    - Network ping: Tests ICMP connectivity to each printer
+#    - DNS lookup: Additional diagnostics for failed connections
+#
+#  REQUIRED INPUTS
+#
+#    All inputs are hardcoded in the script body:
+#      - PRINTERS: Array of printer hostnames or IP addresses
+#      - SEND_EMAIL: Enable/disable email notifications
+#      - MAIL_TO: Recipient email address
+#      - MAIL_FROM: Sender email address
+#
+#  SETTINGS
+#
+#    Default configuration:
+#      - Ping count: 2 packets
+#      - Ping timeout: 5 seconds
+#      - Email alerts: Disabled by default
+#
+#  BEHAVIOR
+#
+#    The script performs the following actions in order:
+#    1. Displays test configuration
+#    2. Pings each configured printer
+#    3. Records pass/fail status for each
+#    4. Performs DNS lookup for failed printers
+#    5. Sends email alert if configured and failures occurred
+#    6. Reports final status with counts
+#
+#  PREREQUISITES
+#
+#    - macOS or Linux
+#    - Network access to printer hosts
+#    - (Optional) sendmail for email alerts
+#
+#  SECURITY NOTES
+#
+#    - No secrets exposed in output
+#    - Email credentials not stored in script
+#    - Log files stored in /tmp (auto-cleaned)
+#
+#  ENDPOINTS
+#
+#    - Configured printer hostnames/IPs (ping targets)
+#
+#  EXIT CODES
+#
+#    0 = All printers reachable
+#    1 = One or more printers unreachable
+#
+#  EXAMPLE RUN
+#
+#    [ PRINTER CONNECTION TEST ]
+#    --------------------------------------------------------------
+#    Hostname : workstation01
+#    Date     : Mon Dec 23 10:00:00 PST 2024
+#    Printers : 3
+#
+#    [ TESTING CONNECTIVITY ]
+#    --------------------------------------------------------------
+#    Testing printer1.example.com... OK
+#    Testing printer2.example.com... FAILED
+#    Testing 192.168.1.100... OK
+#
+#    [ FINAL STATUS ]
+#    --------------------------------------------------------------
+#    Result : FAILURE
+#    Failed : 1 printer(s) unreachable
+#
+#    [ SCRIPT COMPLETE ]
+#    --------------------------------------------------------------
+#
+# --------------------------------------------------------------------------------
+#  CHANGELOG
+# --------------------------------------------------------------------------------
+#  2024-12-23 v1.1.0 Updated to Limehawk Script Framework
+#  2024-01-01 v1.0.0 Initial release
+# ================================================================================
 
 set -euo pipefail
 
-# ==============================================================================
-# CONFIGURATION - EDIT THESE VALUES
-# ==============================================================================
+# ============================================================================
+# HARDCODED INPUTS
+# ============================================================================
 # Printer hostnames or IP addresses to test
 PRINTERS=(
     "printer1.example.com"
@@ -42,16 +119,18 @@ SEND_EMAIL="false"           # Set to "true" to enable email alerts
 MAIL_TO=""                   # e.g., "admin@example.com"
 MAIL_FROM=""                 # e.g., "noreply@example.com"
 MAIL_SUBJECT="Printer Connectivity Alert - $(hostname)"
+# ============================================================================
 
-# ==============================================================================
-# SCRIPT START
-# ==============================================================================
+# ============================================================================
+# MAIN EXECUTION
+# ============================================================================
+
 echo ""
 echo "[ PRINTER CONNECTION TEST ]"
 echo "--------------------------------------------------------------"
-echo "Hostname   : $(hostname)"
-echo "Date       : $(date)"
-echo "Printers   : ${#PRINTERS[@]}"
+echo "Hostname : $(hostname)"
+echo "Date     : $(date)"
+echo "Printers : ${#PRINTERS[@]}"
 echo ""
 
 # Initialize tracking
@@ -86,9 +165,9 @@ done
 
 echo ""
 
-# ==============================================================================
+# ============================================================================
 # SEND EMAIL ALERT IF CONFIGURED
-# ==============================================================================
+# ============================================================================
 if [ "$FAILED_COUNT" -gt 0 ] && [ "$SEND_EMAIL" = "true" ] && [ -n "$MAIL_TO" ]; then
     echo "[ SENDING ALERT ]"
     echo "--------------------------------------------------------------"
@@ -113,9 +192,9 @@ if [ "$FAILED_COUNT" -gt 0 ] && [ "$SEND_EMAIL" = "true" ] && [ -n "$MAIL_TO" ];
     echo ""
 fi
 
-# ==============================================================================
+# ============================================================================
 # FINAL STATUS
-# ==============================================================================
+# ============================================================================
 echo "[ FINAL STATUS ]"
 echo "--------------------------------------------------------------"
 
@@ -123,15 +202,17 @@ if [ "$FAILED_COUNT" -eq 0 ]; then
     echo "Result : SUCCESS"
     echo "All ${#PRINTERS[@]} printer(s) are reachable"
     rm -f "$LOG_FILE"
+    echo ""
+    echo "[ SCRIPT COMPLETE ]"
+    echo "--------------------------------------------------------------"
     exit 0
 else
     echo "Result : FAILURE"
     echo "Failed : $FAILED_COUNT printer(s) unreachable"
     echo "Failed : $FAILED_PRINTERS"
     echo "Log    : $LOG_FILE"
+    echo ""
+    echo "[ SCRIPT COMPLETE ]"
+    echo "--------------------------------------------------------------"
     exit 1
 fi
-
-echo ""
-echo "[ SCRIPT COMPLETED ]"
-echo "--------------------------------------------------------------"

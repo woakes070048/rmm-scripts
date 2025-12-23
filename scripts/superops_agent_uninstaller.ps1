@@ -8,9 +8,13 @@ $ErrorActionPreference = 'Stop'
 ███████╗██║██║ ╚═╝ ██║███████╗██║  ██║██║  ██║╚███╔███╔╝██║  ██╗
 ╚══════╝╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚══╝╚══╝ ╚═╝  ╚═╝
 ================================================================================
- SCRIPT    : superops_agent_uninstaller.ps1
- VERSION   : v1.2.2
+ SCRIPT   : SuperOps Agent Uninstaller                                   v1.2.3
+ AUTHOR   : Limehawk.io
+ DATE     : December 2024
+ USAGE    : .\superops_agent_uninstaller.ps1
 ================================================================================
+ FILE     : superops_agent_uninstaller.ps1
+--------------------------------------------------------------------------------
  README
 --------------------------------------------------------------------------------
  PURPOSE
@@ -78,16 +82,12 @@ $ErrorActionPreference = 'Stop'
 --------------------------------------------------------------------------------
  CHANGELOG
 --------------------------------------------------------------------------------
- v1.2.2   (2025-08-20)  Treats missing product as success (already removed)
-                         instead of failure.
- v1.2.1   (2025-08-20)  Fixed cleanup command string formatting in service check
-                         to prevent parse errors.
- v1.2.0   (2025-08-20)  Added post-uninstall service check with cleanup command
-                         suggestions.
- v1.1.0   (2025-08-20)  Added product details (name, version, publisher) and
-                         reported which uninstall method was used.
- v1.0.0   (2025-08-20)  Initial script creation using WMI and CIM uninstall
-                         methods with hardcoded ProductCode GUID.
+ 2024-12-23 v1.2.3 Updated to Limehawk Script Framework
+ 2025-08-20 v1.2.2 Treats missing product as success (already removed) instead of failure
+ 2025-08-20 v1.2.1 Fixed cleanup command string formatting in service check to prevent parse errors
+ 2025-08-20 v1.2.0 Added post-uninstall service check with cleanup command suggestions
+ 2025-08-20 v1.1.0 Added product details (name, version, publisher) and reported which uninstall method was used
+ 2025-08-20 v1.0.0 Initial script creation using WMI and CIM uninstall methods with hardcoded ProductCode GUID
 ================================================================================
 #>
 

@@ -6,8 +6,11 @@
 ███████╗██║██║ ╚═╝ ██║███████╗██║  ██║██║  ██║╚███╔███╔╝██║  ██╗
 ╚══════╝╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚══╝╚══╝ ╚═╝  ╚═╝
 ================================================================================
- SCRIPT    : superops_uninstall_windows_legacy.ps1
- VERSION   : 1.0.0
+ SCRIPT    : SuperOps Agent Uninstall (Legacy Windows) 1.1.0
+ AUTHOR    : Limehawk.io
+ DATE      : December 2024
+ USAGE     : .\superops_agent_uninstall_windows_legacy.ps1
+ FILE      : superops_agent_uninstall_windows_legacy.ps1
 ================================================================================
  README
 --------------------------------------------------------------------------------
@@ -55,7 +58,8 @@
 --------------------------------------------------------------------------------
  CHANGELOG
 --------------------------------------------------------------------------------
- v1.0.0 (2025-11-02) - Initial version, extracted from SuperOps.
+ 2024-12-23 v1.1.0 Updated to Limehawk Script Framework
+ 2025-11-02 v1.0.0 Initial version, extracted from SuperOps.
 #>
 
 $ErrorActionPreference = 'Stop'

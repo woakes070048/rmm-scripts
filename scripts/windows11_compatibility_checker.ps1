@@ -8,8 +8,10 @@ $ErrorActionPreference = 'Stop'
 ███████╗██║██║ ╚═╝ ██║███████╗██║  ██║██║  ██║╚███╔███╔╝██║  ██╗
 ╚══════╝╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚══╝╚══╝ ╚═╝  ╚═╝
 ================================================================================
- SCRIPT   : Windows 11 Compatibility Checker v1.0.0
- VERSION  : v1.0.0
+ SCRIPT   : Windows 11 Compatibility Checker                             v1.0.1
+ AUTHOR   : Limehawk.io
+ DATE     : December 2024
+ USAGE    : .\windows11_compatibility_checker.ps1
 ================================================================================
  FILE     : windows11_compatibility_checker.ps1
 --------------------------------------------------------------------------------
@@ -135,8 +137,9 @@ $ErrorActionPreference = 'Stop'
  --------------------------------------------------------------
 --------------------------------------------------------------------------------
  CHANGELOG
- 2025-11-02 v1.0.0 Initial Style A compliant release with Windows 11
-                   compatibility checking and optional auto-fix capability.
+--------------------------------------------------------------------------------
+ 2024-12-23 v1.0.1 Updated to Limehawk Script Framework
+ 2025-11-02 v1.0.0 Initial Style A compliant release with Windows 11 compatibility checking and optional auto-fix capability
 ================================================================================
 #>
 

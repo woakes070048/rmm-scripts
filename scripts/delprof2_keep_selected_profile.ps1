@@ -8,8 +8,10 @@ $ErrorActionPreference = 'Stop'
 ███████╗██║██║ ╚═╝ ██║███████╗██║  ██║██║  ██║╚███╔███╔╝██║  ██╗
 ╚══════╝╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚══╝╚══╝ ╚═╝  ╚═╝
 ================================================================================
- SCRIPT   : DelProf2 Keep Selected Profile v1.0.0
- VERSION  : v1.0.0
+ SCRIPT   : DelProf2 Keep Selected Profile v1.1.0
+ AUTHOR   : Limehawk.io
+ DATE     : December 2024
+ USAGE    : .\delprof2_keep_selected_profile.ps1
 ================================================================================
  FILE     : delprof2_keep_selected_profile.ps1
 --------------------------------------------------------------------------------
@@ -59,6 +61,8 @@ $ErrorActionPreference = 'Stop'
  - 1: Failure
 --------------------------------------------------------------------------------
  CHANGELOG
+--------------------------------------------------------------------------------
+ 2024-12-23 v1.1.0 Updated to Limehawk Script Framework
  2025-11-29 v1.0.0 Initial release - separated from combined script
 ================================================================================
 #>

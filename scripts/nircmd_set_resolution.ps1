@@ -8,8 +8,11 @@ $ErrorActionPreference = 'Stop'
 ╚══════╝╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚══╝╚══╝ ╚═╝  ╚═╝
 
 ================================================================================
-SCRIPT : Set Display Resolution using NirCmd                            v1.0.0
-FILE   : nircmd_set_resolution.ps1
+SCRIPT  : Set Display Resolution using NirCmd v1.1.0
+AUTHOR  : Limehawk.io
+DATE    : December 2024
+USAGE   : .\nircmd_set_resolution.ps1
+FILE    : nircmd_set_resolution.ps1
 ================================================================================
 README
 --------------------------------------------------------------------------------
@@ -69,7 +72,8 @@ EXAMPLE RUN:
 
 CHANGELOG
 --------------------------------------------------------------------------------
-2024-12-01 v1.0.0  Initial release - migrated from SuperOps
+2024-12-23 v1.1.0 Updated to Limehawk Script Framework
+2024-12-01 v1.0.0 Initial release - migrated from SuperOps
 ================================================================================
 #>
 Set-StrictMode -Version Latest

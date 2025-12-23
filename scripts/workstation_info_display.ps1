@@ -8,8 +8,10 @@ $ErrorActionPreference = 'Stop'
 ███████╗██║██║ ╚═╝ ██║███████╗██║  ██║██║  ██║╚███╔███╔╝██║  ██╗
 ╚══════╝╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚══╝╚══╝ ╚═╝  ╚═╝
 ================================================================================
- SCRIPT   : Workstation Information Display v1.1.0
- VERSION  : v1.1.0
+ SCRIPT   : Workstation Information Display                               v1.2.0
+ AUTHOR   : Limehawk.io
+ DATE     : December 2024
+ USAGE    : .\workstation_info_display.ps1
 ================================================================================
  FILE     : workstation_info_display.ps1
 --------------------------------------------------------------------------------
@@ -98,10 +100,10 @@ $ErrorActionPreference = 'Stop'
  --------------------------------------------------------------
 --------------------------------------------------------------------------------
  CHANGELOG
- 2025-10-31 v1.1.0 Improved popup formatting with Style A KV format (Label : Value)
-                   and cleaner section headers for better readability.
- 2025-10-31 v1.0.0 Initial Style A compliant release with dual-mode output
-                   for interactive popup and RMM console display.
+--------------------------------------------------------------------------------
+ 2024-12-23 v1.2.0 Updated to Limehawk Script Framework
+ 2025-10-31 v1.1.0 Improved popup formatting with KV format
+ 2025-10-31 v1.0.0 Initial release
 ================================================================================
 #>
 

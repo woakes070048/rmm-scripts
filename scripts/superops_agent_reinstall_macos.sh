@@ -1,5 +1,5 @@
 #!/bin/bash
-
+#
 # ██╗     ██╗███╗   ███╗███████╗██╗  ██╗ █████╗ ██╗    ██╗██╗  ██╗
 # ██║     ██║████╗ ████║██╔════╝██║  ██║██╔══██╗██║    ██║██║ ██╔╝
 # ██║     ██║██╔████╔██║█████╗  ███████║███████║██║ █╗ ██║█████╔╝
@@ -7,9 +7,13 @@
 # ███████╗██║██║ ╚═╝ ██║███████╗██║  ██║██║  ██║╚███╔███╔╝██║  ██╗
 # ╚══════╝╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚══╝╚══╝ ╚═╝  ╚═╝
 # ================================================================================
-#  SCRIPT   : superops_agent_reinstall_macos.sh
-#  VERSION  : v1.0.0
+#  SCRIPT   : SuperOps Agent Reinstall (macOS)                             v1.1.0
+#  AUTHOR   : Limehawk.io
+#  DATE     : December 2024
+#  USAGE    : sudo ./superops_agent_reinstall_macos.sh
 # ================================================================================
+#  FILE     : superops_agent_reinstall_macos.sh
+# --------------------------------------------------------------------------------
 #  README
 # --------------------------------------------------------------------------------
 #  PURPOSE
@@ -97,14 +101,11 @@
 #  [ SCRIPT COMPLETED ]
 #  --------------------------------------------------------------
 # --------------------------------------------------------------------------------
+# --------------------------------------------------------------------------------
 #  CHANGELOG
-#  2025-11-02 v1.0.0 Initial migration from SuperOps
-#                    - Converted to Limehawk Style A format (bash)
-#                    - Added comprehensive error handling
-#                    - Added validation checks
-#                    - Added structured console output
-#                    - Made paths configurable
-#                    - Improved status reporting
+# --------------------------------------------------------------------------------
+#  2024-12-23 v1.1.0 Updated to Limehawk Script Framework
+#  2024-11-02 v1.0.0 Initial migration from SuperOps
 # ================================================================================
 
 # Exit on error (but allow background process to continue)

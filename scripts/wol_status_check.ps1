@@ -8,12 +8,15 @@ $ErrorActionPreference = 'Stop'
 ╚══════╝╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚══╝╚══╝ ╚═╝  ╚═╝
 
 ================================================================================
-SCRIPT : Wake-on-LAN Status Check                                       v1.0.0
-FILE   : wol_status_check.ps1
+ SCRIPT  : Wake-on-LAN Status Check v1.0.1
+ AUTHOR  : Limehawk.io
+ DATE    : December 2024
+ FILE    : wol_status_check.ps1
+ USAGE   : .\wol_status_check.ps1
 ================================================================================
-README
+ README
 --------------------------------------------------------------------------------
-PURPOSE:
+ PURPOSE:
     Checks the Wake-on-LAN (WOL) status at both BIOS and OS levels.
     Supports Dell, HP, and Lenovo devices by using manufacturer-specific
     PowerShell modules to query BIOS settings.
@@ -66,9 +69,11 @@ EXAMPLE RUN:
     [ SCRIPT COMPLETED ]
     --------------------------------------------------------------
 
-CHANGELOG
 --------------------------------------------------------------------------------
-2024-12-01 v1.0.0  Initial release - migrated from SuperOps
+ CHANGELOG
+--------------------------------------------------------------------------------
+ 2024-12-23 v1.0.1 Updated to Limehawk Script Framework
+ 2024-12-01 v1.0.0 Initial release - migrated from SuperOps
 ================================================================================
 #>
 Set-StrictMode -Version Latest

@@ -8,12 +8,15 @@ $ErrorActionPreference = 'Stop'
 ╚══════╝╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚══╝╚══╝ ╚═╝  ╚═╝
 
 ================================================================================
-SCRIPT : Show Saved Wi-Fi Passwords                                     v1.0.0
-FILE   : wifi_passwords_show.ps1
+ SCRIPT  : Show Saved Wi-Fi Passwords v1.0.1
+ AUTHOR  : Limehawk.io
+ DATE    : December 2024
+ FILE    : wifi_passwords_show.ps1
+ USAGE   : .\wifi_passwords_show.ps1
 ================================================================================
-README
+ README
 --------------------------------------------------------------------------------
-PURPOSE:
+ PURPOSE:
     Retrieves and displays all saved Wi-Fi network profiles and their passwords
     stored on the Windows system. Useful for recovering forgotten passwords or
     auditing saved wireless credentials.
@@ -57,9 +60,11 @@ EXAMPLE RUN:
     [ SCRIPT COMPLETED ]
     --------------------------------------------------------------
 
-CHANGELOG
 --------------------------------------------------------------------------------
-2024-12-01 v1.0.0  Initial release - migrated from SuperOps
+ CHANGELOG
+--------------------------------------------------------------------------------
+ 2024-12-23 v1.0.1 Updated to Limehawk Script Framework
+ 2024-12-01 v1.0.0 Initial release - migrated from SuperOps
 ================================================================================
 #>
 Set-StrictMode -Version Latest

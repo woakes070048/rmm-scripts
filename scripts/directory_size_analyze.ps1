@@ -8,9 +8,13 @@ $ErrorActionPreference = 'Stop'
 ███████╗██║██║ ╚═╝ ██║███████╗██║  ██║██║  ██║╚███╔███╔╝██║  ██╗
 ╚══════╝╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚══╝╚══╝ ╚═╝  ╚═╝
 ================================================================================
- SCRIPT   : analyze-directory-size.ps1
- VERSION  : v2.0.0
+ SCRIPT   : Directory Size Analyze                                        v2.1.0
+ AUTHOR   : Limehawk.io
+ DATE     : December 2024
+ USAGE    : .\directory_size_analyze.ps1
 ================================================================================
+ FILE     : directory_size_analyze.ps1
+--------------------------------------------------------------------------------
  README
 --------------------------------------------------------------------------------
  PURPOSE
@@ -79,17 +83,10 @@ $ErrorActionPreference = 'Stop'
  will produce console output defined by the Style A format.)
 --------------------------------------------------------------------------------
  CHANGELOG
- 2025-10-30 v2.0.0 Complete rewrite using direct gdu download:
-                   - Removed all package manager dependencies (no winget/PSGallery)
-                   - Direct download from GitHub releases
-                   - Local caching of executable in Windows TEMP directory
-                   - Simpler, faster, more reliable deployment
-                   - No PATH manipulation needed
-                   - JSON output support for structured data
-                   - Optional cleanup after execution (enabled by default)
-                   - Timeout protection for long-running scans
-                   - Proper gdu flags for non-interactive output (-t for top items)
-                   - Uses $env:TEMP for cache (automatic OS cleanup of leftover files)
+--------------------------------------------------------------------------------
+ 2024-12-23 v2.1.0 Updated to Limehawk Script Framework
+ 2025-10-30 v2.0.0 Complete rewrite using direct gdu download
+ 2025-10-01 v1.0.0 Initial release
 ================================================================================
 #>
 

@@ -8,9 +8,12 @@ $ErrorActionPreference = 'Stop'
 ╚══════╝╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚══╝╚══╝ ╚═╝  ╚═╝
 
 ================================================================================
-SCRIPT        : OneStart Complete Removal
-VERSION       : 1.1.0
-FILE          : onestart_complete_removal.ps1
+ SCRIPT   : OneStart Complete Removal v1.2.0
+ AUTHOR   : Limehawk.io
+ DATE     : December 2024
+ USAGE    : .\onestart_complete_removal.ps1
+================================================================================
+ FILE     : onestart_complete_removal.ps1
 --------------------------------------------------------------------------------
 README
 --------------------------------------------------------------
@@ -139,11 +142,12 @@ Registry Keys Removed : 1
 
 [ SCRIPT COMPLETED ]
 
-================================================================================
-CHANGELOG
---------------------------------------------------------------
-2025-12-01 v1.1.0 Add registry backup before removal to $env:SystemDrive\limehawk\registry_backup
-2025-12-01 v1.0.0 Initial release - combines NirSoft uninstall with manual cleanup
+--------------------------------------------------------------------------------
+ CHANGELOG
+--------------------------------------------------------------------------------
+ 2024-12-23 v1.2.0 Updated to Limehawk Script Framework
+ 2025-12-01 v1.1.0 Add registry backup before removal to $env:SystemDrive\limehawk\registry_backup
+ 2025-12-01 v1.0.0 Initial release - combines NirSoft uninstall with manual cleanup
 ================================================================================
 #>
 

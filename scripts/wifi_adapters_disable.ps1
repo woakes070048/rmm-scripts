@@ -8,12 +8,15 @@ $ErrorActionPreference = 'Stop'
 ╚══════╝╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚══╝╚══╝ ╚═╝  ╚═╝
 
 ================================================================================
-SCRIPT : Disable Wi-Fi Adapters                                         v1.0.5
-FILE   : wifi_adapters_disable.ps1
+ SCRIPT  : Disable Wi-Fi Adapters v1.0.6
+ AUTHOR  : Limehawk.io
+ DATE    : December 2024
+ FILE    : wifi_adapters_disable.ps1
+ USAGE   : .\wifi_adapters_disable.ps1
 ================================================================================
-README
+ README
 --------------------------------------------------------------------------------
-PURPOSE:
+ PURPOSE:
     Identifies and disables all physical and virtual Wi-Fi network adapters on
     a Windows system. Enforces a "wired-only" network policy by ensuring that
     wireless connectivity is turned off while leaving Ethernet adapters enabled.
@@ -64,9 +67,11 @@ EXAMPLE RUN:
     [ SCRIPT COMPLETED ]
     --------------------------------------------------------------
 
-CHANGELOG
 --------------------------------------------------------------------------------
-2024-12-01 v1.0.5  Migrated from SuperOps - removed module dependency
+ CHANGELOG
+--------------------------------------------------------------------------------
+ 2024-12-23 v1.0.6 Updated to Limehawk Script Framework
+ 2024-12-01 v1.0.5 Migrated from SuperOps - removed module dependency
 ================================================================================
 #>
 Set-StrictMode -Version Latest

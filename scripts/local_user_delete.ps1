@@ -8,8 +8,10 @@ $ErrorActionPreference = 'Stop'
 ███████╗██║██║ ╚═╝ ██║███████╗██║  ██║██║  ██║╚███╔███╔╝██║  ██╗
 ╚══════╝╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚══╝╚══╝ ╚═╝  ╚═╝
 ================================================================================
- SCRIPT   : Local User Delete v1.3.0
- VERSION  : v1.3.0
+ SCRIPT   : Local User Delete v1.3.1
+ AUTHOR   : Limehawk.io
+ DATE     : December 2024
+ USAGE    : .\local_user_delete.ps1
 ================================================================================
  FILE     : local_user_delete.ps1
 --------------------------------------------------------------------------------
@@ -84,10 +86,10 @@ $ErrorActionPreference = 'Stop'
  --------------------------------------------------------------
 --------------------------------------------------------------------------------
  CHANGELOG
+--------------------------------------------------------------------------------
+ 2024-12-23 v1.3.1 Updated to Limehawk Script Framework
  2025-12-03 v1.3.0 Use descriptive runtime variable name ($UsernameToDelete)
- 2025-12-03 v1.2.0 Standardize variable names ($Username instead of $UserToDelete)
- 2025-12-03 v1.1.0 Delete orphaned profiles even if user account doesn't exist
- 2025-11-29 v1.0.0 Initial Style A implementation
+ 2025-12-03 v1.2.0 Standardize variable names ($Username instead of $UserToDelete); 2025-12-03 v1.1.0 Delete orphaned profiles even if user account doesn't exist; 2025-11-29 v1.0.0 Initial Style A implementation
 ================================================================================
 #>
 

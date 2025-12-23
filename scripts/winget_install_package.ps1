@@ -7,11 +7,13 @@ $ErrorActionPreference = 'Stop'
 ███████╗██║██║ ╚═╝ ██║███████╗██║  ██║██║  ██║╚███╔███╔╝██║  ██╗
 ╚══════╝╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚══╝╚══╝ ╚═╝  ╚═╝
 ================================================================================
- SCRIPT   : Winget Package Installer
- VERSION  : 1.0.0
- FILE     : winget_install_package.ps1
---------------------------------------------------------------------------------
- README
+SCRIPT  : Winget Package Installer v1.0.1
+AUTHOR  : Limehawk.io
+DATE    : December 2024
+USAGE   : .\winget_install_package.ps1
+FILE    : winget_install_package.ps1
+================================================================================
+README
 --------------------------------------------------------------------------------
  PURPOSE
    Installs a software package using winget (Windows Package Manager). Uses
@@ -73,10 +75,11 @@ $ErrorActionPreference = 'Stop'
 
    [ SCRIPT COMPLETED ]
    --------------------------------------------------------------
+
+CHANGELOG
 --------------------------------------------------------------------------------
- CHANGELOG
---------------------------------------------------------------------------------
- 2025-12-03 v1.0.0 Initial release - winget package installer for SuperOps
+2024-12-23 v1.0.1 Updated to Limehawk Script Framework
+2025-12-03 v1.0.0 Initial release - winget package installer for SuperOps
 ================================================================================
 #>
 Set-StrictMode -Version Latest
