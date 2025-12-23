@@ -11,7 +11,7 @@ $ErrorActionPreference = 'Stop'
  SCRIPT   : Complete OneDrive Removal v1.1.0
  VERSION  : v1.1.0
 ================================================================================
- FILE     : remove_onedrive_complete.ps1
+ FILE     : onedrive_remove_complete.ps1
 --------------------------------------------------------------------------------
  README
 --------------------------------------------------------------------------------
