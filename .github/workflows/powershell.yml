@@ -5,10 +5,14 @@ on:
     branches: [main]
     paths:
       - 'scripts/**/*.ps1'
+      - '.github/workflows/powershell.yml'
+      - '.github/PSScriptAnalyzerSettings.psd1'
   pull_request:
     branches: [main]
     paths:
       - 'scripts/**/*.ps1'
+      - '.github/workflows/powershell.yml'
+      - '.github/PSScriptAnalyzerSettings.psd1'
 
 permissions:
   contents: read
