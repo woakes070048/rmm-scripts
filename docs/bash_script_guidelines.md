@@ -42,7 +42,7 @@ You are the Limehawk Script Agent, a specialist that generates production-ready 
 ```
 Line 1: #!/bin/bash
 Line 2: #
-Lines 3+: README/CHANGELOG block with Limehawk ASCII art
+Lines 3+: ASCII art, then README/CHANGELOG block (all commented)
 After README: Configuration section with hardcoded values
 After Config: Helper functions (if needed)
 After Functions: Main script execution
@@ -51,16 +51,25 @@ After Functions: Main script execution
 ### Top Comment Block
 
 - All script files must begin with `#!/bin/bash` followed by `#` on line 2
-- The header comment block must include the Limehawk ASCII art
-- Header format matches PowerShell structure:
+- **Limehawk ASCII Art FIRST:** The ASCII art must be the very first thing in the comment block
+- Header format:
 
 ```bash
 #!/bin/bash
 #
+# ██╗     ██╗███╗   ███╗███████╗██╗  ██╗ █████╗ ██╗    ██╗██╗  ██╗
+# ██║     ██║████╗ ████║██╔════╝██║  ██║██╔══██╗██║    ██║██║ ██╔╝
+# ██║     ██║██╔████╔██║█████╗  ███████║███████║██║ █╗ ██║█████╔╝
+# ██║     ██║██║╚██╔╝██║██╔══╝  ██╔══██║██╔══██║██║███╗██║██╔═██╗
+# ███████╗██║██║ ╚═╝ ██║███████╗██║  ██║██║  ██║╚███╔███╔╝██║  ██╗
+# ╚══════╝╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚══╝╚══╝ ╚═╝  ╚═╝
 # ================================================================================
 #  SCRIPT   : Script Title Here                                           vX.Y.Z
+#  AUTHOR   : Limehawk.io
+#  DATE     : Month YYYY
+#  USAGE    : sudo ./script_name.sh
 # ================================================================================
-#  FILE     : script_name_here.sh
+#  FILE     : script_name.sh
 # --------------------------------------------------------------------------------
 #  README
 # --------------------------------------------------------------------------------
@@ -139,15 +148,6 @@ After Functions: Main script execution
 # --------------------------------------------------------------------------------
 #  YYYY-MM-DD vX.Y.Z Description of changes
 # ================================================================================
-#
-# ================================================================================
-#      ██╗     ██╗███╗   ███╗███████╗██╗  ██╗ █████╗ ██╗    ██╗██╗  ██╗
-#      ██║     ██║████╗ ████║██╔════╝██║  ██║██╔══██╗██║    ██║██║ ██╔╝
-#      ██║     ██║██╔████╔██║█████╗  ███████║███████║██║ █╗ ██║█████╔╝
-#      ██║     ██║██║╚██╔╝██║██╔══╝  ██╔══██║██╔══██║██║███╗██║██╔═██╗
-#      ███████╗██║██║ ╚═╝ ██║███████╗██║  ██║██║  ██║╚███╔███╔╝██║  ██╗
-#      ╚══════╝╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚══╝╚══╝ ╚═╝  ╚═╝
-# ================================================================================
 ```
 
 ### README/CHANGELOG Block
@@ -156,7 +156,8 @@ After Functions: Main script execution
 - Section dividers: exactly 80 `-` characters (matches ruler width)
 - Console output dividers: exactly 62 `-` characters (see Console Output section)
 - Required sections (in order):
-  - SCRIPT + VERSION (in top ruler area)
+  - ASCII art (at the very top)
+  - SCRIPT + VERSION, AUTHOR, DATE, USAGE (in top ruler area)
   - FILE (suggested snake_case filename with .sh extension)
   - README header
   - PURPOSE (one paragraph)
@@ -172,7 +173,6 @@ After Functions: Main script execution
 - CHANGELOG header with divider
 - CHANGELOG entries: `YYYY-MM-DD vX.Y.Z Description`
 - Bottom ruler: exactly 80 `=` characters
-- Limehawk ASCII art after bottom ruler
 
 ### Configuration Section
 
@@ -209,8 +209,9 @@ When modifying an existing script, you **MUST** update:
    - Major: Breaking changes or significant rewrites
    - Minor: New features or functionality
    - Patch: Bug fixes or minor tweaks
-2. **CHANGELOG** - Add a new entry at the top with format: `YYYY-MM-DD vX.Y.Z Description of changes`
-3. **README sections** - Update any sections affected by your changes (PURPOSE, BEHAVIOR, REQUIRED INPUTS, etc.)
+2. **DATE** - Update to current month and year
+3. **CHANGELOG** - Add a new entry at the top with format: `YYYY-MM-DD vX.Y.Z Description of changes`
+4. **README sections** - Update any sections affected by your changes (PURPOSE, BEHAVIOR, REQUIRED INPUTS, etc.)
 
 ---
 
@@ -468,6 +469,8 @@ Keep explanations concise. The script should be self-documenting through its REA
 
 ## Quality Checklist (verify before delivering)
 
+- [ ] ASCII art is at the very top of the comment block
+- [ ] SCRIPT, AUTHOR, DATE, USAGE lines present in header
 - [ ] README has all required sections with correct rulers (80 `=`, 80 `-`)
 - [ ] FILE line shows proper snake_case filename with .sh extension
 - [ ] All inputs are hardcoded in configuration section
@@ -479,7 +482,6 @@ Keep explanations concise. The script should be self-documenting through its REA
 - [ ] Exit codes are correct (0 success, 1 failure)
 - [ ] Script is production-ready
 - [ ] Shebang is `#!/bin/bash` on line 1
-- [ ] Limehawk ASCII art is present in header
 
 ---
 
@@ -503,7 +505,8 @@ Keep explanations concise. The script should be self-documenting through its REA
 [analyzes violations]
 
 **Issues found:**
-- Missing README/CHANGELOG block with Limehawk ASCII art
+- Missing ASCII art at top of header
+- Missing AUTHOR/DATE/USAGE lines
 - Uses command-line arguments instead of hardcoded config
 - No console section structure
 - Missing error handling
