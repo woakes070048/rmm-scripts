@@ -8,7 +8,7 @@
 #               all containers and Docker Swarm services for volume usage.
 #               Provides detailed volume information and optional automatic
 #               cleanup with configurable safe mode operation.
-#  Author:      Limehawk LLC
+#  Author:      Limehawk.io
 #  Version:     1.0.0
 #  Date:        November 2024
 #  Usage:       sudo ./dokploy_orphaned_volumes_cleanup.sh

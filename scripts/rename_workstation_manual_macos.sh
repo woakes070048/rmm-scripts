@@ -8,7 +8,7 @@
 #               standardized naming pattern: CLIENT-USER-UUID. Allows variable
 #               length client segment override. Sets HostName, ComputerName,
 #               and LocalHostName. Designed for RMM deployment.
-#  Author:      Limehawk LLC
+#  Author:      Limehawk.io
 #  Version:     1.0.0
 #  Date:        November 2024
 #  Usage:       sudo ./rename_workstation_manual_macos.sh

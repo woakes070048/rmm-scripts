@@ -7,7 +7,7 @@
 #  Description: Automatically renames a macOS device using a standardized
 #               naming pattern: CLIENT3-USER-UUID. Sets HostName, ComputerName,
 #               and LocalHostName. Designed for RMM deployment.
-#  Author:      Limehawk LLC
+#  Author:      Limehawk.io
 #  Version:     1.0.0
 #  Date:        November 2024
 #  Usage:       sudo ./rename_workstation_auto_macos.sh
