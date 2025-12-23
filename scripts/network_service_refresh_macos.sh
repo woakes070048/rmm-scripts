@@ -8,7 +8,7 @@
 #               Useful for resolving network connectivity issues without
 #               requiring a full system restart. Restores original enabled/
 #               disabled state after refresh.
-#  Author:      Limehawk LLC
+#  Author:      Limehawk.io
 #  Version:     1.0.0
 #  Date:        November 2024
 #  Usage:       sudo ./network_service_refresh_macos.sh

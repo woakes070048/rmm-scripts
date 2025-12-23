@@ -8,7 +8,7 @@
 #               verbose output, color-coded status messages, and configurable
 #               update options. Handles package updates, cleanup, and reboot
 #               detection with clear success/failure reporting.
-#  Author:      Limehawk LLC
+#  Author:      Limehawk.io
 #  Version:     1.0.0
 #  Date:        November 2024
 #  Usage:       sudo ./ubuntu_debian_update_verbose.sh

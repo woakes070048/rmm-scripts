@@ -7,7 +7,7 @@
 #  Description: Configures primary network interface to use DHCP. Toggles the
 #               interface off/on to ensure settings take effect. Supports both
 #               en0 and auto-detection of active interface.
-#  Author:      Limehawk LLC
+#  Author:      Limehawk.io
 #  Version:     1.0.0
 #  Date:        November 2024
 #  Usage:       sudo ./set_dhcp_macos.sh

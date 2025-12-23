@@ -12,7 +12,7 @@
     A simple test script that demonstrates the LIMEHAWK branding ASCII art header.
 
 .NOTES
-    Author: LIMEHAWK
+    Author: Limehawk.io
     Version: 1.0.0
 #>
 

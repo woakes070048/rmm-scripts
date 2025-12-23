@@ -8,7 +8,7 @@
 #               deployments for running applications while skipping idle ones.
 #               Uses the Dokploy API to retrieve application status and
 #               initiate deployments with proper error handling.
-#  Author:      Limehawk LLC
+#  Author:      Limehawk.io
 #  Version:     1.0.0
 #  Date:        November 2024
 #  Usage:       ./dokploy_deploy_running_apps.sh

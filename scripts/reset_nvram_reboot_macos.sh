@@ -7,7 +7,7 @@
 #  Description: Schedules an NVRAM reset on the next reboot and immediately
 #               reboots the Mac. NVRAM stores system settings like startup
 #               disk selection, display resolution, speaker volume, etc.
-#  Author:      Limehawk LLC
+#  Author:      Limehawk.io
 #  Version:     1.0.0
 #  Date:        November 2024
 #  Usage:       sudo ./reset_nvram_reboot_macos.sh
