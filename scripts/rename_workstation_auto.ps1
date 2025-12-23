@@ -9,8 +9,11 @@ $ErrorActionPreference = 'Stop'
 ███████╗██║██║ ╚═╝ ██║███████╗██║  ██║██║  ██║╚███╔███╔╝██║  ██╗
 ╚══════╝╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚══╝╚══╝ ╚═╝  ╚═╝
 ================================================================================
- SCRIPT    : rename_workstation_auto.ps1
- VERSION   : v8.2.1
+ SCRIPT  : Rename Workstation Auto v8.2.2
+ AUTHOR  : Limehawk.io
+ DATE    : December 2024
+ FILE    : rename_workstation_auto.ps1
+ USAGE   : .\rename_workstation_auto.ps1
 ================================================================================
  README
 --------------------------------------------------------------------------------
@@ -32,20 +35,21 @@ $ErrorActionPreference = 'Stop'
 --------------------------------------------------------------------------------
  CHANGELOG
 --------------------------------------------------------------------------------
- v8.2.1  (2024-12-01)  Fixed StrictMode error checking GraphQL response for errors.
- v8.2.0  (2025-08-20)  Clarified README: auto script enforces 3-char client code.
- v8.1.0  (2025-08-19)  Pattern CLIENT-USERUUID, min UUID=3, maximize USER, exact 15.
- v8.0.x  (2025-08-19)  No separators prototype, experimental.
- v7.4.1  (2025-08-19)  Fixed PS5.1 syntax issues; removed ternary shorthand.
- v7.4.0  (2025-08-19)  Added benign rename error handling; canonical name check.
- v7.3.x  (2025-08-19)  Added full README in Style A; standardized headers.
- v7.2.x  (2025-08-19)  Brand segment always first word; UUID always appended.
- v7.0    (2025-08-19)  Structured diagnostics improvements.
- v6.x    (2025-08-19)  Split branch from manualname; preserved 3-char client.
- v5.x    (2025-08-19)  CLIENT/BRAND/USER baseline pattern; SuperOps sync.
- v4.x    (2025-08-19)  Added GraphQL mutation to update SuperOps asset.
- v3.x    (2025-08-19)  Introduced sanitization helpers & diagnostics.
- v1–2.x  (2025-08-19)  Early rename iterations (no SuperOps sync).
+ 2024-12-23 v8.2.2 Updated to Limehawk Script Framework
+ 2024-12-01 v8.2.1 Fixed StrictMode error checking GraphQL response for errors
+ 2025-08-20 v8.2.0 Clarified README: auto script enforces 3-char client code
+ 2025-08-19 v8.1.0 Pattern CLIENT-USERUUID, min UUID=3, maximize USER, exact 15
+ 2025-08-19 v8.0.x No separators prototype, experimental
+ 2025-08-19 v7.4.1 Fixed PS5.1 syntax issues; removed ternary shorthand
+ 2025-08-19 v7.4.0 Added benign rename error handling; canonical name check
+ 2025-08-19 v7.3.x Added full README in Style A; standardized headers
+ 2025-08-19 v7.2.x Brand segment always first word; UUID always appended
+ 2025-08-19 v7.0 Structured diagnostics improvements
+ 2025-08-19 v6.x Split branch from manualname; preserved 3-char client
+ 2025-08-19 v5.x CLIENT/BRAND/USER baseline pattern; SuperOps sync
+ 2025-08-19 v4.x Added GraphQL mutation to update SuperOps asset
+ 2025-08-19 v3.x Introduced sanitization helpers & diagnostics
+ 2025-08-19 v1-2.x Early rename iterations (no SuperOps sync)
 ================================================================================
 #>
 

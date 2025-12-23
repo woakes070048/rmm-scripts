@@ -8,8 +8,10 @@ $ErrorActionPreference = 'Stop'
 ███████╗██║██║ ╚═╝ ██║███████╗██║  ██║██║  ██║╚███╔███╔╝██║  ██╗
 ╚══════╝╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚══╝╚══╝ ╚═╝  ╚═╝
 ================================================================================
- SCRIPT   : Local Admin Create v1.3.0
- VERSION  : v1.3.0
+ SCRIPT   : Local Admin Create v1.3.1
+ AUTHOR   : Limehawk.io
+ DATE     : December 2024
+ USAGE    : .\local_user_admin_create.ps1
 ================================================================================
  FILE     : local_user_admin_create.ps1
 --------------------------------------------------------------------------------
@@ -85,10 +87,10 @@ $ErrorActionPreference = 'Stop'
  --------------------------------------------------------------
 --------------------------------------------------------------------------------
  CHANGELOG
+--------------------------------------------------------------------------------
+ 2024-12-23 v1.3.1 Updated to Limehawk Script Framework
  2025-12-03 v1.3.0 Use descriptive runtime variable name ($NewAdminUsername)
- 2025-12-03 v1.2.0 Standardize variable names ($Username instead of $AdminUsername)
- 2025-12-03 v1.1.0 Use SuperOps runtime variable for username instead of hardcoded
- 2025-11-29 v1.0.0 Initial Style A implementation
+ 2025-12-03 v1.2.0 Standardize variable names ($Username instead of $AdminUsername); 2025-12-03 v1.1.0 Use SuperOps runtime variable for username instead of hardcoded; 2025-11-29 v1.0.0 Initial Style A implementation
 ================================================================================
 #>
 

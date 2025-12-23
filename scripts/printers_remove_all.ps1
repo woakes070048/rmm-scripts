@@ -8,8 +8,11 @@ $ErrorActionPreference = 'Stop'
 ╚══════╝╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚══╝╚══╝ ╚═╝  ╚═╝
 
 ================================================================================
-SCRIPT : Remove All Printers                                            v1.0.0
-FILE   : printers_remove_all.ps1
+SCRIPT  : Remove All Printers v1.1.0
+AUTHOR  : Limehawk.io
+DATE    : December 2024
+USAGE   : .\printers_remove_all.ps1
+FILE    : printers_remove_all.ps1
 ================================================================================
 README
 --------------------------------------------------------------------------------
@@ -77,7 +80,8 @@ EXAMPLE RUN:
 
 CHANGELOG
 --------------------------------------------------------------------------------
-2024-12-01 v1.0.0  Initial release - converted from batch script
+2024-12-23 v1.1.0 Updated to Limehawk Script Framework
+2024-12-01 v1.0.0 Initial release - converted from batch script
 ================================================================================
 #>
 Set-StrictMode -Version Latest

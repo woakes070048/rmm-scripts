@@ -11,11 +11,12 @@ $ErrorActionPreference = 'Stop'
 ███████╗██║██║ ╚═╝ ██║███████╗██║  ██║██║  ██║╚███╔███╔╝██║  ██╗
 ╚══════╝╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚══╝╚══╝ ╚═╝  ╚═╝
 ================================================================================
- SCRIPT    : antivirus_status.ps1
- VERSION   : v1.2.0
-================================================================================
+ SCRIPT    : Antivirus Status 1.3.0
+ AUTHOR    : Limehawk.io
+ DATE      : December 2024
+ USAGE     : .\antivirus_status.ps1
  FILE      : antivirus_status.ps1
---------------------------------------------------------------------------------
+================================================================================
  README
 --------------------------------------------------------------------------------
  PURPOSE
@@ -83,14 +84,13 @@ $ErrorActionPreference = 'Stop'
 
  [ SCRIPT COMPLETED ]
  --------------------------------------------------------------
- --------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
  CHANGELOG
- 2025-10-28 v1.2.0 Added registry fallback, WMI service checks, and better error handling
-                   for SecurityCenter2 provider failures.
- 2025-10-28 v1.1.0 Improved AV detection with better productState logic, OS type
-                   checking, enhanced Defender filtering, and comprehensive logging.
- 2025-10-27 v1.0.0 Initial version with third-party AV focus and SuperOps integration.
-================================================================================
+--------------------------------------------------------------------------------
+ 2024-12-23 v1.3.0 Updated to Limehawk Script Framework
+ 2025-10-28 v1.2.0 Added registry fallback, WMI service checks, better error handling
+ 2025-10-28 v1.1.0 Improved AV detection with productState logic, OS type checking
+ 2025-10-27 v1.0.0 Initial version with third-party AV focus and SuperOps integration
 #>
 
 Set-StrictMode -Version Latest

@@ -8,12 +8,15 @@ $ErrorActionPreference = 'Stop'
 ╚══════╝╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚══╝╚══╝ ╚═╝  ╚═╝
 
 ================================================================================
-SCRIPT : GCPW Cleanup                                                    v1.0.0
-FILE   : gcpw_cleanup.ps1
+ SCRIPT  : GCPW Cleanup v1.0.1
+ AUTHOR  : Limehawk.io
+ DATE    : December 2024
+ FILE    : gcpw_cleanup.ps1
+ USAGE   : .\gcpw_cleanup.ps1
 ================================================================================
-README
+ README
 --------------------------------------------------------------------------------
-PURPOSE:
+ PURPOSE:
     Removes Google Credential Provider for Windows (GCPW) registry keys and
     folders to allow for a clean reinstallation or complete removal.
 
@@ -58,9 +61,11 @@ EXAMPLE RUN:
     [ SCRIPT COMPLETED ]
     --------------------------------------------------------------
 
-CHANGELOG
 --------------------------------------------------------------------------------
-2024-12-01 v1.0.0  Initial release - migrated from SuperOps (converted from batch)
+ CHANGELOG
+--------------------------------------------------------------------------------
+ 2024-12-23 v1.0.1 Updated to Limehawk Script Framework
+ 2024-12-01 v1.0.0 Initial release - migrated from SuperOps (converted from batch)
 ================================================================================
 #>
 Set-StrictMode -Version Latest

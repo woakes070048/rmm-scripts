@@ -8,8 +8,11 @@ $ErrorActionPreference = 'Stop'
 ╚══════╝╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚══╝╚══╝ ╚═╝  ╚═╝
 
 ================================================================================
-SCRIPT : Set Always-On Power Profile                                    v2.0.0
-FILE   : power_profile_always_on.ps1
+SCRIPT  : Set Always-On Power Profile v2.1.0
+AUTHOR  : Limehawk.io
+DATE    : December 2024
+USAGE   : .\power_profile_always_on.ps1
+FILE    : power_profile_always_on.ps1
 ================================================================================
 README
 --------------------------------------------------------------------------------
@@ -76,8 +79,9 @@ EXAMPLE RUN:
 
 CHANGELOG
 --------------------------------------------------------------------------------
-2024-12-01 v2.0.0  Migrated from SuperOps - removed module dependency
-2025-09-12 v1.0.0  Initial version
+2024-12-23 v2.1.0 Updated to Limehawk Script Framework
+2024-12-01 v2.0.0 Migrated from SuperOps - removed module dependency
+2025-09-12 v1.0.0 Initial version
 ================================================================================
 #>
 Set-StrictMode -Version Latest

@@ -1,26 +1,117 @@
 #!/bin/bash
-# ==============================================================================
-# SCRIPT : Splashtop Uninstall (macOS)                                  v1.0.0
-# FILE   : splashtop_uninstall_macos.sh
-# ==============================================================================
-# PURPOSE:
-#   Completely removes Splashtop Streamer from macOS including all related
-#   files, launch daemons, kernel extensions, and preferences.
 #
-# USAGE:
-#   sudo ./splashtop_uninstall_macos.sh
+# ██╗     ██╗███╗   ███╗███████╗██╗  ██╗ █████╗ ██╗    ██╗██╗  ██╗
+# ██║     ██║████╗ ████║██╔════╝██║  ██║██╔══██╗██║    ██║██║ ██╔╝
+# ██║     ██║██╔████╔██║█████╗  ███████║███████║██║ █╗ ██║█████╔╝
+# ██║     ██║██║╚██╔╝██║██╔══╝  ██╔══██║██╔══██║██║███╗██║██╔═██╗
+# ███████╗██║██║ ╚═╝ ██║███████╗██║  ██║██║  ██║╚███╔███╔╝██║  ██╗
+# ╚══════╝╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚══╝╚══╝ ╚═╝  ╚═╝
+# ================================================================================
+#  SCRIPT   : Splashtop Uninstall (macOS)                                  v1.1.0
+#  AUTHOR   : Limehawk.io
+#  DATE     : December 2024
+#  USAGE    : sudo ./splashtop_uninstall_macos.sh
+# ================================================================================
+#  FILE     : splashtop_uninstall_macos.sh
+# --------------------------------------------------------------------------------
+#  README
+# --------------------------------------------------------------------------------
+#  PURPOSE
 #
-# PREREQUISITES:
-#   - macOS
-#   - Root/sudo privileges
+#    Completely removes Splashtop Streamer from macOS including all related
+#    files, launch daemons, kernel extensions, and preferences. Performs a
+#    thorough cleanup of all Splashtop components.
 #
-# EXIT CODES:
-#   0 = Success
-#   1 = Failure
-# ==============================================================================
+#  DATA SOURCES & PRIORITY
+#
+#    Not applicable - local system operation only
+#
+#  REQUIRED INPUTS
+#
+#    No hardcoded inputs required.
+#
+#  SETTINGS
+#
+#    Removes:
+#      - Splashtop Streamer.app
+#      - Splashtop Streamer for Business.app
+#      - SplashtopRemote.app
+#      - Launch daemons and agents
+#      - Kernel extensions
+#      - Audio plugins
+#      - Preferences and caches
+#      - Package receipts
+#
+#  BEHAVIOR
+#
+#    The script performs the following actions in order:
+#    1. Kills all running Splashtop processes
+#    2. Unloads launch daemons and agents
+#    3. Removes launch daemon files
+#    4. Removes applications
+#    5. Removes shared data
+#    6. Removes kernel extensions
+#    7. Removes audio plugins
+#    8. Removes preferences and caches
+#    9. Forgets package receipts
+#
+#  PREREQUISITES
+#
+#    - macOS
+#    - Root/sudo privileges
+#
+#  SECURITY NOTES
+#
+#    - No secrets exposed in output
+#    - Requires elevated privileges
+#    - Removes all Splashtop data permanently
+#
+#  ENDPOINTS
+#
+#    Not applicable - local system operation only
+#
+#  EXIT CODES
+#
+#    0 = Success
+#    1 = Failure
+#
+#  EXAMPLE RUN
+#
+#    [ SPLASHTOP UNINSTALL - macOS ]
+#    --------------------------------------------------------------
+#    Stopping Splashtop processes...
+#    Unloading launch daemons...
+#    Removing launch daemon files...
+#    Removing application...
+#    Removing shared data...
+#    Removing kernel extensions...
+#    Removing preferences...
+#    Cleaning package receipts...
+#
+#    [ FINAL STATUS ]
+#    --------------------------------------------------------------
+#    Splashtop Streamer has been uninstalled
+#
+#    [ SCRIPT COMPLETE ]
+#    --------------------------------------------------------------
+#
+# --------------------------------------------------------------------------------
+#  CHANGELOG
+# --------------------------------------------------------------------------------
+#  2024-12-23 v1.1.0 Updated to Limehawk Script Framework
+#  2024-01-01 v1.0.0 Initial release
+# ================================================================================
 
+# ============================================================================
+# HARDCODED INPUTS
+# ============================================================================
 APP_BUNDLE_ID="com.splashtop.Splashtop-Streamer"
 APP_NAME="Splashtop Streamer.app"
+# ============================================================================
+
+# ============================================================================
+# MAIN EXECUTION
+# ============================================================================
 
 echo ""
 echo "[ SPLASHTOP UNINSTALL - macOS ]"
@@ -83,7 +174,11 @@ sudo pkgutil --forget com.splashtop.splashtopStreamer.SplashtopStreamer.pkg 2>/d
 sudo pkgutil --forget ${APP_BUNDLE_ID} 2>/dev/null || true
 
 echo ""
-echo "[ COMPLETE ]"
+echo "[ FINAL STATUS ]"
 echo "--------------------------------------------------------------"
 echo "Splashtop Streamer has been uninstalled"
+
+echo ""
+echo "[ SCRIPT COMPLETE ]"
+echo "--------------------------------------------------------------"
 exit 0

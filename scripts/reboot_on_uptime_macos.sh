@@ -1,27 +1,98 @@
 #!/bin/bash
-set -euo pipefail
-# ==============================================================================
-# SCRIPT : Reboot on Uptime Threshold (macOS/Linux)                      v1.0.0
-# FILE   : reboot_on_uptime_macos.sh
-# ==============================================================================
-# PURPOSE:
-#   Automatically reboots a macOS or Linux system if the uptime exceeds a
-#   specified threshold (default: 14 days).
 #
-# CONFIGURATION:
-#   max_uptime_days : Days of uptime before triggering reboot (default: 14)
+# ██╗     ██╗███╗   ███╗███████╗██╗  ██╗ █████╗ ██╗    ██╗██╗  ██╗
+# ██║     ██║████╗ ████║██╔════╝██║  ██║██╔══██╗██║    ██║██║ ██╔╝
+# ██║     ██║██╔████╔██║█████╗  ███████║███████║██║ █╗ ██║█████╔╝
+# ██║     ██║██║╚██╔╝██║██╔══╝  ██╔══██║██╔══██║██║███╗██║██╔═██╗
+# ███████╗██║██║ ╚═╝ ██║███████╗██║  ██║██║  ██║╚███╔███╔╝██║  ██╗
+# ╚══════╝╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚══╝╚══╝ ╚═╝  ╚═╝
+# ================================================================================
+#  SCRIPT   : Reboot on Uptime Threshold                                   v1.1.0
+#  AUTHOR   : Limehawk.io
+#  DATE     : December 2024
+#  USAGE    : sudo ./reboot_on_uptime_macos.sh
+# ================================================================================
+#  FILE     : reboot_on_uptime_macos.sh
+# --------------------------------------------------------------------------------
+#  README
+# --------------------------------------------------------------------------------
+#  PURPOSE
 #
-# PREREQUISITES:
-#   - macOS or Linux with /proc/uptime (Linux) or uptime command (macOS)
-#   - Root/sudo privileges
+#    Automatically reboots a macOS or Linux system if the uptime exceeds a
+#    specified threshold (default: 14 days). Useful for ensuring systems are
+#    restarted periodically to apply updates and clear memory.
 #
-# EXIT CODES:
-#   0 = Success (reboot triggered or not needed)
-#   1 = Failure
-# ==============================================================================
+#  DATA SOURCES & PRIORITY
+#
+#    - Linux: Reads from /proc/uptime
+#    - macOS: Uses sysctl kern.boottime
+#
+#  REQUIRED INPUTS
+#
+#    All inputs are hardcoded in the script body:
+#      - max_uptime_days: Days of uptime before triggering reboot (default: 14)
+#
+#  SETTINGS
+#
+#    Default configuration:
+#      - Maximum uptime: 14 days
+#
+#  BEHAVIOR
+#
+#    The script performs the following actions in order:
+#    1. Detects operating system (Linux or macOS)
+#    2. Gets current uptime in days
+#    3. Compares against threshold
+#    4. Reboots if threshold exceeded, otherwise exits cleanly
+#
+#  PREREQUISITES
+#
+#    - macOS or Linux with /proc/uptime (Linux) or sysctl (macOS)
+#    - Root/sudo privileges for reboot
+#
+#  SECURITY NOTES
+#
+#    - No secrets exposed in output
+#    - Requires elevated privileges for reboot command
+#
+#  ENDPOINTS
+#
+#    Not applicable - local system operation only
+#
+#  EXIT CODES
+#
+#    0 = Success (reboot triggered or not needed)
+#    1 = Failure (unable to determine uptime)
+#
+#  EXAMPLE RUN
+#
+#    [ UPTIME CHECK ]
+#    --------------------------------------------------------------
+#     Current Uptime      : 21 days
+#     Threshold           : 14 days
+#
+#    [ FINAL STATUS ]
+#    --------------------------------------------------------------
+#     Uptime exceeds threshold. Rebooting now...
+#
+# --------------------------------------------------------------------------------
+#  CHANGELOG
+# --------------------------------------------------------------------------------
+#  2024-12-23 v1.1.0 Updated to Limehawk Script Framework
+#  2024-01-01 v1.0.0 Initial release
+# ================================================================================
 
-# Configuration
+set -euo pipefail
+
+# ============================================================================
+# HARDCODED INPUTS
+# ============================================================================
 max_uptime_days=14
+# ============================================================================
+
+# ============================================================================
+# MAIN EXECUTION
+# ============================================================================
 
 echo ""
 echo "[ UPTIME CHECK ]"
@@ -39,7 +110,11 @@ elif [[ "$(uname)" == "Darwin" ]]; then
     uptime_seconds=$((current_time - boot_time))
     uptime_days=$((uptime_seconds / 86400))
 else
-    echo "ERROR: Unable to determine uptime on this system"
+    echo ""
+    echo "[ ERROR OCCURRED ]"
+    echo "--------------------------------------------------------------"
+    echo "Unable to determine uptime on this system"
+    echo ""
     exit 1
 fi
 
@@ -58,7 +133,7 @@ else
 fi
 
 echo ""
-echo "[ SCRIPT COMPLETED ]"
+echo "[ SCRIPT COMPLETE ]"
 echo "--------------------------------------------------------------"
 
 exit 0

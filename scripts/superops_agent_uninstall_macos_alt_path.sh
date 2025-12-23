@@ -1,5 +1,4 @@
 #!/bin/bash
-
 #
 # ██╗     ██╗███╗   ███╗███████╗██╗  ██╗ █████╗ ██╗    ██╗██╗  ██╗
 # ██║     ██║████╗ ████║██╔════╝██║  ██║██╔══██╗██║    ██║██║ ██╔╝
@@ -8,58 +7,98 @@
 # ███████╗██║██║ ╚═╝ ██║███████╗██║  ██║██║  ██║╚███╔███╔╝██║  ██╗
 # ╚══════╝╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚══╝╚══╝ ╚═╝  ╚═╝
 # ================================================================================
-#  SCRIPT    : superops_uninstall_macos_alt_path.sh
-#  VERSION   : 1.0.0
+#  SCRIPT   : SuperOps Agent Uninstall - Alt Path (macOS)                  v1.1.0
+#  AUTHOR   : Limehawk.io
+#  DATE     : December 2024
+#  USAGE    : sudo ./superops_agent_uninstall_macos_alt_path.sh
 # ================================================================================
+#  FILE     : superops_agent_uninstall_macos_alt_path.sh
+# --------------------------------------------------------------------------------
 #  README
 # --------------------------------------------------------------------------------
 #  PURPOSE
+#
 #    Uninstalls the SuperOps agent from macOS systems by executing the agent's
-#    built-in uninstall script from an alternate path.
+#    built-in uninstall script from an alternate path (/Library/limehawk).
 #
 #  DATA SOURCES & PRIORITY
-#    - Hardcoded path to the uninstall script.
+#
+#    - Hardcoded path to the uninstall script
 #
 #  REQUIRED INPUTS
-#    - None.
+#
+#    No inputs required.
 #
 #  SETTINGS
-#    - None.
+#
+#    Default configuration:
+#      - Uninstall script path: /Library/limehawk/uninstall.sh
 #
 #  BEHAVIOR
-#    - Executes the uninstall script with sudo privileges.
+#
+#    The script performs the following actions in order:
+#    1. Executes the uninstall script with sudo privileges
+#    2. Reports completion status
 #
 #  PREREQUISITES
-#    - The uninstall script must exist at the specified path.
-#    - The user running the script must have sudo privileges.
+#
+#    - The uninstall script must exist at the specified path
+#    - The user running the script must have sudo privileges
 #
 #  SECURITY NOTES
-#    - This script runs with sudo privileges and will remove software from the system.
+#
+#    - This script runs with sudo privileges
+#    - Will remove software from the system
 #
 #  ENDPOINTS
-#    - None.
+#
+#    Not applicable - local system operation only
 #
 #  EXIT CODES
-#    - 0: Success
-#    - 1: Failure
 #
-#  EXAMPLE OUTPUT
+#    0 = Success
+#    1 = Failure
+#
+#  EXAMPLE RUN
+#
 #    [ OPERATION ]
+#    --------------------------------------------------------------
 #    Attempting to uninstall SuperOps agent from alternate path...
+#
 #    [ FINAL STATUS ]
+#    --------------------------------------------------------------
 #    SuperOps agent uninstallation from alternate path completed.
+#
+#    [ SCRIPT COMPLETE ]
+#    --------------------------------------------------------------
+#
 # --------------------------------------------------------------------------------
 #  CHANGELOG
 # --------------------------------------------------------------------------------
-#  v1.0.0 (2025-11-02) - Initial version, extracted from SuperOps.
-#
+#  2024-12-23 v1.1.0 Updated to Limehawk Script Framework
+#  2024-11-02 v1.0.0 Initial version, extracted from SuperOps
+# ================================================================================
 
 set -e
 
+# ============================================================================
+# MAIN EXECUTION
+# ============================================================================
+
+echo ""
 echo "[ OPERATION ]"
+echo "--------------------------------------------------------------"
 echo "Attempting to uninstall SuperOps agent from alternate path..."
+
 sudo bash /Library/limehawk/uninstall.sh
+
+echo ""
 echo "[ FINAL STATUS ]"
+echo "--------------------------------------------------------------"
 echo "SuperOps agent uninstallation from alternate path completed."
+
+echo ""
+echo "[ SCRIPT COMPLETE ]"
+echo "--------------------------------------------------------------"
 
 exit 0

@@ -7,11 +7,13 @@ $ErrorActionPreference = 'Stop'
 ███████╗██║██║ ╚═╝ ██║███████╗██║  ██║██║  ██║╚███╔███╔╝██║  ██╗
 ╚══════╝╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚══╝╚══╝ ╚═╝  ╚═╝
 ================================================================================
- SCRIPT   : Winget Setup for RMM
- VERSION  : 1.0.0
- FILE     : winget_setup.ps1
---------------------------------------------------------------------------------
- README
+SCRIPT  : Winget Setup for RMM v1.0.1
+AUTHOR  : Limehawk.io
+DATE    : December 2024
+USAGE   : .\winget_setup.ps1
+FILE    : winget_setup.ps1
+================================================================================
+README
 --------------------------------------------------------------------------------
  PURPOSE
    Installs winget (Windows Package Manager) on Windows systems using the
@@ -136,10 +138,11 @@ $ErrorActionPreference = 'Stop'
 
    [ SCRIPT COMPLETED ]
    --------------------------------------------------------------
+
+CHANGELOG
 --------------------------------------------------------------------------------
- CHANGELOG
---------------------------------------------------------------------------------
- 2025-01-31 v1.0.0 Initial release - reliable winget installation for RMM
+2024-12-23 v1.0.1 Updated to Limehawk Script Framework
+2025-01-31 v1.0.0 Initial release - reliable winget installation for RMM
 ================================================================================
 #>
 Set-StrictMode -Version Latest

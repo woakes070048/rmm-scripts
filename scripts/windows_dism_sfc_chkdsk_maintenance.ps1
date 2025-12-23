@@ -8,8 +8,10 @@ $ErrorActionPreference = 'Stop'
 ███████╗██║██║ ╚═╝ ██║███████╗██║  ██║██║  ██║╚███╔███╔╝██║  ██╗
 ╚══════╝╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚══╝╚══╝ ╚═╝  ╚═╝
 ================================================================================
- SCRIPT   : Windows DISM SFC Chkdsk Maintenance v1.0.3
- VERSION  : v1.0.3
+ SCRIPT   : Windows DISM SFC Chkdsk Maintenance                          v1.1.0
+ AUTHOR   : Limehawk.io
+ DATE     : December 2024
+ USAGE    : .\windows_dism_sfc_chkdsk_maintenance.ps1
 ================================================================================
  FILE     : windows_dism_sfc_chkdsk_maintenance.ps1
 --------------------------------------------------------------------------------
@@ -160,13 +162,12 @@ $ErrorActionPreference = 'Stop'
  Reboot command issued.
 --------------------------------------------------------------------------------
  CHANGELOG
- 2025-10-31 v1.0.0 Initial Style A compliant release with Windows maintenance
-                   operations for RMM environments.
- 2025-10-31 v1.0.1 Added optional reboot functionality with 5-minute warning after maintenance.
- 2025-10-31 v1.0.2 Fixed DISM component cleanup access denied errors by stopping Windows Update
-                   service and adding retry logic with improved diagnostics.
- 2025-10-31 v1.0.3 Added full command output display for all operations (DISM and SFC) to improve
-                   transparency and troubleshooting capabilities.
+--------------------------------------------------------------------------------
+ 2024-12-23 v1.1.0 Updated to Limehawk Script Framework
+ 2025-10-31 v1.0.3 Added full command output display for all operations (DISM and SFC)
+ 2025-10-31 v1.0.2 Fixed DISM component cleanup access denied errors
+ 2025-10-31 v1.0.1 Added optional reboot functionality with 5-minute warning
+ 2025-10-31 v1.0.0 Initial release
 ================================================================================
 #>
 

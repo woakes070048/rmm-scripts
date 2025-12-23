@@ -1,73 +1,123 @@
 #!/bin/bash
 #
-# ============================================================================
-#                         SET DHCP SCRIPT (macOS)
-# ============================================================================
-#  Script Name: set_dhcp_macos.sh
-#  Description: Configures primary network interface to use DHCP. Toggles the
-#               interface off/on to ensure settings take effect. Supports both
-#               en0 and auto-detection of active interface.
-#  Author:      Limehawk.io
-#  Version:     1.0.0
-#  Date:        November 2024
-#  Usage:       sudo ./set_dhcp_macos.sh
-# ============================================================================
-#
-# ============================================================================
-#      ██╗     ██╗███╗   ███╗███████╗██╗  ██╗ █████╗ ██╗    ██╗██╗  ██╗
-#      ██║     ██║████╗ ████║██╔════╝██║  ██║██╔══██╗██║    ██║██║ ██╔╝
-#      ██║     ██║██╔████╔██║█████╗  ███████║███████║██║ █╗ ██║█████╔╝
-#      ██║     ██║██║╚██╔╝██║██╔══╝  ██╔══██║██╔══██║██║███╗██║██╔═██╗
-#      ███████╗██║██║ ╚═╝ ██║███████╗██║  ██║██║  ██║╚███╔███╔╝██║  ██╗
-#      ╚══════╝╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚══╝╚══╝ ╚═╝  ╚═╝
-# ============================================================================
-#
+# ██╗     ██╗███╗   ███╗███████╗██╗  ██╗ █████╗ ██╗    ██╗██╗  ██╗
+# ██║     ██║████╗ ████║██╔════╝██║  ██║██╔══██╗██║    ██║██║ ██╔╝
+# ██║     ██║██╔████╔██║█████╗  ███████║███████║██║ █╗ ██║█████╔╝
+# ██║     ██║██║╚██╔╝██║██╔══╝  ██╔══██║██╔══██║██║███╗██║██╔═██╗
+# ███████╗██║██║ ╚═╝ ██║███████╗██║  ██║██║  ██║╚███╔███╔╝██║  ██╗
+# ╚══════╝╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚══╝╚══╝ ╚═╝  ╚═╝
+# ================================================================================
+#  SCRIPT   : Set DHCP (macOS)                                             v1.1.0
+#  AUTHOR   : Limehawk.io
+#  DATE     : December 2024
+#  USAGE    : sudo ./network_dhcp_set_macos.sh
+# ================================================================================
+#  FILE     : network_dhcp_set_macos.sh
+# --------------------------------------------------------------------------------
+#  README
+# --------------------------------------------------------------------------------
 #  PURPOSE
-#  -----------------------------------------------------------------------
-#  Configures a macOS network interface to use DHCP for automatic IP
-#  addressing. Toggles the network service off and on to ensure the new
-#  DHCP settings take effect immediately.
 #
-#  CONFIGURATION
-#  -----------------------------------------------------------------------
-#  - INTERFACE: Network interface to configure (default: auto-detect or en0)
-#  - TOGGLE_DELAY: Seconds to wait between off/on toggle (default: 2)
+#    Configures a macOS network interface to use DHCP for automatic IP
+#    addressing. Toggles the network service off and on to ensure the new
+#    DHCP settings take effect immediately.
+#
+#  DATA SOURCES & PRIORITY
+#
+#    - networksetup: macOS network configuration utility
+#    - route: Detects primary network interface
+#
+#  REQUIRED INPUTS
+#
+#    All inputs are hardcoded in the script body:
+#      - INTERFACE: Network interface to configure (leave empty for auto-detect)
+#      - TOGGLE_DELAY: Seconds to wait between off/on toggle (default: 2)
+#
+#  SETTINGS
+#
+#    Default configuration:
+#      - Interface: Auto-detect (falls back to en0)
+#      - Toggle delay: 2 seconds
 #
 #  BEHAVIOR
-#  -----------------------------------------------------------------------
-#  1. Detects or uses specified network interface
-#  2. Gets the network service name for the interface
-#  3. Disables the network service
-#  4. Sets DHCP on the interface
-#  5. Re-enables the network service
-#  6. Verifies DHCP configuration
+#
+#    The script performs the following actions in order:
+#    1. Detects or uses specified network interface
+#    2. Gets the network service name for the interface
+#    3. Disables the network service
+#    4. Sets DHCP on the interface
+#    5. Re-enables the network service
+#    6. Verifies DHCP configuration
 #
 #  PREREQUISITES
-#  -----------------------------------------------------------------------
-#  - Root/sudo access required
-#  - macOS 10.14 or later
-#  - networksetup command available
+#
+#    - Root/sudo access required
+#    - macOS 10.14 or later
+#    - networksetup command available
 #
 #  SECURITY NOTES
-#  -----------------------------------------------------------------------
-#  - No secrets exposed in output
-#  - Runs with elevated privileges (sudo required)
-#  - Temporarily disrupts network connectivity
+#
+#    - No secrets exposed in output
+#    - Runs with elevated privileges (sudo required)
+#    - Temporarily disrupts network connectivity
+#
+#  ENDPOINTS
+#
+#    Not applicable - local system configuration only
 #
 #  EXIT CODES
-#  -----------------------------------------------------------------------
-#  0 - Success
-#  1 - Failure
 #
-# ============================================================================
+#    0 = Success
+#    1 = Failure (not root or interface not found)
+#
+#  EXAMPLE RUN
+#
+#    [ INPUT VALIDATION ]
+#    --------------------------------------------------------------
+#     Running as root          : Yes
+#     Interface                : en0 (auto-detected)
+#     Network Service          : Wi-Fi
+#     Toggle Delay             : 2s
+#
+#    [ CURRENT CONFIGURATION ]
+#    --------------------------------------------------------------
+#     Current IP               : 192.168.1.100
+#     Current Config           : DHCP Configuration
+#
+#    [ OPERATION ]
+#    --------------------------------------------------------------
+#    Disabling network service...
+#    Setting DHCP on en0...
+#    Enabling network service...
+#
+#    [ RESULT ]
+#    --------------------------------------------------------------
+#     Status                   : Success
+#     Configuration            : DHCP Configuration
+#     IP Address               : 192.168.1.101
+#
+#    [ SCRIPT COMPLETE ]
+#    --------------------------------------------------------------
+#
+# --------------------------------------------------------------------------------
+#  CHANGELOG
+# --------------------------------------------------------------------------------
+#  2024-12-23 v1.1.0 Updated to Limehawk Script Framework
+#  2024-11-01 v1.0.0 Initial release
+# ================================================================================
 
 set -e
 
-# ==== CONFIGURATION ====
+# ============================================================================
+# HARDCODED INPUTS
+# ============================================================================
 INTERFACE=""  # Leave empty for auto-detect, or set to "en0", "en1", etc.
 TOGGLE_DELAY=2
+# ============================================================================
 
-# ==== HELPER FUNCTIONS ====
+# ============================================================================
+# HELPER FUNCTIONS
+# ============================================================================
 
 print_section() {
     echo ""
@@ -102,13 +152,19 @@ detect_primary_interface() {
     fi
 }
 
-# ==== MAIN SCRIPT ====
+# ============================================================================
+# MAIN EXECUTION
+# ============================================================================
 
 print_section "INPUT VALIDATION"
 
 # Check for root privileges
 if [ "$(id -u)" != "0" ]; then
-    echo "ERROR: This script must be run with root privileges (sudo)"
+    echo ""
+    echo "[ ERROR OCCURRED ]"
+    echo "--------------------------------------------------------------"
+    echo "This script must be run with root privileges (sudo)"
+    echo ""
     exit 1
 fi
 print_kv "Running as root" "Yes"
@@ -124,7 +180,11 @@ fi
 # Get the network service name
 SERVICE_NAME=$(get_service_for_interface "$INTERFACE")
 if [ -z "$SERVICE_NAME" ]; then
-    echo "ERROR: Could not find network service for interface $INTERFACE"
+    echo ""
+    echo "[ ERROR OCCURRED ]"
+    echo "--------------------------------------------------------------"
+    echo "Could not find network service for interface $INTERFACE"
+    echo ""
     exit 1
 fi
 print_kv "Network Service" "$SERVICE_NAME"
@@ -168,5 +228,7 @@ print_section "FINAL STATUS"
 echo "DHCP has been configured on $SERVICE_NAME ($INTERFACE)."
 echo "If IP shows 'Acquiring...', wait a few seconds for DHCP lease."
 
-print_section "SCRIPT COMPLETED"
+echo ""
+echo "[ SCRIPT COMPLETE ]"
+echo "--------------------------------------------------------------"
 exit 0

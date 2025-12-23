@@ -8,8 +8,11 @@ $ErrorActionPreference = 'Stop'
 ╚══════╝╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚══╝╚══╝ ╚═╝  ╚═╝
 
 ================================================================================
-SCRIPT : Add Default Power Plans                                        v1.0.0
-FILE   : power_plans_add_default.ps1
+SCRIPT  : Add Default Power Plans v1.1.0
+AUTHOR  : Limehawk.io
+DATE    : December 2024
+USAGE   : .\power_plans_add_default.ps1
+FILE    : power_plans_add_default.ps1
 ================================================================================
 README
 --------------------------------------------------------------------------------
@@ -64,7 +67,8 @@ EXAMPLE RUN:
 
 CHANGELOG
 --------------------------------------------------------------------------------
-2024-12-01 v1.0.0  Initial release - converted from batch script
+2024-12-23 v1.1.0 Updated to Limehawk Script Framework
+2024-12-01 v1.0.0 Initial release - converted from batch script
 ================================================================================
 #>
 Set-StrictMode -Version Latest

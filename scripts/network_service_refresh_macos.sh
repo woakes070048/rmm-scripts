@@ -1,75 +1,122 @@
 #!/bin/bash
 #
-# ============================================================================
-#                    NETWORK SERVICE REFRESH SCRIPT (macOS)
-# ============================================================================
-#  Script Name: network_service_refresh_macos.sh
-#  Description: Toggles all network services off and on to refresh connections.
-#               Useful for resolving network connectivity issues without
-#               requiring a full system restart. Restores original enabled/
-#               disabled state after refresh.
-#  Author:      Limehawk.io
-#  Version:     1.0.0
-#  Date:        November 2024
-#  Usage:       sudo ./network_service_refresh_macos.sh
-# ============================================================================
-#
-# ============================================================================
-#      ██╗     ██╗███╗   ███╗███████╗██╗  ██╗ █████╗ ██╗    ██╗██╗  ██╗
-#      ██║     ██║████╗ ████║██╔════╝██║  ██║██╔══██╗██║    ██║██║ ██╔╝
-#      ██║     ██║██╔████╔██║█████╗  ███████║███████║██║ █╗ ██║█████╔╝
-#      ██║     ██║██║╚██╔╝██║██╔══╝  ██╔══██║██╔══██║██║███╗██║██╔═██╗
-#      ███████╗██║██║ ╚═╝ ██║███████╗██║  ██║██║  ██║╚███╔███╔╝██║  ██╗
-#      ╚══════╝╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚══╝╚══╝ ╚═╝  ╚═╝
-# ============================================================================
-#
+# ██╗     ██╗███╗   ███╗███████╗██╗  ██╗ █████╗ ██╗    ██╗██╗  ██╗
+# ██║     ██║████╗ ████║██╔════╝██║  ██║██╔══██╗██║    ██║██║ ██╔╝
+# ██║     ██║██╔████╔██║█████╗  ███████║███████║██║ █╗ ██║█████╔╝
+# ██║     ██║██║╚██╔╝██║██╔══╝  ██╔══██║██╔══██║██║███╗██║██╔═██╗
+# ███████╗██║██║ ╚═╝ ██║███████╗██║  ██║██║  ██║╚███╔███╔╝██║  ██╗
+# ╚══════╝╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚══╝╚══╝ ╚═╝  ╚═╝
+# ================================================================================
+#  SCRIPT   : Network Service Refresh (macOS)                              v1.1.0
+#  AUTHOR   : Limehawk.io
+#  DATE     : December 2024
+#  USAGE    : sudo ./network_service_refresh_macos.sh
+# ================================================================================
+#  FILE     : network_service_refresh_macos.sh
+# --------------------------------------------------------------------------------
+#  README
+# --------------------------------------------------------------------------------
 #  PURPOSE
-#  -----------------------------------------------------------------------
-#  Refreshes all network services on macOS by toggling them off and on.
-#  Preserves the original enabled/disabled state of each service.
-#  Useful for resolving DHCP lease issues, DNS problems, or general
-#  network connectivity problems.
 #
-#  CONFIGURATION
-#  -----------------------------------------------------------------------
-#  - TOGGLE_DELAY: Seconds to wait between off/on toggle (default: 2)
+#    Refreshes all network services on macOS by toggling them off and on.
+#    Preserves the original enabled/disabled state of each service.
+#    Useful for resolving DHCP lease issues, DNS problems, or general
+#    network connectivity problems without requiring a full system restart.
+#
+#  DATA SOURCES & PRIORITY
+#
+#    - networksetup: macOS network configuration utility
+#
+#  REQUIRED INPUTS
+#
+#    All inputs are hardcoded in the script body:
+#      - TOGGLE_DELAY: Seconds to wait between off/on toggle (default: 2)
+#
+#  SETTINGS
+#
+#    Default configuration:
+#      - Toggle delay: 2 seconds
+#      - Preserves original enabled/disabled state of each service
 #
 #  BEHAVIOR
-#  -----------------------------------------------------------------------
-#  1. Lists all network services
-#  2. For each service:
-#     a. Records initial enabled/disabled state
-#     b. Disables the service
-#     c. Waits briefly
-#     d. Enables the service
-#     e. Restores original state if it was disabled
-#  3. Reports final status
+#
+#    The script performs the following actions in order:
+#    1. Lists all network services
+#    2. For each service:
+#       a. Records initial enabled/disabled state
+#       b. Disables the service
+#       c. Waits briefly
+#       d. Enables the service
+#       e. Restores original state if it was disabled
+#    3. Reports final status
 #
 #  PREREQUISITES
-#  -----------------------------------------------------------------------
-#  - Root/sudo access required
-#  - macOS 10.14 or later
-#  - networksetup command available
+#
+#    - Root/sudo access required
+#    - macOS 10.14 or later
+#    - networksetup command available
 #
 #  SECURITY NOTES
-#  -----------------------------------------------------------------------
-#  - No secrets exposed in output
-#  - Runs with elevated privileges (sudo required)
-#  - Temporarily disrupts network connectivity
+#
+#    - No secrets exposed in output
+#    - Runs with elevated privileges (sudo required)
+#    - Temporarily disrupts network connectivity
+#
+#  ENDPOINTS
+#
+#    Not applicable - local system configuration only
 #
 #  EXIT CODES
-#  -----------------------------------------------------------------------
-#  0 - Success
-#  1 - Failure
 #
-# ============================================================================
+#    0 = Success
+#    1 = Failure (not root or no network services found)
+#
+#  EXAMPLE RUN
+#
+#    [ INPUT VALIDATION ]
+#    --------------------------------------------------------------
+#     Toggle Delay             : 2s
+#     Running as root          : Yes
+#
+#    [ NETWORK SERVICES ]
+#    --------------------------------------------------------------
+#    Found 3 network service(s)
+#
+#    [ OPERATION ]
+#    --------------------------------------------------------------
+#    Processing: Wi-Fi
+#      Toggling 'Wi-Fi' off...
+#      Toggling 'Wi-Fi' on...
+#    Processing: Ethernet
+#      Toggling 'Ethernet' off...
+#      Toggling 'Ethernet' on...
+#
+#    [ RESULT ]
+#    --------------------------------------------------------------
+#     Status                   : Success
+#     Services Processed       : 3
+#
+#    [ SCRIPT COMPLETE ]
+#    --------------------------------------------------------------
+#
+# --------------------------------------------------------------------------------
+#  CHANGELOG
+# --------------------------------------------------------------------------------
+#  2024-12-23 v1.1.0 Updated to Limehawk Script Framework
+#  2024-11-01 v1.0.0 Initial release
+# ================================================================================
 
 set -e
 
-# ==== CONFIGURATION ====
+# ============================================================================
+# HARDCODED INPUTS
+# ============================================================================
 TOGGLE_DELAY=2
+# ============================================================================
 
-# ==== HELPER FUNCTIONS ====
+# ============================================================================
+# HELPER FUNCTIONS
+# ============================================================================
 
 print_section() {
     echo ""
@@ -100,14 +147,20 @@ toggle_network_service() {
     fi
 }
 
-# ==== MAIN SCRIPT ====
+# ============================================================================
+# MAIN EXECUTION
+# ============================================================================
 
 print_section "INPUT VALIDATION"
 print_kv "Toggle Delay" "${TOGGLE_DELAY}s"
 
 # Check for root privileges
 if [ "$(id -u)" != "0" ]; then
-    echo "ERROR: This script must be run with root privileges (sudo)"
+    echo ""
+    echo "[ ERROR OCCURRED ]"
+    echo "--------------------------------------------------------------"
+    echo "This script must be run with root privileges (sudo)"
+    echo ""
     exit 1
 fi
 print_kv "Running as root" "Yes"
@@ -118,7 +171,11 @@ print_section "NETWORK SERVICES"
 network_services=$(networksetup -listallnetworkservices | tail -n +2)
 
 if [ -z "$network_services" ]; then
+    echo ""
+    echo "[ ERROR OCCURRED ]"
+    echo "--------------------------------------------------------------"
     echo "No network services found"
+    echo ""
     exit 1
 fi
 
@@ -155,5 +212,7 @@ echo ""
 echo "Current network service status:"
 networksetup -listallnetworkservices
 
-print_section "SCRIPT COMPLETED"
+echo ""
+echo "[ SCRIPT COMPLETE ]"
+echo "--------------------------------------------------------------"
 exit 0

@@ -8,8 +8,10 @@ $ErrorActionPreference = 'Stop'
 ███████╗██║██║ ╚═╝ ██║███████╗██║  ██║██║  ██║╚███╔███╔╝██║  ██╗
 ╚══════╝╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚══╝╚══╝ ╚═╝  ╚═╝
 ================================================================================
- SCRIPT   : Complete OneDrive Removal v1.1.0
- VERSION  : v1.1.0
+ SCRIPT   : Complete OneDrive Removal v1.1.1
+ AUTHOR   : Limehawk.io
+ DATE     : December 2024
+ USAGE    : .\onedrive_remove_complete.ps1
 ================================================================================
  FILE     : onedrive_remove_complete.ps1
 --------------------------------------------------------------------------------
@@ -132,9 +134,9 @@ $ErrorActionPreference = 'Stop'
 --------------------------------------------------------------------------------
  CHANGELOG
 --------------------------------------------------------------------------------
- 2025-11-29 v1.1.0 Refactored to Limehawk Style A with improved validation,
-                   cleaner section organization, and enhanced error handling.
- 2025-09-19 v1.0.0 Initial version for complete multi-path OneDrive uninstall.
+ 2024-12-23 v1.1.1 Updated to Limehawk Script Framework
+ 2025-11-29 v1.1.0 Refactored to Limehawk Style A with improved validation, cleaner section organization, and enhanced error handling
+ 2025-09-19 v1.0.0 Initial version for complete multi-path OneDrive uninstall
 ================================================================================
 #>
 

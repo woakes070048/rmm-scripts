@@ -8,9 +8,13 @@ $ErrorActionPreference = 'Stop'
 ███████╗██║██║ ╚═╝ ██║███████╗██║  ██║██║  ██║╚███╔███╔╝██║  ██╗
 ╚══════╝╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚══╝╚══╝ ╚═╝  ╚═╝
 ================================================================================
- SCRIPT   : superops_agent_install.ps1
- VERSION  : v1.0.0
+ SCRIPT   : SuperOps Agent Install                                        v1.1.0
+ AUTHOR   : Limehawk.io
+ DATE     : December 2024
+ USAGE    : .\superops_agent_install.ps1
 ================================================================================
+ FILE     : superops_agent_install.ps1
+--------------------------------------------------------------------------------
  README
 --------------------------------------------------------------------------------
  PURPOSE
@@ -86,11 +90,9 @@ $ErrorActionPreference = 'Stop'
  --------------------------------------------------------------
 --------------------------------------------------------------------------------
  CHANGELOG
- 2025-11-02 v1.0.0 Initial migration from SuperOps
-                   - Converted to Limehawk Style A format
-                   - Added comprehensive error handling
-                   - Added structured console output
-                   - Added installer cleanup after successful install
+--------------------------------------------------------------------------------
+ 2024-12-23 v1.1.0 Updated to Limehawk Script Framework
+ 2025-11-02 v1.0.0 Initial release
 ================================================================================
 #>
 

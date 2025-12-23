@@ -1,31 +1,24 @@
 #!/bin/bash
 #
-# ============================================================================
-#                   DOKPLOY ORPHANED VOLUMES CLEANUP SCRIPT
-# ============================================================================
-#  Script Name: dokploy_orphaned_volumes_cleanup.sh
-#  Description: Identifies and removes orphaned Docker volumes by scanning
-#               all containers and Docker Swarm services for volume usage.
-#               Provides detailed volume information and optional automatic
-#               cleanup with configurable safe mode operation.
-#  Author:      Limehawk.io
-#  Version:     1.0.0
-#  Date:        November 2024
-#  Usage:       sudo ./dokploy_orphaned_volumes_cleanup.sh
-# ============================================================================
-#
-# ============================================================================
-#      ██╗     ██╗███╗   ███╗███████╗██╗  ██╗ █████╗ ██╗    ██╗██╗  ██╗
-#      ██║     ██║████╗ ████║██╔════╝██║  ██║██╔══██╗██║    ██║██║ ██╔╝
-#      ██║     ██║██╔████╔██║█████╗  ███████║███████║██║ █╗ ██║█████╔╝
-#      ██║     ██║██║╚██╔╝██║██╔══╝  ██╔══██║██╔══██║██║███╗██║██╔═██╗
-#      ███████╗██║██║ ╚═╝ ██║███████╗██║  ██║██║  ██║╚███╔███╔╝██║  ██╗
-#      ╚══════╝╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚══╝╚══╝ ╚═╝  ╚═╝
-# ============================================================================
-#
+# ██╗     ██╗███╗   ███╗███████╗██╗  ██╗ █████╗ ██╗    ██╗██╗  ██╗
+# ██║     ██║████╗ ████║██╔════╝██║  ██║██╔══██╗██║    ██║██║ ██╔╝
+# ██║     ██║██╔████╔██║█████╗  ███████║███████║██║ █╗ ██║█████╔╝
+# ██║     ██║██║╚██╔╝██║██╔══╝  ██╔══██║██╔══██║██║███╗██║██╔═██╗
+# ███████╗██║██║ ╚═╝ ██║███████╗██║  ██║██║  ██║╚███╔███╔╝██║  ██╗
+# ╚══════╝╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚══╝╚══╝ ╚═╝  ╚═╝
+# ================================================================================
+#  SCRIPT   : Dokploy Orphaned Volumes Cleanup                             v1.1.0
+#  AUTHOR   : Limehawk.io
+#  DATE     : December 2024
+#  USAGE    : sudo ./dokploy_orphaned_volumes_cleanup.sh
+# ================================================================================
+#  FILE     : dokploy_orphaned_volumes_cleanup.sh
+# --------------------------------------------------------------------------------
+#  README
+# --------------------------------------------------------------------------------
 #  PURPOSE
-#  -----------------------------------------------------------------------
-#  Scans Docker containers and Swarm services to identify volumes that are
+#
+#    Scans Docker containers and Swarm services to identify volumes that are
 #  not currently mounted or in use. Provides detailed information about
 #  orphaned volumes including size, creation date, and mount point. Can
 #  optionally remove orphaned volumes automatically to free up disk space.
@@ -94,12 +87,13 @@
 #  Removing 2 orphaned volumes...
 #  Done!
 #
+# --------------------------------------------------------------------------------
 #  CHANGELOG
-#  -----------------------------------------------------------------------
-#  2024-11-18 v1.0.0 Initial release with Limehawk Style A formatting
-#
-# ============================================================================
-#
+# --------------------------------------------------------------------------------
+#  2024-12-23 v1.1.0 Updated to Limehawk Script Framework
+#  2024-11-18 v1.0.0 Initial release
+# ================================================================================
+
 # ============================================================================
 # CONFIGURATION SETTINGS - Modify these as needed
 # ============================================================================

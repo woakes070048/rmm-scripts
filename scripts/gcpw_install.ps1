@@ -8,12 +8,15 @@ $ErrorActionPreference = 'Stop'
 ╚══════╝╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚══╝╚══╝ ╚═╝  ╚═╝
 
 ================================================================================
-SCRIPT : GCPW Install                                                    v1.0.0
-FILE   : gcpw_install.ps1
+ SCRIPT  : GCPW Install v1.0.1
+ AUTHOR  : Limehawk.io
+ DATE    : December 2024
+ FILE    : gcpw_install.ps1
+ USAGE   : .\gcpw_install.ps1
 ================================================================================
-README
+ README
 --------------------------------------------------------------------------------
-PURPOSE:
+ PURPOSE:
     Downloads, installs, and configures Google Credential Provider for Windows
     (GCPW). Sets allowed domains and enrollment token in the system registry.
 
@@ -72,9 +75,11 @@ EXAMPLE RUN:
     [ SCRIPT COMPLETED ]
     --------------------------------------------------------------
 
-CHANGELOG
 --------------------------------------------------------------------------------
-2024-12-01 v1.0.0  Initial release - migrated from SuperOps (sanitized)
+ CHANGELOG
+--------------------------------------------------------------------------------
+ 2024-12-23 v1.0.1 Updated to Limehawk Script Framework
+ 2024-12-01 v1.0.0 Initial release - migrated from SuperOps (sanitized)
 ================================================================================
 #>
 Set-StrictMode -Version Latest

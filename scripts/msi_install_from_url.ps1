@@ -8,8 +8,11 @@ $ErrorActionPreference = 'Stop'
 ███████╗██║██║ ╚═╝ ██║███████╗██║  ██║██║  ██║╚███╔███╔╝██║  ██╗
 ╚══════╝╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚══╝╚══╝ ╚═╝  ╚═╝
 ================================================================================
- SCRIPT    : install_msi_from_url_minimal.ps1
- VERSION   : v1.5.0
+ SCRIPT    : MSI Install from URL 1.6.0
+ AUTHOR    : Limehawk.io
+ DATE      : December 2024
+ USAGE     : .\msi_install_from_url.ps1
+ FILE      : msi_install_from_url.ps1
 ================================================================================
  README
 --------------------------------------------------------------------------------
@@ -23,16 +26,13 @@ $ErrorActionPreference = 'Stop'
 --------------------------------------------------------------------------------
  CHANGELOG
 --------------------------------------------------------------------------------
- v1.5.0   (2025-10-30)  Switched to curl for fastest, most reliable downloads
-                        with automatic redirect handling and better error reporting.
- v1.4.0   (2025-10-30)  Added fallback filename logic for URLs without valid
-                        filenames or .msi extensions.
- v1.3.0   (2025-09-22)  Minimal version, removing all non-essential diagnostic
-                        placeholders and sections as requested.
- v1.2.0   (2025-09-22)  Reduced placeholders; adopted $MsiScriptUrl variable.
- v1.1.0   (2025-09-22)  Added $MsiUrl variable and logic for download/install.
- v1.0.0   (2025-09-22)  Initial release: silent MSI install wrapper.
-================================================================================
+ 2024-12-23 v1.6.0 Updated to Limehawk Script Framework
+ 2025-10-30 v1.5.0 Switched to curl for fastest, most reliable downloads
+ 2025-10-30 v1.4.0 Added fallback filename logic for URLs without valid filenames
+ 2025-09-22 v1.3.0 Minimal version, removing all non-essential diagnostic placeholders
+ 2025-09-22 v1.2.0 Reduced placeholders; adopted $MsiScriptUrl variable
+ 2025-09-22 v1.1.0 Added $MsiUrl variable and logic for download/install
+ 2025-09-22 v1.0.0 Initial release: silent MSI install wrapper
 #>
 
 Set-StrictMode -Version Latest

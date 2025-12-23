@@ -9,12 +9,13 @@ $ErrorActionPreference = 'Stop'
 ███████╗██║██║ ╚═╝ ██║███████╗██║  ██║██║  ██║╚███╔███╔╝██║  ██╗
 ╚══════╝╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚══╝╚══╝ ╚═╝  ╚═╝
 ================================================================================
- SCRIPT   : Windows Malicious Software Removal Tool (MRT) Scanner v1.1.0
- VERSION  : v1.1.0
+SCRIPT  : Windows Malicious Software Removal Tool (MRT) Scanner v1.1.1
+AUTHOR  : Limehawk.io
+DATE    : December 2024
+USAGE   : .\mrt_scan.ps1
+FILE    : mrt_scan.ps1
 ================================================================================
- FILE     : mrt_scan.ps1
---------------------------------------------------------------------------------
- README
+README
 --------------------------------------------------------------------------------
  PURPOSE
 
@@ -120,13 +121,11 @@ $ErrorActionPreference = 'Stop'
  [ SCRIPT COMPLETED ]
  --------------------------------------------------------------
 
+CHANGELOG
 --------------------------------------------------------------------------------
- CHANGELOG
---------------------------------------------------------------------------------
- 2025-11-29 v1.1.0 Refactored to Limehawk Style A with improved validation,
-                   MRT version detection, process exit code capture, and
-                   enhanced error handling.
- 2025-09-12 v1.0.0 Initial release with Quick/Full scan modes.
+2024-12-23 v1.1.1 Updated to Limehawk Script Framework
+2025-11-29 v1.1.0 Refactored to Limehawk Style A with improved validation, MRT version detection, process exit code capture, and enhanced error handling
+2025-09-12 v1.0.0 Initial release with Quick/Full scan modes
 ================================================================================
 #>
 

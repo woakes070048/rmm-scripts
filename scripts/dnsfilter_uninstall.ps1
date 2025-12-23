@@ -8,12 +8,15 @@ $ErrorActionPreference = 'Stop'
 ╚══════╝╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚══╝╚══╝ ╚═╝  ╚═╝
 
 ================================================================================
-SCRIPT : DNSFilter Agent Uninstall                                       v1.0.0
-FILE   : dnsfilter_uninstall.ps1
+ SCRIPT  : DNSFilter Agent Uninstall v1.0.1
+ AUTHOR  : Limehawk.io
+ DATE    : December 2024
+ FILE    : dnsfilter_uninstall.ps1
+ USAGE   : .\dnsfilter_uninstall.ps1
 ================================================================================
-README
+ README
 --------------------------------------------------------------------------------
-PURPOSE:
+ PURPOSE:
     Completely removes DNSFilter agent from a Windows system including:
     - Uninstalling the MSI package
     - Stopping and removing services
@@ -78,9 +81,11 @@ EXAMPLE RUN:
     [ SCRIPT COMPLETED ]
     --------------------------------------------------------------
 
-CHANGELOG
 --------------------------------------------------------------------------------
-2024-12-01 v1.0.0  Initial release - migrated from SuperOps
+ CHANGELOG
+--------------------------------------------------------------------------------
+ 2024-12-23 v1.0.1 Updated to Limehawk Script Framework
+ 2024-12-01 v1.0.0 Initial release - migrated from SuperOps
 ================================================================================
 #>
 Set-StrictMode -Version Latest
