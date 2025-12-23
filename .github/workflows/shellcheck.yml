@@ -31,4 +31,3 @@ jobs:
           scandir: scripts/
           severity: warning
           format: gcc
-          ignore_names: huntress_install_macos.sh

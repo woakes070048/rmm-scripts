@@ -1,4 +1,4 @@
-#!/bin/zsh
+#!/bin/bash
 
 # Copyright (c) 2024 Huntress Labs, Inc.
 # All rights reserved.
