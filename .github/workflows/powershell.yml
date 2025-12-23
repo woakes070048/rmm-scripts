@@ -27,7 +27,7 @@ jobs:
           path: scripts/
           recurse: true
           output: results.sarif
-          excludeRule: PSAvoidUsingWriteHost, PSAvoidUsingConvertToSecureStringWithPlainText
+          settings: .github/PSScriptAnalyzerSettings.psd1
 
       - name: Upload SARIF
         if: always()
