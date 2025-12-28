@@ -18,10 +18,11 @@ These scripts are designed for RMM deployment. **Never hardcode credentials dire
 
 | Script | Sensitive Input | Recommended Method |
 |--------|-----------------|-------------------|
-| `sentinelone_install_silent.ps1` | Site token | RMM secure variable |
+| `sentinelone_install.ps1` | Site token | RMM secure variable |
 | `huntress_install_macos.sh` | Account/Org keys | Environment variables |
 | `dokploy_deploy_running_apps.sh` | API token | Environment variable |
-| `splashtop_business_agent_install.ps1` | Deploy code | RMM secure variable |
+| `gcpw_install.ps1` | Enrollment token | RMM secure variable |
+| `superops_agent_install.ps1` | Agent URL | RMM environment variable |
 
 ## What We Don't Store
 
