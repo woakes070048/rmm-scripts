@@ -8,7 +8,7 @@ $ErrorActionPreference = 'Stop'
 ███████╗██║██║ ╚═╝ ██║███████╗██║  ██║██║  ██║╚███╔███╔╝██║  ██╗
 ╚══════╝╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚══╝╚══╝ ╚═╝  ╚═╝
 ================================================================================
- SCRIPT   : SuperOps Tray Icon Always Show                                v1.2.0
+ SCRIPT   : SuperOps Tray Icon Always Show                                v1.3.0
  AUTHOR   : Limehawk.io
  DATE      : December 2025
  USAGE    : .\superops_tray_icon_always_show.ps1
@@ -43,6 +43,7 @@ DESCRIPTION : Configures Windows to always show SuperOps tray icon
  - Uses case-insensitive pattern matching for "superops"
 
  BEHAVIOR
+ - Exits gracefully (exit 0) if registry path doesn't exist yet
  - Enumerates all subkeys in HKCU:\Control Panel\NotifyIconSettings
  - Searches each key's properties for strings containing "superops"
  - When a match is found, sets the IsPromoted DWORD value to 1
@@ -99,6 +100,7 @@ DESCRIPTION : Configures Windows to always show SuperOps tray icon
 --------------------------------------------------------------------------------
  CHANGELOG
 --------------------------------------------------------------------------------
+ 2025-12-28 v1.3.0 Handle missing registry path gracefully (exit 0 instead of error)
  2025-12-28 v1.2.0 Added user context check, made warning more obvious
  2025-12-23 v1.1.0 Updated to Limehawk Script Framework
  2024-11-02 v1.0.0 Initial release
@@ -147,32 +149,24 @@ Write-Host "Context is valid (not SYSTEM)"
 
 # ==== VALIDATION ====
 if (-not (Test-Path $notifyIconPath)) {
-    $errorOccurred = $true
-    $errorText = "- Registry path not found: $notifyIconPath`n"
-    $errorText += "  This path should exist on all Windows systems with notification icons.`n"
-    $errorText += "  The system may not have any notification area icons configured."
-}
-
-if ($errorOccurred) {
     Write-Host ""
-    Write-Host "[ ERROR OCCURRED ]"
+    Write-Host "[ REGISTRY PATH NOT FOUND ]"
     Write-Host "--------------------------------------------------------------"
-    Write-Host $errorText
-
+    Write-Host "Path: $notifyIconPath"
+    Write-Host ""
+    Write-Host "This registry key is created by Windows when notification icons"
+    Write-Host "are first displayed. It may not exist yet if:"
+    Write-Host "  - SuperOps agent hasn't shown a tray icon yet"
+    Write-Host "  - User hasn't logged in with a GUI session"
+    Write-Host "  - No apps have registered notification icons"
     Write-Host ""
     Write-Host "[ RESULT ]"
     Write-Host "--------------------------------------------------------------"
-    Write-Host "Status : Failure"
-
-    Write-Host ""
-    Write-Host "[ FINAL STATUS ]"
-    Write-Host "--------------------------------------------------------------"
-    Write-Host "Cannot access notification icon registry settings."
-
+    Write-Host "Status : Skipped (no icons registered yet)"
     Write-Host ""
     Write-Host "[ SCRIPT COMPLETED ]"
     Write-Host "--------------------------------------------------------------"
-    exit 1
+    exit 0
 }
 
 # ==== RUNTIME OUTPUT (Style A) ====
