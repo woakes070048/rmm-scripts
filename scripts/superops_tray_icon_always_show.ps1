@@ -8,7 +8,7 @@ $ErrorActionPreference = 'Stop'
 ███████╗██║██║ ╚═╝ ██║███████╗██║  ██║██║  ██║╚███╔███╔╝██║  ██╗
 ╚══════╝╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚══╝╚══╝ ╚═╝  ╚═╝
 ================================================================================
- SCRIPT   : SuperOps Tray Icon Always Show                                v1.1.0
+ SCRIPT   : SuperOps Tray Icon Always Show                                v1.2.0
  AUTHOR   : Limehawk.io
  DATE     : December 2024
  USAGE    : .\superops_tray_icon_always_show.ps1
@@ -18,9 +18,15 @@ $ErrorActionPreference = 'Stop'
  README
 --------------------------------------------------------------------------------
  PURPOSE
- Configures Windows system tray settings to always show the SuperOps RMM
- agent tray icon. This ensures the SuperOps icon remains visible in the system
- tray notification area rather than being hidden in the overflow area.
+
+   *** MUST RUN AS LOGGED-IN USER - NOT SYSTEM ***
+
+   Configures Windows system tray settings to always show the SuperOps RMM
+   agent tray icon. This ensures the SuperOps icon remains visible in the
+   system tray notification area rather than being hidden in the overflow.
+
+   Modifies HKCU registry which is per-user. Running as SYSTEM will modify
+   SYSTEM's registry, not the user's - and will have no effect.
 
  DATA SOURCES & PRIORITY
  1) Windows Registry (HKCU:\Control Panel\NotifyIconSettings)
@@ -44,10 +50,11 @@ $ErrorActionPreference = 'Stop'
  - No restart required - changes take effect on next tray icon update
 
  PREREQUISITES
- - PowerShell 5.1 or later
- - Must run in user context (uses HKCU registry hive)
- - SuperOps agent must be installed (creates notification icon entries)
- - No elevation required (modifies current user's registry only)
+
+   - PowerShell 5.1 or later
+   - *** MUST RUN AS LOGGED-IN USER (NOT SYSTEM) ***
+   - SuperOps agent must be installed (creates notification icon entries)
+   - No elevation required (modifies current user's registry only)
 
  SECURITY NOTES
  - No secrets or credentials used
@@ -91,8 +98,9 @@ $ErrorActionPreference = 'Stop'
 --------------------------------------------------------------------------------
  CHANGELOG
 --------------------------------------------------------------------------------
+ 2024-12-28 v1.2.0 Added user context check, made warning more obvious
  2024-12-23 v1.1.0 Updated to Limehawk Script Framework
- 2025-11-02 v1.0.0 Initial release
+ 2024-11-02 v1.0.0 Initial release
 ================================================================================
 #>
 
@@ -107,6 +115,34 @@ $iconsModified = 0
 # ==== HARDCODED INPUTS (MANDATORY) ====
 $notifyIconPath = "HKCU:\Control Panel\NotifyIconSettings"
 $searchPattern  = "*superops*"
+
+# ==== USER CONTEXT CHECK ====
+Write-Host ""
+Write-Host "[ USER CHECK ]"
+Write-Host "--------------------------------------------------------------"
+
+$currentUser = [System.Security.Principal.WindowsIdentity]::GetCurrent().Name
+Write-Host "Running as : $currentUser"
+
+if ($currentUser -match "SYSTEM$") {
+    Write-Host ""
+    Write-Host "[ ERROR OCCURRED ]"
+    Write-Host "--------------------------------------------------------------"
+    Write-Host "This script must run as the logged-in user, not SYSTEM"
+    Write-Host ""
+    Write-Host "Tray icon settings are per-user (stored in HKCU)."
+    Write-Host "Running as SYSTEM modifies SYSTEM's registry, not the user's."
+    Write-Host ""
+    Write-Host "Solutions:"
+    Write-Host "  - RMM: Run as 'logged-in user' instead of 'SYSTEM'"
+    Write-Host "  - GPO: Use a logon script"
+    Write-Host "  - Manual: Run from user's PowerShell session"
+    Write-Host ""
+    Write-Host "[ SCRIPT COMPLETED ]"
+    Write-Host "--------------------------------------------------------------"
+    exit 1
+}
+Write-Host "Context is valid (not SYSTEM)"
 
 # ==== VALIDATION ====
 if (-not (Test-Path $notifyIconPath)) {
