@@ -10,9 +10,10 @@ $ErrorActionPreference = 'Stop'
 ================================================================================
  SCRIPT    : MSI Install from URL 1.6.0
  AUTHOR    : Limehawk.io
- DATE      : December 2024
+ DATE      : December 2025
  USAGE     : .\msi_install_from_url.ps1
  FILE      : msi_install_from_url.ps1
+ DESCRIPTION : Downloads and silently installs an MSI package from a specified URL
 ================================================================================
  README
 --------------------------------------------------------------------------------
@@ -26,7 +27,7 @@ $ErrorActionPreference = 'Stop'
 --------------------------------------------------------------------------------
  CHANGELOG
 --------------------------------------------------------------------------------
- 2024-12-23 v1.6.0 Updated to Limehawk Script Framework
+ 2025-12-23 v1.6.0 Updated to Limehawk Script Framework
  2025-10-30 v1.5.0 Switched to curl for fastest, most reliable downloads
  2025-10-30 v1.4.0 Added fallback filename logic for URLs without valid filenames
  2025-09-22 v1.3.0 Minimal version, removing all non-essential diagnostic placeholders

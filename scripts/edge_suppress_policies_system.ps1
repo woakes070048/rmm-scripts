@@ -9,10 +9,11 @@ $ErrorActionPreference = 'Stop'
 ================================================================================
  SCRIPT   : Edge Suppress Policies                                        v1.1.0
  AUTHOR   : Limehawk.io
- DATE     : December 2024
+ DATE      : December 2025
  USAGE    : .\edge_suppress_policies_system.ps1
 ================================================================================
  FILE     : edge_suppress_policies_system.ps1
+ DESCRIPTION : Applies machine-wide policies to suppress Edge nagging behaviors
 --------------------------------------------------------------------------------
  README
 --------------------------------------------------------------------------------

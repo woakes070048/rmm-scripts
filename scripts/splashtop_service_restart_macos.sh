@@ -4,6 +4,7 @@
 #  SCRIPT   : Splashtop Service Restart (macOS)                           v2.1.0
 # ================================================================================
 #  FILE     : splashtop_service_restart_macos.sh
+#  DESCRIPTION : Restarts Splashtop Streamer service on macOS
 # --------------------------------------------------------------------------------
 #  README
 # --------------------------------------------------------------------------------
@@ -87,7 +88,7 @@
 #  CHANGELOG
 # --------------------------------------------------------------------------------
 #  2024-12-23 v2.1.0 Updated to match PowerShell README structure
-#  2024-12-23 v2.0.0 Updated to Limehawk Script Framework
+#  2025-12-23 v2.0.0 Updated to Limehawk Script Framework
 #  2024-01-01 v1.0.0 Initial release
 # ================================================================================
 #

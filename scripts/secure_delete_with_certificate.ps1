@@ -9,10 +9,11 @@ $ErrorActionPreference = 'Stop'
 ================================================================================
  SCRIPT   : Secure Delete with Certificate v1.0.1
  AUTHOR   : Limehawk.io
- DATE     : December 2024
+ DATE      : December 2025
  USAGE    : .\secure_delete_with_certificate.ps1
 ================================================================================
  FILE     : secure_delete_with_certificate.ps1
+DESCRIPTION : Securely deletes files with DoD-compliant overwriting and audit trail
 --------------------------------------------------------------------------------
  README
 --------------------------------------------------------------------------------
@@ -181,7 +182,7 @@ EXAMPLE RUN (DRY RUN MODE):
 --------------------------------------------------------------------------------
  CHANGELOG
 --------------------------------------------------------------------------------
- 2024-12-23 v1.0.1 Updated to Limehawk Script Framework
+ 2025-12-23 v1.0.1 Updated to Limehawk Script Framework
  2025-12-08 v1.0.0 Initial release - comprehensive secure deletion with certificate generation for legal documentation
 ================================================================================
 #>

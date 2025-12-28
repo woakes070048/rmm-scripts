@@ -10,9 +10,10 @@ $ErrorActionPreference = 'Stop'
 ================================================================================
 SCRIPT  : User Accounts Report v1.0.1
 AUTHOR  : Limehawk.io
-DATE    : December 2024
+DATE      : December 2025
 USAGE   : .\user_accounts_report.ps1
 FILE    : user_accounts_report.ps1
+DESCRIPTION : Generates report of local user accounts and group memberships
 ================================================================================
 README
 --------------------------------------------------------------------------------
@@ -98,7 +99,7 @@ README
 
 CHANGELOG
 --------------------------------------------------------------------------------
-2024-12-23 v1.0.1 Updated to Limehawk Script Framework
+2025-12-23 v1.0.1 Updated to Limehawk Script Framework
 2025-12-01 v1.0.0 Initial Style A implementation
 ================================================================================
 #>

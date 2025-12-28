@@ -10,9 +10,10 @@ $ErrorActionPreference = 'Stop'
 ================================================================================
 SCRIPT  : Synology Active Backup Agent Install v1.1.0
 AUTHOR  : Limehawk.io
-DATE    : December 2024
+DATE      : December 2025
 USAGE   : .\synology_backup_agent_install.ps1
 FILE    : synology_backup_agent_install.ps1
+DESCRIPTION : Installs Synology Active Backup for Business Agent via winget
 ================================================================================
 README
 --------------------------------------------------------------------------------
@@ -63,7 +64,7 @@ EXAMPLE RUN:
 
 CHANGELOG
 --------------------------------------------------------------------------------
-2024-12-23 v1.1.0 Updated to Limehawk Script Framework
+2025-12-23 v1.1.0 Updated to Limehawk Script Framework
 2024-12-01 v1.0.0 Initial release - migrated from SuperOps
 ================================================================================
 #>

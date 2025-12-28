@@ -9,10 +9,11 @@
 # ================================================================================
 #  SCRIPT   : Splashtop Streamer Install (Debian ARM64)                    v1.1.0
 #  AUTHOR   : Limehawk.io
-#  DATE     : December 2024
+#  DATE     : December 2025
 #  USAGE    : sudo ./splashtop_streamer_install_debian_arm64.sh
 # ================================================================================
 #  FILE     : splashtop_streamer_install_debian_arm64.sh
+#  DESCRIPTION : Installs Splashtop Streamer on Debian/Ubuntu ARM64 systems
 # --------------------------------------------------------------------------------
 #  README
 # --------------------------------------------------------------------------------
@@ -88,7 +89,7 @@
 # --------------------------------------------------------------------------------
 #  CHANGELOG
 # --------------------------------------------------------------------------------
-#  2024-12-23 v1.1.0 Updated to Limehawk Script Framework
+#  2025-12-23 v1.1.0 Updated to Limehawk Script Framework
 #  2024-01-01 v1.0.0 Initial release
 # ================================================================================
 

@@ -10,9 +10,10 @@ $ErrorActionPreference = 'Stop'
 ================================================================================
 SCRIPT  : Screenshot Capture using NirCmd v1.1.0
 AUTHOR  : Limehawk.io
-DATE    : December 2024
+DATE      : December 2025
 USAGE   : .\nircmd_screenshot.ps1
 FILE    : nircmd_screenshot.ps1
+DESCRIPTION : Captures screenshot using NirSoft NirCmd utility
 ================================================================================
 README
 --------------------------------------------------------------------------------
@@ -71,7 +72,7 @@ EXAMPLE RUN:
 
 CHANGELOG
 --------------------------------------------------------------------------------
-2024-12-23 v1.1.0 Updated to Limehawk Script Framework
+2025-12-23 v1.1.0 Updated to Limehawk Script Framework
 2024-12-01 v1.0.0 Initial release - migrated from SuperOps
 ================================================================================
 #>

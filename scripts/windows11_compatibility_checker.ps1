@@ -10,10 +10,11 @@ $ErrorActionPreference = 'Stop'
 ================================================================================
  SCRIPT   : Windows 11 Compatibility Checker                             v1.0.1
  AUTHOR   : Limehawk.io
- DATE     : December 2024
+ DATE      : December 2025
  USAGE    : .\windows11_compatibility_checker.ps1
 ================================================================================
  FILE     : windows11_compatibility_checker.ps1
+DESCRIPTION : Checks TPM, SecureBoot, RAM, CPU compatibility for Windows 11
 --------------------------------------------------------------------------------
  README
 --------------------------------------------------------------------------------
@@ -138,7 +139,7 @@ $ErrorActionPreference = 'Stop'
 --------------------------------------------------------------------------------
  CHANGELOG
 --------------------------------------------------------------------------------
- 2024-12-23 v1.0.1 Updated to Limehawk Script Framework
+ 2025-12-23 v1.0.1 Updated to Limehawk Script Framework
  2025-11-02 v1.0.0 Initial Style A compliant release with Windows 11 compatibility checking and optional auto-fix capability
 ================================================================================
 #>

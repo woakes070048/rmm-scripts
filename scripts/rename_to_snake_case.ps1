@@ -10,10 +10,11 @@ $ErrorActionPreference = 'Stop'
 ================================================================================
  SCRIPT   : Rename to Snake Case v1.1.0
  AUTHOR   : Limehawk.io
- DATE     : December 2024
+ DATE      : December 2025
  USAGE    : .\rename_to_snake_case.ps1
 ================================================================================
  FILE     : rename_to_snake_case.ps1
+DESCRIPTION : Recursively renames files and folders to snake_case format
 --------------------------------------------------------------------------------
  README
 --------------------------------------------------------------------------------
@@ -86,7 +87,7 @@ $ErrorActionPreference = 'Stop'
 --------------------------------------------------------------------------------
  CHANGELOG
 --------------------------------------------------------------------------------
- 2024-12-23 v1.1.0 Updated to Limehawk Script Framework
+ 2025-12-23 v1.1.0 Updated to Limehawk Script Framework
  2025-11-29 v1.0.0 Initial Style A implementation
 ================================================================================
 #>

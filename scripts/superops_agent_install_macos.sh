@@ -9,10 +9,11 @@
 # ================================================================================
 #  SCRIPT   : SuperOps Agent Install (macOS)                               v1.1.0
 #  AUTHOR   : Limehawk.io
-#  DATE     : December 2024
+#  DATE     : December 2025
 #  USAGE    : sudo ./superops_agent_install_macos.sh
 # ================================================================================
 #  FILE     : superops_agent_install_macos.sh
+#  DESCRIPTION : Downloads and installs SuperOps RMM agent on macOS via PKG
 # --------------------------------------------------------------------------------
 #  README
 # --------------------------------------------------------------------------------
@@ -99,7 +100,7 @@
 # --------------------------------------------------------------------------------
 #  CHANGELOG
 # --------------------------------------------------------------------------------
-#  2024-12-23 v1.1.0 Updated to Limehawk Script Framework
+#  2025-12-23 v1.1.0 Updated to Limehawk Script Framework
 #  2024-11-02 v1.0.0 Initial migration from SuperOps
 # ================================================================================
 

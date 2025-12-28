@@ -8,9 +8,10 @@
 ================================================================================
  SCRIPT    : Directory Cleanup 1.1.0
  AUTHOR    : Limehawk.io
- DATE      : December 2024
+ DATE      : December 2025
  USAGE     : .\directory_cleanup.ps1
  FILE      : directory_cleanup.ps1
+ DESCRIPTION : Deletes files and directories older than specified days
 ================================================================================
  README
 --------------------------------------------------------------------------------
@@ -24,7 +25,7 @@
 --------------------------------------------------------------------------------
  CHANGELOG
 --------------------------------------------------------------------------------
- 2024-12-23 v1.1.0 Updated to Limehawk Script Framework
+ 2025-12-23 v1.1.0 Updated to Limehawk Script Framework
 #>
 
 $ErrorActionPreference = 'Stop'

@@ -10,9 +10,10 @@ $ErrorActionPreference = 'Stop'
 ================================================================================
 SCRIPT  : Print Queue Clear v1.2.0
 AUTHOR  : Limehawk.io
-DATE    : December 2024
+DATE      : December 2025
 USAGE   : .\print_queue_clear.ps1
 FILE    : print_queue_clear.ps1
+DESCRIPTION : Clears stuck print jobs by resetting Print Spooler service
 ================================================================================
 README
 --------------------------------------------------------------------------------
@@ -81,7 +82,7 @@ EXAMPLE RUN:
 
 CHANGELOG
 --------------------------------------------------------------------------------
-2024-12-23 v1.2.0 Updated to Limehawk Script Framework
+2025-12-23 v1.2.0 Updated to Limehawk Script Framework
 2024-12-01 v1.1.0 Migrated from SuperOps - added retry logic for locked files
 2025-01-17 v1.0.0 Initial release
 ================================================================================

@@ -8,9 +8,10 @@
 ================================================================================
  SCRIPT    : SuperOps Agent Uninstall (Legacy Windows) 1.1.0
  AUTHOR    : Limehawk.io
- DATE      : December 2024
+ DATE      : December 2025
  USAGE     : .\superops_agent_uninstall_windows_legacy.ps1
  FILE      : superops_agent_uninstall_windows_legacy.ps1
+DESCRIPTION : Uninstalls legacy SuperOps agent via WMI IdentifyingNumber
 ================================================================================
  README
 --------------------------------------------------------------------------------
@@ -58,7 +59,7 @@
 --------------------------------------------------------------------------------
  CHANGELOG
 --------------------------------------------------------------------------------
- 2024-12-23 v1.1.0 Updated to Limehawk Script Framework
+ 2025-12-23 v1.1.0 Updated to Limehawk Script Framework
  2025-11-02 v1.0.0 Initial version, extracted from SuperOps.
 #>
 

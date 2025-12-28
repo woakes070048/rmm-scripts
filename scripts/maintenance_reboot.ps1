@@ -10,10 +10,11 @@ $ErrorActionPreference = 'Stop'
 ================================================================================
  SCRIPT   : Maintenance Reboot v7.2.4
  AUTHOR   : Limehawk.io
- DATE     : December 2024
+ DATE      : December 2025
  USAGE    : .\maintenance_reboot.ps1
 ================================================================================
  FILE     : maintenance_reboot.ps1
+ DESCRIPTION : Forces system reboot if uptime exceeds threshold or reboot flags detected
 --------------------------------------------------------------------------------
  README
 --------------------------------------------------------------------------------
@@ -106,7 +107,7 @@ $ErrorActionPreference = 'Stop'
 --------------------------------------------------------------------------------
  2025-12-28 v7.2.4 Removed template placeholder cruft
  2025-12-28 v7.2.3 Fixed WMI uptime query - replaced legacy [WMI] moniker with Get-CimInstance
- 2024-12-23 v7.2.2 Updated to Limehawk Script Framework
+ 2025-12-23 v7.2.2 Updated to Limehawk Script Framework
  2025-12-18 v7.2.1 Renamed from invoke_reboot_on_uptime.ps1 to maintenance_reboot.ps1
  2025-12-15 v7.2.0 Simplified configuration section to follow style guidelines; Added toggle settings for each reboot flag check
  2025-12-15 v7.0.0 Added reboot flag detection - script now reboots if uptime threshold exceeded OR if Windows reboot-pending flags detected

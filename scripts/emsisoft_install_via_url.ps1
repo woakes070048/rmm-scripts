@@ -9,9 +9,10 @@
 ================================================================================
  SCRIPT    : Emsisoft Install via URL 1.1.0
  AUTHOR    : Limehawk.io
- DATE      : December 2024
+ DATE      : December 2025
  USAGE     : .\emsisoft_install_via_url.ps1
  FILE      : emsisoft_install_via_url.ps1
+ DESCRIPTION : Downloads and installs Emsisoft Anti-Malware from a specified URL
 ================================================================================
  README
 --------------------------------------------------------------------------------
@@ -111,7 +112,7 @@ Exit code : 0
 --------------------------------------------------------------------------------
  CHANGELOG
 --------------------------------------------------------------------------------
- 2024-12-23 v1.1.0 Updated to Limehawk Script Framework
+ 2025-12-23 v1.1.0 Updated to Limehawk Script Framework
  2025-11-02 v1.0.0 Initial migration from SuperOps
 #>
 

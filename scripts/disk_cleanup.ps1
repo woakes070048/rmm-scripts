@@ -10,10 +10,11 @@ $ErrorActionPreference = 'Stop'
 ================================================================================
  SCRIPT   : Disk Cleanup                                                 v1.1.1
  AUTHOR   : Limehawk.io
- DATE     : December 2024
+ DATE      : December 2025
  USAGE    : .\disk_cleanup.ps1
 ================================================================================
  FILE     : disk_cleanup.ps1
+ DESCRIPTION : Runs Windows Disk Cleanup plus SoftwareDistribution/WinSxS cleanup
 --------------------------------------------------------------------------------
  README
 --------------------------------------------------------------------------------
@@ -93,7 +94,7 @@ $ErrorActionPreference = 'Stop'
 --------------------------------------------------------------------------------
  CHANGELOG
 --------------------------------------------------------------------------------
- 2024-12-23 v1.1.1 Updated to Limehawk Script Framework
+ 2025-12-23 v1.1.1 Updated to Limehawk Script Framework
  2025-11-29 v1.1.0 Added SoftwareDistribution, DISM WinSxS, Search Index; admin check
  2025-10-28 v1.0.0 Initial implementation
 ================================================================================

@@ -11,8 +11,9 @@ $ErrorActionPreference = 'Stop'
 ================================================================================
  SCRIPT  : Rename Workstation Auto v8.2.2
  AUTHOR  : Limehawk.io
- DATE    : December 2024
+ DATE      : December 2025
  FILE    : rename_workstation_auto.ps1
+ DESCRIPTION : Auto-renames Windows device using CLIENT3-USER-UUID pattern
  USAGE   : .\rename_workstation_auto.ps1
 ================================================================================
  README
@@ -35,7 +36,7 @@ $ErrorActionPreference = 'Stop'
 --------------------------------------------------------------------------------
  CHANGELOG
 --------------------------------------------------------------------------------
- 2024-12-23 v8.2.2 Updated to Limehawk Script Framework
+ 2025-12-23 v8.2.2 Updated to Limehawk Script Framework
  2024-12-01 v8.2.1 Fixed StrictMode error checking GraphQL response for errors
  2025-08-20 v8.2.0 Clarified README: auto script enforces 3-char client code
  2025-08-19 v8.1.0 Pattern CLIENT-USERUUID, min UUID=3, maximize USER, exact 15

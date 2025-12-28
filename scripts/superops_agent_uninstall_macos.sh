@@ -9,10 +9,11 @@
 # ================================================================================
 #  SCRIPT   : SuperOps Agent Uninstall (macOS)                             v1.1.0
 #  AUTHOR   : Limehawk.io
-#  DATE     : December 2024
+#  DATE     : December 2025
 #  USAGE    : sudo ./superops_agent_uninstall_macos.sh
 # ================================================================================
 #  FILE     : superops_agent_uninstall_macos.sh
+#  DESCRIPTION : Uninstalls SuperOps RMM agent from macOS using vendor script
 # --------------------------------------------------------------------------------
 #  README
 # --------------------------------------------------------------------------------
@@ -92,7 +93,7 @@
 # --------------------------------------------------------------------------------
 #  CHANGELOG
 # --------------------------------------------------------------------------------
-#  2024-12-23 v1.1.0 Updated to Limehawk Script Framework
+#  2025-12-23 v1.1.0 Updated to Limehawk Script Framework
 #  2024-11-02 v1.0.0 Initial migration from SuperOps
 # ================================================================================
 

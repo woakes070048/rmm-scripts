@@ -9,10 +9,11 @@
 # ================================================================================
 #  SCRIPT   : Workstation Manual-Rename (macOS)                            v1.1.0
 #  AUTHOR   : Limehawk.io
-#  DATE     : December 2024
+#  DATE     : December 2025
 #  USAGE    : sudo ./rename_workstation_manual_macos.sh
 # ================================================================================
 #  FILE     : rename_workstation_manual_macos.sh
+#  DESCRIPTION : Renames macOS device with custom name via RMM variable
 # --------------------------------------------------------------------------------
 #  README
 # --------------------------------------------------------------------------------
@@ -109,7 +110,7 @@
 # --------------------------------------------------------------------------------
 #  CHANGELOG
 # --------------------------------------------------------------------------------
-#  2024-12-23 v1.1.0 Updated to Limehawk Script Framework
+#  2025-12-23 v1.1.0 Updated to Limehawk Script Framework
 #  2024-11-01 v1.0.0 Initial release
 # ================================================================================
 

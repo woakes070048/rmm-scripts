@@ -11,10 +11,11 @@ $ErrorActionPreference = 'Stop'
 ================================================================================
  SCRIPT   : Windows Product Key to SuperOps                               v1.1.0
  AUTHOR   : Limehawk.io
- DATE     : December 2024
+ DATE      : December 2025
  USAGE    : .\windows_product_key_to_superops.ps1
 ================================================================================
  FILE     : windows_product_key_to_superops.ps1
+DESCRIPTION : Retrieves Windows product key and syncs to SuperOps custom field
 --------------------------------------------------------------------------------
  README
 --------------------------------------------------------------------------------
@@ -93,7 +94,7 @@ $ErrorActionPreference = 'Stop'
 --------------------------------------------------------------------------------
  CHANGELOG
 --------------------------------------------------------------------------------
- 2024-12-23 v1.1.0 Updated to Limehawk Script Framework
+ 2025-12-23 v1.1.0 Updated to Limehawk Script Framework
  2025-10-31 v1.0.0 Initial release
 ================================================================================
 #>

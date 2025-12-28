@@ -9,10 +9,11 @@ $ErrorActionPreference = 'Stop'
 ================================================================================
  SCRIPT   : Edge Set Chrome Default                                       v1.2.0
  AUTHOR   : Limehawk.io
- DATE     : December 2024
+ DATE      : December 2025
  USAGE    : .\edge_set_chrome_default_user.ps1
 ================================================================================
  FILE     : edge_set_chrome_default_user.ps1
+ DESCRIPTION : Sets Google Chrome as default browser for current user via SetUserFTA
 --------------------------------------------------------------------------------
  README
 --------------------------------------------------------------------------------

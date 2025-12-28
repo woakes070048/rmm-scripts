@@ -10,9 +10,10 @@ $ErrorActionPreference = 'Stop'
 ================================================================================
 SCRIPT  : Shutdown Toggle with Warning v1.1.0
 AUTHOR  : Limehawk.io
-DATE    : December 2024
+DATE      : December 2025
 USAGE   : .\shutdown_toggle.ps1
 FILE    : shutdown_toggle.ps1
+DESCRIPTION : Toggles scheduled shutdown with warning message
 ================================================================================
 README
 --------------------------------------------------------------------------------
@@ -89,7 +90,7 @@ EXAMPLE RUN (Canceling):
 
 CHANGELOG
 --------------------------------------------------------------------------------
-2024-12-23 v1.1.0 Updated to Limehawk Script Framework
+2025-12-23 v1.1.0 Updated to Limehawk Script Framework
 2024-12-01 v1.0.0 Initial release - migrated from SuperOps
 ================================================================================
 #>

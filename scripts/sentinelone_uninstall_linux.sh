@@ -9,10 +9,11 @@
 # ================================================================================
 #  SCRIPT   : SentinelOne Agent Uninstall (Linux)                          v1.1.0
 #  AUTHOR   : Limehawk.io
-#  DATE     : December 2024
+#  DATE     : December 2025
 #  USAGE    : sudo ./sentinelone_uninstall_linux.sh
 # ================================================================================
 #  FILE     : sentinelone_uninstall_linux.sh
+#  DESCRIPTION : Uninstalls SentinelOne agent from Linux using passphrase
 # --------------------------------------------------------------------------------
 #  README
 # --------------------------------------------------------------------------------
@@ -86,7 +87,7 @@
 # --------------------------------------------------------------------------------
 #  CHANGELOG
 # --------------------------------------------------------------------------------
-#  2024-12-23 v1.1.0 Updated to Limehawk Script Framework
+#  2025-12-23 v1.1.0 Updated to Limehawk Script Framework
 #  2024-01-01 v1.0.0 Initial release
 # ================================================================================
 
