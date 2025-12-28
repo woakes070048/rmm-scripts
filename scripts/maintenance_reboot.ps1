@@ -1,5 +1,4 @@
-# Import-Module <RequiredModule>
-$ErrorActionPreference = 'Stop' # Rule 1: Enable early error mode (fail on any non-terminating error)
+$ErrorActionPreference = 'Stop'
 
 <#
 ██╗     ██╗███╗   ███╗███████╗██╗  ██╗ █████╗ ██╗    ██╗██╗  ██╗
@@ -9,7 +8,7 @@ $ErrorActionPreference = 'Stop' # Rule 1: Enable early error mode (fail on any n
 ███████╗██║██║ ╚═╝ ██║███████╗██║  ██║██║  ██║╚███╔███╔╝██║  ██╗
 ╚══════╝╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚══╝╚══╝ ╚═╝  ╚═╝
 ================================================================================
- SCRIPT   : Maintenance Reboot v7.2.3
+ SCRIPT   : Maintenance Reboot v7.2.4
  AUTHOR   : Limehawk.io
  DATE     : December 2024
  USAGE    : .\maintenance_reboot.ps1
@@ -56,7 +55,6 @@ $ErrorActionPreference = 'Stop' # Rule 1: Enable early error mode (fail on any n
  PREREQUISITES
  - PowerShell 5.1+
  - Must be run with local Administrator rights to query CIM and reboot.
- - The SuperOps module import is expected on line 1, though not used.
 
  SECURITY NOTES
  - The script does not handle secrets or API keys.
@@ -106,6 +104,7 @@ $ErrorActionPreference = 'Stop' # Rule 1: Enable early error mode (fail on any n
 --------------------------------------------------------------------------------
  CHANGELOG
 --------------------------------------------------------------------------------
+ 2024-12-28 v7.2.4 Removed template placeholder cruft
  2024-12-28 v7.2.3 Fixed WMI uptime query - replaced legacy [WMI] moniker with Get-CimInstance
  2024-12-23 v7.2.2 Updated to Limehawk Script Framework
  2025-12-18 v7.2.1 Renamed from invoke_reboot_on_uptime.ps1 to maintenance_reboot.ps1
