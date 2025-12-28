@@ -7,7 +7,7 @@ $ErrorActionPreference = 'Stop'
 ███████╗██║██║ ╚═╝ ██║███████╗██║  ██║██║  ██║╚███╔███╔╝██║  ██╗
 ╚══════╝╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚══╝╚══╝ ╚═╝  ╚═╝
 ================================================================================
- SCRIPT   : Edge Set Chrome Default                                       v1.0.0
+ SCRIPT   : Edge Set Chrome Default                                       v1.1.0
  AUTHOR   : Limehawk.io
  DATE     : December 2024
  USAGE    : .\edge_set_chrome_default_user.ps1
@@ -32,16 +32,24 @@ $ErrorActionPreference = 'Stop'
 
  REQUIRED INPUTS
 
-   All inputs are hardcoded in the script body:
-     - No configurable inputs required
+   All inputs are hardcoded in the script body (booleans, $true/$false):
+
+   Associations:
+     - $setDefaultHttp: Set Chrome as default for http:// links
+     - $setDefaultHttps: Set Chrome as default for https:// links
+     - $setDefaultHtm: Set Chrome as default for .htm files
+     - $setDefaultHtml: Set Chrome as default for .html files
+
+   Maintenance:
+     - $cleanUserStartup: Remove Edge from user's startup programs
+
+   Tool Configuration:
+     - $setUserFtaUrl: URL to download SetUserFTA (change for internal hosting)
 
  SETTINGS
 
-   This script sets Chrome as default for:
-     - http:// protocol (web links)
-     - https:// protocol (secure web links)
-     - .htm files
-     - .html files
+   All options default to $true. The SetUserFTA URL points to Microsoft's
+   official GitHub release. Change it if you host the tool internally.
 
  BEHAVIOR
 
@@ -108,10 +116,27 @@ $ErrorActionPreference = 'Stop'
 --------------------------------------------------------------------------------
  CHANGELOG
 --------------------------------------------------------------------------------
+ 2024-12-27 v1.1.0 Added boolean settings at top for each feature
  2024-12-27 v1.0.0 Initial release - split from combined script
 ================================================================================
 #>
 Set-StrictMode -Version Latest
+
+# ============================================================================
+# SETTINGS - Set to $false to skip specific associations
+# ============================================================================
+
+# Associations - which file types/protocols to set Chrome as default
+$setDefaultHttp  = $true  # Set Chrome as default for http:// links
+$setDefaultHttps = $true  # Set Chrome as default for https:// links
+$setDefaultHtm   = $true  # Set Chrome as default for .htm files
+$setDefaultHtml  = $true  # Set Chrome as default for .html files
+
+# Maintenance
+$cleanUserStartup = $true  # Remove Edge from user's startup programs
+
+# Tool Configuration - change URL if hosting SetUserFTA internally
+$setUserFtaUrl = 'https://github.com/AzureAD/SetUserFTA/releases/download/v1.0.0/SetUserFTA.exe'
 
 # ============================================================================
 # STATE VARIABLES
@@ -188,7 +213,6 @@ Write-Host "[ SETUP SETUSERFTA ]"
 Write-Host "--------------------------------------------------------------"
 
 $setUserFtaPath = "$env:TEMP\SetUserFTA.exe"
-$setUserFtaUrl = "https://github.com/AzureAD/SetUserFTA/releases/download/v1.0.0/SetUserFTA.exe"
 
 try {
     if (-not (Test-Path $setUserFtaPath)) {
@@ -226,58 +250,119 @@ Write-Host "[ SET CHROME DEFAULT ]"
 Write-Host "--------------------------------------------------------------"
 
 $chromeProgId = "ChromeHTML"
-$associations = @(
-    @{ Type = "http"; Desc = "http" },
-    @{ Type = "https"; Desc = "https" },
-    @{ Type = ".htm"; Desc = ".htm" },
-    @{ Type = ".html"; Desc = ".html" }
-)
+$totalAssociations = 0
 
-foreach ($assoc in $associations) {
+if ($setDefaultHttp) {
+    $totalAssociations++
     try {
-        $result = & $setUserFtaPath $assoc.Type $chromeProgId 2>&1
+        $result = & $setUserFtaPath "http" $chromeProgId 2>&1
         if ($LASTEXITCODE -eq 0) {
-            Write-Host "Set Chrome as default for $($assoc.Desc)"
+            Write-Host "Set Chrome as default for http"
             $defaultsSet++
         } else {
-            Write-Host "Failed to set $($assoc.Desc): $result"
+            Write-Host "Failed to set http: $result"
             $errorOccurred = $true
             if ($errorText.Length -gt 0) { $errorText += "`n" }
-            $errorText += "- Could not set $($assoc.Desc)"
+            $errorText += "- Could not set http"
         }
     } catch {
-        Write-Host "Error setting $($assoc.Desc): $($_.Exception.Message)"
+        Write-Host "Error setting http: $($_.Exception.Message)"
         $errorOccurred = $true
         if ($errorText.Length -gt 0) { $errorText += "`n" }
-        $errorText += "- Exception on $($assoc.Desc)"
+        $errorText += "- Exception on http"
+    }
+}
+
+if ($setDefaultHttps) {
+    $totalAssociations++
+    try {
+        $result = & $setUserFtaPath "https" $chromeProgId 2>&1
+        if ($LASTEXITCODE -eq 0) {
+            Write-Host "Set Chrome as default for https"
+            $defaultsSet++
+        } else {
+            Write-Host "Failed to set https: $result"
+            $errorOccurred = $true
+            if ($errorText.Length -gt 0) { $errorText += "`n" }
+            $errorText += "- Could not set https"
+        }
+    } catch {
+        Write-Host "Error setting https: $($_.Exception.Message)"
+        $errorOccurred = $true
+        if ($errorText.Length -gt 0) { $errorText += "`n" }
+        $errorText += "- Exception on https"
+    }
+}
+
+if ($setDefaultHtm) {
+    $totalAssociations++
+    try {
+        $result = & $setUserFtaPath ".htm" $chromeProgId 2>&1
+        if ($LASTEXITCODE -eq 0) {
+            Write-Host "Set Chrome as default for .htm"
+            $defaultsSet++
+        } else {
+            Write-Host "Failed to set .htm: $result"
+            $errorOccurred = $true
+            if ($errorText.Length -gt 0) { $errorText += "`n" }
+            $errorText += "- Could not set .htm"
+        }
+    } catch {
+        Write-Host "Error setting .htm: $($_.Exception.Message)"
+        $errorOccurred = $true
+        if ($errorText.Length -gt 0) { $errorText += "`n" }
+        $errorText += "- Exception on .htm"
+    }
+}
+
+if ($setDefaultHtml) {
+    $totalAssociations++
+    try {
+        $result = & $setUserFtaPath ".html" $chromeProgId 2>&1
+        if ($LASTEXITCODE -eq 0) {
+            Write-Host "Set Chrome as default for .html"
+            $defaultsSet++
+        } else {
+            Write-Host "Failed to set .html: $result"
+            $errorOccurred = $true
+            if ($errorText.Length -gt 0) { $errorText += "`n" }
+            $errorText += "- Could not set .html"
+        }
+    } catch {
+        Write-Host "Error setting .html: $($_.Exception.Message)"
+        $errorOccurred = $true
+        if ($errorText.Length -gt 0) { $errorText += "`n" }
+        $errorText += "- Exception on .html"
     }
 }
 
 # ============================================================================
 # CLEANUP USER EDGE STARTUP
 # ============================================================================
-Write-Host ""
-Write-Host "[ USER CLEANUP ]"
-Write-Host "--------------------------------------------------------------"
+if ($cleanUserStartup) {
+    Write-Host ""
+    Write-Host "[ USER CLEANUP ]"
+    Write-Host "--------------------------------------------------------------"
 
-try {
-    $userRunPath = "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Run"
-    if (Test-Path $userRunPath) {
-        $properties = Get-ItemProperty -Path $userRunPath -ErrorAction SilentlyContinue
-        if ($properties) {
-            $edgeEntries = $properties.PSObject.Properties | Where-Object { $_.Name -like "*Edge*" -or $_.Name -like "*MicrosoftEdge*" }
-            if ($edgeEntries) {
-                foreach ($entry in $edgeEntries) {
-                    Remove-ItemProperty -Path $userRunPath -Name $entry.Name -Force -ErrorAction SilentlyContinue
-                    Write-Host "Removed user startup : $($entry.Name)"
+    try {
+        $userRunPath = "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Run"
+        if (Test-Path $userRunPath) {
+            $properties = Get-ItemProperty -Path $userRunPath -ErrorAction SilentlyContinue
+            if ($properties) {
+                $edgeEntries = $properties.PSObject.Properties | Where-Object { $_.Name -like "*Edge*" -or $_.Name -like "*MicrosoftEdge*" }
+                if ($edgeEntries) {
+                    foreach ($entry in $edgeEntries) {
+                        Remove-ItemProperty -Path $userRunPath -Name $entry.Name -Force -ErrorAction SilentlyContinue
+                        Write-Host "Removed user startup : $($entry.Name)"
+                    }
+                } else {
+                    Write-Host "No Edge user startup entries"
                 }
-            } else {
-                Write-Host "No Edge user startup entries"
             }
         }
+    } catch {
+        Write-Host "Cleanup skipped: $($_.Exception.Message)"
     }
-} catch {
-    Write-Host "Cleanup skipped: $($_.Exception.Message)"
 }
 
 # ============================================================================
@@ -303,13 +388,13 @@ if ($defaultsSet -eq 0) {
 
 if ($errorOccurred) {
     Write-Host "Result : PARTIAL SUCCESS"
-    Write-Host "Defaults set : $defaultsSet of 4"
+    Write-Host "Defaults set : $defaultsSet of $totalAssociations"
     Write-Host ""
     Write-Host "Warnings:"
     Write-Host $errorText
 } else {
     Write-Host "Result : SUCCESS"
-    Write-Host "Defaults set : $defaultsSet of 4"
+    Write-Host "Defaults set : $defaultsSet of $totalAssociations"
     Write-Host ""
     Write-Host "Chrome is now the default browser for this user"
 }
