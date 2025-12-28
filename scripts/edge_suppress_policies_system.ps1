@@ -7,7 +7,7 @@ $ErrorActionPreference = 'Stop'
 ███████╗██║██║ ╚═╝ ██║███████╗██║  ██║██║  ██║╚███╔███╔╝██║  ██╗
 ╚══════╝╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚══╝╚══╝ ╚═╝  ╚═╝
 ================================================================================
- SCRIPT   : Edge Suppress Policies                                        v1.0.0
+ SCRIPT   : Edge Suppress Policies                                        v1.1.0
  AUTHOR   : Limehawk.io
  DATE     : December 2024
  USAGE    : .\edge_suppress_policies_system.ps1
@@ -31,19 +31,37 @@ $ErrorActionPreference = 'Stop'
 
  REQUIRED INPUTS
 
-   All inputs are hardcoded in the script body:
-     - No configurable inputs required
+   All inputs are hardcoded in the script body (booleans, $true/$false):
+
+   UI & Prompts:
+     - $disableFirstRun: Skip welcome/setup screens
+     - $disableDefaultBrowserCheck: Stop "make Edge default" prompts
+     - $disableImportOnLaunch: Prevent importing from Chrome/Firefox
+     - $disableBrowserSignIn: Stop Microsoft account sign-in prompts
+
+   Features:
+     - $disableCollections: Turn off Collections feature
+     - $disableShoppingAssistant: Turn off shopping/coupon features
+     - $disableSidebar: Turn off Bing sidebar
+     - $disableEdgeBar: Turn off floating Edge widget
+     - $disableCopilot: Turn off Copilot integration
+     - $disableSuggestions: Turn off search/site suggestions
+
+   Background Behavior:
+     - $disableStartupBoost: Stop Edge preloading at Windows startup
+     - $disableBackgroundMode: Stop Edge running after closing
+     - $disablePrelaunch: Stop Edge prelaunching
+     - $disableUpdateNotifications: Stop "restart to update" prompts
+     - $disableDesktopShortcut: Prevent Edge shortcut creation
+
+   Maintenance:
+     - $disableScheduledTasks: Disable EdgeUpdate scheduled tasks
+     - $cleanStartupEntries: Remove Edge from startup programs
 
  SETTINGS
 
-   This script applies the following machine-wide policies:
-     - HideFirstRunExperience: Skips welcome screens
-     - DefaultBrowserSettingEnabled: Stops "make default" prompts
-     - AutoImportAtFirstRun: Prevents importing from Chrome/Firefox
-     - StartupBoostEnabled: Stops Edge preloading in background
-     - BackgroundModeEnabled: Stops Edge running when closed
-     - HubsSidebarEnabled: Disables sidebar
-     - EdgeShoppingAssistantEnabled: Disables shopping features
+   All options default to $true (suppress everything). Set individual
+   options to $false if you want to keep specific Edge behaviors.
 
  BEHAVIOR
 
@@ -125,10 +143,40 @@ $ErrorActionPreference = 'Stop'
 --------------------------------------------------------------------------------
  CHANGELOG
 --------------------------------------------------------------------------------
+ 2024-12-27 v1.1.0 Added boolean settings at top for each feature
  2024-12-27 v1.0.0 Initial release - split from combined script
 ================================================================================
 #>
 Set-StrictMode -Version Latest
+
+# ============================================================================
+# SETTINGS - Set to $false to keep specific Edge behaviors
+# ============================================================================
+
+# UI & Prompts
+$disableFirstRun           = $true  # Skip welcome/setup screens
+$disableDefaultBrowserCheck = $true  # Stop "make Edge default" prompts
+$disableImportOnLaunch     = $true  # Prevent importing from Chrome/Firefox
+$disableBrowserSignIn      = $true  # Stop Microsoft account sign-in prompts
+
+# Features
+$disableCollections        = $true  # Turn off Collections feature
+$disableShoppingAssistant  = $true  # Turn off shopping/coupon features
+$disableSidebar            = $true  # Turn off Bing sidebar
+$disableEdgeBar            = $true  # Turn off floating Edge widget
+$disableCopilot            = $true  # Turn off Copilot integration
+$disableSuggestions        = $true  # Turn off search/site suggestions
+
+# Background Behavior
+$disableStartupBoost       = $true  # Stop Edge preloading at Windows startup
+$disableBackgroundMode     = $true  # Stop Edge running after closing
+$disablePrelaunch          = $true  # Stop Edge prelaunching
+$disableUpdateNotifications = $true  # Stop "restart to update" prompts
+$disableDesktopShortcut    = $true  # Prevent Edge shortcut creation
+
+# Maintenance
+$disableScheduledTasks     = $true  # Disable EdgeUpdate scheduled tasks
+$cleanStartupEntries       = $true  # Remove Edge from startup programs
 
 # ============================================================================
 # STATE VARIABLES
@@ -169,57 +217,67 @@ try {
         Write-Host "Created Edge policy registry key"
     }
 
-    # Disable first run experience
-    Set-ItemProperty -Path $edgePolicyPath -Name "HideFirstRunExperience" -Value 1 -Type DWord -Force
-    Write-Host "Disabled first run experience"
-    $changesApplied++
+    if ($disableFirstRun) {
+        Set-ItemProperty -Path $edgePolicyPath -Name "HideFirstRunExperience" -Value 1 -Type DWord -Force
+        Write-Host "Disabled first run experience"
+        $changesApplied++
+    }
 
-    # Disable default browser check/prompt
-    Set-ItemProperty -Path $edgePolicyPath -Name "DefaultBrowserSettingEnabled" -Value 0 -Type DWord -Force
-    Write-Host "Disabled default browser check"
-    $changesApplied++
+    if ($disableDefaultBrowserCheck) {
+        Set-ItemProperty -Path $edgePolicyPath -Name "DefaultBrowserSettingEnabled" -Value 0 -Type DWord -Force
+        Write-Host "Disabled default browser check"
+        $changesApplied++
+    }
 
-    # Disable import on launch (4 = don't import)
-    Set-ItemProperty -Path $edgePolicyPath -Name "ImportOnEachLaunch" -Value 0 -Type DWord -Force
-    Set-ItemProperty -Path $edgePolicyPath -Name "AutoImportAtFirstRun" -Value 4 -Type DWord -Force
-    Write-Host "Disabled import on launch"
-    $changesApplied++
+    if ($disableImportOnLaunch) {
+        Set-ItemProperty -Path $edgePolicyPath -Name "ImportOnEachLaunch" -Value 0 -Type DWord -Force
+        Set-ItemProperty -Path $edgePolicyPath -Name "AutoImportAtFirstRun" -Value 4 -Type DWord -Force
+        Write-Host "Disabled import on launch"
+        $changesApplied++
+    }
 
-    # Disable browser sign-in (0 = disabled)
-    Set-ItemProperty -Path $edgePolicyPath -Name "BrowserSignin" -Value 0 -Type DWord -Force
-    Write-Host "Disabled browser sign-in"
-    $changesApplied++
+    if ($disableBrowserSignIn) {
+        Set-ItemProperty -Path $edgePolicyPath -Name "BrowserSignin" -Value 0 -Type DWord -Force
+        Write-Host "Disabled browser sign-in"
+        $changesApplied++
+    }
 
-    # Disable collections
-    Set-ItemProperty -Path $edgePolicyPath -Name "EdgeCollectionsEnabled" -Value 0 -Type DWord -Force
-    Write-Host "Disabled collections"
-    $changesApplied++
+    if ($disableCollections) {
+        Set-ItemProperty -Path $edgePolicyPath -Name "EdgeCollectionsEnabled" -Value 0 -Type DWord -Force
+        Write-Host "Disabled collections"
+        $changesApplied++
+    }
 
-    # Disable shopping assistant
-    Set-ItemProperty -Path $edgePolicyPath -Name "EdgeShoppingAssistantEnabled" -Value 0 -Type DWord -Force
-    Write-Host "Disabled shopping assistant"
-    $changesApplied++
+    if ($disableShoppingAssistant) {
+        Set-ItemProperty -Path $edgePolicyPath -Name "EdgeShoppingAssistantEnabled" -Value 0 -Type DWord -Force
+        Write-Host "Disabled shopping assistant"
+        $changesApplied++
+    }
 
-    # Disable sidebar
-    Set-ItemProperty -Path $edgePolicyPath -Name "HubsSidebarEnabled" -Value 0 -Type DWord -Force
-    Write-Host "Disabled sidebar"
-    $changesApplied++
+    if ($disableSidebar) {
+        Set-ItemProperty -Path $edgePolicyPath -Name "HubsSidebarEnabled" -Value 0 -Type DWord -Force
+        Write-Host "Disabled sidebar"
+        $changesApplied++
+    }
 
-    # Disable Edge bar (floating widget)
-    Set-ItemProperty -Path $edgePolicyPath -Name "WebWidgetAllowed" -Value 0 -Type DWord -Force
-    Write-Host "Disabled Edge bar"
-    $changesApplied++
+    if ($disableEdgeBar) {
+        Set-ItemProperty -Path $edgePolicyPath -Name "WebWidgetAllowed" -Value 0 -Type DWord -Force
+        Write-Host "Disabled Edge bar"
+        $changesApplied++
+    }
 
-    # Disable Copilot
-    Set-ItemProperty -Path $edgePolicyPath -Name "CopilotCDPPageContext" -Value 0 -Type DWord -Force
-    Write-Host "Disabled Copilot"
-    $changesApplied++
+    if ($disableCopilot) {
+        Set-ItemProperty -Path $edgePolicyPath -Name "CopilotCDPPageContext" -Value 0 -Type DWord -Force
+        Write-Host "Disabled Copilot"
+        $changesApplied++
+    }
 
-    # Disable suggestions
-    Set-ItemProperty -Path $edgePolicyPath -Name "SearchSuggestEnabled" -Value 0 -Type DWord -Force
-    Set-ItemProperty -Path $edgePolicyPath -Name "LocalProvidersEnabled" -Value 0 -Type DWord -Force
-    Write-Host "Disabled suggestions"
-    $changesApplied++
+    if ($disableSuggestions) {
+        Set-ItemProperty -Path $edgePolicyPath -Name "SearchSuggestEnabled" -Value 0 -Type DWord -Force
+        Set-ItemProperty -Path $edgePolicyPath -Name "LocalProvidersEnabled" -Value 0 -Type DWord -Force
+        Write-Host "Disabled suggestions"
+        $changesApplied++
+    }
 
 } catch {
     $errorOccurred = $true
@@ -236,34 +294,39 @@ Write-Host "--------------------------------------------------------------"
 try {
     $edgePolicyPath = "HKLM:\SOFTWARE\Policies\Microsoft\Edge"
 
-    # Disable startup boost (stops Edge preloading at Windows startup)
-    Set-ItemProperty -Path $edgePolicyPath -Name "StartupBoostEnabled" -Value 0 -Type DWord -Force
-    Write-Host "Disabled startup boost"
-    $changesApplied++
-
-    # Disable background mode (stops Edge running after closing)
-    Set-ItemProperty -Path $edgePolicyPath -Name "BackgroundModeEnabled" -Value 0 -Type DWord -Force
-    Write-Host "Disabled background mode"
-    $changesApplied++
-
-    # Disable prelaunch
-    Set-ItemProperty -Path $edgePolicyPath -Name "AllowPrelaunch" -Value 0 -Type DWord -Force
-    Write-Host "Disabled prelaunch"
-    $changesApplied++
-
-    # Disable update notifications
-    Set-ItemProperty -Path $edgePolicyPath -Name "RelaunchNotification" -Value 0 -Type DWord -Force
-    Write-Host "Disabled update notifications"
-    $changesApplied++
-
-    # EdgeUpdate policies
-    $edgeUpdatePath = "HKLM:\SOFTWARE\Policies\Microsoft\EdgeUpdate"
-    if (-not (Test-Path $edgeUpdatePath)) {
-        New-Item -Path $edgeUpdatePath -Force | Out-Null
+    if ($disableStartupBoost) {
+        Set-ItemProperty -Path $edgePolicyPath -Name "StartupBoostEnabled" -Value 0 -Type DWord -Force
+        Write-Host "Disabled startup boost"
+        $changesApplied++
     }
-    Set-ItemProperty -Path $edgeUpdatePath -Name "CreateDesktopShortcutDefault" -Value 0 -Type DWord -Force
-    Write-Host "Disabled desktop shortcut creation"
-    $changesApplied++
+
+    if ($disableBackgroundMode) {
+        Set-ItemProperty -Path $edgePolicyPath -Name "BackgroundModeEnabled" -Value 0 -Type DWord -Force
+        Write-Host "Disabled background mode"
+        $changesApplied++
+    }
+
+    if ($disablePrelaunch) {
+        Set-ItemProperty -Path $edgePolicyPath -Name "AllowPrelaunch" -Value 0 -Type DWord -Force
+        Write-Host "Disabled prelaunch"
+        $changesApplied++
+    }
+
+    if ($disableUpdateNotifications) {
+        Set-ItemProperty -Path $edgePolicyPath -Name "RelaunchNotification" -Value 0 -Type DWord -Force
+        Write-Host "Disabled update notifications"
+        $changesApplied++
+    }
+
+    if ($disableDesktopShortcut) {
+        $edgeUpdatePath = "HKLM:\SOFTWARE\Policies\Microsoft\EdgeUpdate"
+        if (-not (Test-Path $edgeUpdatePath)) {
+            New-Item -Path $edgeUpdatePath -Force | Out-Null
+        }
+        Set-ItemProperty -Path $edgeUpdatePath -Name "CreateDesktopShortcutDefault" -Value 0 -Type DWord -Force
+        Write-Host "Disabled desktop shortcut creation"
+        $changesApplied++
+    }
 
 } catch {
     $errorOccurred = $true
@@ -274,75 +337,79 @@ try {
 # ============================================================================
 # SCHEDULED TASKS
 # ============================================================================
-Write-Host ""
-Write-Host "[ SCHEDULED TASKS ]"
-Write-Host "--------------------------------------------------------------"
+if ($disableScheduledTasks) {
+    Write-Host ""
+    Write-Host "[ SCHEDULED TASKS ]"
+    Write-Host "--------------------------------------------------------------"
 
-try {
-    $edgeTasks = @(
-        "MicrosoftEdgeUpdateTaskMachineCore",
-        "MicrosoftEdgeUpdateTaskMachineUA",
-        "MicrosoftEdgeUpdateBrowserReplacementTask"
-    )
+    try {
+        $edgeTasks = @(
+            "MicrosoftEdgeUpdateTaskMachineCore",
+            "MicrosoftEdgeUpdateTaskMachineUA",
+            "MicrosoftEdgeUpdateBrowserReplacementTask"
+        )
 
-    $tasksDisabled = 0
-    foreach ($taskName in $edgeTasks) {
-        $task = Get-ScheduledTask -TaskName $taskName -ErrorAction SilentlyContinue
-        if ($task) {
-            Disable-ScheduledTask -TaskName $taskName -ErrorAction SilentlyContinue | Out-Null
-            Write-Host "Disabled $taskName"
-            $tasksDisabled++
-            $changesApplied++
+        $tasksDisabled = 0
+        foreach ($taskName in $edgeTasks) {
+            $task = Get-ScheduledTask -TaskName $taskName -ErrorAction SilentlyContinue
+            if ($task) {
+                Disable-ScheduledTask -TaskName $taskName -ErrorAction SilentlyContinue | Out-Null
+                Write-Host "Disabled $taskName"
+                $tasksDisabled++
+                $changesApplied++
+            }
         }
-    }
 
-    if ($tasksDisabled -eq 0) {
-        Write-Host "No EdgeUpdate tasks found"
-    }
+        if ($tasksDisabled -eq 0) {
+            Write-Host "No EdgeUpdate tasks found"
+        }
 
-} catch {
-    Write-Host "Note: Some scheduled tasks may not exist"
+    } catch {
+        Write-Host "Note: Some scheduled tasks may not exist"
+    }
 }
 
 # ============================================================================
 # STARTUP CLEANUP
 # ============================================================================
-Write-Host ""
-Write-Host "[ STARTUP CLEANUP ]"
-Write-Host "--------------------------------------------------------------"
+if ($cleanStartupEntries) {
+    Write-Host ""
+    Write-Host "[ STARTUP CLEANUP ]"
+    Write-Host "--------------------------------------------------------------"
 
-try {
-    $runPaths = @(
-        "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Run",
-        "HKLM:\SOFTWARE\WOW6432Node\Microsoft\Windows\CurrentVersion\Run"
-    )
+    try {
+        $runPaths = @(
+            "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Run",
+            "HKLM:\SOFTWARE\WOW6432Node\Microsoft\Windows\CurrentVersion\Run"
+        )
 
-    $cleanedEntries = 0
-    foreach ($runPath in $runPaths) {
-        if (Test-Path $runPath) {
-            $properties = Get-ItemProperty -Path $runPath -ErrorAction SilentlyContinue
-            if ($properties) {
-                $properties.PSObject.Properties | Where-Object { $_.Name -like "*Edge*" -or $_.Name -like "*MicrosoftEdge*" } | ForEach-Object {
-                    Remove-ItemProperty -Path $runPath -Name $_.Name -Force -ErrorAction SilentlyContinue
-                    Write-Host "Removed startup entry : $($_.Name)"
-                    $cleanedEntries++
-                    $changesApplied++
+        $cleanedEntries = 0
+        foreach ($runPath in $runPaths) {
+            if (Test-Path $runPath) {
+                $properties = Get-ItemProperty -Path $runPath -ErrorAction SilentlyContinue
+                if ($properties) {
+                    $properties.PSObject.Properties | Where-Object { $_.Name -like "*Edge*" -or $_.Name -like "*MicrosoftEdge*" } | ForEach-Object {
+                        Remove-ItemProperty -Path $runPath -Name $_.Name -Force -ErrorAction SilentlyContinue
+                        Write-Host "Removed startup entry : $($_.Name)"
+                        $cleanedEntries++
+                        $changesApplied++
+                    }
                 }
             }
         }
+
+        if ($cleanedEntries -eq 0) {
+            Write-Host "No Edge startup entries found"
+        }
+
+        $edgeRunOncePath = "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer"
+        Set-ItemProperty -Path $edgeRunOncePath -Name "DisableEdgeDesktopShortcutCreation" -Value 1 -Type DWord -Force -ErrorAction SilentlyContinue
+        Write-Host "Prevented Edge shortcut creation"
+        $changesApplied++
+
+    } catch {
+        Write-Host "Note: Some cleanup steps skipped"
     }
-
-    if ($cleanedEntries -eq 0) {
-        Write-Host "No Edge startup entries found"
-    }
-
-    $edgeRunOncePath = "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer"
-    Set-ItemProperty -Path $edgeRunOncePath -Name "DisableEdgeDesktopShortcutCreation" -Value 1 -Type DWord -Force -ErrorAction SilentlyContinue
-    Write-Host "Prevented Edge shortcut creation"
-    $changesApplied++
-
-} catch {
-    Write-Host "Note: Some cleanup steps skipped"
 }
 
 # ============================================================================
