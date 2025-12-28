@@ -7,7 +7,7 @@ $ErrorActionPreference = 'Stop'
 ███████╗██║██║ ╚═╝ ██║███████╗██║  ██║██║  ██║╚███╔███╔╝██║  ██╗
 ╚══════╝╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚══╝╚══╝ ╚═╝  ╚═╝
 ================================================================================
- SCRIPT   : Edge Set Chrome Default                                       v1.1.0
+ SCRIPT   : Edge Set Chrome Default                                       v1.2.0
  AUTHOR   : Limehawk.io
  DATE     : December 2024
  USAGE    : .\edge_set_chrome_default_user.ps1
@@ -19,15 +19,15 @@ $ErrorActionPreference = 'Stop'
  PURPOSE
 
    Sets Google Chrome as the default browser for the current user. Uses
-   SetUserFTA from Microsoft's GitHub to properly set file associations with
-   the correct UserChoice hash that Windows 10/11 requires.
+   SetUserFTA to properly set file associations with the correct UserChoice
+   hash that Windows 10/11 requires.
 
    MUST run as the logged-in user (not SYSTEM) - default browser settings are
    per-user and stored in HKCU with hash validation.
 
  DATA SOURCES & PRIORITY
 
-   - SetUserFTA: Microsoft tool that calculates UserChoice hash
+   - SetUserFTA: Tool that calculates UserChoice hash
    - Windows Registry: UserChoice keys for protocols/extensions
 
  REQUIRED INPUTS
@@ -44,19 +44,19 @@ $ErrorActionPreference = 'Stop'
      - $cleanUserStartup: Remove Edge from user's startup programs
 
    Tool Configuration:
-     - $setUserFtaUrl: URL to download SetUserFTA (change for internal hosting)
+     - $setUserFtaUrl: URL to download SetUserFTA (hosted in this repo)
 
  SETTINGS
 
-   All options default to $true. The SetUserFTA URL points to Microsoft's
-   official GitHub release. Change it if you host the tool internally.
+   All options default to $true. SetUserFTA is hosted in the limehawk
+   rmm-scripts repo. Change the URL if you host it elsewhere.
 
  BEHAVIOR
 
    The script performs the following actions in order:
    1. Verifies Chrome is installed
    2. Checks that script is NOT running as SYSTEM
-   3. Downloads SetUserFTA from Microsoft GitHub if not present
+   3. Downloads SetUserFTA if not present
    4. Sets Chrome as default for http, https, .htm, .html
 
  PREREQUISITES
@@ -69,13 +69,13 @@ $ErrorActionPreference = 'Stop'
  SECURITY NOTES
 
    - No secrets exposed in output
-   - SetUserFTA downloaded from official Microsoft GitHub
+   - SetUserFTA downloaded from limehawk repo
    - Only modifies current user's default app associations
    - No admin rights required
 
  ENDPOINTS
 
-   - https://github.com/AzureAD/SetUserFTA - SetUserFTA download
+   - https://github.com/limehawk/rmm-scripts - SetUserFTA download
 
  EXIT CODES
 
@@ -116,6 +116,7 @@ $ErrorActionPreference = 'Stop'
 --------------------------------------------------------------------------------
  CHANGELOG
 --------------------------------------------------------------------------------
+ 2024-12-27 v1.2.0 Host SetUserFTA in limehawk repo, remove external dependency
  2024-12-27 v1.1.0 Added boolean settings at top for each feature
  2024-12-27 v1.0.0 Initial release - split from combined script
 ================================================================================
@@ -135,8 +136,8 @@ $setDefaultHtml  = $true  # Set Chrome as default for .html files
 # Maintenance
 $cleanUserStartup = $true  # Remove Edge from user's startup programs
 
-# Tool Configuration - change URL if hosting SetUserFTA internally
-$setUserFtaUrl = 'https://github.com/AzureAD/SetUserFTA/releases/download/v1.0.0/SetUserFTA.exe'
+# Tool Configuration - SetUserFTA hosted in limehawk repo
+$setUserFtaUrl = 'https://github.com/limehawk/rmm-scripts/raw/main/tools/SetUserFTA.exe'
 
 # ============================================================================
 # STATE VARIABLES
@@ -144,6 +145,7 @@ $setUserFtaUrl = 'https://github.com/AzureAD/SetUserFTA/releases/download/v1.0.0
 $errorOccurred = $false
 $errorText = ""
 $defaultsSet = 0
+$totalAssociations = 0
 
 # ============================================================================
 # USER CHECK
@@ -155,16 +157,13 @@ Write-Host "--------------------------------------------------------------"
 $currentUser = [System.Security.Principal.WindowsIdentity]::GetCurrent().Name
 Write-Host "Running as : $currentUser"
 
-# Check if running as SYSTEM - this won't work for setting user defaults
-if ($currentUser -match "SYSTEM$" -or $currentUser -match "SYSTEM$") {
+if ($currentUser -match "SYSTEM$") {
     Write-Host ""
     Write-Host "[ ERROR OCCURRED ]"
     Write-Host "--------------------------------------------------------------"
     Write-Host "This script must run as the logged-in user, not SYSTEM"
     Write-Host ""
     Write-Host "Default browser is a per-user setting stored in HKCU."
-    Write-Host "Windows validates it with a hash tied to the user's SID."
-    Write-Host "Running as SYSTEM sets defaults for SYSTEM, not the user."
     Write-Host ""
     Write-Host "Solutions:"
     Write-Host "  - RMM: Run as 'logged-in user' instead of 'SYSTEM'"
@@ -237,8 +236,6 @@ try {
     Write-Host "SetUserFTA is required because Windows 10/11 uses hash"
     Write-Host "validation on UserChoice registry keys. Without the correct"
     Write-Host "hash, Windows ignores registry changes to default apps."
-    Write-Host ""
-    Write-Host "Manual download: https://github.com/AzureAD/SetUserFTA"
     exit 1
 }
 
@@ -250,7 +247,6 @@ Write-Host "[ SET CHROME DEFAULT ]"
 Write-Host "--------------------------------------------------------------"
 
 $chromeProgId = "ChromeHTML"
-$totalAssociations = 0
 
 if ($setDefaultHttp) {
     $totalAssociations++
