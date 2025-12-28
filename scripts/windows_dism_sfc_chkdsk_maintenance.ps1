@@ -8,7 +8,7 @@ $ErrorActionPreference = 'Stop'
 ███████╗██║██║ ╚═╝ ██║███████╗██║  ██║██║  ██║╚███╔███╔╝██║  ██╗
 ╚══════╝╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚══╝╚══╝ ╚═╝  ╚═╝
 ================================================================================
- SCRIPT   : Windows DISM SFC Chkdsk Maintenance                          v1.1.0
+ SCRIPT   : Windows DISM SFC Chkdsk Maintenance                          v1.2.0
  AUTHOR   : Limehawk.io
  DATE     : December 2024
  USAGE    : .\windows_dism_sfc_chkdsk_maintenance.ps1
@@ -163,6 +163,7 @@ $ErrorActionPreference = 'Stop'
 --------------------------------------------------------------------------------
  CHANGELOG
 --------------------------------------------------------------------------------
+ 2024-12-28 v1.2.0 Use exit codes instead of string parsing for DISM/SFC result detection
  2024-12-23 v1.1.0 Updated to Limehawk Script Framework
  2025-10-31 v1.0.3 Added full command output display for all operations (DISM and SFC)
  2025-10-31 v1.0.2 Fixed DISM component cleanup access denied errors
@@ -278,24 +279,25 @@ if ($RunDismScan) {
         Write-Host "Starting DISM image scan..."
         Write-Host ""
         $dismScanResult = & DISM.exe /Online /Cleanup-Image /ScanHealth 2>&1
+        $dismScanExitCode = $LASTEXITCODE
         $dismScanOutput = $dismScanResult -join "`n"
 
         # Display the actual output
         Write-Host $dismScanOutput
         Write-Host ""
 
-        # Check for access denied errors
-        if ($dismScanOutput -match "Error: 5|Access is denied") {
-            Write-Host "Result : Failed - Access Denied"
-            $operationsFailed++
-        }
-        elseif ($dismScanOutput -match "completed successfully|No component store corruption detected") {
+        # Check exit code as primary indicator (DISM: 0 = success)
+        if ($dismScanExitCode -eq 0) {
             Write-Host "Result : Success"
             $operationsPassed++
             $opSuccess = $true
         }
+        elseif ($dismScanOutput -match "Error: 5|Access is denied") {
+            Write-Host "Result : Failed - Access Denied"
+            $operationsFailed++
+        }
         else {
-            Write-Host "Result : Check output above for details"
+            Write-Host "Result : Failed (exit code: $dismScanExitCode)"
             $operationsFailed++
         }
 
@@ -320,24 +322,25 @@ if ($RunDismRestore) {
         Write-Host "Starting DISM image repair..."
         Write-Host ""
         $dismRestoreResult = & DISM.exe /Online /Cleanup-Image /RestoreHealth 2>&1
+        $dismRestoreExitCode = $LASTEXITCODE
         $dismRestoreOutput = $dismRestoreResult -join "`n"
 
         # Display the actual output
         Write-Host $dismRestoreOutput
         Write-Host ""
 
-        # Check for access denied errors
-        if ($dismRestoreOutput -match "Error: 5|Access is denied") {
-            Write-Host "Result : Failed - Access Denied"
-            $operationsFailed++
-        }
-        elseif ($dismRestoreOutput -match "completed successfully|restore operation completed successfully") {
+        # Check exit code as primary indicator (DISM: 0 = success)
+        if ($dismRestoreExitCode -eq 0) {
             Write-Host "Result : Success"
             $operationsPassed++
             $opSuccess = $true
         }
+        elseif ($dismRestoreOutput -match "Error: 5|Access is denied") {
+            Write-Host "Result : Failed - Access Denied"
+            $operationsFailed++
+        }
         else {
-            Write-Host "Result : Check output above for details"
+            Write-Host "Result : Failed (exit code: $dismRestoreExitCode)"
             $operationsFailed++
         }
 
@@ -410,31 +413,31 @@ if ($RunSfc) {
         Write-Host "Starting system file verification..."
         Write-Host ""
         $sfcResult = & sfc.exe /scannow 2>&1
+        $sfcExitCode = $LASTEXITCODE
         $sfcOutput = $sfcResult -join "`n"
 
         # Display the actual output
         Write-Host $sfcOutput
         Write-Host ""
 
-        # Check for successful outcomes (no violations or successfully repaired)
-        if ($sfcOutput -match "did not find any integrity violations|successfully repaired") {
-            Write-Host "Result : Success"
+        # Check exit code as primary indicator (more reliable than string parsing)
+        # SFC exit codes: 0 = no issues, 1 = repaired, 2 = couldn't repair some
+        if ($sfcExitCode -eq 0) {
+            Write-Host "Result : Success (no integrity violations)"
             $operationsPassed++
             $opSuccess = $true
         }
-        # Check for failures (found issues but couldn't repair)
-        elseif ($sfcOutput -match "found corrupt files but was unable|could not fix") {
-            Write-Host "Result : Manual intervention required"
+        elseif ($sfcExitCode -eq 1) {
+            Write-Host "Result : Success (corrupt files were repaired)"
+            $operationsPassed++
+            $opSuccess = $true
+        }
+        elseif ($sfcExitCode -eq 2) {
+            Write-Host "Result : Manual intervention required (some files could not be repaired)"
             $operationsFailed++
         }
-        # Check for operational failures (couldn't run at all)
-        elseif ($sfcOutput -match "could not perform|must be an administrator") {
-            Write-Host "Result : Failed - Check permissions or system state"
-            $operationsFailed++
-        }
-        # Unknown status
         else {
-            Write-Host "Result : Check output above for details"
+            Write-Host "Result : Failed (exit code: $sfcExitCode)"
             $operationsFailed++
         }
 
@@ -485,25 +488,26 @@ if ($RunDismCleanup) {
             Write-Host "Starting component cleanup..."
             Write-Host ""
             $dismCleanupResult = & DISM.exe /Online /Cleanup-Image /StartComponentCleanup 2>&1
+            $dismCleanupExitCode = $LASTEXITCODE
             $dismCleanupOutput = $dismCleanupResult -join "`n"
 
             # Display the actual output
             Write-Host $dismCleanupOutput
             Write-Host ""
 
-            # Check for access denied errors
-            if ($dismCleanupOutput -match "Error: 5|Access is denied") {
-                Write-Host "Access denied error detected on attempt $($retryCount + 1)"
-                $retryCount++
-            }
-            elseif ($dismCleanupOutput -match "completed successfully|operation completed successfully") {
+            # Check exit code as primary indicator (DISM: 0 = success)
+            if ($dismCleanupExitCode -eq 0) {
                 Write-Host "Result : Success"
                 $operationsPassed++
                 $opSuccess = $true
                 $cleanupSuccess = $true
             }
+            elseif ($dismCleanupOutput -match "Error: 5|Access is denied") {
+                Write-Host "Access denied error detected on attempt $($retryCount + 1)"
+                $retryCount++
+            }
             else {
-                Write-Host "Operation completed with warnings or unknown status"
+                Write-Host "Failed on attempt $($retryCount + 1) (exit code: $dismCleanupExitCode)"
                 $retryCount++
             }
         }
