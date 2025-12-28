@@ -7,7 +7,7 @@ $ErrorActionPreference = 'Stop'
 ███████╗██║██║ ╚═╝ ██║███████╗██║  ██║██║  ██║╚███╔███╔╝██║  ██╗
 ╚══════╝╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚══╝╚══╝ ╚═╝  ╚═╝
 ================================================================================
- SCRIPT   : Edge Suppress Policies                                        v1.2.0
+ SCRIPT   : Edge Suppress Policies                                        v1.1.0
  AUTHOR   : Limehawk.io
  DATE     : December 2024
  USAGE    : .\edge_suppress_policies_system.ps1
@@ -57,7 +57,6 @@ $ErrorActionPreference = 'Stop'
    Maintenance:
      - $disableScheduledTasks: Disable EdgeUpdate scheduled tasks
      - $cleanStartupEntries: Remove Edge from startup programs
-     - $disableUCPD: Disable User Choice Protection Driver (allows setting defaults)
 
  SETTINGS
 
@@ -144,7 +143,6 @@ $ErrorActionPreference = 'Stop'
 --------------------------------------------------------------------------------
  CHANGELOG
 --------------------------------------------------------------------------------
- 2024-12-27 v1.2.0 Added UCPD disable to allow setting browser defaults
  2024-12-27 v1.1.0 Added boolean settings at top for each feature
  2024-12-27 v1.0.0 Initial release - split from combined script
 ================================================================================
@@ -179,7 +177,6 @@ $disableDesktopShortcut    = $true  # Prevent Edge shortcut creation
 # Maintenance
 $disableScheduledTasks     = $true  # Disable EdgeUpdate scheduled tasks
 $cleanStartupEntries       = $true  # Remove Edge from startup programs
-$disableUCPD               = $true  # Disable User Choice Protection Driver (required for setting defaults)
 
 # ============================================================================
 # STATE VARIABLES
@@ -412,29 +409,6 @@ if ($cleanStartupEntries) {
 
     } catch {
         Write-Host "Note: Some cleanup steps skipped"
-    }
-}
-
-# ============================================================================
-# DISABLE UCPD (User Choice Protection Driver)
-# ============================================================================
-if ($disableUCPD) {
-    Write-Host ""
-    Write-Host "[ DISABLE UCPD ]"
-    Write-Host "--------------------------------------------------------------"
-
-    try {
-        $ucpdPath = "HKLM:\SYSTEM\CurrentControlSet\Services\UCPD"
-        if (Test-Path $ucpdPath) {
-            New-ItemProperty -Path $ucpdPath -Name "Start" -Value 4 -PropertyType DWORD -Force | Out-Null
-            Write-Host "Disabled User Choice Protection Driver"
-            Write-Host "Reboot required for UCPD change to take effect"
-            $changesApplied++
-        } else {
-            Write-Host "UCPD service not found (may not exist on this Windows version)"
-        }
-    } catch {
-        Write-Host "Could not disable UCPD: $($_.Exception.Message)"
     }
 }
 
