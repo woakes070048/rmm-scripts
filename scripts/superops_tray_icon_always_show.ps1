@@ -8,7 +8,7 @@ $ErrorActionPreference = 'Stop'
 ███████╗██║██║ ╚═╝ ██║███████╗██║  ██║██║  ██║╚███╔███╔╝██║  ██╗
 ╚══════╝╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚══╝╚══╝ ╚═╝  ╚═╝
 ================================================================================
- SCRIPT   : SuperOps Tray Icon Always Show                                v1.3.0
+ SCRIPT   : SuperOps Tray Icon Always Show                                v1.4.0
  AUTHOR   : Limehawk.io
  DATE      : December 2025
  USAGE    : .\superops_tray_icon_always_show.ps1
@@ -43,6 +43,7 @@ DESCRIPTION : Configures Windows to always show SuperOps tray icon
  - Uses case-insensitive pattern matching for "superops"
 
  BEHAVIOR
+ - Checks Windows version and exits with error on unsupported OS
  - Exits gracefully (exit 0) if registry path doesn't exist yet
  - Enumerates all subkeys in HKCU:\Control Panel\NotifyIconSettings
  - Searches each key's properties for strings containing "superops"
@@ -53,6 +54,7 @@ DESCRIPTION : Configures Windows to always show SuperOps tray icon
 
  PREREQUISITES
 
+   - Windows 11 (build 22000 or later) - older Windows versions not supported
    - PowerShell 5.1 or later
    - *** MUST RUN AS LOGGED-IN USER (NOT SYSTEM) ***
    - SuperOps agent must be installed (creates notification icon entries)
@@ -100,6 +102,7 @@ DESCRIPTION : Configures Windows to always show SuperOps tray icon
 --------------------------------------------------------------------------------
  CHANGELOG
 --------------------------------------------------------------------------------
+ 2025-12-28 v1.4.0 Add OS version check - requires Windows 11 (build 22000+)
  2025-12-28 v1.3.0 Handle missing registry path gracefully (exit 0 instead of error)
  2025-12-28 v1.2.0 Added user context check, made warning more obvious
  2025-12-23 v1.1.0 Updated to Limehawk Script Framework
@@ -146,6 +149,45 @@ if ($currentUser -match "SYSTEM$") {
     exit 1
 }
 Write-Host "Context is valid (not SYSTEM)"
+
+# ==== OS VERSION CHECK ====
+$osVersion = [System.Environment]::OSVersion.Version
+$osBuild = $osVersion.Build
+$minBuild = 22000  # Windows 11
+
+Write-Host ""
+Write-Host "[ OS CHECK ]"
+Write-Host "--------------------------------------------------------------"
+Write-Host "OS Build   : $osBuild"
+
+if ($osBuild -lt $minBuild) {
+    $osInfo = Get-CimInstance -ClassName Win32_OperatingSystem
+    Write-Host "OS Name    : $($osInfo.Caption)"
+    Write-Host ""
+    Write-Host "[ UNSUPPORTED OS ]"
+    Write-Host "--------------------------------------------------------------"
+    Write-Host "This script requires Windows 11 (build $minBuild or later)."
+    Write-Host ""
+    Write-Host "Your system (build $osBuild) uses a different registry structure"
+    Write-Host "for notification icon settings that this script does not support."
+    Write-Host ""
+    Write-Host "Affected OS versions:"
+    Write-Host "  - Windows 10 (all versions)"
+    Write-Host "  - Windows Server 2016, 2019, 2022"
+    Write-Host ""
+    Write-Host "Workaround for older systems:"
+    Write-Host "  Right-click the taskbar > Taskbar settings > Notification area"
+    Write-Host "  > Select which icons appear on the taskbar > Toggle SuperOps on"
+    Write-Host ""
+    Write-Host "[ RESULT ]"
+    Write-Host "--------------------------------------------------------------"
+    Write-Host "Status : Not Supported (OS too old)"
+    Write-Host ""
+    Write-Host "[ SCRIPT COMPLETED ]"
+    Write-Host "--------------------------------------------------------------"
+    exit 1
+}
+Write-Host "OS version supported"
 
 # ==== VALIDATION ====
 if (-not (Test-Path $notifyIconPath)) {
