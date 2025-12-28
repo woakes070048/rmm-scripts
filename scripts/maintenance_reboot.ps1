@@ -9,7 +9,7 @@ $ErrorActionPreference = 'Stop' # Rule 1: Enable early error mode (fail on any n
 ███████╗██║██║ ╚═╝ ██║███████╗██║  ██║██║  ██║╚███╔███╔╝██║  ██╗
 ╚══════╝╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚══╝╚══╝ ╚═╝  ╚═╝
 ================================================================================
- SCRIPT   : Maintenance Reboot v7.2.2
+ SCRIPT   : Maintenance Reboot v7.2.3
  AUTHOR   : Limehawk.io
  DATE     : December 2024
  USAGE    : .\maintenance_reboot.ps1
@@ -106,6 +106,7 @@ $ErrorActionPreference = 'Stop' # Rule 1: Enable early error mode (fail on any n
 --------------------------------------------------------------------------------
  CHANGELOG
 --------------------------------------------------------------------------------
+ 2024-12-28 v7.2.3 Fixed WMI uptime query - replaced legacy [WMI] moniker with Get-CimInstance
  2024-12-23 v7.2.2 Updated to Limehawk Script Framework
  2025-12-18 v7.2.1 Renamed from invoke_reboot_on_uptime.ps1 to maintenance_reboot.ps1
  2025-12-15 v7.2.0 Simplified configuration section to follow style guidelines; Added toggle settings for each reboot flag check
@@ -224,9 +225,9 @@ try {
     # --- Uptime Check ---
     Write-Section "UPTIME CHECK"
 
-    # Uptime Check: Using [WMI] type accelerator and direct property access.
-    $bootObject = [WMI]'Win32_OperatingSystem= @'
-    $bootTime   = $bootObject.ConvertToDateTime($bootObject.LastBootUpTime)
+    # Uptime Check: Using Get-CimInstance (modern, returns DateTime directly)
+    $os = Get-CimInstance Win32_OperatingSystem
+    $bootTime = $os.LastBootUpTime
     $uptimeDays = ((Get-Date) - $bootTime).Days
     $bootTimeString = $bootTime.ToString('yyyy-MM-ddTHH:mm:ss')
 
