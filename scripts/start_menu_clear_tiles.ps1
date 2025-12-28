@@ -10,9 +10,10 @@ $ErrorActionPreference = 'Stop'
 ================================================================================
 SCRIPT  : Clear Windows 10 Start Menu Tiles v1.1.0
 AUTHOR  : Limehawk.io
-DATE    : December 2024
+DATE      : December 2025
 USAGE   : .\start_menu_clear_tiles.ps1
 FILE    : start_menu_clear_tiles.ps1
+DESCRIPTION : Removes all pinned app tiles from Windows 10 Start menu
 ================================================================================
 README
 --------------------------------------------------------------------------------
@@ -74,7 +75,7 @@ EXAMPLE RUN:
 
 CHANGELOG
 --------------------------------------------------------------------------------
-2024-12-23 v1.1.0 Updated to Limehawk Script Framework
+2025-12-23 v1.1.0 Updated to Limehawk Script Framework
 2024-12-01 v1.0.0 Initial release - migrated from SuperOps
 ================================================================================
 #>

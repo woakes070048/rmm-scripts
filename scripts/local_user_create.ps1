@@ -10,10 +10,11 @@ $ErrorActionPreference = 'Stop'
 ================================================================================
  SCRIPT   : Local User Create v1.2.1
  AUTHOR   : Limehawk.io
- DATE     : December 2024
+ DATE      : December 2025
  USAGE    : .\local_user_create.ps1
 ================================================================================
  FILE     : local_user_create.ps1
+ DESCRIPTION : Creates local user account with optional administrator privileges
 --------------------------------------------------------------------------------
  README
 --------------------------------------------------------------------------------
@@ -83,7 +84,7 @@ $ErrorActionPreference = 'Stop'
 --------------------------------------------------------------------------------
  CHANGELOG
 --------------------------------------------------------------------------------
- 2024-12-23 v1.2.1 Updated to Limehawk Script Framework
+ 2025-12-23 v1.2.1 Updated to Limehawk Script Framework
  2025-12-03 v1.2.0 Use descriptive runtime variable names ($NewUsername, $NewPassword)
  2025-12-03 v1.1.0 Use SuperOps runtime variables for all inputs; 2025-11-29 v1.0.0 Initial Style A implementation
 ================================================================================

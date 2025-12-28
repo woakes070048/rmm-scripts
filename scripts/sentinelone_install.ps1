@@ -14,6 +14,7 @@ $ErrorActionPreference = 'Stop'
  USAGE    : .\sentinelone_install.ps1
 ================================================================================
  FILE     : sentinelone_install.ps1
+DESCRIPTION : Silently installs SentinelOne endpoint agent with site token
 --------------------------------------------------------------------------------
  README
 --------------------------------------------------------------------------------

@@ -9,10 +9,11 @@
 # ================================================================================
 #  SCRIPT   : Dokploy Orphaned Volumes Cleanup                             v1.1.0
 #  AUTHOR   : Limehawk.io
-#  DATE     : December 2024
+#  DATE     : December 2025
 #  USAGE    : sudo ./dokploy_orphaned_volumes_cleanup.sh
 # ================================================================================
 #  FILE     : dokploy_orphaned_volumes_cleanup.sh
+#  DESCRIPTION : Identifies and removes orphaned Docker volumes to free space
 # --------------------------------------------------------------------------------
 #  README
 # --------------------------------------------------------------------------------
@@ -90,7 +91,7 @@
 # --------------------------------------------------------------------------------
 #  CHANGELOG
 # --------------------------------------------------------------------------------
-#  2024-12-23 v1.1.0 Updated to Limehawk Script Framework
+#  2025-12-23 v1.1.0 Updated to Limehawk Script Framework
 #  2024-11-18 v1.0.0 Initial release
 # ================================================================================
 

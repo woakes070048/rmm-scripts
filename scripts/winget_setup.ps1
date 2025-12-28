@@ -9,9 +9,10 @@ $ErrorActionPreference = 'Stop'
 ================================================================================
 SCRIPT  : Winget Setup for RMM v1.0.1
 AUTHOR  : Limehawk.io
-DATE    : December 2024
+DATE      : December 2025
 USAGE   : .\winget_setup.ps1
 FILE    : winget_setup.ps1
+DESCRIPTION : Installs winget (Windows Package Manager) for RMM environments
 ================================================================================
 README
 --------------------------------------------------------------------------------
@@ -141,7 +142,7 @@ README
 
 CHANGELOG
 --------------------------------------------------------------------------------
-2024-12-23 v1.0.1 Updated to Limehawk Script Framework
+2025-12-23 v1.0.1 Updated to Limehawk Script Framework
 2025-01-31 v1.0.0 Initial release - reliable winget installation for RMM
 ================================================================================
 #>

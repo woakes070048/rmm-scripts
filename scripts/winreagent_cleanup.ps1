@@ -10,10 +10,11 @@ $ErrorActionPreference = 'Stop'
 ================================================================================
  SCRIPT   : WinREAgent Cleanup                                           v1.0.1
  AUTHOR   : Limehawk.io
- DATE     : December 2024
+ DATE      : December 2025
  USAGE    : .\winreagent_cleanup.ps1
 ================================================================================
  FILE     : winreagent_cleanup.ps1
+DESCRIPTION : Cleans up WinREAgent folder to free disk space
 --------------------------------------------------------------------------------
  README
 --------------------------------------------------------------------------------
@@ -78,7 +79,7 @@ $ErrorActionPreference = 'Stop'
 --------------------------------------------------------------------------------
  CHANGELOG
 --------------------------------------------------------------------------------
- 2024-12-23 v1.0.1 Updated to Limehawk Script Framework
+ 2025-12-23 v1.0.1 Updated to Limehawk Script Framework
  2025-11-29 v1.0.0 Initial Style A implementation
 ================================================================================
 #>

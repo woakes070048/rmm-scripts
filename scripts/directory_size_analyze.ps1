@@ -10,10 +10,11 @@ $ErrorActionPreference = 'Stop'
 ================================================================================
  SCRIPT   : Directory Size Analyze                                        v2.1.0
  AUTHOR   : Limehawk.io
- DATE     : December 2024
+ DATE      : December 2025
  USAGE    : .\directory_size_analyze.ps1
 ================================================================================
  FILE     : directory_size_analyze.ps1
+ DESCRIPTION : Analyzes disk usage with gdu utility for directory size reports
 --------------------------------------------------------------------------------
  README
 --------------------------------------------------------------------------------
@@ -84,7 +85,7 @@ $ErrorActionPreference = 'Stop'
 --------------------------------------------------------------------------------
  CHANGELOG
 --------------------------------------------------------------------------------
- 2024-12-23 v2.1.0 Updated to Limehawk Script Framework
+ 2025-12-23 v2.1.0 Updated to Limehawk Script Framework
  2025-10-30 v2.0.0 Complete rewrite using direct gdu download
  2025-10-01 v1.0.0 Initial release
 ================================================================================

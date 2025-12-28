@@ -9,10 +9,11 @@
 # ================================================================================
 #  SCRIPT   : DietPi Debian 12 VM Installer for Proxmox                    v1.1.0
 #  AUTHOR   : Limehawk.io
-#  DATE     : December 2024
+#  DATE     : December 2025
 #  USAGE    : ./dietpi_proxmox_install.sh
 # ================================================================================
 #  FILE     : dietpi_proxmox_install.sh
+#  DESCRIPTION : Creates lightweight DietPi Debian 12 VM on Proxmox
 # --------------------------------------------------------------------------------
 #  README
 # --------------------------------------------------------------------------------
@@ -73,7 +74,7 @@
 # --------------------------------------------------------------------------------
 #  CHANGELOG
 # --------------------------------------------------------------------------------
-#  2024-12-23 v1.1.0 Updated to Limehawk Script Framework
+#  2025-12-23 v1.1.0 Updated to Limehawk Script Framework
 #  2024-12-01 v1.0.0 Initial release - migrated from SuperOps
 # ================================================================================
 

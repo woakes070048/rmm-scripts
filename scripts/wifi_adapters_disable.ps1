@@ -10,8 +10,9 @@ $ErrorActionPreference = 'Stop'
 ================================================================================
  SCRIPT  : Disable Wi-Fi Adapters v1.0.6
  AUTHOR  : Limehawk.io
- DATE    : December 2024
+ DATE      : December 2025
  FILE    : wifi_adapters_disable.ps1
+ DESCRIPTION : Disables all physical and virtual Wi-Fi network adapters
  USAGE   : .\wifi_adapters_disable.ps1
 ================================================================================
  README
@@ -70,7 +71,7 @@ EXAMPLE RUN:
 --------------------------------------------------------------------------------
  CHANGELOG
 --------------------------------------------------------------------------------
- 2024-12-23 v1.0.6 Updated to Limehawk Script Framework
+ 2025-12-23 v1.0.6 Updated to Limehawk Script Framework
  2024-12-01 v1.0.5 Migrated from SuperOps - removed module dependency
 ================================================================================
 #>

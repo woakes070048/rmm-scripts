@@ -10,8 +10,9 @@ $ErrorActionPreference = 'Stop'
 ================================================================================
  SCRIPT  : Remote Wipe v1.0.1
  AUTHOR  : Limehawk.io
- DATE    : December 2024
+ DATE      : December 2025
  FILE    : remote_wipe.ps1
+ DESCRIPTION : Initiates MDM remote wipe to factory reset Windows device
  USAGE   : .\remote_wipe.ps1
 ================================================================================
  README
@@ -68,7 +69,7 @@ EXAMPLE RUN:
 --------------------------------------------------------------------------------
  CHANGELOG
 --------------------------------------------------------------------------------
- 2024-12-23 v1.0.1 Updated to Limehawk Script Framework
+ 2025-12-23 v1.0.1 Updated to Limehawk Script Framework
  2024-12-01 v1.0.0 Initial release - migrated from SuperOps
 ================================================================================
 #>

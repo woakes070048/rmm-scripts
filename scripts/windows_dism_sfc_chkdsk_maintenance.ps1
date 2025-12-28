@@ -14,6 +14,7 @@ $ErrorActionPreference = 'Stop'
  USAGE    : .\windows_dism_sfc_chkdsk_maintenance.ps1
 ================================================================================
  FILE     : windows_dism_sfc_chkdsk_maintenance.ps1
+DESCRIPTION : Runs DISM, SFC, and chkdsk for Windows system file repair
 --------------------------------------------------------------------------------
  README
 --------------------------------------------------------------------------------
@@ -113,7 +114,7 @@ $ErrorActionPreference = 'Stop'
 --------------------------------------------------------------------------------
  2025-12-28 v2.0.0 Smart logic: RestoreHealth only runs if ScanHealth finds corruption; removed ComponentCleanup
  2025-12-28 v1.2.0 Use exit codes instead of string parsing for DISM/SFC result detection
- 2024-12-23 v1.1.0 Updated to Limehawk Script Framework
+ 2025-12-23 v1.1.0 Updated to Limehawk Script Framework
  2025-10-31 v1.0.3 Added full command output display for all operations (DISM and SFC)
  2025-10-31 v1.0.2 Fixed DISM component cleanup access denied errors
  2025-10-31 v1.0.1 Added optional reboot functionality with 5-minute warning

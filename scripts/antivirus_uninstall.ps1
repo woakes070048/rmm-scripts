@@ -9,9 +9,10 @@
 ================================================================================
  SCRIPT    : Antivirus Uninstall (Multi-Vendor) 1.1.0
  AUTHOR    : Limehawk.io
- DATE      : December 2024
+ DATE      : December 2025
  USAGE     : .\antivirus_uninstall.ps1
  FILE      : antivirus_uninstall.ps1
+ DESCRIPTION : Removes common third-party antivirus software (McAfee, Sophos, etc.)
 ================================================================================
  README
 --------------------------------------------------------------------------------
@@ -123,7 +124,7 @@ Exit code : 0
 --------------------------------------------------------------------------------
  CHANGELOG
 --------------------------------------------------------------------------------
- 2024-12-23 v1.1.0 Updated to Limehawk Script Framework
+ 2025-12-23 v1.1.0 Updated to Limehawk Script Framework
  2025-11-02 v1.0.0 Initial migration from SuperOps
 #>
 

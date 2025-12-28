@@ -10,9 +10,10 @@ $ErrorActionPreference = 'Stop'
 ================================================================================
 SCRIPT  : WiFiman Install v1.0.1
 AUTHOR  : Limehawk.io
-DATE    : December 2024
+DATE      : December 2025
 USAGE   : .\wifiman_install.ps1
 FILE    : wifiman_install.ps1
+DESCRIPTION : Installs Ubiquiti WiFiman Desktop via winget
 ================================================================================
 README
 --------------------------------------------------------------------------------
@@ -69,7 +70,7 @@ EXAMPLE RUN:
 
 CHANGELOG
 --------------------------------------------------------------------------------
-2024-12-23 v1.0.1 Updated to Limehawk Script Framework
+2025-12-23 v1.0.1 Updated to Limehawk Script Framework
 2024-12-01 v1.0.0 Initial release - migrated from SuperOps
 ================================================================================
 #>

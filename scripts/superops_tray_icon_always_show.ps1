@@ -10,10 +10,11 @@ $ErrorActionPreference = 'Stop'
 ================================================================================
  SCRIPT   : SuperOps Tray Icon Always Show                                v1.2.0
  AUTHOR   : Limehawk.io
- DATE     : December 2024
+ DATE      : December 2025
  USAGE    : .\superops_tray_icon_always_show.ps1
 ================================================================================
  FILE     : superops_tray_icon_always_show.ps1
+DESCRIPTION : Configures Windows to always show SuperOps tray icon
 --------------------------------------------------------------------------------
  README
 --------------------------------------------------------------------------------
@@ -99,7 +100,7 @@ $ErrorActionPreference = 'Stop'
  CHANGELOG
 --------------------------------------------------------------------------------
  2025-12-28 v1.2.0 Added user context check, made warning more obvious
- 2024-12-23 v1.1.0 Updated to Limehawk Script Framework
+ 2025-12-23 v1.1.0 Updated to Limehawk Script Framework
  2024-11-02 v1.0.0 Initial release
 ================================================================================
 #>

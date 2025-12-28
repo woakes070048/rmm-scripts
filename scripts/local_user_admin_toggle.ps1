@@ -10,10 +10,11 @@ $ErrorActionPreference = 'Stop'
 ================================================================================
  SCRIPT   : Local Admin Toggle v1.2.1
  AUTHOR   : Limehawk.io
- DATE     : December 2024
+ DATE      : December 2025
  USAGE    : .\local_user_admin_toggle.ps1
 ================================================================================
  FILE     : local_user_admin_toggle.ps1
+ DESCRIPTION : Adds or removes a local user from the Administrators group
 --------------------------------------------------------------------------------
  README
 --------------------------------------------------------------------------------
@@ -83,7 +84,7 @@ $ErrorActionPreference = 'Stop'
 --------------------------------------------------------------------------------
  CHANGELOG
 --------------------------------------------------------------------------------
- 2024-12-23 v1.2.1 Updated to Limehawk Script Framework
+ 2025-12-23 v1.2.1 Updated to Limehawk Script Framework
  2025-12-03 v1.2.0 Use descriptive runtime variable name ($TargetUsername); 2025-12-03 v1.1.0 Add SuperOps runtime variable validation; 2025-11-29 v1.0.0 Initial Style A implementation
 ================================================================================
 #>

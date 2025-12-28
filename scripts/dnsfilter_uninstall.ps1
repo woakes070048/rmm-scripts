@@ -10,8 +10,9 @@ $ErrorActionPreference = 'Stop'
 ================================================================================
  SCRIPT  : DNSFilter Agent Uninstall v1.0.1
  AUTHOR  : Limehawk.io
- DATE    : December 2024
+ DATE      : December 2025
  FILE    : dnsfilter_uninstall.ps1
+ DESCRIPTION : Completely removes DNSFilter agent and resets DNS to DHCP
  USAGE   : .\dnsfilter_uninstall.ps1
 ================================================================================
  README
@@ -84,7 +85,7 @@ EXAMPLE RUN:
 --------------------------------------------------------------------------------
  CHANGELOG
 --------------------------------------------------------------------------------
- 2024-12-23 v1.0.1 Updated to Limehawk Script Framework
+ 2025-12-23 v1.0.1 Updated to Limehawk Script Framework
  2024-12-01 v1.0.0 Initial release - migrated from SuperOps
 ================================================================================
 #>

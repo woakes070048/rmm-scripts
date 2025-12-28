@@ -10,9 +10,10 @@ $ErrorActionPreference = 'Stop'
 ================================================================================
 SCRIPT  : Remove All Printers v1.1.0
 AUTHOR  : Limehawk.io
-DATE    : December 2024
+DATE      : December 2025
 USAGE   : .\printers_remove_all.ps1
 FILE    : printers_remove_all.ps1
+DESCRIPTION : Removes all printers, drivers, and ports from Windows
 ================================================================================
 README
 --------------------------------------------------------------------------------
@@ -80,7 +81,7 @@ EXAMPLE RUN:
 
 CHANGELOG
 --------------------------------------------------------------------------------
-2024-12-23 v1.1.0 Updated to Limehawk Script Framework
+2025-12-23 v1.1.0 Updated to Limehawk Script Framework
 2024-12-01 v1.0.0 Initial release - converted from batch script
 ================================================================================
 #>

@@ -10,10 +10,11 @@ $ErrorActionPreference = 'Stop'
 ================================================================================
  SCRIPT   : Foxit PDF Editor+ Install (MS Store) v1.0.1
  AUTHOR   : Limehawk.io
- DATE     : December 2024
+ DATE      : December 2025
  USAGE    : .\foxit_pdf_editor_plus_install.ps1
 ================================================================================
  FILE     : foxit_pdf_editor_plus_install.ps1
+ DESCRIPTION : Installs Foxit PDF Editor from Microsoft Store via winget
 --------------------------------------------------------------------------------
  README
 --------------------------------------------------------------------------------
@@ -83,7 +84,7 @@ User must sign into Foxit account to activate license
 --------------------------------------------------------------------------------
  CHANGELOG
 --------------------------------------------------------------------------------
- 2024-12-23 v1.0.1 Updated to Limehawk Script Framework
+ 2025-12-23 v1.0.1 Updated to Limehawk Script Framework
  2025-06-15 v1.0.0 Initial release - MS Store installation method
 ================================================================================
 #>

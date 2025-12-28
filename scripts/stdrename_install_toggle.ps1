@@ -10,10 +10,11 @@ $ErrorActionPreference = 'Stop'
 ================================================================================
  SCRIPT   : stdrename Install Toggle v1.1.0
  AUTHOR   : Limehawk.io
- DATE     : December 2024
+ DATE      : December 2025
  USAGE    : .\stdrename_install_toggle.ps1
 ================================================================================
  FILE     : stdrename_install_toggle.ps1
+DESCRIPTION : Toggles installation of stdrename file renaming utility
 --------------------------------------------------------------------------------
  README
 --------------------------------------------------------------------------------
@@ -86,7 +87,7 @@ $ErrorActionPreference = 'Stop'
 --------------------------------------------------------------------------------
  CHANGELOG
 --------------------------------------------------------------------------------
- 2024-12-23 v1.1.0 Updated to Limehawk Script Framework
+ 2025-12-23 v1.1.0 Updated to Limehawk Script Framework
  2025-11-29 v1.0.0 Initial Style A implementation
 ================================================================================
 #>

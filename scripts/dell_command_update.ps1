@@ -10,9 +10,10 @@ $ErrorActionPreference = 'Stop'
 ================================================================================
 SCRIPT  : Dell Command Update v2.1.1
 AUTHOR  : Limehawk.io
-DATE    : December 2024
+DATE      : December 2025
 USAGE   : .\dell_command_update.ps1
 FILE    : dell_command_update.ps1
+DESCRIPTION : Installs Dell Command Update and applies driver/firmware updates
 ================================================================================
 README
 --------------------------------------------------------------------------------
@@ -107,7 +108,7 @@ README
 
 CHANGELOG
 --------------------------------------------------------------------------------
-2024-12-23 v2.1.1 Updated to Limehawk Script Framework
+2025-12-23 v2.1.1 Updated to Limehawk Script Framework
 2025-12-01 v2.1.0 Output scan and apply log contents to console for RMM visibility
 2025-12-01 v2.0.0 Switched from Chocolatey to winget for package management
 2025-11-29 v1.0.0 Initial Style A implementation

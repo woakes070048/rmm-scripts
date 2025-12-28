@@ -10,9 +10,10 @@ $ErrorActionPreference = 'Stop'
 ================================================================================
 SCRIPT  : Windows 11 Compatibility Check v1.0.1
 AUTHOR  : Limehawk.io
-DATE    : December 2024
+DATE      : December 2025
 USAGE   : .\win11_compatibility_check.ps1
 FILE    : win11_compatibility_check.ps1
+DESCRIPTION : Checks hardware requirements for Windows 11 upgrade
 ================================================================================
 README
 --------------------------------------------------------------------------------
@@ -87,7 +88,7 @@ EXAMPLE RUN:
 
 CHANGELOG
 --------------------------------------------------------------------------------
-2024-12-23 v1.0.1 Updated to Limehawk Script Framework
+2025-12-23 v1.0.1 Updated to Limehawk Script Framework
 2024-12-01 v1.0.0 Initial release - migrated from SuperOps (removed module dependency)
 ================================================================================
 #>

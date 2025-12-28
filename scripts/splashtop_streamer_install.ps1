@@ -10,9 +10,10 @@ $ErrorActionPreference = 'Stop'
 ================================================================================
 SCRIPT  : Splashtop Streamer Install v1.0.1
 AUTHOR  : Limehawk.io
-DATE    : December 2024
+DATE      : December 2025
 USAGE   : .\splashtop_streamer_install.ps1
 FILE    : splashtop_streamer_install.ps1
+DESCRIPTION : Silently installs Splashtop Streamer agent for remote access
 ================================================================================
 README
 --------------------------------------------------------------------------------
@@ -72,7 +73,7 @@ EXAMPLE RUN:
 
 CHANGELOG
 --------------------------------------------------------------------------------
-2024-12-23 v1.0.1 Updated to Limehawk Script Framework
+2025-12-23 v1.0.1 Updated to Limehawk Script Framework
 2024-12-01 v1.0.0 Initial release - converted from batch script
 ================================================================================
 #>

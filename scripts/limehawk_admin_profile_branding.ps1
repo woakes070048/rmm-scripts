@@ -11,10 +11,11 @@ $ErrorActionPreference = 'Stop'
 ================================================================================
  SCRIPT   : Limehawk Admin Profile Branding v3.2.5
  AUTHOR   : Limehawk.io
- DATE     : December 2024
+ DATE      : December 2025
  USAGE    : .\limehawk_admin_profile_branding.ps1
 ================================================================================
  FILE     : limehawk_admin_profile_branding.ps1
+ DESCRIPTION : Creates and manages MSP admin accounts with SuperOps password sync
 --------------------------------------------------------------------------------
  README
 --------------------------------------------------------------------------------
@@ -47,7 +48,7 @@ $ErrorActionPreference = 'Stop'
 --------------------------------------------------------------------------------
  CHANGELOG
 --------------------------------------------------------------------------------
- 2024-12-23 v3.2.5 Updated to Limehawk Script Framework
+ 2025-12-23 v3.2.5 Updated to Limehawk Script Framework
  2025-12-04 v3.2.4 Remove UserSwitch registry fix (didn't help, showed all users)
  2025-12-04 v3.2.2 Fix white line artifact - use dark background color instead of white; 2025-12-04 v3.2.1 Add account labels to branding output for clarity
  2025-12-04 v3.2.0 Change profile photo to .jpg; auto-delete old .png file; 2025-12-03 v3.1.8 Unhide limehawk from login screen if hidden via registry

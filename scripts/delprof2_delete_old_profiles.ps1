@@ -10,10 +10,11 @@ $ErrorActionPreference = 'Stop'
 ================================================================================
  SCRIPT   : DelProf2 Delete Old Profiles v1.1.0
  AUTHOR   : Limehawk.io
- DATE     : December 2024
+ DATE      : December 2025
  USAGE    : .\delprof2_delete_old_profiles.ps1
 ================================================================================
  FILE     : delprof2_delete_old_profiles.ps1
+ DESCRIPTION : Deletes Windows user profiles older than specified days
 --------------------------------------------------------------------------------
  README
 --------------------------------------------------------------------------------
@@ -62,7 +63,7 @@ $ErrorActionPreference = 'Stop'
 --------------------------------------------------------------------------------
  CHANGELOG
 --------------------------------------------------------------------------------
- 2024-12-23 v1.1.0 Updated to Limehawk Script Framework
+ 2025-12-23 v1.1.0 Updated to Limehawk Script Framework
  2025-11-29 v1.0.0 Initial release - separated from combined script
 ================================================================================
 #>

@@ -9,10 +9,11 @@
 # ================================================================================
 #  SCRIPT   : Ubuntu/Debian System Update (Verbose)                        v1.1.0
 #  AUTHOR   : Limehawk.io
-#  DATE     : December 2024
+#  DATE     : December 2025
 #  USAGE    : sudo ./ubuntu_debian_update_verbose.sh
 # ================================================================================
 #  FILE     : ubuntu_debian_update_verbose.sh
+#  DESCRIPTION : Updates all packages on Ubuntu/Debian with verbose output
 # --------------------------------------------------------------------------------
 #  README
 # --------------------------------------------------------------------------------
@@ -86,7 +87,7 @@
 # --------------------------------------------------------------------------------
 #  CHANGELOG
 # --------------------------------------------------------------------------------
-#  2024-12-23 v1.1.0 Updated to Limehawk Script Framework
+#  2025-12-23 v1.1.0 Updated to Limehawk Script Framework
 #  2024-11-18 v1.0.0 Initial release
 # ================================================================================
 

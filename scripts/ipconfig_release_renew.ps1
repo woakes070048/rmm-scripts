@@ -10,10 +10,11 @@ $ErrorActionPreference = 'Stop'
 ================================================================================
  SCRIPT   : IP Config Release Renew                                      v1.0.1
  AUTHOR   : Limehawk.io
- DATE     : December 2024
+ DATE      : December 2025
  USAGE    : .\ipconfig_release_renew.ps1
 ================================================================================
  FILE     : ipconfig_release_renew.ps1
+ DESCRIPTION : Releases and renews IP addresses on DHCP-enabled adapters
 --------------------------------------------------------------------------------
  README
 --------------------------------------------------------------------------------
@@ -88,7 +89,7 @@ $ErrorActionPreference = 'Stop'
 --------------------------------------------------------------------------------
  CHANGELOG
 --------------------------------------------------------------------------------
- 2024-12-23 v1.0.1 Updated to Limehawk Script Framework
+ 2025-12-23 v1.0.1 Updated to Limehawk Script Framework
  2025-11-29 v1.0.0 Initial Style A implementation
 ================================================================================
 #>

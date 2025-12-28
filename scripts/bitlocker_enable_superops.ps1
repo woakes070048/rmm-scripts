@@ -11,9 +11,10 @@ $ErrorActionPreference = 'Stop'
 ================================================================================
  SCRIPT    : BitLocker Enable with SuperOps Integration 1.2.0
  AUTHOR    : Limehawk.io
- DATE      : December 2024
+ DATE      : December 2025
  USAGE     : .\bitlocker_enable_superops.ps1
  FILE      : bitlocker_enable_superops.ps1
+ DESCRIPTION : Enables BitLocker with TPM and syncs recovery key to SuperOps
 ================================================================================
  README
 --------------------------------------------------------------------------------
@@ -131,7 +132,7 @@ $ErrorActionPreference = 'Stop'
 --------------------------------------------------------------------------------
  CHANGELOG
 --------------------------------------------------------------------------------
- 2024-12-23 v1.2.0 Updated to Limehawk Script Framework
+ 2025-12-23 v1.2.0 Updated to Limehawk Script Framework
  2025-11-29 v1.1.0 Refactored to Style A with SuperOps integration, improved error handling
  2025-09-29 v1.0.0 Initial Style A implementation with hardcoded inputs
 #>

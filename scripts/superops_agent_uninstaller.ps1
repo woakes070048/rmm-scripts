@@ -10,10 +10,11 @@ $ErrorActionPreference = 'Stop'
 ================================================================================
  SCRIPT   : SuperOps Agent Uninstaller                                   v1.2.3
  AUTHOR   : Limehawk.io
- DATE     : December 2024
+ DATE      : December 2025
  USAGE    : .\superops_agent_uninstaller.ps1
 ================================================================================
  FILE     : superops_agent_uninstaller.ps1
+DESCRIPTION : Uninstalls SuperOps agent via WMI/CIM with diagnostic reporting
 --------------------------------------------------------------------------------
  README
 --------------------------------------------------------------------------------
@@ -82,7 +83,7 @@ $ErrorActionPreference = 'Stop'
 --------------------------------------------------------------------------------
  CHANGELOG
 --------------------------------------------------------------------------------
- 2024-12-23 v1.2.3 Updated to Limehawk Script Framework
+ 2025-12-23 v1.2.3 Updated to Limehawk Script Framework
  2025-08-20 v1.2.2 Treats missing product as success (already removed) instead of failure
  2025-08-20 v1.2.1 Fixed cleanup command string formatting in service check to prevent parse errors
  2025-08-20 v1.2.0 Added post-uninstall service check with cleanup command suggestions

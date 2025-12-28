@@ -10,10 +10,11 @@ $ErrorActionPreference = 'Stop'
 ================================================================================
  SCRIPT   : Hardware Report                                               v1.1.0
  AUTHOR   : Limehawk.io
- DATE     : December 2024
+ DATE      : December 2025
  USAGE    : .\hardware_report.ps1
 ================================================================================
  FILE     : hardware_report.ps1
+ DESCRIPTION : Generates comprehensive hardware inventory report via CIM queries
 --------------------------------------------------------------------------------
  README
 --------------------------------------------------------------------------------
@@ -109,7 +110,7 @@ $ErrorActionPreference = 'Stop'
 --------------------------------------------------------------------------------
  CHANGELOG
 --------------------------------------------------------------------------------
- 2024-12-23 v1.1.0 Updated to Limehawk Script Framework
+ 2025-12-23 v1.1.0 Updated to Limehawk Script Framework
  2025-10-31 v1.0.0 Initial release
 ================================================================================
 #>

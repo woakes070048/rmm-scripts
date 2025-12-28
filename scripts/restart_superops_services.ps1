@@ -9,10 +9,11 @@ $ErrorActionPreference = 'Stop'
 ================================================================================
  SCRIPT   : Restart SuperOps Services v1.0.1
  AUTHOR   : Limehawk.io
- DATE     : December 2024
+ DATE      : December 2025
  USAGE    : .\restart_superops_services.ps1
 ================================================================================
  FILE     : restart_superops_services.ps1
+DESCRIPTION : Restarts all SuperOps agent services on Windows
 --------------------------------------------------------------------------------
  README
 --------------------------------------------------------------------------------
@@ -90,7 +91,7 @@ Restart command issued
 --------------------------------------------------------------------------------
  CHANGELOG
 --------------------------------------------------------------------------------
- 2024-12-23 v1.0.1 Updated to Limehawk Script Framework
+ 2025-12-23 v1.0.1 Updated to Limehawk Script Framework
  2024-12-23 v1.0.0 Initial release - Restart SuperOps/Limehawk services
 ================================================================================
 #>

@@ -10,9 +10,10 @@ $ErrorActionPreference = 'Stop'
 ================================================================================
 SCRIPT  : WinRE Partition Resize v1.0.1
 AUTHOR  : Limehawk.io
-DATE    : December 2024
+DATE      : December 2025
 USAGE   : .\winre_partition_resize.ps1
 FILE    : winre_partition_resize.ps1
+DESCRIPTION : Extends WinRE partition by 250MB for Windows updates
 ================================================================================
 README
 --------------------------------------------------------------------------------
@@ -85,7 +86,7 @@ EXAMPLE RUN:
 
 CHANGELOG
 --------------------------------------------------------------------------------
-2024-12-23 v1.0.1 Updated to Limehawk Script Framework
+2025-12-23 v1.0.1 Updated to Limehawk Script Framework
 2024-12-01 v1.0.0 Initial release - migrated from SuperOps
 ================================================================================
 #>

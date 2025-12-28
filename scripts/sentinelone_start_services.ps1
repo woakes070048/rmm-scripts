@@ -9,9 +9,10 @@
 ================================================================================
  SCRIPT    : SentinelOne Service Manager 1.1.0
  AUTHOR    : Limehawk.io
- DATE      : December 2024
+ DATE      : December 2025
  USAGE     : .\sentinelone_start_services.ps1
  FILE      : sentinelone_start_services.ps1
+DESCRIPTION : Ensures all SentinelOne services are running on Windows
 ================================================================================
  README
 --------------------------------------------------------------------------------
@@ -125,7 +126,7 @@ Exit code : 0
 --------------------------------------------------------------------------------
  CHANGELOG
 --------------------------------------------------------------------------------
- 2024-12-23 v1.1.0 Updated to Limehawk Script Framework
+ 2025-12-23 v1.1.0 Updated to Limehawk Script Framework
  2025-11-02 v1.0.0 Initial migration from SuperOps
 #>
 

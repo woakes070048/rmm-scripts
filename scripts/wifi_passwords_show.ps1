@@ -10,8 +10,9 @@ $ErrorActionPreference = 'Stop'
 ================================================================================
  SCRIPT  : Show Saved Wi-Fi Passwords v1.0.1
  AUTHOR  : Limehawk.io
- DATE    : December 2024
+ DATE      : December 2025
  FILE    : wifi_passwords_show.ps1
+ DESCRIPTION : Retrieves and displays all saved Wi-Fi network passwords
  USAGE   : .\wifi_passwords_show.ps1
 ================================================================================
  README
@@ -63,7 +64,7 @@ EXAMPLE RUN:
 --------------------------------------------------------------------------------
  CHANGELOG
 --------------------------------------------------------------------------------
- 2024-12-23 v1.0.1 Updated to Limehawk Script Framework
+ 2025-12-23 v1.0.1 Updated to Limehawk Script Framework
  2024-12-01 v1.0.0 Initial release - migrated from SuperOps
 ================================================================================
 #>

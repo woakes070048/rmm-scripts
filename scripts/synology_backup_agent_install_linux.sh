@@ -9,10 +9,11 @@
 # ================================================================================
 #  SCRIPT   : Synology Active Backup Agent Install (Linux)                 v1.1.0
 #  AUTHOR   : Limehawk.io
-#  DATE     : December 2024
+#  DATE     : December 2025
 #  USAGE    : sudo ./synology_backup_agent_install_linux.sh
 # ================================================================================
 #  FILE     : synology_backup_agent_install_linux.sh
+#  DESCRIPTION : Installs Synology Active Backup for Business Agent on Linux
 # --------------------------------------------------------------------------------
 #  README
 # --------------------------------------------------------------------------------
@@ -107,7 +108,7 @@
 # --------------------------------------------------------------------------------
 #  CHANGELOG
 # --------------------------------------------------------------------------------
-#  2024-12-23 v1.1.0 Updated to Limehawk Script Framework
+#  2025-12-23 v1.1.0 Updated to Limehawk Script Framework
 #  2024-01-01 v1.0.0 Initial release
 # ================================================================================
 

@@ -70,6 +70,7 @@ After Functions: Main script execution
 #  USAGE    : sudo ./script_name.sh
 # ================================================================================
 #  FILE     : script_name.sh
+#  DESCRIPTION : One-line summary of what this script does
 # --------------------------------------------------------------------------------
 #  README
 # --------------------------------------------------------------------------------

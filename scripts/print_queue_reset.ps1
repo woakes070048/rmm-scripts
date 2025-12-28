@@ -10,9 +10,10 @@ $ErrorActionPreference = 'Stop'
 ================================================================================
  SCRIPT    : Print Queue Reset 1.2.0
  AUTHOR    : Limehawk.io
- DATE      : December 2024
+ DATE      : December 2025
  USAGE     : .\print_queue_reset.ps1
  FILE      : print_queue_reset.ps1
+DESCRIPTION : Resets Windows print queue by clearing spooler directory
 ================================================================================
  README
 --------------------------------------------------------------------------------
@@ -114,7 +115,7 @@ Result  : Print queue cleared and service restarted successfully
 --------------------------------------------------------------------------------
  CHANGELOG
 --------------------------------------------------------------------------------
- 2024-12-23 v1.2.0 Updated to Limehawk Script Framework
+ 2025-12-23 v1.2.0 Updated to Limehawk Script Framework
  2025-01-17 v1.1.0 Add retry logic and handle locked files gracefully
  2025-01-17 v1.0.1 Fix Count property error for single file case
  2025-01-17 v1.0.0 Initial release - Print queue reset script

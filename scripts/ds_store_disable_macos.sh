@@ -9,10 +9,11 @@
 # ================================================================================
 #  SCRIPT   : Disable .DS_Store on Network Shares                          v1.1.0
 #  AUTHOR   : Limehawk.io
-#  DATE     : December 2024
+#  DATE     : December 2025
 #  USAGE    : ./ds_store_disable_macos.sh
 # ================================================================================
 #  FILE     : ds_store_disable_macos.sh
+#  DESCRIPTION : Prevents macOS from creating .DS_Store files on network shares
 # --------------------------------------------------------------------------------
 #  README
 # --------------------------------------------------------------------------------
@@ -75,7 +76,7 @@
 # --------------------------------------------------------------------------------
 #  CHANGELOG
 # --------------------------------------------------------------------------------
-#  2024-12-23 v1.1.0 Updated to Limehawk Script Framework
+#  2025-12-23 v1.1.0 Updated to Limehawk Script Framework
 #  2024-12-01 v1.0.0 Initial release - migrated from SuperOps
 # ================================================================================
 
