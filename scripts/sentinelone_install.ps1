@@ -121,7 +121,7 @@ $errorText     = ""
 $SiteToken = ""  # Get from S1 Console > Sentinels > Site Info
 
 # --- Installer Options ---
-$UseExe          = $true   # $true = EXE installer, $false = MSI installer
+$UseExe          = $false  # $true = EXE installer, $false = MSI installer (recommended)
 $SkipIfInstalled = $true   # Skip if SentinelOne already present
 $CleanupAfter    = $true   # Remove installer after completion
 $TempPath        = "C:\temp\SentinelOne"
