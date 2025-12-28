@@ -1,6 +1,7 @@
 @{
     ExcludeRules = @(
         'PSAvoidUsingWriteHost',
-        'PSAvoidUsingConvertToSecureStringWithPlainText'
+        'PSAvoidUsingConvertToSecureStringWithPlainText',
+        'PSUseBOMForUnicodeEncodedFile'
     )
 }
