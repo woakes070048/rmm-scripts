@@ -137,7 +137,7 @@ $setDefaultHtml  = $true  # Set Chrome as default for .html files
 $cleanUserStartup = $true  # Remove Edge from user's startup programs
 
 # Tool Configuration - SetUserFTA hosted in limehawk repo
-$setUserFtaUrl = 'https://github.com/limehawk/rmm-scripts/raw/main/tools/SetUserFTA.exe'
+$setUserFtaUrl = 'https://github.com/limehawk/rmm-scripts/raw/main/tools/SetUserFTA/SetUserFTA.exe'
 
 # ============================================================================
 # STATE VARIABLES
