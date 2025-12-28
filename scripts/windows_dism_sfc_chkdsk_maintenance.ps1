@@ -8,9 +8,9 @@ $ErrorActionPreference = 'Stop'
 ███████╗██║██║ ╚═╝ ██║███████╗██║  ██║██║  ██║╚███╔███╔╝██║  ██╗
 ╚══════╝╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚══╝╚══╝ ╚═╝  ╚═╝
 ================================================================================
- SCRIPT   : Windows DISM SFC Chkdsk Maintenance                          v1.2.0
+ SCRIPT   : Windows DISM SFC Chkdsk Maintenance                          v2.0.0
  AUTHOR   : Limehawk.io
- DATE     : December 2024
+ DATE     : December 2025
  USAGE    : .\windows_dism_sfc_chkdsk_maintenance.ps1
 ================================================================================
  FILE     : windows_dism_sfc_chkdsk_maintenance.ps1
@@ -32,13 +32,11 @@ $ErrorActionPreference = 'Stop'
  - RunDismScan       : $true
    (Whether to run DISM ScanHealth to check for image corruption.)
  - RunDismRestore    : $true
-   (Whether to run DISM RestoreHealth to repair image corruption.)
+   (Whether to run DISM RestoreHealth - only runs if ScanHealth finds corruption.)
  - RunChkdsk         : $false
    (Whether to run chkdsk on local drives. Requires reboot to complete.)
  - RunSfc            : $true
    (Whether to run System File Checker to verify and repair system files.)
- - RunDismCleanup    : $true
-   (Whether to run DISM component cleanup to remove superseded components.)
  - ChkdskParameters  : '/scan'
    (Parameters for chkdsk. Use '/scan' for quick scan or '/f /r' for full check.)
  - RebootAfterMaintenance : $false
@@ -52,8 +50,8 @@ $ErrorActionPreference = 'Stop'
 
  BEHAVIOR
  - Script runs each enabled maintenance operation in sequence.
+ - DISM RestoreHealth only runs if ScanHealth detects corruption (saves time on healthy systems).
  - Each operation's success or failure is tracked individually.
- - DISM log file is checked for access denied errors.
  - chkdsk requires admin rights and may schedule operations on next reboot.
  - Failed operations are reported but script continues to next operation.
 
@@ -83,87 +81,38 @@ $ErrorActionPreference = 'Stop'
  RunDismRestore   : True
  RunChkdsk        : False
  RunSfc           : True
- RunDismCleanup   : True
  ChkdskParameters : /scan
- RebootAfterMaintenance : False
 
  [ DISM SCAN HEALTH ]
  --------------------------------------------------------------
  Starting DISM image scan...
- Operation completed successfully
- Result : Success
+ No component store corruption detected.
+ Result : Success (no corruption)
 
  [ DISM RESTORE HEALTH ]
  --------------------------------------------------------------
- Starting DISM image repair...
- Operation completed successfully
- Result : Success
+ Skipped - no corruption detected by ScanHealth
 
  [ SYSTEM FILE CHECK ]
  --------------------------------------------------------------
  Starting system file verification...
- Windows Resource Protection found corrupt files and repaired them
- Result : Success
+ Windows Resource Protection did not find any integrity violations.
+ Result : Success (no integrity violations)
 
  [ FINAL STATUS ]
  --------------------------------------------------------------
- Operations Run    : 3
- Operations Passed : 3
+ Operations Run    : 2
+ Operations Passed : 2
  Operations Failed : 0
  Overall Result    : Success
 
  [ SCRIPT COMPLETED ]
  --------------------------------------------------------------
-
- # Example with RebootAfterMaintenance set to True
-
- [ INPUT VALIDATION ]
- --------------------------------------------------------------
- RunDismScan      : True
- RunDismRestore   : True
- RunChkdsk        : False
- RunSfc           : True
- RunDismCleanup   : True
- ChkdskParameters : /scan
- RebootAfterMaintenance : True
-
- [ DISM SCAN HEALTH ]
- --------------------------------------------------------------
- Starting DISM image scan...
- Operation completed successfully
- Result : Success
-
- [ DISM RESTORE HEALTH ]
- --------------------------------------------------------------
- Starting DISM image repair...
- Operation completed successfully
- Result : Success
-
- [ SYSTEM FILE CHECK ]
- --------------------------------------------------------------
- Starting system file verification...
- Windows Resource Protection found corrupt files and repaired them
- Result : Success
-
- [ FINAL STATUS ]
- --------------------------------------------------------------
- Operations Run    : 3
- Operations Passed : 3
- Operations Failed : 0
- Overall Result    : Success
-
- [ SCRIPT COMPLETED ]
- --------------------------------------------------------------
-
- [ REBOOT SCHEDULE ]
- --------------------------------------------------------------
- Scheduling system reboot in 5 minutes...
- Please save any open work.
- Reboot command issued.
 --------------------------------------------------------------------------------
  CHANGELOG
 --------------------------------------------------------------------------------
- 2024-12-28 v1.2.0 Use exit codes instead of string parsing for DISM/SFC result detection
+ 2025-12-28 v2.0.0 Smart logic: RestoreHealth only runs if ScanHealth finds corruption; removed ComponentCleanup
+ 2025-12-28 v1.2.0 Use exit codes instead of string parsing for DISM/SFC result detection
  2024-12-23 v1.1.0 Updated to Limehawk Script Framework
  2025-10-31 v1.0.3 Added full command output display for all operations (DISM and SFC)
  2025-10-31 v1.0.2 Fixed DISM component cleanup access denied errors
@@ -180,14 +129,14 @@ $errorText     = ""
 $operationsRun = 0
 $operationsPassed = 0
 $operationsFailed = 0
+$corruptionDetected = $false
 
 # ==== HARDCODED INPUTS (MANDATORY) ====
 # --- Operation Run Flags ---
 $RunDismScan      = $true  # Whether to run DISM ScanHealth to check for image corruption.
-$RunDismRestore   = $true  # Whether to run DISM RestoreHealth to repair image corruption.
+$RunDismRestore   = $true  # Whether to run DISM RestoreHealth to repair image corruption (only if ScanHealth finds issues).
 $RunChkdsk        = $false # Whether to run chkdsk on local drives. Requires reboot to complete.
 $RunSfc           = $true  # Whether to run System File Checker to verify and repair system files.
-$RunDismCleanup   = $true  # Whether to run DISM component cleanup to remove superseded components.
 
 # --- Operation Parameters ---
 $ChkdskParameters = '/scan'  # Parameters for chkdsk. Use '/scan' for quick scan or '/f /r' for full check.
@@ -215,11 +164,6 @@ if ($RunSfc -isnot [bool]) {
     $errorOccurred = $true
     if ($errorText.Length -gt 0) { $errorText += "`n" }
     $errorText += "- RunSfc must be a boolean value."
-}
-if ($RunDismCleanup -isnot [bool]) {
-    $errorOccurred = $true
-    if ($errorText.Length -gt 0) { $errorText += "`n" }
-    $errorText += "- RunDismCleanup must be a boolean value."
 }
 if ([string]::IsNullOrWhiteSpace($ChkdskParameters)) {
     $errorOccurred = $true
@@ -263,7 +207,6 @@ Write-Host "RunDismScan      : $RunDismScan"
 Write-Host "RunDismRestore   : $RunDismRestore"
 Write-Host "RunChkdsk        : $RunChkdsk"
 Write-Host "RunSfc           : $RunSfc"
-Write-Host "RunDismCleanup   : $RunDismCleanup"
 Write-Host "ChkdskParameters : $ChkdskParameters"
 
 # ==== DISM SCAN HEALTH ====
@@ -288,7 +231,13 @@ if ($RunDismScan) {
 
         # Check exit code as primary indicator (DISM: 0 = success)
         if ($dismScanExitCode -eq 0) {
-            Write-Host "Result : Success"
+            # Check if corruption was detected (scan succeeded but found issues)
+            if ($dismScanOutput -match "component store is repairable|corruption.*detected") {
+                Write-Host "Result : Corruption detected - repair needed"
+                $corruptionDetected = $true
+            } else {
+                Write-Host "Result : Success (no corruption)"
+            }
             $operationsPassed++
             $opSuccess = $true
         }
@@ -310,7 +259,10 @@ if ($RunDismScan) {
 }
 
 # ==== DISM RESTORE HEALTH ====
-if ($RunDismRestore) {
+# Only runs if ScanHealth detected corruption (or if ScanHealth was skipped)
+$shouldRunRestore = $RunDismRestore -and ($corruptionDetected -or -not $RunDismScan)
+
+if ($shouldRunRestore) {
     Write-Host ""
     Write-Host "[ DISM RESTORE HEALTH ]"
     Write-Host "--------------------------------------------------------------"
@@ -350,6 +302,12 @@ if ($RunDismRestore) {
         Write-Host "Result : Failed"
         $operationsFailed++
     }
+}
+elseif ($RunDismRestore -and -not $corruptionDetected) {
+    Write-Host ""
+    Write-Host "[ DISM RESTORE HEALTH ]"
+    Write-Host "--------------------------------------------------------------"
+    Write-Host "Skipped - no corruption detected by ScanHealth"
 }
 
 # ==== DISK CHECK ====
@@ -446,99 +404,6 @@ if ($RunSfc) {
         Write-Host "Error : $($_.Exception.Message)"
         Write-Host "Result : Failed"
         $operationsFailed++
-    }
-}
-
-# ==== COMPONENT CLEANUP ====
-if ($RunDismCleanup) {
-    Write-Host ""
-    Write-Host "[ COMPONENT CLEANUP ]"
-    Write-Host "--------------------------------------------------------------"
-
-    $operationsRun++
-    $opSuccess = $false
-    $wuServiceWasStopped = $false
-
-    try {
-        # Stop Windows Update service to release component store locks
-        Write-Host "Checking Windows Update service status..."
-        $wuService = Get-Service -Name wuauserv -ErrorAction SilentlyContinue
-
-        if ($wuService -and $wuService.Status -eq 'Running') {
-            Write-Host "Stopping Windows Update service..."
-            Stop-Service -Name wuauserv -Force -ErrorAction SilentlyContinue
-            Start-Sleep -Seconds 2
-            $wuServiceWasStopped = $true
-            Write-Host "Windows Update service stopped"
-        } else {
-            Write-Host "Windows Update service is not running"
-        }
-
-        # Retry logic for component cleanup
-        $maxRetries = 2
-        $retryCount = 0
-        $cleanupSuccess = $false
-
-        while ($retryCount -le $maxRetries -and -not $cleanupSuccess) {
-            if ($retryCount -gt 0) {
-                Write-Host "Retry attempt $retryCount of $maxRetries..."
-                Start-Sleep -Seconds 3
-            }
-
-            Write-Host "Starting component cleanup..."
-            Write-Host ""
-            $dismCleanupResult = & DISM.exe /Online /Cleanup-Image /StartComponentCleanup 2>&1
-            $dismCleanupExitCode = $LASTEXITCODE
-            $dismCleanupOutput = $dismCleanupResult -join "`n"
-
-            # Display the actual output
-            Write-Host $dismCleanupOutput
-            Write-Host ""
-
-            # Check exit code as primary indicator (DISM: 0 = success)
-            if ($dismCleanupExitCode -eq 0) {
-                Write-Host "Result : Success"
-                $operationsPassed++
-                $opSuccess = $true
-                $cleanupSuccess = $true
-            }
-            elseif ($dismCleanupOutput -match "Error: 5|Access is denied") {
-                Write-Host "Access denied error detected on attempt $($retryCount + 1)"
-                $retryCount++
-            }
-            else {
-                Write-Host "Failed on attempt $($retryCount + 1) (exit code: $dismCleanupExitCode)"
-                $retryCount++
-            }
-        }
-
-        # If all retries failed, show diagnostic info
-        if (-not $cleanupSuccess) {
-            Write-Host "Component cleanup failed after $($retryCount) attempts"
-
-            # Check for active Windows Update operations
-            $wuProcess = Get-Process -Name TiWorker -ErrorAction SilentlyContinue
-            if ($wuProcess) {
-                Write-Host "Note: TrustedInstaller (TiWorker.exe) is running - Windows Update may be active"
-            }
-
-            Write-Host "Result : Failed - Unable to complete cleanup"
-            $operationsFailed++
-        }
-
-    } catch {
-        Write-Host "Exception occurred during component cleanup"
-        Write-Host "Error : $($_.Exception.Message)"
-        Write-Host "Result : Failed"
-        $operationsFailed++
-    }
-    finally {
-        # Always restart Windows Update service if we stopped it
-        if ($wuServiceWasStopped) {
-            Write-Host "Restarting Windows Update service..."
-            Start-Service -Name wuauserv -ErrorAction SilentlyContinue
-            Write-Host "Windows Update service restarted"
-        }
     }
 }
 
