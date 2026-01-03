@@ -3,12 +3,11 @@ name: Claude Code Review
 on:
   pull_request:
     types: [opened, synchronize]
-    # Optional: Only run on specific file changes
-    # paths:
-    #   - "src/**/*.ts"
-    #   - "src/**/*.tsx"
-    #   - "src/**/*.js"
-    #   - "src/**/*.jsx"
+    paths:
+      - "scripts/**/*.ps1"
+      - "scripts/**/*.sh"
+      - "docs/powershell_script_guidelines.md"
+      - "docs/bash_script_guidelines.md"
 
 jobs:
   claude-review:
@@ -29,7 +28,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
-          fetch-depth: 1
+          fetch-depth: 10
 
       - name: Run Claude Code Review
         id: claude-review
@@ -40,16 +39,38 @@ jobs:
             REPO: ${{ github.repository }}
             PR NUMBER: ${{ github.event.pull_request.number }}
 
-            Please review this pull request and provide feedback on:
+            You are reviewing scripts for an RMM repository that follows the **Limehawk Script Framework**.
+            Read the guidelines in `docs/powershell_script_guidelines.md` and `docs/bash_script_guidelines.md`.
+
+            For each modified script, verify:
+
+            **Mandatory Framework Compliance:**
+            - VERSION is incremented (major.minor.patch based on change type)
+            - CHANGELOG has a new entry at the top: `YYYY-MM-DD vX.Y.Z Description`
+            - Filename uses snake_case (e.g., `my_script_name.ps1`)
+            - ASCII art header is present at the top of the comment block
+            - README block has all required sections (PURPOSE, BEHAVIOR, REQUIRED INPUTS, EXIT CODES, etc.)
+
+            **PowerShell Scripts (.ps1):**
+            - No `param()` blocks - all inputs must be hardcoded variables
+            - No `$args` usage
+            - No `$env:` for script configuration (only for system paths)
+            - Uses `$ErrorActionPreference = 'Stop'`
+            - Exit 0 on success, exit 1 on failure
+
+            **Bash Scripts (.sh):**
+            - Shebang is `#!/bin/bash` on line 1
+            - All inputs hardcoded in configuration section
+            - No command-line arguments for configuration
+            - Exit 0 on success, exit 1 on failure
+
+            **General Quality:**
             - Code quality and best practices
             - Potential bugs or issues
-            - Performance considerations
-            - Security concerns
-            - Test coverage
+            - Security concerns (no secrets in output)
+            - Console output follows framework format (62-char dividers, KV spacing)
 
-            Use the repository's CLAUDE.md for guidance on style and conventions. Be constructive and helpful in your feedback.
-
-            Use `gh pr comment` with your Bash tool to leave your review as a comment on the PR.
+            Be constructive. Flag framework violations as blocking issues. Use `gh pr comment` with your Bash tool to leave your review.
 
           # See https://github.com/anthropics/claude-code-action/blob/main/docs/usage.md
           # or https://code.claude.com/docs/en/cli-reference for available options
