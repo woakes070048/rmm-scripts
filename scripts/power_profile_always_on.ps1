@@ -8,9 +8,9 @@ $ErrorActionPreference = 'Stop'
 ╚══════╝╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚══╝╚══╝ ╚═╝  ╚═╝
 
 ================================================================================
-SCRIPT  : Set Always-On Power Profile v2.1.0
+SCRIPT  : Set Always-On Power Profile v2.2.0
 AUTHOR  : Limehawk.io
-DATE      : December 2025
+DATE      : January 2026
 USAGE   : .\power_profile_always_on.ps1
 FILE    : power_profile_always_on.ps1
 DESCRIPTION : Creates custom always-on power plan for workstations
@@ -47,6 +47,18 @@ PREREQUISITES:
     - Administrator privileges
     - High Performance power plan must exist
 
+WINDOWS 11 NOTE:
+    Windows 11 Settings app (Settings > System > Power) does NOT display custom
+    power plans. It shows a simplified "Power mode" slider instead. This is
+    cosmetic only - custom plans still work correctly in the background.
+
+    To verify the plan is active, use the classic Control Panel:
+      - Run: control powercfg.cpl
+      - Or run: powercfg /getactivescheme
+
+    The custom plan will appear in Control Panel > Power Options even though
+    it's hidden in the modern Settings UI.
+
 SECURITY NOTES:
     - No secrets in logs
     - All operations are local
@@ -80,6 +92,7 @@ EXAMPLE RUN:
 
 CHANGELOG
 --------------------------------------------------------------------------------
+2026-01-05 v2.2.0 Added Windows 11 note about hidden power plans in Settings UI
 2025-12-23 v2.1.0 Updated to Limehawk Script Framework
 2024-12-01 v2.0.0 Migrated from SuperOps - removed module dependency
 2025-09-12 v1.0.0 Initial version

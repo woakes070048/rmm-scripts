@@ -8,9 +8,9 @@ $ErrorActionPreference = 'Stop'
 ███████╗██║██║ ╚═╝ ██║███████╗██║  ██║██║  ██║╚███╔███╔╝██║  ██╗
 ╚══════╝╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚══╝╚══╝ ╚═╝  ╚═╝
 ================================================================================
- SCRIPT   : Complete OneDrive Removal v1.1.1
+ SCRIPT   : Complete OneDrive Removal v1.2.0
  AUTHOR   : Limehawk.io
- DATE      : December 2025
+ DATE     : January 2026
  USAGE    : .\onedrive_remove_complete.ps1
 ================================================================================
  FILE     : onedrive_remove_complete.ps1
@@ -34,8 +34,9 @@ $ErrorActionPreference = 'Stop'
 
  REQUIRED INPUTS
 
- - No runtime parameters required
- - All operations use hardcoded paths and registry locations
+   All inputs are hardcoded in the script body:
+     - $cleanDefaultProfile : Clean Default User profile to prevent OneDrive on
+                              new accounts (default: true)
 
  SETTINGS
 
@@ -53,7 +54,8 @@ $ErrorActionPreference = 'Stop'
  5. Sets HKLM GPO DisableFileSyncNGSC=1 to prevent startup for all users
  6. Removes HKCU Run key OneDrive entry
  7. Sets Explorer policy to hide OneDrive from navigation pane
- 8. Reports completion status with reboot recommendation
+ 8. Cleans Default User profile to prevent OneDrive on new accounts
+ 9. Reports completion status with reboot recommendation
 
  PREREQUISITES
 
@@ -135,6 +137,7 @@ $ErrorActionPreference = 'Stop'
 --------------------------------------------------------------------------------
  CHANGELOG
 --------------------------------------------------------------------------------
+ 2026-01-05 v1.2.0 Added Default User profile cleanup to prevent OneDrive on new accounts
  2025-12-23 v1.1.1 Updated to Limehawk Script Framework
  2025-11-29 v1.1.0 Refactored to Limehawk Style A with improved validation, cleaner section organization, and enhanced error handling
  2025-09-19 v1.0.0 Initial version for complete multi-path OneDrive uninstall
@@ -154,6 +157,9 @@ $uninstallCount = 0
 # ============================================================================
 # HARDCODED INPUTS
 # ============================================================================
+
+# Clean Default User profile to prevent OneDrive on new accounts
+$cleanDefaultProfile = $true
 
 # OneDriveSetup.exe paths across various Windows/Office installations
 $oneDrivePaths = @(
@@ -197,10 +203,11 @@ if ($errorOccurred) {
     exit 1
 }
 
-Write-Host "Computer Name    : $env:COMPUTERNAME"
-Write-Host "Username         : $env:USERNAME"
-Write-Host "Admin Privileges : Confirmed"
-Write-Host "Paths to Check   : $($oneDrivePaths.Count)"
+Write-Host "Computer Name      : $env:COMPUTERNAME"
+Write-Host "Username           : $env:USERNAME"
+Write-Host "Admin Privileges   : Confirmed"
+Write-Host "Paths to Check     : $($oneDrivePaths.Count)"
+Write-Host "Clean Default User : $cleanDefaultProfile"
 
 # ============================================================================
 # STOP PROCESSES
@@ -313,6 +320,77 @@ try {
     Write-Host "Explorer policy applied"
 } catch {
     Write-Host "Explorer policy failed : $($_.Exception.Message)"
+}
+
+# ============================================================================
+# DEFAULT USER PROFILE CLEANUP
+# ============================================================================
+
+if ($cleanDefaultProfile) {
+    Write-Host ""
+    Write-Host "[ DEFAULT USER PROFILE ]"
+    Write-Host "--------------------------------------------------------------"
+
+    $defaultUserHive = "$env:SystemDrive\Users\Default\NTUSER.DAT"
+    $tempHiveKey = "HKU\DefaultUserTemp"
+
+    if (Test-Path $defaultUserHive) {
+        Write-Host "Loading Default User registry hive..."
+
+        try {
+            # Load the Default User hive
+            $loadResult = & reg.exe load $tempHiveKey $defaultUserHive 2>&1
+            if ($LASTEXITCODE -ne 0) {
+                throw "Failed to load hive: $loadResult"
+            }
+            Write-Host "Hive loaded successfully"
+
+            # Remove OneDrive Run key from Default User
+            Write-Host "Removing OneDrive Run key from Default User..."
+            $defaultRunPath = "$tempHiveKey\Software\Microsoft\Windows\CurrentVersion\Run"
+            & reg.exe delete $defaultRunPath /v "OneDrive" /f 2>&1 | Out-Null
+            if ($LASTEXITCODE -eq 0) {
+                Write-Host "OneDrive Run key removed from Default User"
+            } else {
+                Write-Host "OneDrive Run key not present in Default User"
+            }
+
+            # Remove OneDrive setup key that triggers first-run
+            Write-Host "Removing OneDrive setup triggers..."
+            $oneDriveSetupPath = "$tempHiveKey\Software\Microsoft\OneDrive"
+            & reg.exe delete $oneDriveSetupPath /f 2>&1 | Out-Null
+            if ($LASTEXITCODE -eq 0) {
+                Write-Host "OneDrive setup keys removed"
+            } else {
+                Write-Host "OneDrive setup keys not present"
+            }
+
+            # Unload the hive
+            Write-Host "Unloading Default User registry hive..."
+            [gc]::Collect()
+            Start-Sleep -Milliseconds 500
+            $unloadResult = & reg.exe unload $tempHiveKey 2>&1
+            if ($LASTEXITCODE -ne 0) {
+                Write-Host "Warning: Hive unload delayed (will complete on reboot)"
+            } else {
+                Write-Host "Hive unloaded successfully"
+            }
+
+            Write-Host "Default User profile cleaned"
+        }
+        catch {
+            Write-Host "Default User cleanup failed : $($_.Exception.Message)"
+            # Attempt to unload hive if it was loaded
+            & reg.exe unload $tempHiveKey 2>&1 | Out-Null
+        }
+    } else {
+        Write-Host "Default User hive not found : $defaultUserHive"
+    }
+} else {
+    Write-Host ""
+    Write-Host "[ DEFAULT USER PROFILE ]"
+    Write-Host "--------------------------------------------------------------"
+    Write-Host "Skipped (cleanDefaultProfile = false)"
 }
 
 # ============================================================================
