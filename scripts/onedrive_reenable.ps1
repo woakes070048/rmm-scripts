@@ -7,36 +7,37 @@ $ErrorActionPreference = 'Stop'
 ███████╗██║██║ ╚═╝ ██║███████╗██║  ██║██║  ██║╚███╔███╔╝██║  ██╗
 ╚══════╝╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚══╝╚══╝ ╚═╝  ╚═╝
 ================================================================================
- SCRIPT   : Re-enable OneDrive v1.0.0
+ SCRIPT   : Re-enable OneDrive v1.1.0
  AUTHOR   : Limehawk.io
  DATE     : January 2026
  USAGE    : .\onedrive_reenable.ps1
 ================================================================================
  FILE     : onedrive_reenable.ps1
- DESCRIPTION : Removes OneDrive blocking policies to allow reinstallation
+ DESCRIPTION : Removes OneDrive blocking policies and reinstalls OneDrive
 --------------------------------------------------------------------------------
  README
 --------------------------------------------------------------------------------
  PURPOSE
 
-   Reverses the registry policies set by onedrive_remove_complete.ps1 to allow
-   OneDrive to be reinstalled and function normally. Use this when a machine
-   needs to switch back to Microsoft services. Does NOT install OneDrive - only
-   removes the blocking policies so it can be installed via Microsoft 365 or
-   Windows Update.
+   Reverses the registry policies set by onedrive_remove_complete.ps1 and
+   reinstalls OneDrive. Use this when a machine needs to switch back to
+   Microsoft services.
 
  DATA SOURCES & PRIORITY
 
    1) Registry keys for GPO and Explorer policies
    2) Default User profile registry hive
+   3) Microsoft CDN for OneDrive installer
 
  REQUIRED INPUTS
 
    All inputs are hardcoded in the script body:
+     - $installOneDrive     : Download and install OneDrive (default: true)
      - $cleanDefaultProfile : Also clean Default User profile (default: true)
 
  SETTINGS
 
+   - OneDrive Download URL: https://go.microsoft.com/fwlink/?linkid=844652
    - Registry GPO Path: HKLM:\Software\Policies\Microsoft\Windows\OneDrive
    - Registry Explorer Path: HKLM:\SOFTWARE\Policies\Microsoft\Windows\Explorer
 
@@ -46,26 +47,27 @@ $ErrorActionPreference = 'Stop'
    2. Removes HKLM GPO DisableFileSyncNGSC policy
    3. Removes Explorer DisableOneDriveFileSync policy
    4. Optionally cleans Default User profile policies
-   5. Reports completion with next steps for installation
+   5. Downloads and installs OneDrive from Microsoft CDN
+   6. Reports completion status
 
  PREREQUISITES
 
    - PowerShell 5.1 or later
    - Administrator privileges required
-   - No network requirements (local operations only)
+   - Network connectivity to Microsoft CDN (for installation)
 
  SECURITY NOTES
 
    - No secrets (API keys, passwords) are used or logged
-   - All actions confined to local registry
+   - Downloads only from official Microsoft CDN
 
  ENDPOINTS
 
-   - N/A (local machine only)
+   - https://go.microsoft.com/fwlink/?linkid=844652 (OneDrive installer)
 
  EXIT CODES
 
-   - 0 : Success - all policies removed
+   - 0 : Success - policies removed and OneDrive installed
    - 1 : Failure - critical error (likely permission-related)
 
  EXAMPLE RUN
@@ -75,6 +77,7 @@ $ErrorActionPreference = 'Stop'
    Computer Name      : WKSTN-FIN-01
    Username           : SYSTEM
    Admin Privileges   : Confirmed
+   Install OneDrive   : True
    Clean Default User : True
 
    [ REMOVE BLOCKING POLICIES ]
@@ -92,15 +95,17 @@ $ErrorActionPreference = 'Stop'
    Default User profile cleaned
    Hive unloaded successfully
 
+   [ INSTALL ONEDRIVE ]
+   --------------------------------------------------------------
+   Downloading OneDrive installer...
+   Download complete : 45.2 MB
+   Installing OneDrive...
+   OneDrive installed successfully
+
    [ FINAL STATUS ]
    --------------------------------------------------------------
    Result : SUCCESS
-   OneDrive blocking policies removed
-
-   Next steps to install OneDrive:
-   - Install Microsoft 365 (includes OneDrive)
-   - Or download from: https://www.microsoft.com/microsoft-365/onedrive/download
-   - Or run: winget install Microsoft.OneDrive
+   OneDrive re-enabled and installed
 
    [ SCRIPT COMPLETED ]
    --------------------------------------------------------------
@@ -108,6 +113,7 @@ $ErrorActionPreference = 'Stop'
 --------------------------------------------------------------------------------
  CHANGELOG
 --------------------------------------------------------------------------------
+ 2026-01-05 v1.1.0 Added automatic OneDrive installation from Microsoft CDN
  2026-01-05 v1.0.0 Initial release - reverses onedrive_remove_complete.ps1
 ================================================================================
 #>
@@ -125,8 +131,14 @@ $errorText     = ""
 # HARDCODED INPUTS
 # ============================================================================
 
+# Download and install OneDrive after removing policies
+$installOneDrive = $true
+
 # Also clean Default User profile
 $cleanDefaultProfile = $true
+
+# OneDrive installer URL (official Microsoft link)
+$oneDriveUrl = 'https://go.microsoft.com/fwlink/?linkid=844652'
 
 # Registry paths for policy cleanup
 $gpoPath      = "HKLM:\Software\Policies\Microsoft\Windows\OneDrive"
@@ -164,6 +176,7 @@ if ($errorOccurred) {
 Write-Host "Computer Name      : $env:COMPUTERNAME"
 Write-Host "Username           : $env:USERNAME"
 Write-Host "Admin Privileges   : Confirmed"
+Write-Host "Install OneDrive   : $installOneDrive"
 Write-Host "Clean Default User : $cleanDefaultProfile"
 
 # ============================================================================
@@ -283,6 +296,94 @@ if ($cleanDefaultProfile) {
 }
 
 # ============================================================================
+# INSTALL ONEDRIVE
+# ============================================================================
+
+$installSuccess = $false
+
+if ($installOneDrive) {
+    Write-Host ""
+    Write-Host "[ INSTALL ONEDRIVE ]"
+    Write-Host "--------------------------------------------------------------"
+
+    $tempDir = Join-Path $env:TEMP 'OneDriveInstall'
+    $installerPath = Join-Path $tempDir 'OneDriveSetup.exe'
+
+    try {
+        # Create temp directory
+        if (-not (Test-Path $tempDir)) {
+            New-Item -Path $tempDir -ItemType Directory -Force | Out-Null
+        }
+
+        # Download OneDrive installer
+        Write-Host "Downloading OneDrive installer..."
+
+        $curlArgs = @(
+            '-L',
+            '-o', $installerPath,
+            '--silent',
+            '--show-error',
+            '--fail',
+            '--connect-timeout', '30',
+            '--max-time', '300',
+            $oneDriveUrl
+        )
+
+        $curlProcess = Start-Process -FilePath "curl.exe" -ArgumentList $curlArgs -Wait -NoNewWindow -PassThru
+
+        if ($curlProcess.ExitCode -ne 0) {
+            throw "Download failed with exit code $($curlProcess.ExitCode)"
+        }
+
+        if (-not (Test-Path $installerPath)) {
+            throw "Installer file not found after download"
+        }
+
+        $fileSize = (Get-Item $installerPath).Length
+        $fileSizeMB = [math]::Round($fileSize / 1MB, 2)
+        Write-Host "Download complete : $fileSizeMB MB"
+
+        # Install OneDrive
+        Write-Host "Installing OneDrive..."
+
+        # /silent runs silent install, /allusers installs for all users
+        $installProcess = Start-Process -FilePath $installerPath -ArgumentList '/silent' -Wait -NoNewWindow -PassThru
+
+        if ($installProcess.ExitCode -eq 0) {
+            Write-Host "OneDrive installed successfully"
+            $installSuccess = $true
+        } else {
+            Write-Host "OneDrive installer exited with code : $($installProcess.ExitCode)"
+            # Exit code may be non-zero but installation could still succeed
+            # Check if OneDrive is now present
+            $oneDriveExe = "$env:LOCALAPPDATA\Microsoft\OneDrive\OneDrive.exe"
+            $oneDriveExeAlt = "$env:ProgramFiles\Microsoft OneDrive\OneDrive.exe"
+            if ((Test-Path $oneDriveExe) -or (Test-Path $oneDriveExeAlt)) {
+                Write-Host "OneDrive detected - installation successful"
+                $installSuccess = $true
+            }
+        }
+
+        # Cleanup
+        if (Test-Path $tempDir) {
+            Remove-Item -Path $tempDir -Recurse -Force -ErrorAction SilentlyContinue
+        }
+    }
+    catch {
+        Write-Host "Installation failed : $($_.Exception.Message)"
+        # Cleanup on failure
+        if (Test-Path $tempDir) {
+            Remove-Item -Path $tempDir -Recurse -Force -ErrorAction SilentlyContinue
+        }
+    }
+} else {
+    Write-Host ""
+    Write-Host "[ INSTALL ONEDRIVE ]"
+    Write-Host "--------------------------------------------------------------"
+    Write-Host "Skipped (installOneDrive = false)"
+}
+
+# ============================================================================
 # FINAL STATUS
 # ============================================================================
 
@@ -290,13 +391,24 @@ Write-Host ""
 Write-Host "[ FINAL STATUS ]"
 Write-Host "--------------------------------------------------------------"
 
-Write-Host "Result : SUCCESS"
-Write-Host "OneDrive blocking policies removed"
-Write-Host ""
-Write-Host "Next steps to install OneDrive:"
-Write-Host "- Install Microsoft 365 (includes OneDrive)"
-Write-Host "- Or download from: https://www.microsoft.com/microsoft-365/onedrive/download"
-Write-Host "- Or run: winget install Microsoft.OneDrive"
+if ($installOneDrive -and $installSuccess) {
+    Write-Host "Result : SUCCESS"
+    Write-Host "OneDrive re-enabled and installed"
+} elseif ($installOneDrive -and -not $installSuccess) {
+    Write-Host "Result : PARTIAL"
+    Write-Host "Blocking policies removed but OneDrive installation failed"
+    Write-Host ""
+    Write-Host "Manual installation options:"
+    Write-Host "- Download from: https://www.microsoft.com/microsoft-365/onedrive/download"
+    Write-Host "- Or run: winget install Microsoft.OneDrive"
+} else {
+    Write-Host "Result : SUCCESS"
+    Write-Host "OneDrive blocking policies removed"
+    Write-Host ""
+    Write-Host "Next steps to install OneDrive:"
+    Write-Host "- Download from: https://www.microsoft.com/microsoft-365/onedrive/download"
+    Write-Host "- Or run: winget install Microsoft.OneDrive"
+}
 
 Write-Host ""
 Write-Host "[ SCRIPT COMPLETED ]"
