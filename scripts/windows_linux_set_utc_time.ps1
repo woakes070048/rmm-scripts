@@ -7,12 +7,12 @@ $ErrorActionPreference = 'Stop'
 ███████╗██║██║ ╚═╝ ██║███████╗██║  ██║██║  ██║╚███╔███╔╝██║  ██╗
 ╚══════╝╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚══╝╚══╝ ╚═╝  ╚═╝
 ================================================================================
- SCRIPT   : Windows Linux Time Fix                                        v1.0.0
+ SCRIPT   : Windows Linux Set UTC Time                                    v1.0.0
  AUTHOR   : Limehawk.io
  DATE     : January 2026
- USAGE    : .\windows_linux_time_fix.ps1
+ USAGE    : .\windows_linux_set_utc_time.ps1
 ================================================================================
- FILE     : windows_linux_time_fix.ps1
+ FILE     : windows_linux_set_utc_time.ps1
  DESCRIPTION : Fixes time drift on Windows/Linux dual-boot systems
 --------------------------------------------------------------------------------
  README
