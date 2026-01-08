@@ -7,12 +7,12 @@ $ErrorActionPreference = 'Stop'
 ███████╗██║██║ ╚═╝ ██║███████╗██║  ██║██║  ██║╚███╔███╔╝██║  ██╗
 ╚══════╝╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚══╝╚══╝ ╚═╝  ╚═╝
 ================================================================================
- SCRIPT   : Dual Boot Time Fix                                            v1.0.0
+ SCRIPT   : Windows Linux Time Fix                                        v1.0.0
  AUTHOR   : Limehawk.io
  DATE     : January 2026
- USAGE    : .\dual_boot_time_fix.ps1
+ USAGE    : .\windows_linux_time_fix.ps1
 ================================================================================
- FILE     : dual_boot_time_fix.ps1
+ FILE     : windows_linux_time_fix.ps1
  DESCRIPTION : Fixes time drift on Windows/Linux dual-boot systems
 --------------------------------------------------------------------------------
  README
