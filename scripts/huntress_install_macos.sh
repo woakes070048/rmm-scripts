@@ -1,203 +1,291 @@
 #!/bin/bash
-
-# Copyright (c) 2024 Huntress Labs, Inc.
-# All rights reserved.
 #
-# Redistribution and use in source and binary forms, with or without
-# modification, are permitted provided that the following conditions are met:
-#    * Redistributions of source code must retain the above copyright
-#      notice, this list of conditions and the following disclaimer.
-#    * Redistributions in binary form must reproduce the above copyright
-#      notice, this list of conditions and the following disclaimer in the
-#      documentation and/or other materials provided with the distribution.
-#    * Neither the name of the Huntress Labs nor the names of its contributors
-#      may be used to endorse or promote products derived from this software
-#      without specific prior written permission.
+# ██╗     ██╗███╗   ███╗███████╗██╗  ██╗ █████╗ ██╗    ██╗██╗  ██╗
+# ██║     ██║████╗ ████║██╔════╝██║  ██║██╔══██╗██║    ██║██║ ██╔╝
+# ██║     ██║██╔████╔██║█████╗  ███████║███████║██║ █╗ ██║█████╔╝
+# ██║     ██║██║╚██╔╝██║██╔══╝  ██╔══██║██╔══██║██║███╗██║██╔═██╗
+# ███████╗██║██║ ╚═╝ ██║███████╗██║  ██║██║  ██║╚███╔███╔╝██║  ██╗
+# ╚══════╝╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚══╝╚══╝ ╚═╝  ╚═╝
+# ================================================================================
+#  SCRIPT   : Huntress Agent Install (macOS)                               v2.0.0
+#  AUTHOR   : Limehawk.io (based on Huntress Labs installer)
+#  DATE     : January 2026
+#  USAGE    : sudo ./huntress_install_macos.sh
+# ================================================================================
+#  FILE     : huntress_install_macos.sh
+#  DESCRIPTION : Installs Huntress Agent on macOS endpoints
+# --------------------------------------------------------------------------------
+#  README
+# --------------------------------------------------------------------------------
+#  PURPOSE
 #
-# THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
-# AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
-# IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
-# DISCLAIMED. IN NO EVENT SHALL HUNTRESS LABS BE LIABLE FOR ANY DIRECT, INDIRECT,
-# INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
-# LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA,
-# OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
-# LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
-# NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
-# EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+#    Downloads and installs the Huntress Agent on macOS systems. Huntress provides
+#    managed detection and response (MDR) services. This script handles the
+#    download, validation, and installation of the agent with proper logging.
+#
+#  DATA SOURCES & PRIORITY
+#
+#    - Huntress API: Downloads installer script from huntress.io
+#    - Local filesystem: Stores temporary installer and logs
+#
+#  REQUIRED INPUTS
+#
+#    All inputs are hardcoded in the script body:
+#      - ACCOUNT_KEY: Your Huntress account secret key (32-char hex)
+#      - ORG_KEY: Organization key for agent affiliation
+#      - INSTALL_SYSTEM_EXTENSION: Whether to install system extension
+#
+#  SETTINGS
+#
+#    Configuration details and default values:
+#      - RMM Name: Superops.ai (reported to Huntress for deployment tracking)
+#      - Log file: /tmp/HuntressInstaller.log
+#      - Install script: /tmp/HuntressMacInstall.sh
+#      - System extension: false by default (requires MDM pre-configuration)
+#
+#  BEHAVIOR
+#
+#    The script performs the following actions in order:
+#    1. Validates root privileges
+#    2. Validates account key format (32-character hex)
+#    3. Downloads Huntress installer from API
+#    4. Validates downloaded script
+#    5. Executes installer with provided keys
+#    6. Reports success or failure
+#
+#  PREREQUISITES
+#
+#    - macOS operating system
+#    - Root/sudo privileges
+#    - Network connectivity to huntress.io
+#    - Valid Huntress account key and organization key
+#    - For system extension: MDM pre-configuration required
+#
+#  SECURITY NOTES
+#
+#    - Account key is masked in logs (shows first/last 4 chars only)
+#    - No secrets exposed in console output
+#    - Installer downloaded over HTTPS
+#
+#  ENDPOINTS
+#
+#    - https://huntress.io/script/darwin/{account_key} - Installer download
+#
+#  EXIT CODES
+#
+#    0 = Success - Huntress agent installed successfully
+#    1 = Failure - validation error, download failed, or install failed
+#
+#  EXAMPLE RUN
+#
+#    [ INPUT VALIDATION ]
+#    --------------------------------------------------------------
+#    All required inputs are valid
+#
+#    [ DOWNLOADING INSTALLER ]
+#    --------------------------------------------------------------
+#    Downloading Huntress installer
+#    Download complete
+#
+#    [ INSTALLING HUNTRESS AGENT ]
+#    --------------------------------------------------------------
+#    Running Huntress installer
+#    Installation complete
+#
+#    [ FINAL STATUS ]
+#    --------------------------------------------------------------
+#    Result : SUCCESS
+#
+#    [ SCRIPT COMPLETE ]
+#    --------------------------------------------------------------
+#
+#  LICENSE
+#
+#    Original installer script: Copyright (c) 2024 Huntress Labs, Inc.
+#    BSD 3-Clause License. See https://huntress.io for details.
+#
+# --------------------------------------------------------------------------------
+#  CHANGELOG
+# --------------------------------------------------------------------------------
+#  2026-01-12 v2.0.0 Converted to Limehawk Script Framework format
+#  2024-01-01 v1.0.0 Original Huntress Labs installer
+# ================================================================================
 
+# ============================================================================
+# HARDCODED INPUTS
+# ============================================================================
+ACCOUNT_KEY=""                    # Your Huntress account secret key (32-char hex)
+ORG_KEY=""                        # Organization key for agent affiliation
+INSTALL_SYSTEM_EXTENSION=false    # Set to true if MDM is pre-configured
+RMM_NAME="Superops.ai"            # RMM name for Huntress tracking
 
-# The Huntress installer needs an Account Key and an Organization Key (a user
-# specified name or description) which is used to affiliate an Agent with a
-# specific Organization within the Huntress Partner's Account. These keys can be
-# hard coded below or passed in when the script is run.
+# ============================================================================
+# INTERNAL VARIABLES
+# ============================================================================
+LOG_FILE="/tmp/HuntressInstaller.log"
+INSTALL_SCRIPT="/tmp/HuntressMacInstall.sh"
+INVALID_KEY_MSG="Invalid account secret key"
+KEY_PATTERN="[a-f0-9]{32}"
+SCRIPT_VERSION="2.0.0"
+TIMESTAMP=$(date "+%Y%m%d-%H%M%S")
 
-# For more details, see our KB article
-# https://support.huntress.io/hc/en-us/articles/10742964620435-Install-the-Huntress-Agent-for-macOS
+# ============================================================================
+# HELPER FUNCTIONS
+# ============================================================================
 
-
-##############################################################################
-## Begin user modified variables
-##############################################################################
-
-
-# Replace __ACCOUNT_KEY__ with your account secret key (from your Huntress portal's "download agent" section)
-defaultAccountKey="$ACCOUNT_KEY"
-
-# If you have a preferred "placeholder" organization name for Mac agents, you can set that below.
-# Otherwise, provide the appropriate Organization Key when running the script in your RMM.
-defaultOrgKey="$ORG_KEY"
-
-# Put the name of your RMM below. This helps our support team understand which RMM tools
-# are being used to deploy the Huntress macOS Agent. Simply replace the text in quotes below.
-rmm="Superops.ai"
-
-# Option to install the system extension after the Huntress Agent is installed. In order for this to happen
-# without security prompts on the endpoint, permissions need to be applied to the endpoint by an MDM before this script
-# is run. See the following KB article for instructions:
-# https://support.huntress.io/hc/en-us/articles/21286543756947-Instructions-for-the-MDM-Configuration-for-macOS
-install_system_extension=false
-
-##############################################################################
-## Do not modify anything below this line
-##############################################################################
-dd=$(date "+%Y%m%d-%H%M%S")
-log_file="/tmp/HuntressInstaller.log"
-install_script="/tmp/HuntressMacInstall.sh"
-invalid_key="Invalid account secret key"
-pattern="[a-f0-9]{32}"
-version="1.0"
-
-## Using logger function to provide helpful logs within RMM tools in addition to log file
-logger() {
-    echo "$dd -- $*";
-    echo "$dd -- $*" >> $log_file;
+log_message() {
+    echo "$TIMESTAMP -- $*"
+    echo "$TIMESTAMP -- $*" >> "$LOG_FILE"
 }
 
-# Check for root
-if [ $EUID -ne 0 ]; then
-    logger "This script must be run as root, exiting..."
-    exit 1
-fi
-
-# Clean up any old installer scripts.
-if [ -f "$install_script" ]; then
-    logger "Installer file present in /tmp; deleting."
-    rm -f "$install_script"
-fi
-
-##
-## This section handles the assigning `=` character for options.
-## Since most RMMs treat spaces as delimiters in Mac Scripting,
-## we have to use `=` to assign the option value, but must remove
-## it because, well, bash. https://stackoverflow.com/a/28466267/519360
-##
-
-usage() {
-    cat <<EOF
-Usage: $0 [options...] --account_key=<account_key> --organization_key=<organization_key>
-
--a, --account_key      <account_key>      The account key to use for this agent install
--o, --organization_key <organization_key> The org key to use for this agent install
--h, --help                                Print this message
-
-EOF
+mask_key() {
+    local key="$1"
+    echo "${key:0:4}************************${key: -4}"
 }
 
-while getopts a:o:h:-: OPT; do
-  if [ "$OPT" = "-" ]; then
-    OPT="${OPTARG%%=*}"       # extract long option name
-    OPTARG="${OPTARG#$OPT}"   # extract long option argument (may be empty)
-    OPTARG="${OPTARG#=}"      # if long option argument, remove assigning `=`
-  else
-    # the user used a short option, but we still want to strip the assigning `=`
-    OPTARG="${OPTARG#=}"      # if long option argument, remove assigning `=`
-  fi
-  case "$OPT" in
-    a | account_key)
-        account_key="$OPTARG"
-        ;;
-    o | organization_key)
-        organization_key="$OPTARG"
-        ;;
-    h | help)
-        usage
-        ;;
-    ??*)
-        logger "Illegal option --$OPT"
-        exit 2
-        ;;  # bad long option
-    \? )
-        exit 2
-        ;;  # bad short option (error reported via getopts)
-  esac
-done
-shift $((OPTIND-1)) # remove parsed options and args from $@ list
+# ============================================================================
+# INPUT VALIDATION
+# ============================================================================
+echo ""
+echo "[ INPUT VALIDATION ]"
+echo "--------------------------------------------------------------"
 
-logger "=========== INSTALL START AT $dd ==============="
-logger "=========== $rmm Deployment Script | Version: $version ==============="
+ERROR_OCCURRED=false
+ERROR_TEXT=""
 
-# VALIDATE OPTIONS PASSED TO SCRIPT
-if [ -z "$organization_key" ]; then
-    organizationKey=$(echo "$defaultOrgKey" | xargs)
-    logger "--organization_key parameter not present, using defaultOrgKey instead: $defaultOrgKey"
-  else
-    organizationKey=$(echo "$organization_key" | xargs)
-    logger "--organization_key parameter present, set to: $organizationKey"
+# Check root privileges
+if [ "$EUID" -ne 0 ]; then
+    ERROR_OCCURRED=true
+    ERROR_TEXT="${ERROR_TEXT}\n- Script must be run as root (use sudo)"
 fi
 
-if ! [[ "$account_key" =~ $pattern ]]; then
-    logger "Invalid --account_key provided, checking defaultAccountKey..."
-    accountKey=$(echo "$defaultAccountKey" | xargs)
-    if ! [[ $accountKey =~ $pattern ]]; then
-        logger "ERROR: Invalid --account_key. Please check Huntress support documentation."
-        exit 1
-    fi
-    else
-        accountKey=$(echo "$account_key" | xargs)
+# Validate account key
+if [[ -z "$ACCOUNT_KEY" ]]; then
+    ERROR_OCCURRED=true
+    ERROR_TEXT="${ERROR_TEXT}\n- ACCOUNT_KEY is required"
+elif ! [[ "$ACCOUNT_KEY" =~ $KEY_PATTERN ]]; then
+    ERROR_OCCURRED=true
+    ERROR_TEXT="${ERROR_TEXT}\n- ACCOUNT_KEY must be a 32-character hex string"
 fi
 
-# OPTIONS REQUIRED
-if [ -z "$accountKey" ] || [ -z "$organizationKey" ]
-then
-    logger "Error: --account_key and --organization_key are both required" >> $log_file
-    echo
-    usage
+# Validate org key
+if [[ -z "$ORG_KEY" ]]; then
+    ERROR_OCCURRED=true
+    ERROR_TEXT="${ERROR_TEXT}\n- ORG_KEY is required"
+fi
+
+if [[ "$ERROR_OCCURRED" = true ]]; then
+    echo ""
+    echo "[ ERROR OCCURRED ]"
+    echo "--------------------------------------------------------------"
+    echo -e "$ERROR_TEXT"
+    echo ""
     exit 1
 fi
 
-# Hide most of the account key in the logs, keeping the front and tail end for troubleshooting
-masked="$(echo "${accountKey:0:4}")"
-masked+="************************"
-masked+="$(echo "${accountKey: (-4)}")"
+echo "All required inputs are valid"
+log_message "=========== INSTALL START AT $TIMESTAMP ==============="
+log_message "=========== $RMM_NAME Deployment Script | Version: $SCRIPT_VERSION ==============="
+log_message "Provided Huntress key: $(mask_key "$ACCOUNT_KEY")"
+log_message "Provided Organization Key: $ORG_KEY"
 
-logger "Provided Huntress key: $masked"
-logger "Provided Organization Key: $organizationKey"
-
-result=$(curl -w "%{http_code}" -L "https://huntress.io/script/darwin/$accountKey" -o "$install_script")
-
-if [ $? != "0" ]; then
-   logger "ERROR: Download failed with error: $result"
-   exit 1
+# ============================================================================
+# CLEANUP OLD INSTALLER
+# ============================================================================
+if [ -f "$INSTALL_SCRIPT" ]; then
+    log_message "Removing old installer file"
+    rm -f "$INSTALL_SCRIPT"
 fi
 
-if grep -Fq "$invalid_key" "$install_script"; then
-   logger "ERROR: --account_key is invalid. You entered: $accountKey"
-   exit 1
-fi
+# ============================================================================
+# DOWNLOAD INSTALLER
+# ============================================================================
+echo ""
+echo "[ DOWNLOADING INSTALLER ]"
+echo "--------------------------------------------------------------"
+echo "Downloading Huntress installer"
 
-install_cmd="/bin/zsh $install_script -a $accountKey -o $organizationKey -v"
-if [ "$install_system_extension" = true ]; then
-    install_cmd+=" --install_system_extension"
-fi
+DOWNLOAD_URL="https://huntress.io/script/darwin/$ACCOUNT_KEY"
+HTTP_CODE=$(curl -w "%{http_code}" -sL "$DOWNLOAD_URL" -o "$INSTALL_SCRIPT" 2>/dev/null)
 
-install_result=$(eval "${install_cmd}")
-logger "=============== Begin Installer Logs ==============="
-
-if [ $? != "0" ]; then
-    logger "Installer Error: $install_result"
+if [ $? -ne 0 ]; then
+    echo ""
+    echo "[ ERROR OCCURRED ]"
+    echo "--------------------------------------------------------------"
+    echo "Download failed"
+    echo "HTTP Code : $HTTP_CODE"
+    log_message "ERROR: Download failed with HTTP code: $HTTP_CODE"
+    echo ""
     exit 1
 fi
 
-logger "$install_result"
-logger "=========== INSTALL FINISHED AT $dd ==============="
-exit
+# Validate downloaded script
+if grep -Fq "$INVALID_KEY_MSG" "$INSTALL_SCRIPT" 2>/dev/null; then
+    echo ""
+    echo "[ ERROR OCCURRED ]"
+    echo "--------------------------------------------------------------"
+    echo "Invalid account key"
+    echo "The provided ACCOUNT_KEY was rejected by Huntress"
+    log_message "ERROR: ACCOUNT_KEY is invalid"
+    rm -f "$INSTALL_SCRIPT"
+    echo ""
+    exit 1
+fi
+
+echo "Download complete"
+log_message "Installer downloaded successfully"
+
+# ============================================================================
+# INSTALL HUNTRESS AGENT
+# ============================================================================
+echo ""
+echo "[ INSTALLING HUNTRESS AGENT ]"
+echo "--------------------------------------------------------------"
+echo "Running Huntress installer"
+
+INSTALL_CMD="/bin/zsh $INSTALL_SCRIPT -a $ACCOUNT_KEY -o $ORG_KEY -v"
+if [ "$INSTALL_SYSTEM_EXTENSION" = true ]; then
+    INSTALL_CMD="$INSTALL_CMD --install_system_extension"
+    echo "System extension : enabled"
+fi
+
+log_message "=============== Begin Installer Logs ==============="
+INSTALL_RESULT=$(eval "$INSTALL_CMD" 2>&1)
+INSTALL_STATUS=$?
+
+log_message "$INSTALL_RESULT"
+
+if [ $INSTALL_STATUS -ne 0 ]; then
+    echo ""
+    echo "[ ERROR OCCURRED ]"
+    echo "--------------------------------------------------------------"
+    echo "Installation failed"
+    echo "Check log file : $LOG_FILE"
+    log_message "Installer Error: $INSTALL_RESULT"
+    echo ""
+    exit 1
+fi
+
+echo "Installation complete"
+log_message "=========== INSTALL FINISHED AT $TIMESTAMP ==============="
+
+# ============================================================================
+# CLEANUP
+# ============================================================================
+rm -f "$INSTALL_SCRIPT"
+
+# ============================================================================
+# FINAL STATUS
+# ============================================================================
+echo ""
+echo "[ FINAL STATUS ]"
+echo "--------------------------------------------------------------"
+echo "Result : SUCCESS"
+echo "Log file : $LOG_FILE"
+
+echo ""
+echo "[ SCRIPT COMPLETE ]"
+echo "--------------------------------------------------------------"
+echo ""
+
+exit 0

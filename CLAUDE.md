@@ -36,3 +36,7 @@ When modifying ANY existing script, you **MUST** update:
 2. **CHANGELOG** - Add entry at top: `YYYY-MM-DD vX.Y.Z Description of changes`
 3. **README sections** - Update any affected sections (PURPOSE, BEHAVIOR, REQUIRED INPUTS, etc.)
 
+## Validation (MANDATORY)
+
+After creating or modifying any `.ps1` or `.sh` script, run the `script-framework-enforcer` agent to validate compliance before committing.
+
