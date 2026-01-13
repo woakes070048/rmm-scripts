@@ -7,7 +7,7 @@ $ErrorActionPreference = 'Stop'
 ███████╗██║██║ ╚═╝ ██║███████╗██║  ██║██║  ██║╚███╔███╔╝██║  ██╗
 ╚══════╝╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚══╝╚══╝ ╚═╝  ╚═╝
 ================================================================================
- SCRIPT   : Search Password Files                                        v1.1.6
+ SCRIPT   : Search Password Files                                        v1.1.7
  AUTHOR   : Limehawk.io
  DATE     : January 2026
  USAGE    : .\search_password_files.ps1
@@ -117,6 +117,7 @@ $ErrorActionPreference = 'Stop'
 --------------------------------------------------------------------------------
  CHANGELOG
 --------------------------------------------------------------------------------
+ 2026-01-13 v1.1.7 Use bold formatting and full paths in webhook message
  2026-01-13 v1.1.6 Redesign webhook message with terminal design system, remove debug output
  2026-01-13 v1.1.5 Replace emojis with ASCII for Google Chat encoding compatibility
  2026-01-13 v1.1.4 Fix newlines in Google Chat message (use backtick-n not backslash-n)
@@ -291,9 +292,7 @@ function Send-GoogleChatAlert {
     $timestamp = Get-Date -Format "yyyy-MM-dd HH:mm"
 
     $fileList = ($Files | Select-Object -First 10 | ForEach-Object {
-        $fileName = Split-Path $_.Path -Leaf
-        $parentDir = Split-Path (Split-Path $_.Path -Parent) -Leaf
-        "  - $parentDir/$fileName"
+        "  - $($_.Path)"
     }) -join "`n"
 
     if ($Files.Count -gt 10) {
@@ -301,11 +300,11 @@ function Send-GoogleChatAlert {
     }
 
     $messageText = @"
-> PASSWORD FILES FOUND
+*> PASSWORD FILES FOUND*
 
-hostname .......... $Hostname
-timestamp ......... $timestamp
-files found ....... $FileCount
+*hostname* .......... $Hostname
+*timestamp* ......... $timestamp
+*files found* ....... $FileCount
 
 ------------------------------
 
