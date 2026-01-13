@@ -474,6 +474,13 @@ else {
     }
 
     # Send webhook alert (skip if blank or placeholder not replaced)
+    Write-Host "[ WEBHOOK DEBUG ]"
+    Write-Host "--------------------------------------------------------------"
+    Write-Host "Raw value : [$googleChatWebhookUrl]"
+    Write-Host "IsNullOrWhiteSpace : $([string]::IsNullOrWhiteSpace($googleChatWebhookUrl))"
+    Write-Host "Equals placeholder : $($googleChatWebhookUrl -eq ('$' + 'GoogleChatWebhook'))"
+    Write-Host ""
+
     $webhookConfigured = -not [string]::IsNullOrWhiteSpace($googleChatWebhookUrl) -and $googleChatWebhookUrl -ne ('$' + 'GoogleChatWebhook')
     if ($webhookConfigured) {
         Write-Host "[ WEBHOOK ALERT ]"
