@@ -7,7 +7,7 @@ $ErrorActionPreference = 'Stop'
 ███████╗██║██║ ╚═╝ ██║███████╗██║  ██║██║  ██║╚███╔███╔╝██║  ██╗
 ╚══════╝╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚══╝╚══╝ ╚═╝  ╚═╝
 ================================================================================
- SCRIPT   : Search Password Files                                        v1.1.1
+ SCRIPT   : Search Password Files                                        v1.1.2
  AUTHOR   : Limehawk.io
  DATE     : January 2026
  USAGE    : .\search_password_files.ps1
@@ -117,6 +117,7 @@ $ErrorActionPreference = 'Stop'
 --------------------------------------------------------------------------------
  CHANGELOG
 --------------------------------------------------------------------------------
+ 2026-01-13 v1.1.2 Add debug output for webhook troubleshooting
  2026-01-13 v1.1.1 Skip webhook section entirely if URL blank or placeholder not replaced
  2026-01-13 v1.1.0 Add Google Chat webhook alert when password files found
  2026-01-13 v1.0.1 Fix DBNull handling for Size/Modified from Windows Search Index
