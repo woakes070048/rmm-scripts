@@ -7,7 +7,7 @@ $ErrorActionPreference = 'Stop'
 ███████╗██║██║ ╚═╝ ██║███████╗██║  ██║██║  ██║╚███╔███╔╝██║  ██╗
 ╚══════╝╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚══╝╚══╝ ╚═╝  ╚═╝
 ================================================================================
- SCRIPT   : Search Password Files                                        v1.1.4
+ SCRIPT   : Search Password Files                                        v1.1.5
  AUTHOR   : Limehawk.io
  DATE     : January 2026
  USAGE    : .\search_password_files.ps1
@@ -117,6 +117,7 @@ $ErrorActionPreference = 'Stop'
 --------------------------------------------------------------------------------
  CHANGELOG
 --------------------------------------------------------------------------------
+ 2026-01-13 v1.1.5 Replace emojis with ASCII for Google Chat encoding compatibility
  2026-01-13 v1.1.4 Fix newlines in Google Chat message (use backtick-n not backslash-n)
  2026-01-13 v1.1.3 Fix placeholder syntax - use double quotes for SuperOps replacement
  2026-01-13 v1.1.2 Add debug output for webhook troubleshooting
@@ -287,15 +288,15 @@ function Send-GoogleChatAlert {
     }
 
     $fileList = ($Files | Select-Object -First 10 | ForEach-Object {
-        "• $($_.Path)"
+        "- $($_.Path)"
     }) -join "`n"
 
     if ($Files.Count -gt 10) {
-        $fileList += "`n• ... and $($Files.Count - 10) more"
+        $fileList += "`n- ... and $($Files.Count - 10) more"
     }
 
     $message = @{
-        text = "⚠️ *Password Files Found*`n`n*Host:* $Hostname`n*Files Found:* $FileCount`n`n$fileList"
+        text = "*[ALERT] Password Files Found*`n`n*Host:* $Hostname`n*Files Found:* $FileCount`n`n$fileList"
     } | ConvertTo-Json -Compress
 
     try {
