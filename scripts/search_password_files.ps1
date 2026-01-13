@@ -7,7 +7,7 @@ $ErrorActionPreference = 'Stop'
 ███████╗██║██║ ╚═╝ ██║███████╗██║  ██║██║  ██║╚███╔███╔╝██║  ██╗
 ╚══════╝╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚══╝╚══╝ ╚═╝  ╚═╝
 ================================================================================
- SCRIPT   : Search Password Files                                        v1.1.0
+ SCRIPT   : Search Password Files                                        v1.1.1
  AUTHOR   : Limehawk.io
  DATE     : January 2026
  USAGE    : .\search_password_files.ps1
@@ -117,6 +117,7 @@ $ErrorActionPreference = 'Stop'
 --------------------------------------------------------------------------------
  CHANGELOG
 --------------------------------------------------------------------------------
+ 2026-01-13 v1.1.1 Skip webhook section entirely if URL blank or placeholder not replaced
  2026-01-13 v1.1.0 Add Google Chat webhook alert when password files found
  2026-01-13 v1.0.1 Fix DBNull handling for Size/Modified from Windows Search Index
  2026-01-12 v1.0.0 Initial release
@@ -472,8 +473,9 @@ else {
         Write-Host ""
     }
 
-    # Send webhook alert
-    if (-not [string]::IsNullOrWhiteSpace($googleChatWebhookUrl)) {
+    # Send webhook alert (skip if blank or placeholder not replaced)
+    $webhookConfigured = -not [string]::IsNullOrWhiteSpace($googleChatWebhookUrl) -and $googleChatWebhookUrl -ne ('$' + 'GoogleChatWebhook')
+    if ($webhookConfigured) {
         Write-Host "[ WEBHOOK ALERT ]"
         Write-Host "--------------------------------------------------------------"
         $hostname = $env:COMPUTERNAME
