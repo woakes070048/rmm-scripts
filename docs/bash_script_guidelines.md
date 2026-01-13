@@ -237,7 +237,9 @@ TIMEOUT=300
 
 SuperOps does a literal find/replace on runtime variables throughout the entire script. To avoid breaking variable references, assign the placeholder to a differently-named variable.
 
-**Example:** `PACKAGE_ID='$PackageName'` - SuperOps replaces `$PackageName` with user input, which gets assigned to `PACKAGE_ID`
+**IMPORTANT:** Use double quotes around placeholders - single quotes won't work.
+
+**Example:** `PACKAGE_ID="$PackageName"` - SuperOps replaces `$PackageName` with user input, which gets assigned to `PACKAGE_ID`
 
 The script then uses `PACKAGE_ID` everywhere, not the placeholder name.
 

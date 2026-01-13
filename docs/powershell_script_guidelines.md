@@ -223,20 +223,29 @@ $timeout     = 300
 
 SuperOps does a literal find/replace on runtime variables throughout the entire script. To avoid breaking variable references, assign the placeholder to a differently-named variable.
 
+**IMPORTANT:** Use double quotes around placeholders - single quotes won't work.
+
 **Why different names?** SuperOps replaces ALL occurrences of the placeholder text. If you use the same name for both the variable and placeholder, BOTH get replaced and the script breaks.
 
 **WRONG - same name for both:**
 ```powershell
-$AdminUsername = '$AdminUsername'
+$AdminUsername = "$AdminUsername"
 # SuperOps replaces BOTH occurrences, resulting in:
-# JohnDoe = 'JohnDoe'  <-- This is broken PowerShell!
+# JohnDoe = "JohnDoe"  <-- This is broken PowerShell!
 ```
 
-**RIGHT - different names:**
+**WRONG - single quotes:**
 ```powershell
 $AdminUsername = '$YourUsernameHere'
-# SuperOps only replaces the placeholder, resulting in:
-# $AdminUsername = 'JohnDoe'  <-- This works!
+# SuperOps does NOT replace inside single quotes!
+# $AdminUsername stays as literal '$YourUsernameHere'
+```
+
+**RIGHT - double quotes with different name:**
+```powershell
+$AdminUsername = "$YourUsernameHere"
+# SuperOps replaces the placeholder, resulting in:
+# $AdminUsername = "JohnDoe"  <-- This works!
 ```
 
 The script then uses `$AdminUsername` everywhere, not the placeholder name.

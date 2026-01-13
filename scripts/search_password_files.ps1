@@ -7,7 +7,7 @@ $ErrorActionPreference = 'Stop'
 ███████╗██║██║ ╚═╝ ██║███████╗██║  ██║██║  ██║╚███╔███╔╝██║  ██╗
 ╚══════╝╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚══╝╚══╝ ╚═╝  ╚═╝
 ================================================================================
- SCRIPT   : Search Password Files                                        v1.1.2
+ SCRIPT   : Search Password Files                                        v1.1.4
  AUTHOR   : Limehawk.io
  DATE     : January 2026
  USAGE    : .\search_password_files.ps1
@@ -117,6 +117,8 @@ $ErrorActionPreference = 'Stop'
 --------------------------------------------------------------------------------
  CHANGELOG
 --------------------------------------------------------------------------------
+ 2026-01-13 v1.1.4 Fix newlines in Google Chat message (use backtick-n not backslash-n)
+ 2026-01-13 v1.1.3 Fix placeholder syntax - use double quotes for SuperOps replacement
  2026-01-13 v1.1.2 Add debug output for webhook troubleshooting
  2026-01-13 v1.1.1 Skip webhook section entirely if URL blank or placeholder not replaced
  2026-01-13 v1.1.0 Add Google Chat webhook alert when password files found
@@ -169,7 +171,7 @@ $excludedProfiles = @(
 
 # Google Chat webhook URL - SuperOps replaces $GoogleChatWebhook at runtime
 # Leave as placeholder to disable webhook alerts
-$googleChatWebhookUrl = '$GoogleChatWebhook'
+$googleChatWebhookUrl = "$GoogleChatWebhook"
 
 # ============================================================================
 # HELPER FUNCTIONS
@@ -286,14 +288,14 @@ function Send-GoogleChatAlert {
 
     $fileList = ($Files | Select-Object -First 10 | ForEach-Object {
         "• $($_.Path)"
-    }) -join "\n"
+    }) -join "`n"
 
     if ($Files.Count -gt 10) {
-        $fileList += "\n• ... and $($Files.Count - 10) more"
+        $fileList += "`n• ... and $($Files.Count - 10) more"
     }
 
     $message = @{
-        text = "⚠️ *Password Files Found*\n\n*Host:* $Hostname\n*Files Found:* $FileCount\n\n$fileList"
+        text = "⚠️ *Password Files Found*`n`n*Host:* $Hostname`n*Files Found:* $FileCount`n`n$fileList"
     } | ConvertTo-Json -Compress
 
     try {
