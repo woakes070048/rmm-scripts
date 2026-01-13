@@ -6,7 +6,7 @@
 ███████╗██║██║ ╚═╝ ██║███████╗██║  ██║██║  ██║╚███╔███╔╝██║  ██╗
 ╚══════╝╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚══╝╚══╝ ╚═╝  ╚═╝
 ================================================================================
- SCRIPT   : Search Password Files (Tickets)                              v1.0.0
+ SCRIPT   : Search Password Files (Tickets)                              v1.0.1
  AUTHOR   : Limehawk.io
  DATE     : January 2026
  USAGE    : .\search_password_files_tickets.ps1
@@ -102,6 +102,7 @@
 --------------------------------------------------------------------------------
  CHANGELOG
 --------------------------------------------------------------------------------
+ 2026-01-13 v1.0.1 Add required source field to createTicket API call
  2026-01-13 v1.0.0 Initial release with SuperOps ticket integration
 ================================================================================
 #>
@@ -288,6 +289,7 @@ mutation createTicket($input: CreateTicketInput!) {
             client = @{ accountId = $ClientId }
             priority = $Priority
             status = "New"
+            source = "INTEGRATION"
         }
     }
 
