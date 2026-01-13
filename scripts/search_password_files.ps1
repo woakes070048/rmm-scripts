@@ -7,7 +7,7 @@ $ErrorActionPreference = 'Stop'
 ███████╗██║██║ ╚═╝ ██║███████╗██║  ██║██║  ██║╚███╔███╔╝██║  ██╗
 ╚══════╝╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚══╝╚══╝ ╚═╝  ╚═╝
 ================================================================================
- SCRIPT   : Search Password Files                                        v1.2.0
+ SCRIPT   : Search Password Files                                        v1.3.0
  AUTHOR   : Limehawk.io
  DATE     : January 2026
  USAGE    : .\search_password_files.ps1
@@ -117,6 +117,7 @@ $ErrorActionPreference = 'Stop'
 --------------------------------------------------------------------------------
  CHANGELOG
 --------------------------------------------------------------------------------
+ 2026-01-13 v1.3.0 Add critical findings section for high-priority items (1Password kits, etc)
  2026-01-13 v1.2.0 Remove *secret* and *accounts* patterns to reduce false positives
  2026-01-13 v1.1.9 Wrap entire webhook message in code block
  2026-01-13 v1.1.8 Wrap file list in code block for monospace formatting
@@ -152,6 +153,21 @@ $searchPatterns = @(
     '*login.csv',
     '*login.xlsx',
     '*login.txt'
+)
+
+# Critical patterns - high priority security concerns
+# These files should NEVER exist on endpoints
+$criticalPatterns = @(
+    '*1Password Emergency Kit*',
+    '*Emergency Kit*.pdf',
+    '*BitWarden*backup*',
+    '*KeePass*.kdbx',
+    '*LastPass*export*',
+    '*master password*',
+    '*recovery key*',
+    '*seed phrase*',
+    '*private key*.pem',
+    '*id_rsa'
 )
 
 $subDirectories = @(
@@ -285,7 +301,8 @@ function Send-GoogleChatAlert {
         [string]$WebhookUrl,
         [string]$Hostname,
         [int]$FileCount,
-        [PSCustomObject[]]$Files
+        [PSCustomObject[]]$Files,
+        [PSCustomObject[]]$CriticalFiles
     )
 
     # Check if placeholder was replaced (use concatenation to avoid SuperOps replacing this check)
@@ -294,13 +311,31 @@ function Send-GoogleChatAlert {
     }
 
     $timestamp = Get-Date -Format "yyyy-MM-dd HH:mm"
+    $criticalCount = if ($CriticalFiles) { $CriticalFiles.Count } else { 0 }
 
-    $fileList = ($Files | Select-Object -First 10 | ForEach-Object {
+    # Build critical files section
+    $criticalSection = ""
+    if ($criticalCount -gt 0) {
+        $criticalList = ($CriticalFiles | ForEach-Object {
+            "  [!] $($_.Path)"
+        }) -join "`n"
+        $criticalSection = @"
+
+[!!!] CRITICAL FINDINGS [$criticalCount]
+$criticalList
+
+------------------------------
+"@
+    }
+
+    # Build regular files list (excluding critical)
+    $regularFiles = $Files | Where-Object { $file = $_; -not ($CriticalFiles | Where-Object { $_.Path -eq $file.Path }) }
+    $fileList = ($regularFiles | Select-Object -First 10 | ForEach-Object {
         "  - $($_.Path)"
     }) -join "`n"
 
-    if ($Files.Count -gt 10) {
-        $fileList += "`n  ... and $($Files.Count - 10) more"
+    if ($regularFiles.Count -gt 10) {
+        $fileList += "`n  ... and $($regularFiles.Count - 10) more"
     }
 
     $messageText = @"
@@ -310,9 +345,8 @@ function Send-GoogleChatAlert {
 hostname .......... $Hostname
 timestamp ......... $timestamp
 files found ....... $FileCount
-
-------------------------------
-
+critical .......... $criticalCount
+$criticalSection
 $fileList
 ``````
 "@
@@ -484,19 +518,54 @@ Write-Host "--------------------------------------------------------------"
 
 $uniqueFiles = $foundFiles | Sort-Object -Property Path -Unique
 
+# Separate critical from regular findings
+$criticalFiles = @()
+$regularFiles = @()
+
+foreach ($file in $uniqueFiles) {
+    $isCritical = $false
+    foreach ($pattern in $criticalPatterns) {
+        if ($file.Path -like $pattern) {
+            $isCritical = $true
+            break
+        }
+    }
+    if ($isCritical) {
+        $criticalFiles += $file
+    } else {
+        $regularFiles += $file
+    }
+}
+
 if ($uniqueFiles.Count -eq 0) {
     Write-Host "No password or credential files found"
 }
 else {
-    Write-Host "Found $($uniqueFiles.Count) potential password file(s)"
-    Write-Host ""
-
-    foreach ($file in $uniqueFiles) {
-        Write-Host "Path     : $($file.Path)"
-        Write-Host "Size     : $(Format-FileSize $file.Size)"
-        $modifiedDisplay = if ($null -eq $file.Modified) { 'Unknown' } else { ([datetime]$file.Modified).ToString('yyyy-MM-dd') }
-        Write-Host "Modified : $modifiedDisplay"
+    # Display critical findings first
+    if ($criticalFiles.Count -gt 0) {
         Write-Host ""
+        Write-Host "[!] CRITICAL FINDINGS : $($criticalFiles.Count)"
+        Write-Host ""
+        foreach ($file in $criticalFiles) {
+            Write-Host "Path     : $($file.Path)"
+            Write-Host "Size     : $(Format-FileSize $file.Size)"
+            $modifiedDisplay = if ($null -eq $file.Modified) { 'Unknown' } else { ([datetime]$file.Modified).ToString('yyyy-MM-dd') }
+            Write-Host "Modified : $modifiedDisplay"
+            Write-Host ""
+        }
+    }
+
+    # Display regular findings
+    if ($regularFiles.Count -gt 0) {
+        Write-Host "Other findings : $($regularFiles.Count)"
+        Write-Host ""
+        foreach ($file in $regularFiles) {
+            Write-Host "Path     : $($file.Path)"
+            Write-Host "Size     : $(Format-FileSize $file.Size)"
+            $modifiedDisplay = if ($null -eq $file.Modified) { 'Unknown' } else { ([datetime]$file.Modified).ToString('yyyy-MM-dd') }
+            Write-Host "Modified : $modifiedDisplay"
+            Write-Host ""
+        }
     }
 
     # Send webhook alert (skip if blank or placeholder not replaced)
@@ -505,7 +574,7 @@ else {
         Write-Host "[ WEBHOOK ALERT ]"
         Write-Host "--------------------------------------------------------------"
         $hostname = $env:COMPUTERNAME
-        $sent = Send-GoogleChatAlert -WebhookUrl $googleChatWebhookUrl -Hostname $hostname -FileCount $uniqueFiles.Count -Files $uniqueFiles
+        $sent = Send-GoogleChatAlert -WebhookUrl $googleChatWebhookUrl -Hostname $hostname -FileCount $uniqueFiles.Count -Files $uniqueFiles -CriticalFiles $criticalFiles
         if ($sent) {
             Write-Host "Alert sent to Google Chat"
         }
@@ -520,6 +589,7 @@ Write-Host "[ FINAL STATUS ]"
 Write-Host "--------------------------------------------------------------"
 Write-Host "Result : SUCCESS"
 Write-Host "Files Found : $($uniqueFiles.Count)"
+Write-Host "Critical : $($criticalFiles.Count)"
 Write-Host "Search Method : $(if ($indexUsed) { 'Windows Search Index' } else { 'Filesystem' })"
 
 Write-Host ""
