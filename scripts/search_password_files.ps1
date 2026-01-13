@@ -7,7 +7,7 @@ $ErrorActionPreference = 'Stop'
 ███████╗██║██║ ╚═╝ ██║███████╗██║  ██║██║  ██║╚███╔███╔╝██║  ██╗
 ╚══════╝╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚══╝╚══╝ ╚═╝  ╚═╝
 ================================================================================
- SCRIPT   : Search Password Files                                        v1.1.7
+ SCRIPT   : Search Password Files                                        v1.1.8
  AUTHOR   : Limehawk.io
  DATE     : January 2026
  USAGE    : .\search_password_files.ps1
@@ -117,6 +117,7 @@ $ErrorActionPreference = 'Stop'
 --------------------------------------------------------------------------------
  CHANGELOG
 --------------------------------------------------------------------------------
+ 2026-01-13 v1.1.8 Wrap file list in code block for monospace formatting
  2026-01-13 v1.1.7 Use bold formatting and full paths in webhook message
  2026-01-13 v1.1.6 Redesign webhook message with terminal design system, remove debug output
  2026-01-13 v1.1.5 Replace emojis with ASCII for Google Chat encoding compatibility
@@ -306,9 +307,9 @@ function Send-GoogleChatAlert {
 *timestamp* ......... $timestamp
 *files found* ....... $FileCount
 
-------------------------------
-
+``````
 $fileList
+``````
 "@
 
     $message = @{
