@@ -33,7 +33,7 @@
    All inputs are hardcoded in the script body:
      - $searchPatterns: Array of filename patterns to match
      - $subDirectories: User subdirectories to search
-     - $superOpsApiKey: SuperOps API key (SuperOps replaces $SuperOpsApiKey)
+     - $apiKey: SuperOps API key (SuperOps replaces $SuperOpsApiKey)
      - $googleChatWebhookUrl: Optional Google Chat webhook
 
  SETTINGS
@@ -167,7 +167,7 @@ $excludedProfiles = @(
 )
 
 # SuperOps API configuration - SuperOps replaces $SuperOpsApiKey at runtime
-$superOpsApiKey = "$SuperOpsApiKey"
+$apiKey = "$SuperOpsApiKey"
 $superOpsApiUrl = "https://api.superops.ai/graphql"
 
 # Google Chat webhook URL - SuperOps replaces $GoogleChatWebhook at runtime
@@ -195,7 +195,7 @@ function Invoke-SuperOpsGraphQL {
 
     try {
         $response = Invoke-RestMethod -Uri $superOpsApiUrl -Method Post -Headers @{
-            "Authorization" = "Bearer $superOpsApiKey"
+            "Authorization" = "Bearer $apiKey"
             "Content-Type" = "application/json"
         } -Body $body
 
@@ -553,7 +553,7 @@ Write-Host "[ INPUT VALIDATION ]"
 Write-Host "--------------------------------------------------------------"
 
 # Check if API key placeholder was replaced
-$apiKeyConfigured = -not [string]::IsNullOrWhiteSpace($superOpsApiKey) -and $superOpsApiKey -ne ('$' + 'SuperOpsApiKey')
+$apiKeyConfigured = -not [string]::IsNullOrWhiteSpace($apiKey) -and $apiKey -ne ('$' + 'SuperOpsApiKey')
 
 if (-not $apiKeyConfigured) {
     Write-Host "Warning : SuperOps API key not configured"
