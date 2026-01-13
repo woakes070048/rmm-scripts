@@ -7,7 +7,7 @@ $ErrorActionPreference = 'Stop'
 ███████╗██║██║ ╚═╝ ██║███████╗██║  ██║██║  ██║╚███╔███╔╝██║  ██╗
 ╚══════╝╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚══╝╚══╝ ╚═╝  ╚═╝
 ================================================================================
- SCRIPT   : Search Password Files                                        v1.1.5
+ SCRIPT   : Search Password Files                                        v1.1.6
  AUTHOR   : Limehawk.io
  DATE     : January 2026
  USAGE    : .\search_password_files.ps1
@@ -117,6 +117,7 @@ $ErrorActionPreference = 'Stop'
 --------------------------------------------------------------------------------
  CHANGELOG
 --------------------------------------------------------------------------------
+ 2026-01-13 v1.1.6 Redesign webhook message with terminal design system, remove debug output
  2026-01-13 v1.1.5 Replace emojis with ASCII for Google Chat encoding compatibility
  2026-01-13 v1.1.4 Fix newlines in Google Chat message (use backtick-n not backslash-n)
  2026-01-13 v1.1.3 Fix placeholder syntax - use double quotes for SuperOps replacement
@@ -287,16 +288,32 @@ function Send-GoogleChatAlert {
         return $false
     }
 
+    $timestamp = Get-Date -Format "yyyy-MM-dd HH:mm"
+
     $fileList = ($Files | Select-Object -First 10 | ForEach-Object {
-        "- $($_.Path)"
+        $fileName = Split-Path $_.Path -Leaf
+        $parentDir = Split-Path (Split-Path $_.Path -Parent) -Leaf
+        "  - $parentDir/$fileName"
     }) -join "`n"
 
     if ($Files.Count -gt 10) {
-        $fileList += "`n- ... and $($Files.Count - 10) more"
+        $fileList += "`n  ... and $($Files.Count - 10) more"
     }
 
+    $messageText = @"
+> PASSWORD FILES FOUND
+
+hostname .......... $Hostname
+timestamp ......... $timestamp
+files found ....... $FileCount
+
+------------------------------
+
+$fileList
+"@
+
     $message = @{
-        text = "*[ALERT] Password Files Found*`n`n*Host:* $Hostname`n*Files Found:* $FileCount`n`n$fileList"
+        text = $messageText
     } | ConvertTo-Json -Compress
 
     try {
@@ -478,13 +495,6 @@ else {
     }
 
     # Send webhook alert (skip if blank or placeholder not replaced)
-    Write-Host "[ WEBHOOK DEBUG ]"
-    Write-Host "--------------------------------------------------------------"
-    Write-Host "Raw value : [$googleChatWebhookUrl]"
-    Write-Host "IsNullOrWhiteSpace : $([string]::IsNullOrWhiteSpace($googleChatWebhookUrl))"
-    Write-Host "Equals placeholder : $($googleChatWebhookUrl -eq ('$' + 'GoogleChatWebhook'))"
-    Write-Host ""
-
     $webhookConfigured = -not [string]::IsNullOrWhiteSpace($googleChatWebhookUrl) -and $googleChatWebhookUrl -ne ('$' + 'GoogleChatWebhook')
     if ($webhookConfigured) {
         Write-Host "[ WEBHOOK ALERT ]"
