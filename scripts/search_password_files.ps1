@@ -7,7 +7,7 @@ $ErrorActionPreference = 'Stop'
 ███████╗██║██║ ╚═╝ ██║███████╗██║  ██║██║  ██║╚███╔███╔╝██║  ██╗
 ╚══════╝╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚══╝╚══╝ ╚═╝  ╚═╝
 ================================================================================
- SCRIPT   : Search Password Files                                        v1.0.0
+ SCRIPT   : Search Password Files                                        v1.0.1
  AUTHOR   : Limehawk.io
  DATE     : January 2026
  USAGE    : .\search_password_files.ps1
@@ -114,6 +114,7 @@ $ErrorActionPreference = 'Stop'
 --------------------------------------------------------------------------------
  CHANGELOG
 --------------------------------------------------------------------------------
+ 2026-01-13 v1.0.1 Fix DBNull handling for Size/Modified from Windows Search Index
  2026-01-12 v1.0.0 Initial release
 ================================================================================
 #>
@@ -194,10 +195,13 @@ AND ($pathConditions)
             $recordset.Open($query, $connection)
 
             while (-not $recordset.EOF) {
+                $sizeValue = $recordset.Fields.Item("System.Size").Value
+                $modifiedValue = $recordset.Fields.Item("System.DateModified").Value
+
                 $results += [PSCustomObject]@{
                     Path = $recordset.Fields.Item("System.ItemPathDisplay").Value
-                    Size = $recordset.Fields.Item("System.Size").Value
-                    Modified = $recordset.Fields.Item("System.DateModified").Value
+                    Size = if ($null -eq $sizeValue -or $sizeValue -is [DBNull]) { 0 } else { [long]$sizeValue }
+                    Modified = if ($null -eq $modifiedValue -or $modifiedValue -is [DBNull]) { $null } else { $modifiedValue }
                 }
                 $recordset.MoveNext()
             }
@@ -419,7 +423,8 @@ else {
     foreach ($file in $uniqueFiles) {
         Write-Host "Path     : $($file.Path)"
         Write-Host "Size     : $(Format-FileSize $file.Size)"
-        Write-Host "Modified : $(([datetime]$file.Modified).ToString('yyyy-MM-dd'))"
+        $modifiedDisplay = if ($null -eq $file.Modified) { 'Unknown' } else { ([datetime]$file.Modified).ToString('yyyy-MM-dd') }
+        Write-Host "Modified : $modifiedDisplay"
         Write-Host ""
     }
 }
