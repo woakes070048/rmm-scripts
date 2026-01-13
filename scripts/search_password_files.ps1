@@ -7,7 +7,7 @@ $ErrorActionPreference = 'Stop'
 ███████╗██║██║ ╚═╝ ██║███████╗██║  ██║██║  ██║╚███╔███╔╝██║  ██╗
 ╚══════╝╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚══╝╚══╝ ╚═╝  ╚═╝
 ================================================================================
- SCRIPT   : Search Password Files                                        v1.0.1
+ SCRIPT   : Search Password Files                                        v1.1.0
  AUTHOR   : Limehawk.io
  DATE     : January 2026
  USAGE    : .\search_password_files.ps1
@@ -35,6 +35,7 @@ $ErrorActionPreference = 'Stop'
      - $subDirectories: User subdirectories to search
      - $useIndex: Whether to attempt Windows Search Index first
      - $maxDepth: Maximum folder depth for filesystem search
+     - $googleChatWebhookUrl: Google Chat webhook (SuperOps replaces $GoogleChatWebhook)
 
  SETTINGS
 
@@ -43,6 +44,7 @@ $ErrorActionPreference = 'Stop'
      - Subdirectories: Desktop, Documents, Downloads, Pictures, cloud folders
      - Index search enabled by default
      - Max depth: 10 levels
+     - Webhook alert sent only when files are found (not on zero results)
 
  BEHAVIOR
 
@@ -52,6 +54,7 @@ $ErrorActionPreference = 'Stop'
    3. Attempts Windows Search Index query if enabled
    4. Falls back to filesystem search if index unavailable or incomplete
    5. Reports all matching files with path, size, and modified date
+   6. Sends Google Chat alert if files found and webhook URL configured
 
  PREREQUISITES
 
@@ -66,7 +69,7 @@ $ErrorActionPreference = 'Stop'
 
  ENDPOINTS
 
-   - Not applicable (local search only)
+   - Google Chat Webhook: Receives alert when password files found
 
  EXIT CODES
 
@@ -114,6 +117,7 @@ $ErrorActionPreference = 'Stop'
 --------------------------------------------------------------------------------
  CHANGELOG
 --------------------------------------------------------------------------------
+ 2026-01-13 v1.1.0 Add Google Chat webhook alert when password files found
  2026-01-13 v1.0.1 Fix DBNull handling for Size/Modified from Windows Search Index
  2026-01-12 v1.0.0 Initial release
 ================================================================================
@@ -160,6 +164,10 @@ $excludedProfiles = @(
     'Default User',
     'All Users'
 )
+
+# Google Chat webhook URL - SuperOps replaces $GoogleChatWebhook at runtime
+# Leave as placeholder to disable webhook alerts
+$googleChatWebhookUrl = '$GoogleChatWebhook'
 
 # ============================================================================
 # HELPER FUNCTIONS
@@ -259,6 +267,42 @@ function Format-FileSize {
     if ($Bytes -ge 1MB) { return "{0:N1} MB" -f ($Bytes / 1MB) }
     if ($Bytes -ge 1KB) { return "{0:N1} KB" -f ($Bytes / 1KB) }
     return "$Bytes B"
+}
+
+function Send-GoogleChatAlert {
+    param (
+        [string]$WebhookUrl,
+        [string]$Hostname,
+        [int]$FileCount,
+        [PSCustomObject[]]$Files
+    )
+
+    # Check if placeholder was replaced (use concatenation to avoid SuperOps replacing this check)
+    if ([string]::IsNullOrWhiteSpace($WebhookUrl) -or $WebhookUrl -eq '$' + 'GoogleChatWebhook') {
+        return $false
+    }
+
+    $fileList = ($Files | Select-Object -First 10 | ForEach-Object {
+        "• $($_.Path)"
+    }) -join "\n"
+
+    if ($Files.Count -gt 10) {
+        $fileList += "\n• ... and $($Files.Count - 10) more"
+    }
+
+    $message = @{
+        text = "⚠️ *Password Files Found*\n\n*Host:* $Hostname\n*Files Found:* $FileCount\n\n$fileList"
+    } | ConvertTo-Json -Compress
+
+    try {
+        $null = Invoke-RestMethod -Uri $WebhookUrl -Method Post -ContentType 'application/json' -Body $message
+        return $true
+    }
+    catch {
+        Write-Host "Warning : Failed to send webhook alert"
+        Write-Host "Error   : $($_.Exception.Message)"
+        return $false
+    }
 }
 
 # ============================================================================
@@ -425,6 +469,18 @@ else {
         Write-Host "Size     : $(Format-FileSize $file.Size)"
         $modifiedDisplay = if ($null -eq $file.Modified) { 'Unknown' } else { ([datetime]$file.Modified).ToString('yyyy-MM-dd') }
         Write-Host "Modified : $modifiedDisplay"
+        Write-Host ""
+    }
+
+    # Send webhook alert
+    if (-not [string]::IsNullOrWhiteSpace($googleChatWebhookUrl)) {
+        Write-Host "[ WEBHOOK ALERT ]"
+        Write-Host "--------------------------------------------------------------"
+        $hostname = $env:COMPUTERNAME
+        $sent = Send-GoogleChatAlert -WebhookUrl $googleChatWebhookUrl -Hostname $hostname -FileCount $uniqueFiles.Count -Files $uniqueFiles
+        if ($sent) {
+            Write-Host "Alert sent to Google Chat"
+        }
         Write-Host ""
     }
 }
