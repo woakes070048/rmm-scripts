@@ -7,7 +7,7 @@ $ErrorActionPreference = 'Stop'
 ███████╗██║██║ ╚═╝ ██║███████╗██║  ██║██║  ██║╚███╔███╔╝██║  ██╗
 ╚══════╝╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚══╝╚══╝ ╚═╝  ╚═╝
 ================================================================================
- SCRIPT   : Search Password Files                                        v1.1.9
+ SCRIPT   : Search Password Files                                        v1.2.0
  AUTHOR   : Limehawk.io
  DATE     : January 2026
  USAGE    : .\search_password_files.ps1
@@ -40,7 +40,7 @@ $ErrorActionPreference = 'Stop'
  SETTINGS
 
    Configuration details and default values:
-     - Search patterns include: *password*, *credential*, *secret*, etc.
+     - Search patterns include: *password*, *credential*, *creds*, *logins*, etc.
      - Subdirectories: Desktop, Documents, Downloads, Pictures, cloud folders
      - Index search enabled by default
      - Max depth: 10 levels
@@ -117,6 +117,7 @@ $ErrorActionPreference = 'Stop'
 --------------------------------------------------------------------------------
  CHANGELOG
 --------------------------------------------------------------------------------
+ 2026-01-13 v1.2.0 Remove *secret* and *accounts* patterns to reduce false positives
  2026-01-13 v1.1.9 Wrap entire webhook message in code block
  2026-01-13 v1.1.8 Wrap file list in code block for monospace formatting
  2026-01-13 v1.1.7 Use bold formatting and full paths in webhook message
@@ -147,9 +148,10 @@ $searchPatterns = @(
     '*password*',
     '*credential*',
     '*creds*',
-    '*secret*',
     '*logins*',
-    '*accounts*'
+    '*login.csv',
+    '*login.xlsx',
+    '*login.txt'
 )
 
 $subDirectories = @(
