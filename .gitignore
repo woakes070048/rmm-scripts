@@ -3,6 +3,7 @@ wiki/
 
 # SuperOps export files (sensitive)
 *.json
+!.superops-manifest.json
 
 # Environment files
 .env
