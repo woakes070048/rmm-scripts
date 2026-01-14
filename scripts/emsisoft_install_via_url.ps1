@@ -1,3 +1,4 @@
+$ErrorActionPreference = 'Stop'
 <#
 ██╗     ██╗███╗   ███╗███████╗██╗  ██╗ █████╗ ██╗    ██╗██╗  ██╗
 ██║     ██║████╗ ████║██╔════╝██║  ██║██╔══██╗██║    ██║██║ ██╔╝
@@ -5,118 +6,119 @@
 ██║     ██║██║╚██╔╝██║██╔══╝  ██╔══██║██╔══██║██║███╗██║██╔═██╗
 ███████╗██║██║ ╚═╝ ██║███████╗██║  ██║██║  ██║╚███╔███╔╝██║  ██╗
 ╚══════╝╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚══╝╚══╝ ╚═╝  ╚═╝
-
 ================================================================================
- SCRIPT    : Emsisoft Install via URL 1.1.0
- AUTHOR    : Limehawk.io
- DATE      : December 2025
- USAGE     : .\emsisoft_install_via_url.ps1
- FILE      : emsisoft_install_via_url.ps1
+ SCRIPT   : Emsisoft Install via URL                                    v1.1.1
+ AUTHOR   : Limehawk.io
+ DATE     : January 2026
+ USAGE    : .\emsisoft_install_via_url.ps1
+================================================================================
+ FILE     : emsisoft_install_via_url.ps1
  DESCRIPTION : Downloads and installs Emsisoft Anti-Malware from a specified URL
-================================================================================
+--------------------------------------------------------------------------------
  README
 --------------------------------------------------------------------------------
+ PURPOSE
 
-PURPOSE
+   Downloads and installs Emsisoft Anti-Malware from a specified URL. This script
+   is designed for deployments where the Emsisoft installer is hosted on a web
+   server or cloud storage and needs to be deployed to endpoints via RMM.
 
-Downloads and installs Emsisoft Anti-Malware from a specified URL. This script
-is designed for deployments where the Emsisoft installer is hosted on a web
-server or cloud storage and needs to be deployed to endpoints via RMM.
+ DATA SOURCES & PRIORITY
 
-DATA SOURCES & PRIORITY
+   1. Hardcoded download URL - Must point to valid Emsisoft installer
+   2. Local temp directory - Default download location ($env:TEMP)
 
-1. Hardcoded download URL - Must point to valid Emsisoft installer
-2. Local temp directory - Default download location ($env:TEMP)
+ REQUIRED INPUTS
 
-REQUIRED INPUTS
+   $installerUrl   - Full URL to Emsisoft installer executable
+                     Must be a valid HTTP/HTTPS URL ending in .exe
+                     Example: "https://dl.emsisoft.com/EmsisoftAntiMalwareSetup.exe"
 
-$installerUrl   - Full URL to Emsisoft installer executable
-                  Must be a valid HTTP/HTTPS URL ending in .exe
-                  Example: "https://dl.emsisoft.com/EmsisoftAntiMalwareSetup.exe"
+   $downloadPath   - Local directory to download installer to
+                     Default: $env:TEMP
+                     Must exist and be writable
 
-$downloadPath   - Local directory to download installer to
-                  Default: $env:TEMP
-                  Must exist and be writable
+ SETTINGS
 
-SETTINGS
+   - Download location: %TEMP% directory by default
+   - Installer is executed immediately after download
+   - Downloaded installer is NOT deleted after execution
+   - No installation flags are passed (interactive install)
 
-- Download location: %TEMP% directory by default
-- Installer is executed immediately after download
-- Downloaded installer is NOT deleted after execution
-- No installation flags are passed (interactive install)
+ BEHAVIOR
 
-BEHAVIOR
+   1. Validates inputs (URL format, download path exists)
+   2. Extracts filename from URL
+   3. Downloads installer from specified URL
+   4. Verifies download completed successfully
+   5. Executes the installer
+   6. Reports final status
 
-1. Validates inputs (URL format, download path exists)
-2. Extracts filename from URL
-3. Downloads installer from specified URL
-4. Verifies download completed successfully
-5. Executes the installer
-6. Reports final status
+ PREREQUISITES
 
-PREREQUISITES
+   - Windows PowerShell 5.1 or PowerShell 7+
+   - Internet connectivity to download URL
+   - Administrator privileges recommended (for installation)
+   - Sufficient disk space for installer download
 
-- Windows PowerShell 5.1 or PowerShell 7+
-- Internet connectivity to download URL
-- Administrator privileges recommended (for installation)
-- Sufficient disk space for installer download
+ SECURITY NOTES
 
-SECURITY NOTES
+   - No secrets logged or displayed
+   - Ensure download URL is from trusted source only
+   - Downloaded file is executed immediately - validate URL before use
+   - Consider using HTTPS URLs for secure downloads
 
-- No secrets logged or displayed
-- Ensure download URL is from trusted source only
-- Downloaded file is executed immediately - validate URL before use
-- Consider using HTTPS URLs for secure downloads
+ ENDPOINTS
 
-ENDPOINTS
+   - Download URL (specified in $installerUrl variable)
 
-- Download URL (specified in $installerUrl variable)
+ EXIT CODES
 
-EXIT CODES
+   0 = Success - Installer downloaded and executed
+   1 = Failure - Error during download or execution
 
-- 0: Success - Installer downloaded and executed
-- 1: Failure - Error during download or execution
+ EXAMPLE RUN
 
-EXAMPLE RUN
+   PS> .\emsisoft_install_via_url.ps1
 
-PS> .\emsisoft_install_via_url.ps1
+   [ INPUT VALIDATION ]
+   --------------------------------------------------------------
+   Validating configuration...
+   Download URL  : https://example.com/EmsisoftSetup.exe
+   Download path : C:\Users\Admin\AppData\Local\Temp
+   Input validation passed
 
-[ INPUT VALIDATION ]
---------------------------------------------------------------
-Validating configuration...
-Download URL  : https://example.com/EmsisoftSetup.exe
-Download path : C:\Users\Admin\AppData\Local\Temp
-Input validation passed
+   [ DOWNLOAD ]
+   --------------------------------------------------------------
+   Downloading installer...
+   Source URL   : https://example.com/EmsisoftSetup.exe
+   Target file  : C:\Users\Admin\AppData\Local\Temp\EmsisoftSetup.exe
+   Download completed successfully
 
-[ DOWNLOAD ]
---------------------------------------------------------------
-Downloading installer...
-Source URL   : https://example.com/EmsisoftSetup.exe
-Target file  : C:\Users\Admin\AppData\Local\Temp\EmsisoftSetup.exe
-Download completed successfully
+   [ INSTALLATION ]
+   --------------------------------------------------------------
+   Launching installer...
+   Installer started : EmsisoftSetup.exe
 
-[ INSTALLATION ]
---------------------------------------------------------------
-Launching installer...
-Installer started : EmsisoftSetup.exe
+   [ FINAL STATUS ]
+   --------------------------------------------------------------
+   Download successful : Yes
+   Installer launched  : Yes
 
-[ FINAL STATUS ]
---------------------------------------------------------------
-Download successful : Yes
-Installer launched  : Yes
+   [ SCRIPT COMPLETED ]
+   --------------------------------------------------------------
+   Script completed successfully
+   Exit code : 0
 
-[ SCRIPT COMPLETED ]
---------------------------------------------------------------
-Script completed successfully
-Exit code : 0
 --------------------------------------------------------------------------------
  CHANGELOG
 --------------------------------------------------------------------------------
+ 2026-01-14 v1.1.1 Fixed file structure - moved $ErrorActionPreference before <#
  2025-12-23 v1.1.0 Updated to Limehawk Script Framework
  2025-11-02 v1.0.0 Initial migration from SuperOps
+================================================================================
 #>
 
-$ErrorActionPreference = 'Stop'
 Set-StrictMode -Version Latest
 
 # ============================================================================

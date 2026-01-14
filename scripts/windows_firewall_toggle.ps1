@@ -8,13 +8,13 @@ $ErrorActionPreference = 'Stop'
 ███████╗██║██║ ╚═╝ ██║███████╗██║  ██║██║  ██║╚███╔███╔╝██║  ██╗
 ╚══════╝╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚══╝╚══╝ ╚═╝  ╚═╝
 ================================================================================
- SCRIPT   : Windows Firewall Toggle                                      v1.0.1
+ SCRIPT   : Windows Firewall Toggle                                     v1.0.2
  AUTHOR   : Limehawk.io
- DATE      : December 2025
+ DATE     : January 2026
  USAGE    : .\windows_firewall_toggle.ps1
 ================================================================================
  FILE     : windows_firewall_toggle.ps1
-DESCRIPTION : Enables or disables Windows Firewall for all profiles
+ DESCRIPTION : Enables or disables Windows Firewall for all profiles
 --------------------------------------------------------------------------------
  README
 --------------------------------------------------------------------------------
@@ -89,6 +89,7 @@ DESCRIPTION : Enables or disables Windows Firewall for all profiles
 --------------------------------------------------------------------------------
  CHANGELOG
 --------------------------------------------------------------------------------
+ 2026-01-14 v1.0.2 Fixed header formatting for framework compliance
  2025-12-23 v1.0.1 Updated to Limehawk Script Framework
  2025-11-29 v1.0.0 Initial Style A implementation
 ================================================================================

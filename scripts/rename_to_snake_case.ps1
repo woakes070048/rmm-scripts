@@ -1,3 +1,4 @@
+Import-Module $SuperOpsModule
 $ErrorActionPreference = 'Stop'
 
 <#
@@ -8,13 +9,13 @@ $ErrorActionPreference = 'Stop'
 ███████╗██║██║ ╚═╝ ██║███████╗██║  ██║██║  ██║╚███╔███╔╝██║  ██╗
 ╚══════╝╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚══╝╚══╝ ╚═╝  ╚═╝
 ================================================================================
- SCRIPT   : Rename to Snake Case v1.1.0
+ SCRIPT   : Rename to Snake Case                                        v1.1.1
  AUTHOR   : Limehawk.io
- DATE      : December 2025
+ DATE     : January 2026
  USAGE    : .\rename_to_snake_case.ps1
 ================================================================================
  FILE     : rename_to_snake_case.ps1
-DESCRIPTION : Recursively renames files and folders to snake_case format
+ DESCRIPTION : Recursively renames files and folders to snake_case format
 --------------------------------------------------------------------------------
  README
 --------------------------------------------------------------------------------
@@ -87,6 +88,7 @@ DESCRIPTION : Recursively renames files and folders to snake_case format
 --------------------------------------------------------------------------------
  CHANGELOG
 --------------------------------------------------------------------------------
+ 2026-01-14 v1.1.1 Added Import-Module for SuperOps placeholder support
  2025-12-23 v1.1.0 Updated to Limehawk Script Framework
  2025-11-29 v1.0.0 Initial Style A implementation
 ================================================================================

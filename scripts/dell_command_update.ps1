@@ -8,14 +8,15 @@ $ErrorActionPreference = 'Stop'
 ███████╗██║██║ ╚═╝ ██║███████╗██║  ██║██║  ██║╚███╔███╔╝██║  ██╗
 ╚══════╝╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚══╝╚══╝ ╚═╝  ╚═╝
 ================================================================================
-SCRIPT  : Dell Command Update v2.1.1
-AUTHOR  : Limehawk.io
-DATE      : December 2025
-USAGE   : .\dell_command_update.ps1
-FILE    : dell_command_update.ps1
-DESCRIPTION : Installs Dell Command Update and applies driver/firmware updates
+ SCRIPT   : Dell Command Update                                         v2.1.2
+ AUTHOR   : Limehawk.io
+ DATE     : January 2026
+ USAGE    : .\dell_command_update.ps1
 ================================================================================
-README
+ FILE     : dell_command_update.ps1
+ DESCRIPTION : Installs Dell Command Update and applies driver/firmware updates
+--------------------------------------------------------------------------------
+ README
 --------------------------------------------------------------------------------
  PURPOSE
 
@@ -106,12 +107,14 @@ README
  [ SCRIPT COMPLETED ]
  --------------------------------------------------------------
 
-CHANGELOG
 --------------------------------------------------------------------------------
-2025-12-23 v2.1.1 Updated to Limehawk Script Framework
-2025-12-01 v2.1.0 Output scan and apply log contents to console for RMM visibility
-2025-12-01 v2.0.0 Switched from Chocolatey to winget for package management
-2025-11-29 v1.0.0 Initial Style A implementation
+ CHANGELOG
+--------------------------------------------------------------------------------
+ 2026-01-14 v2.1.2 Fixed header formatting for framework compliance
+ 2025-12-23 v2.1.1 Updated to Limehawk Script Framework
+ 2025-12-01 v2.1.0 Output scan and apply log contents to console for RMM visibility
+ 2025-12-01 v2.0.0 Switched from Chocolatey to winget for package management
+ 2025-11-29 v1.0.0 Initial Style A implementation
 ================================================================================
 #>
 

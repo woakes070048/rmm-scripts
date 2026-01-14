@@ -8,9 +8,9 @@ $ErrorActionPreference = 'Stop'
 ███████╗██║██║ ╚═╝ ██║███████╗██║  ██║██║  ██║╚███╔███╔╝██║  ██╗
 ╚══════╝╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚══╝╚══╝ ╚═╝  ╚═╝
 ================================================================================
- SCRIPT   : DelProf2 Delete All Profiles v1.1.0
+ SCRIPT   : DelProf2 Delete All Profiles                                v1.1.1
  AUTHOR   : Limehawk.io
- DATE      : December 2025
+ DATE     : January 2026
  USAGE    : .\delprof2_delete_all_profiles.ps1
 ================================================================================
  FILE     : delprof2_delete_all_profiles.ps1
@@ -20,48 +20,78 @@ $ErrorActionPreference = 'Stop'
 --------------------------------------------------------------------------------
  PURPOSE
 
- Deletes ALL Windows user profiles except protected ones (gaia, administrator).
- Uses DelProf2 utility downloaded directly from helgeklein.com.
+   Deletes ALL Windows user profiles except protected ones (gaia, administrator).
+   Uses DelProf2 utility downloaded directly from helgeklein.com.
 
  DATA SOURCES & PRIORITY
 
- 1) Direct download from helgeklein.com
+   1) Direct download from helgeklein.com
 
  REQUIRED INPUTS
 
- None - no runtime variables needed.
+   None - no runtime variables needed.
 
  SETTINGS
 
- - Always protects: gaia, administrator profiles
- - Downloads DelProf2 directly (no Chocolatey required)
- - Cleans up after execution
+   - Always protects: gaia, administrator profiles
+   - Downloads DelProf2 directly (no Chocolatey required)
+   - Cleans up after execution
 
  BEHAVIOR
 
- 1. Downloads/extracts DelProf2 if not cached
- 2. Executes: delprof2.exe /u /ed:gaia /ed:administrator
- 3. Cleans up cached files
- 4. Reports results
+   1. Downloads/extracts DelProf2 if not cached
+   2. Executes: delprof2.exe /u /ed:gaia /ed:administrator
+   3. Cleans up cached files
+   4. Reports results
 
  PREREQUISITES
 
- - Windows 10/11
- - Admin privileges required
- - Internet access for DelProf2 download
+   - Windows 10/11
+   - Admin privileges required
+   - Internet access for DelProf2 download
 
  SECURITY NOTES
 
- - DESTRUCTIVE OPERATION - profiles cannot be recovered
- - Downloads from official helgeklein.com source
+   - DESTRUCTIVE OPERATION - profiles cannot be recovered
+   - Downloads from official helgeklein.com source
+
+ ENDPOINTS
+
+   - https://helgeklein.com/downloads/DelProf2/current/Delprof2%201.6.0.zip
 
  EXIT CODES
 
- - 0: Success
- - 1: Failure
+   0 = Success
+   1 = Failure
+
+ EXAMPLE RUN
+
+   [ INPUT VALIDATION ]
+   --------------------------------------------------------------
+   Mode      : Delete All Profiles
+   Protected : gaia, administrator
+
+   [ OPERATION ]
+   --------------------------------------------------------------
+   Downloading DelProf2...
+   Extracting...
+   DelProf2 ready
+   Executing: DelProf2.exe /u /ed:gaia /ed:administrator
+   <DelProf2 output>
+   Cleaning up...
+
+   [ RESULT ]
+   --------------------------------------------------------------
+   Status : Success
+   All profiles deleted except: gaia, administrator
+
+   [ SCRIPT COMPLETED ]
+   --------------------------------------------------------------
+
 --------------------------------------------------------------------------------
  CHANGELOG
 --------------------------------------------------------------------------------
+ 2026-01-14 v1.1.1 Fixed header formatting for framework compliance
  2025-12-23 v1.1.0 Updated to Limehawk Script Framework
  2025-11-29 v1.0.0 Initial release - separated from combined script
 ================================================================================

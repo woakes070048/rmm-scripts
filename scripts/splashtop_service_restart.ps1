@@ -6,66 +6,89 @@ $ErrorActionPreference = 'Stop'
 ██║     ██║██║╚██╔╝██║██╔══╝  ██╔══██║██╔══██║██║███╗██║██╔═██╗
 ███████╗██║██║ ╚═╝ ██║███████╗██║  ██║██║  ██║╚███╔███╔╝██║  ██╗
 ╚══════╝╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚══╝╚══╝ ╚═╝  ╚═╝
-
 ================================================================================
-SCRIPT  : Splashtop Service Restart v1.0.1
-AUTHOR  : Limehawk.io
-DATE      : December 2025
-USAGE   : .\splashtop_service_restart.ps1
-FILE    : splashtop_service_restart.ps1
-DESCRIPTION : Restarts Splashtop Remote Service to resolve connectivity issues
+ SCRIPT   : Splashtop Service Restart                                   v1.0.2
+ AUTHOR   : Limehawk.io
+ DATE     : January 2026
+ USAGE    : .\splashtop_service_restart.ps1
 ================================================================================
-README
+ FILE     : splashtop_service_restart.ps1
+ DESCRIPTION : Restarts Splashtop Remote Service to resolve connectivity issues
 --------------------------------------------------------------------------------
-PURPOSE:
-    Restarts the Splashtop Remote Service to resolve connectivity or
-    performance issues with Splashtop remote access.
-
-REQUIRED INPUTS:
-    $serviceName : Name of the Splashtop service to restart
-
-BEHAVIOR:
-    1. Validates service name input
-    2. Checks if service exists
-    3. Restarts the service
-    4. Reports final status
-
-PREREQUISITES:
-    - Windows OS
-    - Administrator privileges
-    - Splashtop Streamer installed
-
-SECURITY NOTES:
-    - No secrets in logs
-
-EXIT CODES:
-    0 = Success
-    1 = Failure
-
-EXAMPLE RUN:
-    [ INPUT VALIDATION ]
-    --------------------------------------------------------------
-    Service Name : SplashtopRemoteService
-    Inputs validated successfully
-
-    [ SERVICE RESTART ]
-    --------------------------------------------------------------
-    Restarting SplashtopRemoteService...
-    Service restarted successfully
-
-    [ FINAL STATUS ]
-    --------------------------------------------------------------
-    Result : SUCCESS
-    Service Name : SplashtopRemoteService
-    Status : Running
-
-    [ SCRIPT COMPLETED ]
-    --------------------------------------------------------------
-
-CHANGELOG
+ README
 --------------------------------------------------------------------------------
-2025-12-23 v1.0.1 Updated to Limehawk Script Framework
-2024-12-01 v1.0.0 Initial release - migrated from SuperOps
+ PURPOSE
+
+   Restarts the Splashtop Remote Service to resolve connectivity or
+   performance issues with Splashtop remote access.
+
+ DATA SOURCES & PRIORITY
+
+   - Hardcoded service name (defined within the script body)
+
+ REQUIRED INPUTS
+
+   All inputs are hardcoded in the script body:
+     - $serviceName : Name of the Splashtop service to restart
+
+ SETTINGS
+
+   - Default service: SplashtopRemoteService
+   - Wait time after restart: 3 seconds
+
+ BEHAVIOR
+
+   1. Validates service name input
+   2. Checks if service exists
+   3. Restarts the service
+   4. Reports final status
+
+ PREREQUISITES
+
+   - Windows OS
+   - Administrator privileges
+   - Splashtop Streamer installed
+
+ SECURITY NOTES
+
+   - No secrets in logs
+
+ ENDPOINTS
+
+   Not applicable - this script does not connect to any network endpoints
+
+ EXIT CODES
+
+   0 = Success
+   1 = Failure
+
+ EXAMPLE RUN
+
+   [ INPUT VALIDATION ]
+   --------------------------------------------------------------
+   Service Name : SplashtopRemoteService
+   Inputs validated successfully
+
+   [ SERVICE RESTART ]
+   --------------------------------------------------------------
+   Restarting SplashtopRemoteService...
+   Service restarted successfully
+
+   [ FINAL STATUS ]
+   --------------------------------------------------------------
+   Result : SUCCESS
+   Service Name : SplashtopRemoteService
+   Status : Running
+
+   [ SCRIPT COMPLETED ]
+   --------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+ CHANGELOG
+--------------------------------------------------------------------------------
+ 2026-01-14 v1.0.2 Fixed header formatting for framework compliance
+ 2025-12-23 v1.0.1 Updated to Limehawk Script Framework
+ 2024-12-01 v1.0.0 Initial release - migrated from SuperOps
 ================================================================================
 #>
 Set-StrictMode -Version Latest

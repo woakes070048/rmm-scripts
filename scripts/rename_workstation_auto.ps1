@@ -4,21 +4,23 @@ $ErrorActionPreference = 'Stop'
 <#
 ██╗     ██╗███╗   ███╗███████╗██╗  ██╗ █████╗ ██╗    ██╗██╗  ██╗
 ██║     ██║████╗ ████║██╔════╝██║  ██║██╔══██╗██║    ██║██║ ██╔╝
-██║     ██║██╔████╔██║█████╗  ███████║███████║██║ █╗ ██║█████╔╝ 
-██║     ██║██║╚██╔╝██║██╔══╝  ██╔══██║██╔══██║██║███╗██║██╔═██╗ 
+██║     ██║██╔████╔██║█████╗  ███████║███████║██║ █╗ ██║█████╔╝
+██║     ██║██║╚██╔╝██║██╔══╝  ██╔══██║██╔══██║██║███╗██║██╔═██╗
 ███████╗██║██║ ╚═╝ ██║███████╗██║  ██║██║  ██║╚███╔███╔╝██║  ██╗
 ╚══════╝╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚══╝╚══╝ ╚═╝  ╚═╝
 ================================================================================
- SCRIPT  : Rename Workstation Auto v8.2.2
- AUTHOR  : Limehawk.io
- DATE      : December 2025
- FILE    : rename_workstation_auto.ps1
- DESCRIPTION : Auto-renames Windows device using CLIENT3-USER-UUID pattern
- USAGE   : .\rename_workstation_auto.ps1
+ SCRIPT   : Rename Workstation Auto                                     v8.2.3
+ AUTHOR   : Limehawk.io
+ DATE     : January 2026
+ USAGE    : .\rename_workstation_auto.ps1
 ================================================================================
+ FILE     : rename_workstation_auto.ps1
+ DESCRIPTION : Auto-renames Windows device using CLIENT3-USER-UUID pattern
+--------------------------------------------------------------------------------
  README
 --------------------------------------------------------------------------------
  PURPOSE
+
    Rename a Windows device and sync the same name to SuperOps.
 
    Naming (Windows-legal; max 15 chars; no trailing hyphen):
@@ -28,14 +30,110 @@ $ErrorActionPreference = 'Stop'
        UUID    : SMBIOS UUID tail; at least 3 chars; trimmed to fill exactly 15.
 
    Notes:
-     - Only A–Z, 0–9, and hyphen used.
+     - Only A-Z, 0-9, and hyphen used.
      - Name never starts or ends with '-'.
      - Always exactly 15 chars.
      - SuperOps asset name is updated to match.
 
+ DATA SOURCES & PRIORITY
+
+   1. SuperOps runtime placeholders ($YourApiKeyHere, $YourClientNameHere, etc.)
+   2. System information (UUID, username, hostname)
+   3. Hardcoded settings (subdomain, segment lengths)
+
+ REQUIRED INPUTS
+
+   All inputs are SuperOps runtime placeholders:
+     - $YourApiKeyHere         : SuperOps API key
+     - $YourAssetIdHere        : SuperOps asset ID
+     - $YourAssetNameHere      : Current asset name (for logging)
+     - $YourClientNameHere     : Client name for 3-char abbreviation
+
+ SETTINGS
+
+   - MaxUserSegmentLen: 8 characters
+   - MinUuidSuffixLen: 3 characters
+   - MaxHostLen: 15 characters (Windows limit)
+   - GraphQL endpoint: https://api.superops.ai/msp
+
+ BEHAVIOR
+
+   1. Validates SuperOps API key and asset ID
+   2. Retrieves system UUID and logged-in username
+   3. Builds hostname: CLIENT3-USERUUID (exactly 15 chars)
+   4. Renames computer if name differs from current
+   5. Updates SuperOps asset name via GraphQL API
+   6. Reports final status
+
+ PREREQUISITES
+
+   - Windows 10/11
+   - Admin privileges required
+   - SuperOps agent installed
+   - Internet access for SuperOps API
+
+ SECURITY NOTES
+
+   - API key passed via SuperOps runtime variable
+   - No secrets written to permanent logs
+   - GraphQL mutation updates asset name only
+
+ ENDPOINTS
+
+   - https://api.superops.ai/msp (SuperOps GraphQL API)
+
+ EXIT CODES
+
+   0 = Success
+   1 = Failure
+
+ EXAMPLE RUN
+
+   [ SUPEROPS VARIABLES ]
+   --------------------------------------------------------------
+   AssetId (placeholder)    : 12345
+   AssetName (placeholder)  : DESKTOP-ABC123
+   ClientName (placeholder) : Acme Corp
+   Subdomain (hardcoded)    : limehawk
+   MaxUserSegmentLen        : 8
+
+   [ RAW SYSTEM VALUES ]
+   --------------------------------------------------------------
+   ENV USERNAME             : jsmith
+   CIM UserName             : ACME\jsmith
+   Current HostName (CIM)   : DESKTOP-ABC123
+   SMBIOS UUID              : 12345678-1234-1234-1234-123456789ABC
+
+   [ DERIVED SEGMENTS ]
+   --------------------------------------------------------------
+   CLIENT SEGMENT           : ACM
+   USER SEGMENT             : JSMITH
+   DESIRED/OS NAME          : ACM-JSMITH89ABC
+   Name Length              : 15
+
+   [ RENAME ACTION ]
+   --------------------------------------------------------------
+   CURRENT NAME(S)          : DESKTOP-ABC123
+   STATUS                   : RENAMING TO ACM-JSMITH89ABC
+   NOTE                     : CHANGE TAKES EFFECT AFTER REBOOT
+   RESULT                   : RENAME COMMAND ISSUED
+
+   [ SUPEROPS SYNC ]
+   --------------------------------------------------------------
+   RESULT                   : SUPEROPS ASSET NAME UPDATED
+
+   [ FINAL STATUS ]
+   --------------------------------------------------------------
+   RENAME SCHEDULED IF NEEDED. REBOOT TO APPLY NEW HOSTNAME
+   SUPEROPS ASSET NAME SYNCED
+
+   [ SCRIPT COMPLETED ]
+   --------------------------------------------------------------
+
 --------------------------------------------------------------------------------
  CHANGELOG
 --------------------------------------------------------------------------------
+ 2026-01-14 v8.2.3 Added complete README sections for framework compliance
  2025-12-23 v8.2.2 Updated to Limehawk Script Framework
  2024-12-01 v8.2.1 Fixed StrictMode error checking GraphQL response for errors
  2025-08-20 v8.2.0 Clarified README: auto script enforces 3-char client code
