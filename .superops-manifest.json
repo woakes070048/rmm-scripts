@@ -186,14 +186,6 @@
       "lastModified": "2026-01-14T04:00:22.515250+00:00"
     },
     {
-      "scriptId": "6981925292306055168",
-      "filename": "gcpw_cleanup",
-      "language": "Bat",
-      "checksum": "sha256:7d8af78f85dcd066",
-      "metaChecksum": "meta:d6a190c566b30643",
-      "lastModified": "2026-01-14T04:00:22.515284+00:00"
-    },
-    {
       "scriptId": "259059096159379456",
       "filename": "gcpw_install",
       "language": "PowerShell",
@@ -594,14 +586,6 @@
       "lastModified": "2026-01-14T04:00:22.517364+00:00"
     },
     {
-      "scriptId": "6582476168459661312",
-      "filename": "time_sync_fix",
-      "language": "Bat",
-      "checksum": "sha256:bb4b8e9b36948749",
-      "metaChecksum": "meta:09d70434811ab074",
-      "lastModified": "2026-01-14T04:00:22.517400+00:00"
-    },
-    {
       "scriptId": "259059221279662080",
       "filename": "user_accounts_report",
       "language": "PowerShell",
@@ -648,14 +632,6 @@
       "checksum": "sha256:0a6016f20750d1c9",
       "metaChecksum": "meta:6d75114f3bc4dc88",
       "lastModified": "2026-01-14T04:00:22.517637+00:00"
-    },
-    {
-      "scriptId": "6103852407269097472",
-      "filename": "windows_firewall_toggle",
-      "language": "Bat",
-      "checksum": "sha256:30ccf24716c7fbf7",
-      "metaChecksum": "meta:059e517b955252e9",
-      "lastModified": "2026-01-14T04:00:22.517672+00:00"
     },
     {
       "scriptId": "214958378614583296",
