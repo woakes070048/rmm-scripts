@@ -1088,6 +1088,22 @@
       "checksum": "sha256:3897e294e0f6e0a1",
       "metaChecksum": "meta:812da09f10d83bf0",
       "lastModified": "2026-01-14T04:00:22.519737+00:00"
+    },
+    {
+      "scriptId": "6582476168459661312",
+      "filename": "time_sync_fix",
+      "language": "PowerShell",
+      "checksum": "sha256:bb4b8e9b36948749",
+      "metaChecksum": "meta:0000000000000000",
+      "lastModified": "2026-01-14T04:08:31.108040+00:00"
+    },
+    {
+      "scriptId": "6103852407269097472",
+      "filename": "windows_firewall_toggle",
+      "language": "PowerShell",
+      "checksum": "sha256:30ccf24716c7fbf7",
+      "metaChecksum": "meta:0000000000000000",
+      "lastModified": "2026-01-14T04:09:46.773548+00:00"
     }
   ],
   "lastSync": "2026-01-14T04:00:22.519740+00:00"
