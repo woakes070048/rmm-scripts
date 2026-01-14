@@ -246,8 +246,8 @@
       "filename": "local_user_create",
       "language": "PowerShell",
       "checksum": "sha256:2aba59ace1abb90b",
-      "metaChecksum": "meta:418dfa004b0b0413",
-      "lastModified": "2026-01-14T04:10:54.524368+00:00"
+      "metaChecksum": "meta:3330261a592be075",
+      "lastModified": "2026-01-14T04:19:57.965208+00:00"
     },
     {
       "scriptId": "1015904364706459648",
@@ -270,8 +270,8 @@
       "filename": "mrt_scan",
       "language": "PowerShell",
       "checksum": "sha256:e8160ad00c098fc4",
-      "metaChecksum": "meta:1d7bef289240a3d7",
-      "lastModified": "2026-01-14T04:10:54.803050+00:00"
+      "metaChecksum": "meta:3259012e8b1e8c13",
+      "lastModified": "2026-01-14T04:19:58.067402+00:00"
     },
     {
       "scriptId": "259059103193227264",
@@ -1114,5 +1114,5 @@
       "lastModified": "2026-01-14T04:10:54.242788+00:00"
     }
   ],
-  "lastSync": "2026-01-14T04:16:52.202093+00:00"
+  "lastSync": "2026-01-14T04:19:58.078030+00:00"
 }
