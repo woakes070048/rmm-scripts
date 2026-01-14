@@ -1,9 +1,12 @@
 # Wiki is a separate git repository
 wiki/
 
-# SuperOps export files (sensitive)
-*.json
-!.superops-manifest.json
+# SuperOps export files
+docs/superops_scripts.json
+
+# Local config files
+.mcp.json
+.claude/
 
 # Environment files
 .env
