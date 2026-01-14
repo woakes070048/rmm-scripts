@@ -1,0 +1,11 @@
+name: printers_nuke_all.bat
+description: ''
+language: Bat
+runAs: SYSTEM_USER
+timeout: 15
+tags: []
+shared: true
+favourite: false
+readme: ''
+runtimeVariables: []
+placeholderVariables: []

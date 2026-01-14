@@ -1,0 +1,11 @@
+name: network_scan.ps1
+description: ''
+language: PowerShell
+runAs: SYSTEM_USER
+timeout: 15
+tags: []
+shared: false
+favourite: false
+readme: ''
+runtimeVariables: []
+placeholderVariables: []

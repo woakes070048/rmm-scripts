@@ -1,0 +1,11 @@
+name: win11_compatibility_check.ps1
+description: ''
+language: PowerShell
+runAs: SYSTEM_USER
+timeout: 15
+tags: []
+shared: false
+favourite: false
+readme: ''
+runtimeVariables: []
+placeholderVariables: []

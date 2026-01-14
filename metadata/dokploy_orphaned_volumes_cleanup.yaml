@@ -1,0 +1,11 @@
+name: dokploy_orphaned_volumes_cleanup.sh
+description: ''
+language: Bash
+runAs: SYSTEM_USER
+timeout: 15
+tags: []
+shared: false
+favourite: false
+readme: ''
+runtimeVariables: []
+placeholderVariables: []

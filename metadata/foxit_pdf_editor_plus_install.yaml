@@ -1,0 +1,11 @@
+name: foxit_pdf_editor_plus_install.ps1
+description: ''
+language: PowerShell
+runAs: SYSTEM_USER
+timeout: 15
+tags: []
+shared: false
+favourite: false
+readme: ''
+runtimeVariables: []
+placeholderVariables: []

@@ -4,18 +4,18 @@ language: PowerShell
 runAs: SYSTEM_USER
 timeout: 15
 tags: []
-shared: false
+shared: true
 favourite: false
 readme: ''
 runtimeVariables:
-  - name: YourApiKeyHere
+- name: YourApiKeyHere
 placeholderVariables:
-  - name: YourAssetIdHere
-    label: Asset ID
-    column: assetId
-  - name: YourAssetNameHere
-    label: Asset name
-    column: name
-  - name: YourClientNameHere
-    label: Client name
-    column: client.name
+- name: YourAssetIdHere
+  label: Asset ID
+  column: assetId
+- name: YourAssetNameHere
+  label: Asset name
+  column: name
+- name: YourClientNameHere
+  label: Client name
+  column: client.name

@@ -4,9 +4,9 @@ language: PowerShell
 runAs: SYSTEM_USER
 timeout: 15
 tags: []
-shared: false
+shared: true
 favourite: false
 readme: ''
 runtimeVariables:
-  - name: YourTargetPathHere
+- name: YourTargetPathHere
 placeholderVariables: []

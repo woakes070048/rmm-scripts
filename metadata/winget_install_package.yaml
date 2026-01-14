@@ -1,0 +1,11 @@
+name: winget_install_package.ps1
+description: ''
+language: PowerShell
+runAs: SYSTEM_USER
+timeout: 15
+tags: []
+shared: false
+favourite: false
+readme: ''
+runtimeVariables: []
+placeholderVariables: []

@@ -1,0 +1,11 @@
+name: splashtop_streamer_install_debian_arm64.sh
+description: ''
+language: Bash
+runAs: SYSTEM_USER
+timeout: 15
+tags: []
+shared: false
+favourite: false
+readme: ''
+runtimeVariables: []
+placeholderVariables: []

@@ -1,0 +1,11 @@
+name: hardware_report.ps1
+description: ''
+language: PowerShell
+runAs: SYSTEM_USER
+timeout: 15
+tags: []
+shared: true
+favourite: false
+readme: ''
+runtimeVariables: []
+placeholderVariables: []

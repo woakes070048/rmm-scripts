@@ -9,6 +9,6 @@ favourite: false
 readme: ''
 runtimeVariables: []
 placeholderVariables:
-  - name: YourClientNameHere
-    label: Client name
-    column: client.name
+- name: YourClientNameHere
+  label: Client name
+  column: client.name

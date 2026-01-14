@@ -1,0 +1,11 @@
+name: windows_product_key_to_superops.ps1
+description: ''
+language: PowerShell
+runAs: SYSTEM_USER
+timeout: 15
+tags: []
+shared: true
+favourite: false
+readme: ''
+runtimeVariables: []
+placeholderVariables: []

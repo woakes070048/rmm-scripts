@@ -8,8 +8,8 @@ shared: false
 favourite: false
 readme: ''
 runtimeVariables:
-  - name: YourCustomClientHere
+- name: YourCustomClientHere
 placeholderVariables:
-  - name: YourClientNameHere
-    label: Client name
-    column: client.name
+- name: YourClientNameHere
+  label: Client name
+  column: client.name

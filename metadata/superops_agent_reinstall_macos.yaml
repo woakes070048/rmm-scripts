@@ -1,0 +1,11 @@
+name: superops_agent_reinstall_macos.sh
+description: ''
+language: Bash
+runAs: SYSTEM_USER
+timeout: 15
+tags: []
+shared: false
+favourite: false
+readme: ''
+runtimeVariables: []
+placeholderVariables: []

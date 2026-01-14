@@ -1,0 +1,11 @@
+name: workstation_info.vbs
+description: ''
+language: VBScript
+runAs: SYSTEM_USER
+timeout: 15
+tags: []
+shared: false
+favourite: false
+readme: ''
+runtimeVariables: []
+placeholderVariables: []
