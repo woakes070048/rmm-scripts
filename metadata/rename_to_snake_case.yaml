@@ -1,0 +1,12 @@
+name: rename_to_snake_case.ps1
+description: Renames files in a directory to snake_case format
+language: PowerShell
+runAs: SYSTEM_USER
+timeout: 15
+tags: []
+shared: false
+favourite: false
+readme: ''
+runtimeVariables:
+  - name: YourTargetPathHere
+placeholderVariables: []

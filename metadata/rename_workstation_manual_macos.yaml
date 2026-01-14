@@ -1,0 +1,15 @@
+name: rename_workstation_manual_macos.sh
+description: Rename a macOS device with manual client override
+language: Bash
+runAs: SYSTEM_USER
+timeout: 15
+tags: []
+shared: false
+favourite: false
+readme: ''
+runtimeVariables:
+  - name: YourCustomClientHere
+placeholderVariables:
+  - name: YourClientNameHere
+    label: Client name
+    column: client.name

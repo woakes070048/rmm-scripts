@@ -1,0 +1,14 @@
+name: rename_workstation_auto_macos.sh
+description: Rename a macOS device using client name from RMM
+language: Bash
+runAs: SYSTEM_USER
+timeout: 15
+tags: []
+shared: false
+favourite: false
+readme: ''
+runtimeVariables: []
+placeholderVariables:
+  - name: YourClientNameHere
+    label: Client name
+    column: client.name

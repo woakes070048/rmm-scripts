@@ -1,0 +1,21 @@
+name: rename_workstation_auto.ps1
+description: Rename a Windows device and sync the same name to SuperOps
+language: PowerShell
+runAs: SYSTEM_USER
+timeout: 15
+tags: []
+shared: false
+favourite: false
+readme: ''
+runtimeVariables:
+  - name: YourApiKeyHere
+placeholderVariables:
+  - name: YourAssetIdHere
+    label: Asset ID
+    column: assetId
+  - name: YourAssetNameHere
+    label: Asset name
+    column: name
+  - name: YourClientNameHere
+    label: Client name
+    column: client.name
