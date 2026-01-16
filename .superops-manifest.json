@@ -2,14 +2,6 @@
   "version": "1.0",
   "scripts": [
     {
-      "scriptId": "5285420719477137408",
-      "filename": "gcpw_install_bell",
-      "language": "PowerShell",
-      "checksum": "sha256:3670a2224fb6f667",
-      "metaChecksum": "meta:4c0589e0f2147db0",
-      "lastModified": "2026-01-16T08:43:29.161587+00:00"
-    },
-    {
       "scriptId": "1365998311448080384",
       "filename": "gcpw_cleanup",
       "language": "PowerShell",
