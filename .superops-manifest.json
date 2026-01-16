@@ -917,9 +917,9 @@
       "scriptId": "6533495977667035136",
       "filename": "speedtest_to_superops",
       "language": "PowerShell",
-      "checksum": "sha256:6369a6b9ddcf4b3a",
+      "checksum": "sha256:cc9fa1771c6aedf4",
       "metaChecksum": "meta:d753a6893ff05162",
-      "lastModified": "2026-01-16T16:55:49.618927+00:00"
+      "lastModified": "2026-01-16T17:07:27.895560+00:00"
     },
     {
       "scriptId": "7521762971991781376",
@@ -1114,5 +1114,5 @@
       "lastModified": "2026-01-16T08:43:44.679634+00:00"
     }
   ],
-  "lastSync": "2026-01-16T16:55:50.253955+00:00"
+  "lastSync": "2026-01-16T17:07:28.537655+00:00"
 }
