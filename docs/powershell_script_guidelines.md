@@ -221,17 +221,27 @@ $timeout     = 300
 
 ## SuperOps Runtime Text Replacement
 
-SuperOps does a literal find/replace on runtime variables throughout the entire script. To avoid breaking variable references, assign the placeholder to a differently-named variable.
+SuperOps does a literal find/replace on runtime variables throughout the entire script. To avoid breaking variable references, assign the placeholder to a completely different variable name.
 
-**IMPORTANT:** Use double quotes around placeholders - single quotes won't work.
+**IMPORTANT:**
+- Use double quotes around placeholders - single quotes won't work.
+- Placeholder names must be **completely different words**, not just different casing.
+- Use the `$YourSomethingHere` naming convention for placeholders.
 
-**Why different names?** SuperOps replaces ALL occurrences of the placeholder text. If you use the same name for both the variable and placeholder, BOTH get replaced and the script breaks.
+**Why completely different names?** SuperOps replaces ALL occurrences of the placeholder text. If the placeholder name is similar to the variable name (even with different casing), substring matches can cause unexpected replacements.
 
 **WRONG - same name for both:**
 ```powershell
 $AdminUsername = "$AdminUsername"
 # SuperOps replaces BOTH occurrences, resulting in:
 # JohnDoe = "JohnDoe"  <-- This is broken PowerShell!
+```
+
+**WRONG - just different casing:**
+```powershell
+$adminUsername = "$AdminUsername"
+# Risk of substring replacement issues - DO NOT rely on case alone!
+# Use completely different words instead.
 ```
 
 **WRONG - single quotes:**
@@ -241,22 +251,33 @@ $AdminUsername = '$YourUsernameHere'
 # $AdminUsername stays as literal '$YourUsernameHere'
 ```
 
-**RIGHT - double quotes with different name:**
+**RIGHT - double quotes with completely different name:**
 ```powershell
-$AdminUsername = "$YourUsernameHere"
+$adminUsername = "$YourUsernameHere"
 # SuperOps replaces the placeholder, resulting in:
-# $AdminUsername = "JohnDoe"  <-- This works!
+# $adminUsername = "JohnDoe"  <-- This works!
 ```
 
-The script then uses `$AdminUsername` everywhere, not the placeholder name.
+**Naming convention:** Use `$Your<Description>Here` format for placeholders:
+- `$YourApiKeyHere` → assigned to `$apiKey`
+- `$YourDomainsHere` → assigned to `$domainsAllowedToLogin`
+- `$YourEnrollmentTokenHere` → assigned to `$enrollmentToken`
 
-**For validation**, check if the value equals the literal placeholder using string concatenation to avoid replacement:
+The script then uses the local variable name everywhere, not the placeholder name.
+
+**For validation**, check if the value equals the literal placeholder using string concatenation to avoid replacement. Show a helpful error message that tells the user exactly which variable wasn't replaced:
 
 ```powershell
-if ($AdminUsername -eq '$' + 'YourUsernameHere') {
-    # Placeholder was not replaced - show error
+if ([string]::IsNullOrWhiteSpace($adminUsername) -or $adminUsername -eq '$' + 'YourUsernameHere') {
+    $errorOccurred = $true
+    if ($errorText.Length -gt 0) { $errorText += "`n" }
+    $errorText += "- SuperOps runtime variable `$YourUsernameHere was not replaced."
 }
 ```
+
+The error message should:
+- Name the specific placeholder that wasn't replaced
+- Make it clear this is a SuperOps configuration issue, not a script bug
 
 ---
 

@@ -7,5 +7,6 @@ tags: []
 shared: false
 favourite: false
 readme: ''
-runtimeVariables: []
+runtimeVariables:
+- name: profile_to_keep
 placeholderVariables: []

@@ -7,5 +7,6 @@ tags: []
 shared: false
 favourite: false
 readme: ''
-runtimeVariables: []
+runtimeVariables:
+- name: days_old
 placeholderVariables: []

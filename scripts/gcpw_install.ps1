@@ -8,9 +8,9 @@ $ErrorActionPreference = 'Stop'
 ╚══════╝╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚══╝╚══╝ ╚═╝  ╚═╝
 
 ================================================================================
- SCRIPT  : GCPW Install v1.0.1
+ SCRIPT  : GCPW Install v1.1.0
  AUTHOR  : Limehawk.io
- DATE      : December 2025
+ DATE      : January 2026
  FILE    : gcpw_install.ps1
  DESCRIPTION : Downloads, installs, and configures Google Credential Provider for Windows
  USAGE   : .\gcpw_install.ps1
@@ -21,9 +21,9 @@ $ErrorActionPreference = 'Stop'
     Downloads, installs, and configures Google Credential Provider for Windows
     (GCPW). Sets allowed domains and enrollment token in the system registry.
 
-REQUIRED INPUTS:
-    $domainsAllowedToLogin : Comma-separated list of allowed Google Workspace domains
-    $enrollmentToken       : GCPW enrollment token from Google Admin Console
+REQUIRED INPUTS (SuperOps Runtime Variables):
+    $YourDomainsHere         : Comma-separated list of allowed Google Workspace domains
+    $YourEnrollmentTokenHere : GCPW enrollment token from Google Admin Console
 
 BEHAVIOR:
     1. Validates administrative privileges
@@ -79,6 +79,7 @@ EXAMPLE RUN:
 --------------------------------------------------------------------------------
  CHANGELOG
 --------------------------------------------------------------------------------
+ 2026-01-16 v1.1.0 Converted to SuperOps runtime variables for domains and token
  2025-12-23 v1.0.1 Updated to Limehawk Script Framework
  2024-12-01 v1.0.0 Initial release - migrated from SuperOps (sanitized)
 ================================================================================
@@ -86,14 +87,14 @@ EXAMPLE RUN:
 Set-StrictMode -Version Latest
 
 # ============================================================================
-# CONFIGURATION - EDIT THESE VALUES
+# SUPEROPS RUNTIME VARIABLES
 # ============================================================================
 # Comma-separated list of domains allowed to login with GCPW
-$domainsAllowedToLogin = "yourdomain.com,anotherdomain.com"
+$domainsAllowedToLogin = "$YourDomainsHere"
 
 # Enrollment token from Google Admin Console
 # Generate at: Admin Console > Devices > Chrome > Settings > GCPW
-$enrollmentToken = "00000000-0000-0000-0000-000000000000"
+$enrollmentToken = "$YourEnrollmentTokenHere"
 
 # ============================================================================
 # HELPER FUNCTIONS
@@ -133,20 +134,20 @@ if (-not ([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdenti
 # ============================================================================
 Write-Section "INPUT VALIDATION"
 
-if ([string]::IsNullOrWhiteSpace($domainsAllowedToLogin) -or $domainsAllowedToLogin -eq "yourdomain.com,anotherdomain.com") {
+if ([string]::IsNullOrWhiteSpace($domainsAllowedToLogin) -or $domainsAllowedToLogin -eq '$' + 'YourDomainsHere') {
     PrintKV "Error" "Domains not configured"
     Write-Host ""
-    Write-Host " Please edit the script and set `$domainsAllowedToLogin"
-    Write-Host " to your Google Workspace domain(s)."
+    Write-Host " SuperOps runtime variable `$YourDomainsHere was not replaced."
+    Write-Host " Configure the variable in SuperOps before running this script."
     Write-Section "SCRIPT HALTED"
     exit 5
 }
 
-if ([string]::IsNullOrWhiteSpace($enrollmentToken) -or $enrollmentToken -eq "00000000-0000-0000-0000-000000000000") {
+if ([string]::IsNullOrWhiteSpace($enrollmentToken) -or $enrollmentToken -eq '$' + 'YourEnrollmentTokenHere') {
     PrintKV "Error" "Enrollment token not configured"
     Write-Host ""
-    Write-Host " Please edit the script and set `$enrollmentToken"
-    Write-Host " to your GCPW enrollment token from Google Admin Console."
+    Write-Host " SuperOps runtime variable `$YourEnrollmentTokenHere was not replaced."
+    Write-Host " Configure the variable in SuperOps before running this script."
     Write-Section "SCRIPT HALTED"
     exit 5
 }

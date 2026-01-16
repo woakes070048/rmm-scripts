@@ -7,5 +7,7 @@ tags: []
 shared: false
 favourite: false
 readme: ''
-runtimeVariables: []
+runtimeVariables:
+- name: YourDomainsHere
+- name: YourEnrollmentTokenHere
 placeholderVariables: []

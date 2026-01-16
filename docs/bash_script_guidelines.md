@@ -235,21 +235,42 @@ TIMEOUT=300
 
 ## SuperOps Runtime Text Replacement
 
-SuperOps does a literal find/replace on runtime variables throughout the entire script. To avoid breaking variable references, assign the placeholder to a differently-named variable.
+SuperOps does a literal find/replace on runtime variables throughout the entire script. To avoid breaking variable references, assign the placeholder to a completely different variable name.
 
-**IMPORTANT:** Use double quotes around placeholders - single quotes won't work.
+**IMPORTANT:**
+- Use double quotes around placeholders - single quotes won't work.
+- Placeholder names must be **completely different words**, not just different casing.
+- Use the `$YourSomethingHere` naming convention for placeholders.
 
-**Example:** `PACKAGE_ID="$PackageName"` - SuperOps replaces `$PackageName` with user input, which gets assigned to `PACKAGE_ID`
+**Why completely different names?** SuperOps replaces ALL occurrences of the placeholder text. If the placeholder name is similar to the variable name (even with different casing), substring matches can cause unexpected replacements.
 
-The script then uses `PACKAGE_ID` everywhere, not the placeholder name.
+**Naming convention:** Use `$YourDescriptionHere` format for placeholders:
+- `$YourClientNameHere` → assigned to `CLIENT_NAME`
+- `$YourApiKeyHere` → assigned to `API_KEY`
+- `$YourCustomClientHere` → assigned to `CUSTOM_CLIENT`
 
-**For validation**, check if the value equals the literal placeholder using string concatenation to avoid replacement:
+**Example:**
+```bash
+CLIENT_NAME="$YourClientNameHere"
+# SuperOps replaces $YourClientNameHere with user input
+# Result: CLIENT_NAME="Acme Corp"
+```
+
+The script then uses the local variable name everywhere, not the placeholder name.
+
+**For validation**, check if the value equals the literal placeholder using string concatenation to avoid replacement. Show a helpful error message that tells the user exactly which variable wasn't replaced:
 
 ```bash
-if [[ "$PACKAGE_ID" == '$''PackageName' ]]; then
-    # Placeholder was not replaced - show error
+if [[ -z "$CLIENT_NAME" || "$CLIENT_NAME" == '$''YourClientNameHere' ]]; then
+    echo "ERROR: SuperOps runtime variable \$YourClientNameHere was not replaced."
+    echo "Configure the variable in SuperOps before running this script."
+    exit 1
 fi
 ```
+
+The error message should:
+- Name the specific placeholder that wasn't replaced
+- Make it clear this is a SuperOps configuration issue, not a script bug
 
 ---
 

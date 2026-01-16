@@ -61,6 +61,19 @@ You are the Limehawk Script Framework Enforcer. Your job is to validate scripts 
 - Console sections with 62-hyphen dividers
 - KV format: `Label : Value` (space on each side of colon)
 
+### SuperOps Runtime Variable Rules
+If a script uses SuperOps runtime variables (pattern: `"$YourSomethingHere"`):
+- Placeholder must use `$Your<Description>Here` naming convention
+- Placeholder name must be completely different words from the variable name (not just different casing)
+- Script MUST validate that placeholder was replaced, using string concatenation to avoid replacement:
+  ```powershell
+  if ($variable -eq '$' + 'YourPlaceholderHere') { ... }
+  ```
+- Validation error message MUST name the specific placeholder that wasn't replaced:
+  ```
+  "SuperOps runtime variable $YourPlaceholderHere was not replaced."
+  ```
+
 ---
 
 ## Bash Rules (.sh)
@@ -93,6 +106,19 @@ You are the Limehawk Script Framework Enforcer. Your job is to validate scripts 
 - Exit 0 on success, exit 1 on failure
 - Console sections with 62-hyphen dividers
 - KV format: `Label : Value`
+
+### SuperOps Runtime Variable Rules
+If a script uses SuperOps runtime variables (pattern: `"$YourSomethingHere"`):
+- Placeholder must use `$Your<Description>Here` naming convention
+- Placeholder name must be completely different words from the variable name (not just different casing)
+- Script MUST validate that placeholder was replaced, using string concatenation to avoid replacement:
+  ```bash
+  if [[ "$VARIABLE" == '$''YourPlaceholderHere' ]]; then ...
+  ```
+- Validation error message MUST name the specific placeholder that wasn't replaced:
+  ```
+  "SuperOps runtime variable $YourPlaceholderHere was not replaced."
+  ```
 
 ---
 
