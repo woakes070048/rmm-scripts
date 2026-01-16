@@ -925,9 +925,9 @@
       "scriptId": "7521762971991781376",
       "filename": "maintenance_reboot",
       "language": "PowerShell",
-      "checksum": "sha256:c45236b1118f19fe",
+      "checksum": "sha256:866353e95aa78ffd",
       "metaChecksum": "meta:e4e78be12c937030",
-      "lastModified": "2026-01-16T09:26:06.428285+00:00"
+      "lastModified": "2026-01-16T09:32:08.931522+00:00"
     },
     {
       "scriptId": "4253548481531990016",
@@ -1114,5 +1114,5 @@
       "lastModified": "2026-01-16T08:43:44.679634+00:00"
     }
   ],
-  "lastSync": "2026-01-16T09:26:06.428316+00:00"
+  "lastSync": "2026-01-16T09:32:09.572261+00:00"
 }
