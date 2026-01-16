@@ -382,8 +382,8 @@
       "filename": "search_password_files_tickets",
       "language": "PowerShell",
       "checksum": "sha256:107a99fffc9c92fa",
-      "metaChecksum": "meta:ea6c62fcb224dce5",
-      "lastModified": "2026-01-16T08:43:34.480640+00:00"
+      "metaChecksum": "meta:477be6ab91e88201",
+      "lastModified": "2026-01-16T09:15:09.639650+00:00"
     },
     {
       "scriptId": "259059167751954432",
@@ -574,8 +574,8 @@
       "filename": "msi_install_from_url",
       "language": "PowerShell",
       "checksum": "sha256:65a76c8067824fde",
-      "metaChecksum": "meta:fd3c8c95f2e22b56",
-      "lastModified": "2026-01-16T08:43:37.084438+00:00"
+      "metaChecksum": "meta:8987131804029908",
+      "lastModified": "2026-01-16T09:15:09.483524+00:00"
     },
     {
       "scriptId": "259059101830078464",
@@ -598,8 +598,8 @@
       "filename": "huntress_install_macos",
       "language": "Bash",
       "checksum": "sha256:2c618548af18cc17",
-      "metaChecksum": "meta:4de45af0e7e026e9",
-      "lastModified": "2026-01-16T08:43:37.387364+00:00"
+      "metaChecksum": "meta:84bd0dc3fe269f33",
+      "lastModified": "2026-01-16T09:15:09.952374+00:00"
     },
     {
       "scriptId": "259059097769992192",
@@ -613,9 +613,9 @@
       "scriptId": "259059096159379456",
       "filename": "gcpw_install",
       "language": "PowerShell",
-      "checksum": "sha256:3e349f0df387b496",
-      "metaChecksum": "meta:5c4c03d98fd2549c",
-      "lastModified": "2026-01-16T08:43:37.598647+00:00"
+      "checksum": "sha256:e55d62c0a3141898",
+      "metaChecksum": "meta:b32be44868da6c8b",
+      "lastModified": "2026-01-16T09:15:09.872776+00:00"
     },
     {
       "scriptId": "259059094657818624",
@@ -670,8 +670,8 @@
       "filename": "directory_cleanup",
       "language": "PowerShell",
       "checksum": "sha256:3f7b37b7c7789d58",
-      "metaChecksum": "meta:b4dc38f2aeb3b00d",
-      "lastModified": "2026-01-16T08:43:38.374356+00:00"
+      "metaChecksum": "meta:ff3a6bfe0f337570",
+      "lastModified": "2026-01-16T09:15:09.262262+00:00"
     },
     {
       "scriptId": "259059076156743680",
@@ -686,24 +686,24 @@
       "filename": "delprof2_keep_selected_profile",
       "language": "PowerShell",
       "checksum": "sha256:63a9cb329df9761e",
-      "metaChecksum": "meta:8afca60c8d8b9596",
-      "lastModified": "2026-01-16T08:43:38.621811+00:00"
+      "metaChecksum": "meta:184d597991f547de",
+      "lastModified": "2026-01-16T09:15:09.191062+00:00"
     },
     {
       "scriptId": "259059070683176960",
       "filename": "delprof2_delete_specific_profile",
       "language": "PowerShell",
       "checksum": "sha256:c10bd8329d28fd3e",
-      "metaChecksum": "meta:fc141bff4cc853a9",
-      "lastModified": "2026-01-16T08:43:38.718272+00:00"
+      "metaChecksum": "meta:2efdb6b2ce143873",
+      "lastModified": "2026-01-16T09:15:09.119429+00:00"
     },
     {
       "scriptId": "259059068233703424",
       "filename": "delprof2_delete_old_profiles",
       "language": "PowerShell",
       "checksum": "sha256:ee37b4b394ed8d99",
-      "metaChecksum": "meta:001f440740ee52bb",
-      "lastModified": "2026-01-16T08:43:38.842618+00:00"
+      "metaChecksum": "meta:6821cfdcc845f4c5",
+      "lastModified": "2026-01-16T09:15:09.045810+00:00"
     },
     {
       "scriptId": "259059066321100800",
@@ -814,8 +814,8 @@
       "filename": "local_user_admin_create",
       "language": "PowerShell",
       "checksum": "sha256:3990138cf9781c8e",
-      "metaChecksum": "meta:776999fc9d9aa337",
-      "lastModified": "2026-01-16T08:43:40.491101+00:00"
+      "metaChecksum": "meta:68cab4253530c9ea",
+      "lastModified": "2026-01-16T09:15:09.336616+00:00"
     },
     {
       "scriptId": "1015906830558752768",
@@ -830,16 +830,16 @@
       "filename": "local_user_delete",
       "language": "PowerShell",
       "checksum": "sha256:df87e1621fa48bbe",
-      "metaChecksum": "meta:d339e2439e632b2b",
-      "lastModified": "2026-01-16T08:43:40.697236+00:00"
+      "metaChecksum": "meta:fdb389c06ba9aa5f",
+      "lastModified": "2026-01-16T09:15:09.409987+00:00"
     },
     {
       "scriptId": "1015783170502094848",
       "filename": "winget_install_package",
       "language": "PowerShell",
       "checksum": "sha256:e9ee074c7f6c220f",
-      "metaChecksum": "meta:b19ceacb2b4c0cc9",
-      "lastModified": "2026-01-16T08:43:40.810077+00:00"
+      "metaChecksum": "meta:aef5913de4aae2c1",
+      "lastModified": "2026-01-16T09:15:09.557158+00:00"
     },
     {
       "scriptId": "6295817723329372160",
@@ -1114,5 +1114,5 @@
       "lastModified": "2026-01-16T08:43:44.679634+00:00"
     }
   ],
-  "lastSync": "2026-01-16T08:43:44.679688+00:00"
+  "lastSync": "2026-01-16T09:15:09.952393+00:00"
 }
