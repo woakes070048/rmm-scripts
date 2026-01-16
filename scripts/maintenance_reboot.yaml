@@ -7,5 +7,7 @@ tags: []
 shared: true
 favourite: false
 readme: ''
-runtimeVariables: []
+runtimeVariables:
+- name: graceful_true_or_false
+- name: maxuptimedays
 placeholderVariables: []
