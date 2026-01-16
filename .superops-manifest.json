@@ -7,7 +7,7 @@
       "language": "PowerShell",
       "checksum": "sha256:3670a2224fb6f667",
       "metaChecksum": "meta:4c0589e0f2147db0",
-      "lastModified": "2026-01-15T19:27:17.898575+00:00"
+      "lastModified": "2026-01-16T08:43:29.161587+00:00"
     },
     {
       "scriptId": "1365998311448080384",
@@ -15,7 +15,7 @@
       "language": "PowerShell",
       "checksum": "sha256:7d8af78f85dcd066",
       "metaChecksum": "meta:6c79a230999f281e",
-      "lastModified": "2026-01-15T19:27:18.012382+00:00"
+      "lastModified": "2026-01-16T08:43:29.267017+00:00"
     },
     {
       "scriptId": "259059269958754304",
@@ -23,7 +23,7 @@
       "language": "Bash",
       "checksum": "sha256:062e84a16703a5de",
       "metaChecksum": "meta:fcbd2afe880ac7f3",
-      "lastModified": "2026-01-15T19:27:18.132354+00:00"
+      "lastModified": "2026-01-16T08:43:29.385016+00:00"
     },
     {
       "scriptId": "259059268004208640",
@@ -31,7 +31,7 @@
       "language": "PowerShell",
       "checksum": "sha256:4b6ea365928aac13",
       "metaChecksum": "meta:7f8a27cc1b9df7e2",
-      "lastModified": "2026-01-15T19:27:18.249533+00:00"
+      "lastModified": "2026-01-16T08:43:29.500057+00:00"
     },
     {
       "scriptId": "259059265290493952",
@@ -39,7 +39,7 @@
       "language": "VBScript",
       "checksum": "sha256:3897e294e0f6e0a1",
       "metaChecksum": "meta:812da09f10d83bf0",
-      "lastModified": "2026-01-15T19:27:18.361124+00:00"
+      "lastModified": "2026-01-16T08:43:29.603543+00:00"
     },
     {
       "scriptId": "259059262794883072",
@@ -47,7 +47,7 @@
       "language": "PowerShell",
       "checksum": "sha256:a88ef78cb1e854bf",
       "metaChecksum": "meta:c6b5a354a8ce020b",
-      "lastModified": "2026-01-15T19:27:18.481141+00:00"
+      "lastModified": "2026-01-16T08:43:29.713995+00:00"
     },
     {
       "scriptId": "259059260295077888",
@@ -55,7 +55,7 @@
       "language": "PowerShell",
       "checksum": "sha256:ce361782b4257816",
       "metaChecksum": "meta:10198030e51f5d61",
-      "lastModified": "2026-01-15T19:27:18.588472+00:00"
+      "lastModified": "2026-01-16T08:43:29.811967+00:00"
     },
     {
       "scriptId": "259059257623306240",
@@ -63,7 +63,7 @@
       "language": "PowerShell",
       "checksum": "sha256:f387eb082c9f6da8",
       "metaChecksum": "meta:441a766f6b4e55cb",
-      "lastModified": "2026-01-15T19:27:18.706402+00:00"
+      "lastModified": "2026-01-16T08:43:29.906344+00:00"
     },
     {
       "scriptId": "259059250698510336",
@@ -71,7 +71,7 @@
       "language": "PowerShell",
       "checksum": "sha256:556001a6c1d83c62",
       "metaChecksum": "meta:519a23a55fdc1099",
-      "lastModified": "2026-01-15T19:27:18.809808+00:00"
+      "lastModified": "2026-01-16T08:43:30.005006+00:00"
     },
     {
       "scriptId": "259059249217921024",
@@ -79,7 +79,7 @@
       "language": "PowerShell",
       "checksum": "sha256:a7b41f791138e135",
       "metaChecksum": "meta:30aa4f4184e28200",
-      "lastModified": "2026-01-15T19:27:18.917811+00:00"
+      "lastModified": "2026-01-16T08:43:30.101228+00:00"
     },
     {
       "scriptId": "259059247913492480",
@@ -87,7 +87,7 @@
       "language": "PowerShell",
       "checksum": "sha256:becb2712c1f72999",
       "metaChecksum": "meta:2070229c324ce411",
-      "lastModified": "2026-01-15T19:27:19.023526+00:00"
+      "lastModified": "2026-01-16T08:43:30.199041+00:00"
     },
     {
       "scriptId": "259059246441291776",
@@ -95,7 +95,7 @@
       "language": "PowerShell",
       "checksum": "sha256:ac0591affa565b4e",
       "metaChecksum": "meta:3089283dc5cd5621",
-      "lastModified": "2026-01-15T19:27:19.138587+00:00"
+      "lastModified": "2026-01-16T08:43:30.295447+00:00"
     },
     {
       "scriptId": "259059245052977152",
@@ -103,7 +103,7 @@
       "language": "PowerShell",
       "checksum": "sha256:0e1c83e70c693202",
       "metaChecksum": "meta:49a8c6076104359a",
-      "lastModified": "2026-01-15T19:27:19.256936+00:00"
+      "lastModified": "2026-01-16T08:43:30.400999+00:00"
     },
     {
       "scriptId": "259059243740160000",
@@ -111,7 +111,7 @@
       "language": "PowerShell",
       "checksum": "sha256:67b3e6d6f12bc8f2",
       "metaChecksum": "meta:dae620b5731af552",
-      "lastModified": "2026-01-15T19:27:19.377120+00:00"
+      "lastModified": "2026-01-16T08:43:30.499669+00:00"
     },
     {
       "scriptId": "259059241932414976",
@@ -119,7 +119,7 @@
       "language": "PowerShell",
       "checksum": "sha256:75752f6874fcae0d",
       "metaChecksum": "meta:6da921f916ad0d34",
-      "lastModified": "2026-01-15T19:27:19.502428+00:00"
+      "lastModified": "2026-01-16T08:43:30.628393+00:00"
     },
     {
       "scriptId": "259059240497963008",
@@ -127,7 +127,7 @@
       "language": "PowerShell",
       "checksum": "sha256:60fcf83b99da7c8f",
       "metaChecksum": "meta:1b6d0ec3cf9e4f9c",
-      "lastModified": "2026-01-15T19:27:19.612233+00:00"
+      "lastModified": "2026-01-16T08:43:30.727942+00:00"
     },
     {
       "scriptId": "259059237931048960",
@@ -135,7 +135,7 @@
       "language": "PowerShell",
       "checksum": "sha256:1e4bd9f27648c822",
       "metaChecksum": "meta:34c635bfd7c3b9dc",
-      "lastModified": "2026-01-15T19:27:19.733786+00:00"
+      "lastModified": "2026-01-16T08:43:30.839951+00:00"
     },
     {
       "scriptId": "259059236475625472",
@@ -143,7 +143,7 @@
       "language": "PowerShell",
       "checksum": "sha256:4bef33fedd7dd4f1",
       "metaChecksum": "meta:8efbe1037a2581f5",
-      "lastModified": "2026-01-15T19:27:19.873522+00:00"
+      "lastModified": "2026-01-16T08:43:30.961138+00:00"
     },
     {
       "scriptId": "259059235116670976",
@@ -151,7 +151,7 @@
       "language": "PowerShell",
       "checksum": "sha256:a4487effac0da11f",
       "metaChecksum": "meta:9df30fab0c2fde8b",
-      "lastModified": "2026-01-15T19:27:19.994937+00:00"
+      "lastModified": "2026-01-16T08:43:31.062793+00:00"
     },
     {
       "scriptId": "259059232625254400",
@@ -159,7 +159,7 @@
       "language": "PowerShell",
       "checksum": "sha256:cd336d7e6e2d298e",
       "metaChecksum": "meta:91212145c067b315",
-      "lastModified": "2026-01-15T19:27:20.132649+00:00"
+      "lastModified": "2026-01-16T08:43:31.161598+00:00"
     },
     {
       "scriptId": "259059226895835136",
@@ -167,7 +167,7 @@
       "language": "PowerShell",
       "checksum": "sha256:4fb34f60c300cd30",
       "metaChecksum": "meta:e8063179bcb1ae2e",
-      "lastModified": "2026-01-15T19:27:20.265173+00:00"
+      "lastModified": "2026-01-16T08:43:31.272470+00:00"
     },
     {
       "scriptId": "259059222848331776",
@@ -175,7 +175,7 @@
       "language": "PowerShell",
       "checksum": "sha256:09742751f3b0e48d",
       "metaChecksum": "meta:cf9b082128346a07",
-      "lastModified": "2026-01-15T19:27:20.387044+00:00"
+      "lastModified": "2026-01-16T08:43:31.370596+00:00"
     },
     {
       "scriptId": "259059221279662080",
@@ -183,7 +183,7 @@
       "language": "PowerShell",
       "checksum": "sha256:dc21bad3b7d6e431",
       "metaChecksum": "meta:8310cdb8cd106450",
-      "lastModified": "2026-01-15T19:27:20.495008+00:00"
+      "lastModified": "2026-01-16T08:43:31.470180+00:00"
     },
     {
       "scriptId": "259059219677437952",
@@ -191,7 +191,7 @@
       "language": "Bash",
       "checksum": "sha256:a7273ad48bfc2914",
       "metaChecksum": "meta:7592b539aa2aa39c",
-      "lastModified": "2026-01-15T19:27:20.597061+00:00"
+      "lastModified": "2026-01-16T08:43:31.596895+00:00"
     },
     {
       "scriptId": "259059218180071424",
@@ -199,7 +199,7 @@
       "language": "Bash",
       "checksum": "sha256:9f89fb1ae06fb59c",
       "metaChecksum": "meta:79dc37778b364012",
-      "lastModified": "2026-01-15T19:27:20.735324+00:00"
+      "lastModified": "2026-01-16T08:43:31.719314+00:00"
     },
     {
       "scriptId": "259059216389103616",
@@ -207,7 +207,7 @@
       "language": "PowerShell",
       "checksum": "sha256:020157344a156faf",
       "metaChecksum": "meta:0565ddcf0e4e0f69",
-      "lastModified": "2026-01-15T19:27:20.847135+00:00"
+      "lastModified": "2026-01-16T08:43:31.839012+00:00"
     },
     {
       "scriptId": "259059215009177600",
@@ -215,7 +215,7 @@
       "language": "PowerShell",
       "checksum": "sha256:3cd2f2c4a837c1f3",
       "metaChecksum": "meta:ceb15edabef7baac",
-      "lastModified": "2026-01-15T19:27:20.955803+00:00"
+      "lastModified": "2026-01-16T08:43:31.981938+00:00"
     },
     {
       "scriptId": "259059213503422464",
@@ -223,7 +223,7 @@
       "language": "PowerShell",
       "checksum": "sha256:4cd6bc1e83c626ab",
       "metaChecksum": "meta:b97e952a556514e7",
-      "lastModified": "2026-01-15T19:27:21.077800+00:00"
+      "lastModified": "2026-01-16T08:43:32.082559+00:00"
     },
     {
       "scriptId": "259059208889688064",
@@ -231,7 +231,7 @@
       "language": "PowerShell",
       "checksum": "sha256:01b7df21b9d84067",
       "metaChecksum": "meta:57f8f229e8047dda",
-      "lastModified": "2026-01-15T19:27:21.186042+00:00"
+      "lastModified": "2026-01-16T08:43:32.217704+00:00"
     },
     {
       "scriptId": "259059206855450624",
@@ -239,7 +239,7 @@
       "language": "PowerShell",
       "checksum": "sha256:dd9271ce6b45e11d",
       "metaChecksum": "meta:708113f8a95fa21f",
-      "lastModified": "2026-01-15T19:27:21.296912+00:00"
+      "lastModified": "2026-01-16T08:43:32.328567+00:00"
     },
     {
       "scriptId": "259059204263370752",
@@ -247,7 +247,7 @@
       "language": "Bash",
       "checksum": "sha256:a20956bf11555afb",
       "metaChecksum": "meta:1b433729e106409b",
-      "lastModified": "2026-01-15T19:27:21.402188+00:00"
+      "lastModified": "2026-01-16T08:43:32.448046+00:00"
     },
     {
       "scriptId": "259059202858278912",
@@ -255,7 +255,7 @@
       "language": "Bash",
       "checksum": "sha256:9b6e5ad12b6f383d",
       "metaChecksum": "meta:6e56a433c45d3b7f",
-      "lastModified": "2026-01-15T19:27:21.521530+00:00"
+      "lastModified": "2026-01-16T08:43:32.549440+00:00"
     },
     {
       "scriptId": "259059199326674944",
@@ -263,7 +263,7 @@
       "language": "Bash",
       "checksum": "sha256:234fdcfaadfab792",
       "metaChecksum": "meta:ff78fc8f83454010",
-      "lastModified": "2026-01-15T19:27:21.658837+00:00"
+      "lastModified": "2026-01-16T08:43:32.662381+00:00"
     },
     {
       "scriptId": "259059197846085632",
@@ -271,7 +271,7 @@
       "language": "Bash",
       "checksum": "sha256:a86933b6163cc6c9",
       "metaChecksum": "meta:41ce37e5d7e41269",
-      "lastModified": "2026-01-15T19:27:21.776541+00:00"
+      "lastModified": "2026-01-16T08:43:32.765890+00:00"
     },
     {
       "scriptId": "259059196407439360",
@@ -279,7 +279,7 @@
       "language": "Bash",
       "checksum": "sha256:d611310632e5f132",
       "metaChecksum": "meta:8708370138f6c499",
-      "lastModified": "2026-01-15T19:27:21.897260+00:00"
+      "lastModified": "2026-01-16T08:43:32.888963+00:00"
     },
     {
       "scriptId": "259059194989764608",
@@ -287,7 +287,7 @@
       "language": "PowerShell",
       "checksum": "sha256:17f29e65d414a1e9",
       "metaChecksum": "meta:a2f78308dd355ffa",
-      "lastModified": "2026-01-15T19:27:22.004970+00:00"
+      "lastModified": "2026-01-16T08:43:32.994850+00:00"
     },
     {
       "scriptId": "259059193635004416",
@@ -295,7 +295,7 @@
       "language": "PowerShell",
       "checksum": "sha256:da3e96e9b01f6b51",
       "metaChecksum": "meta:92683a267ee37ceb",
-      "lastModified": "2026-01-15T19:27:22.117275+00:00"
+      "lastModified": "2026-01-16T08:43:33.090305+00:00"
     },
     {
       "scriptId": "259059192137637888",
@@ -303,7 +303,7 @@
       "language": "Bash",
       "checksum": "sha256:bf805ee7fd50e28f",
       "metaChecksum": "meta:fd549baddb5a40b7",
-      "lastModified": "2026-01-15T19:27:22.266257+00:00"
+      "lastModified": "2026-01-16T08:43:33.194636+00:00"
     },
     {
       "scriptId": "259059190602522624",
@@ -311,7 +311,7 @@
       "language": "PowerShell",
       "checksum": "sha256:176f2d8f4232c386",
       "metaChecksum": "meta:3d0b015d8217f6ea",
-      "lastModified": "2026-01-15T19:27:22.376381+00:00"
+      "lastModified": "2026-01-16T08:43:33.321596+00:00"
     },
     {
       "scriptId": "259059189193236480",
@@ -319,7 +319,7 @@
       "language": "Bash",
       "checksum": "sha256:243a4dc36bf28faf",
       "metaChecksum": "meta:8abdabbca388a9f7",
-      "lastModified": "2026-01-15T19:27:22.480979+00:00"
+      "lastModified": "2026-01-16T08:43:33.443517+00:00"
     },
     {
       "scriptId": "259059187649732608",
@@ -327,7 +327,7 @@
       "language": "Bash",
       "checksum": "sha256:4ad9539b84254d0f",
       "metaChecksum": "meta:0e9971572081ba45",
-      "lastModified": "2026-01-15T19:27:22.602847+00:00"
+      "lastModified": "2026-01-16T08:43:33.577968+00:00"
     },
     {
       "scriptId": "259059185107984384",
@@ -335,7 +335,7 @@
       "language": "Bash",
       "checksum": "sha256:6702652b63ee8f72",
       "metaChecksum": "meta:2bd68d58a50fb228",
-      "lastModified": "2026-01-15T19:27:22.706136+00:00"
+      "lastModified": "2026-01-16T08:43:33.687956+00:00"
     },
     {
       "scriptId": "259059183686115328",
@@ -343,7 +343,7 @@
       "language": "PowerShell",
       "checksum": "sha256:e492854195bf8d39",
       "metaChecksum": "meta:e50d852799409ffb",
-      "lastModified": "2026-01-15T19:27:22.809994+00:00"
+      "lastModified": "2026-01-16T08:43:33.806159+00:00"
     },
     {
       "scriptId": "259059182331355136",
@@ -351,7 +351,7 @@
       "language": "PowerShell",
       "checksum": "sha256:7ca54b0b7b5c0f50",
       "metaChecksum": "meta:3697b674de48eb64",
-      "lastModified": "2026-01-15T19:27:22.921243+00:00"
+      "lastModified": "2026-01-16T08:43:33.921537+00:00"
     },
     {
       "scriptId": "259059179743469568",
@@ -359,7 +359,7 @@
       "language": "PowerShell",
       "checksum": "sha256:b7330bf13a49065f",
       "metaChecksum": "meta:1a199633f2ae93f7",
-      "lastModified": "2026-01-15T19:27:23.029054+00:00"
+      "lastModified": "2026-01-16T08:43:34.022651+00:00"
     },
     {
       "scriptId": "259059178191577088",
@@ -367,7 +367,7 @@
       "language": "Bash",
       "checksum": "sha256:6c2803091b474737",
       "metaChecksum": "meta:a8c2311ba260bcfd",
-      "lastModified": "2026-01-15T19:27:23.141219+00:00"
+      "lastModified": "2026-01-16T08:43:34.125869+00:00"
     },
     {
       "scriptId": "259059176723570688",
@@ -375,7 +375,7 @@
       "language": "PowerShell",
       "checksum": "sha256:72e08cf828959c56",
       "metaChecksum": "meta:3eb5be958d61e76b",
-      "lastModified": "2026-01-15T19:27:23.265652+00:00"
+      "lastModified": "2026-01-16T08:43:34.230616+00:00"
     },
     {
       "scriptId": "259059170738298880",
@@ -383,7 +383,7 @@
       "language": "PowerShell",
       "checksum": "sha256:127ec7ecccd82d23",
       "metaChecksum": "meta:36c90d6a91d324e3",
-      "lastModified": "2026-01-15T19:27:23.374801+00:00"
+      "lastModified": "2026-01-16T08:43:34.374710+00:00"
     },
     {
       "scriptId": "259059169136074752",
@@ -391,7 +391,7 @@
       "language": "PowerShell",
       "checksum": "sha256:107a99fffc9c92fa",
       "metaChecksum": "meta:ea6c62fcb224dce5",
-      "lastModified": "2026-01-15T19:27:23.487589+00:00"
+      "lastModified": "2026-01-16T08:43:34.480640+00:00"
     },
     {
       "scriptId": "259059167751954432",
@@ -399,7 +399,7 @@
       "language": "Bash",
       "checksum": "sha256:9f42d28cf8681453",
       "metaChecksum": "meta:dfefa1f9c1801eca",
-      "lastModified": "2026-01-15T19:27:23.626875+00:00"
+      "lastModified": "2026-01-16T08:43:34.593744+00:00"
     },
     {
       "scriptId": "259059166317502464",
@@ -407,7 +407,7 @@
       "language": "Bash",
       "checksum": "sha256:965e56c3c1d0e7a2",
       "metaChecksum": "meta:37e6a540efc02c8a",
-      "lastModified": "2026-01-15T19:27:23.734163+00:00"
+      "lastModified": "2026-01-16T08:43:34.697460+00:00"
     },
     {
       "scriptId": "259059164883050496",
@@ -415,7 +415,7 @@
       "language": "Bash",
       "checksum": "sha256:3eb2213a9e523d7e",
       "metaChecksum": "meta:d2f6f042532aa214",
-      "lastModified": "2026-01-15T19:27:23.849442+00:00"
+      "lastModified": "2026-01-16T08:43:34.839838+00:00"
     },
     {
       "scriptId": "259059160919433216",
@@ -423,7 +423,7 @@
       "language": "Bash",
       "checksum": "sha256:cf9e9745d36100f4",
       "metaChecksum": "meta:7570c10c30713666",
-      "lastModified": "2026-01-15T19:27:23.964751+00:00"
+      "lastModified": "2026-01-16T08:43:34.948909+00:00"
     },
     {
       "scriptId": "259059159342374912",
@@ -431,7 +431,7 @@
       "language": "PowerShell",
       "checksum": "sha256:d557d91dd3204b81",
       "metaChecksum": "meta:ea595929b2478f09",
-      "lastModified": "2026-01-15T19:27:24.066379+00:00"
+      "lastModified": "2026-01-16T08:43:35.048230+00:00"
     },
     {
       "scriptId": "259059156825792512",
@@ -439,7 +439,7 @@
       "language": "Bash",
       "checksum": "sha256:3c4cabd5f306c758",
       "metaChecksum": "meta:82e9ce03b006b2ee",
-      "lastModified": "2026-01-15T19:27:24.182603+00:00"
+      "lastModified": "2026-01-16T08:43:35.143361+00:00"
     },
     {
       "scriptId": "259059155206791168",
@@ -447,7 +447,7 @@
       "language": "PowerShell",
       "checksum": "sha256:0a890472834dde83",
       "metaChecksum": "meta:6bb2fc1f1394945a",
-      "lastModified": "2026-01-15T19:27:24.319860+00:00"
+      "lastModified": "2026-01-16T08:43:35.248801+00:00"
     },
     {
       "scriptId": "259059148156166144",
@@ -455,7 +455,7 @@
       "language": "Bash",
       "checksum": "sha256:cc4c54a6cca65309",
       "metaChecksum": "meta:8c3b54482f36b6dd",
-      "lastModified": "2026-01-15T19:27:24.443272+00:00"
+      "lastModified": "2026-01-16T08:43:35.352381+00:00"
     },
     {
       "scriptId": "259059146683965440",
@@ -463,7 +463,7 @@
       "language": "Bash",
       "checksum": "sha256:d169240cb14ef3ee",
       "metaChecksum": "meta:5ab6157b52ab33f7",
-      "lastModified": "2026-01-15T19:27:24.559074+00:00"
+      "lastModified": "2026-01-16T08:43:35.463127+00:00"
     },
     {
       "scriptId": "259059136814768128",
@@ -471,7 +471,7 @@
       "language": "Bash",
       "checksum": "sha256:f70c15423eaafc9b",
       "metaChecksum": "meta:f3855b3f4dcc6579",
-      "lastModified": "2026-01-15T19:27:24.697684+00:00"
+      "lastModified": "2026-01-16T08:43:35.589579+00:00"
     },
     {
       "scriptId": "259059135199961088",
@@ -479,7 +479,7 @@
       "language": "PowerShell",
       "checksum": "sha256:39ad6ce5df543568",
       "metaChecksum": "meta:7052594af7ca3f06",
-      "lastModified": "2026-01-15T19:27:24.807813+00:00"
+      "lastModified": "2026-01-16T08:43:35.695933+00:00"
     },
     {
       "scriptId": "259059133677428736",
@@ -487,7 +487,7 @@
       "language": "Bash",
       "checksum": "sha256:5676ed067a12d36e",
       "metaChecksum": "meta:a62b3947f2b2db30",
-      "lastModified": "2026-01-15T19:27:24.926433+00:00"
+      "lastModified": "2026-01-16T08:43:35.798335+00:00"
     },
     {
       "scriptId": "259059132276531200",
@@ -495,7 +495,7 @@
       "language": "PowerShell",
       "checksum": "sha256:2f05398c4a7ebd49",
       "metaChecksum": "meta:4a39311ee8c6f097",
-      "lastModified": "2026-01-15T19:27:25.047531+00:00"
+      "lastModified": "2026-01-16T08:43:35.902231+00:00"
     },
     {
       "scriptId": "259059122973564928",
@@ -503,7 +503,7 @@
       "language": "PowerShell",
       "checksum": "sha256:eed4613a034c9882",
       "metaChecksum": "meta:ff834b77afdc3981",
-      "lastModified": "2026-01-15T19:27:25.152037+00:00"
+      "lastModified": "2026-01-16T08:43:36.000913+00:00"
     },
     {
       "scriptId": "259059121564278784",
@@ -511,7 +511,7 @@
       "language": "PowerShell",
       "checksum": "sha256:6f7549baf668f855",
       "metaChecksum": "meta:660ef16b45f3ab88",
-      "lastModified": "2026-01-15T19:27:25.263244+00:00"
+      "lastModified": "2026-01-16T08:43:36.109722+00:00"
     },
     {
       "scriptId": "259059120024969216",
@@ -519,7 +519,7 @@
       "language": "PowerShell",
       "checksum": "sha256:7d6df6d6ee833bad",
       "metaChecksum": "meta:e08597fd4367f205",
-      "lastModified": "2026-01-15T19:27:25.376783+00:00"
+      "lastModified": "2026-01-16T08:43:36.206707+00:00"
     },
     {
       "scriptId": "259059118645043200",
@@ -527,7 +527,7 @@
       "language": "PowerShell",
       "checksum": "sha256:d7d0f5e2805dd3c9",
       "metaChecksum": "meta:f7bed7b539670b68",
-      "lastModified": "2026-01-15T19:27:25.488404+00:00"
+      "lastModified": "2026-01-16T08:43:36.300362+00:00"
     },
     {
       "scriptId": "259059112915623936",
@@ -535,7 +535,7 @@
       "language": "PowerShell",
       "checksum": "sha256:64deff06c62faff4",
       "metaChecksum": "meta:3876edcdfa5e1367",
-      "lastModified": "2026-01-15T19:27:25.612960+00:00"
+      "lastModified": "2026-01-16T08:43:36.397709+00:00"
     },
     {
       "scriptId": "259059111493754880",
@@ -543,7 +543,7 @@
       "language": "PowerShell",
       "checksum": "sha256:156dd7124c903330",
       "metaChecksum": "meta:319d1802b244fd65",
-      "lastModified": "2026-01-15T19:27:25.718141+00:00"
+      "lastModified": "2026-01-16T08:43:36.517485+00:00"
     },
     {
       "scriptId": "259059110013165568",
@@ -551,7 +551,7 @@
       "language": "PowerShell",
       "checksum": "sha256:572c243d1621d68d",
       "metaChecksum": "meta:193303673b909b77",
-      "lastModified": "2026-01-15T19:27:25.831878+00:00"
+      "lastModified": "2026-01-16T08:43:36.624458+00:00"
     },
     {
       "scriptId": "259059108515799040",
@@ -559,7 +559,7 @@
       "language": "Bash",
       "checksum": "sha256:3ac36c7d69143fbd",
       "metaChecksum": "meta:05459bb9cf382809",
-      "lastModified": "2026-01-15T19:27:25.936959+00:00"
+      "lastModified": "2026-01-16T08:43:36.726311+00:00"
     },
     {
       "scriptId": "259059107093929984",
@@ -567,7 +567,7 @@
       "language": "PowerShell",
       "checksum": "sha256:aabfb241b156d978",
       "metaChecksum": "meta:b21637833eebedcf",
-      "lastModified": "2026-01-15T19:27:26.057523+00:00"
+      "lastModified": "2026-01-16T08:43:36.838009+00:00"
     },
     {
       "scriptId": "259059105630117888",
@@ -575,7 +575,7 @@
       "language": "Bash",
       "checksum": "sha256:d250d8d638ef8e3d",
       "metaChecksum": "meta:a4d104fbec22baad",
-      "lastModified": "2026-01-15T19:27:26.173953+00:00"
+      "lastModified": "2026-01-16T08:43:36.967757+00:00"
     },
     {
       "scriptId": "259059103193227264",
@@ -583,7 +583,7 @@
       "language": "PowerShell",
       "checksum": "sha256:65a76c8067824fde",
       "metaChecksum": "meta:fd3c8c95f2e22b56",
-      "lastModified": "2026-01-15T19:27:26.285152+00:00"
+      "lastModified": "2026-01-16T08:43:37.084438+00:00"
     },
     {
       "scriptId": "259059101830078464",
@@ -591,7 +591,7 @@
       "language": "Bash",
       "checksum": "sha256:10217efed27d2b07",
       "metaChecksum": "meta:269c446c72b0349c",
-      "lastModified": "2026-01-15T19:27:26.394228+00:00"
+      "lastModified": "2026-01-16T08:43:37.178865+00:00"
     },
     {
       "scriptId": "259059100479512576",
@@ -599,7 +599,7 @@
       "language": "PowerShell",
       "checksum": "sha256:f084592a9372a581",
       "metaChecksum": "meta:c29db020bcd18452",
-      "lastModified": "2026-01-15T19:27:26.540310+00:00"
+      "lastModified": "2026-01-16T08:43:37.285815+00:00"
     },
     {
       "scriptId": "259059099158306816",
@@ -607,7 +607,7 @@
       "language": "Bash",
       "checksum": "sha256:2c618548af18cc17",
       "metaChecksum": "meta:4de45af0e7e026e9",
-      "lastModified": "2026-01-15T19:27:26.642482+00:00"
+      "lastModified": "2026-01-16T08:43:37.387364+00:00"
     },
     {
       "scriptId": "259059097769992192",
@@ -615,7 +615,7 @@
       "language": "PowerShell",
       "checksum": "sha256:7378a9edb379fcad",
       "metaChecksum": "meta:5251b871e6db3a86",
-      "lastModified": "2026-01-15T19:27:26.754403+00:00"
+      "lastModified": "2026-01-16T08:43:37.497523+00:00"
     },
     {
       "scriptId": "259059096159379456",
@@ -623,7 +623,7 @@
       "language": "PowerShell",
       "checksum": "sha256:3e349f0df387b496",
       "metaChecksum": "meta:5c4c03d98fd2549c",
-      "lastModified": "2026-01-15T19:27:26.864909+00:00"
+      "lastModified": "2026-01-16T08:43:37.598647+00:00"
     },
     {
       "scriptId": "259059094657818624",
@@ -631,7 +631,7 @@
       "language": "PowerShell",
       "checksum": "sha256:37e69de446c794ff",
       "metaChecksum": "meta:3743fb99f35e5cd0",
-      "lastModified": "2026-01-15T19:27:26.973661+00:00"
+      "lastModified": "2026-01-16T08:43:37.701878+00:00"
     },
     {
       "scriptId": "259059088395722752",
@@ -639,7 +639,7 @@
       "language": "Bash",
       "checksum": "sha256:96caccafe159db8a",
       "metaChecksum": "meta:ca46c5acc0abb330",
-      "lastModified": "2026-01-15T19:27:27.073759+00:00"
+      "lastModified": "2026-01-16T08:43:37.808667+00:00"
     },
     {
       "scriptId": "259059085669425152",
@@ -647,7 +647,7 @@
       "language": "Bash",
       "checksum": "sha256:2b0fef201bc62d52",
       "metaChecksum": "meta:c54bddc827cac0ff",
-      "lastModified": "2026-01-15T19:27:27.202070+00:00"
+      "lastModified": "2026-01-16T08:43:37.904668+00:00"
     },
     {
       "scriptId": "259059084121726976",
@@ -655,7 +655,7 @@
       "language": "Bash",
       "checksum": "sha256:b421aea340d97ac8",
       "metaChecksum": "meta:bd2e3f9481c1cef6",
-      "lastModified": "2026-01-15T19:27:27.326456+00:00"
+      "lastModified": "2026-01-16T08:43:38.015274+00:00"
     },
     {
       "scriptId": "259059081412206592",
@@ -663,7 +663,7 @@
       "language": "PowerShell",
       "checksum": "sha256:5ad008b42a3ab348",
       "metaChecksum": "meta:9179577fa296c74f",
-      "lastModified": "2026-01-15T19:27:27.453833+00:00"
+      "lastModified": "2026-01-16T08:43:38.125388+00:00"
     },
     {
       "scriptId": "259059079201808384",
@@ -671,7 +671,7 @@
       "language": "PowerShell",
       "checksum": "sha256:3ab79fa1d9f92702",
       "metaChecksum": "meta:861729649c720ce8",
-      "lastModified": "2026-01-15T19:27:27.569470+00:00"
+      "lastModified": "2026-01-16T08:43:38.254314+00:00"
     },
     {
       "scriptId": "259059077524086784",
@@ -679,7 +679,7 @@
       "language": "PowerShell",
       "checksum": "sha256:3f7b37b7c7789d58",
       "metaChecksum": "meta:b4dc38f2aeb3b00d",
-      "lastModified": "2026-01-15T19:27:27.694147+00:00"
+      "lastModified": "2026-01-16T08:43:38.374356+00:00"
     },
     {
       "scriptId": "259059076156743680",
@@ -687,7 +687,7 @@
       "language": "Bash",
       "checksum": "sha256:b8690b413db4d445",
       "metaChecksum": "meta:e2d4d41c58b187a1",
-      "lastModified": "2026-01-15T19:27:27.796337+00:00"
+      "lastModified": "2026-01-16T08:43:38.521746+00:00"
     },
     {
       "scriptId": "259059074357387264",
@@ -695,7 +695,7 @@
       "language": "PowerShell",
       "checksum": "sha256:63a9cb329df9761e",
       "metaChecksum": "meta:8afca60c8d8b9596",
-      "lastModified": "2026-01-15T19:27:27.951231+00:00"
+      "lastModified": "2026-01-16T08:43:38.621811+00:00"
     },
     {
       "scriptId": "259059070683176960",
@@ -703,7 +703,7 @@
       "language": "PowerShell",
       "checksum": "sha256:c10bd8329d28fd3e",
       "metaChecksum": "meta:fc141bff4cc853a9",
-      "lastModified": "2026-01-15T19:27:28.055557+00:00"
+      "lastModified": "2026-01-16T08:43:38.718272+00:00"
     },
     {
       "scriptId": "259059068233703424",
@@ -711,7 +711,7 @@
       "language": "PowerShell",
       "checksum": "sha256:ee37b4b394ed8d99",
       "metaChecksum": "meta:001f440740ee52bb",
-      "lastModified": "2026-01-15T19:27:28.174517+00:00"
+      "lastModified": "2026-01-16T08:43:38.842618+00:00"
     },
     {
       "scriptId": "259059066321100800",
@@ -719,7 +719,7 @@
       "language": "Bash",
       "checksum": "sha256:6e5145f2ed0559e2",
       "metaChecksum": "meta:a6b35dfa71b4bd33",
-      "lastModified": "2026-01-15T19:27:28.279948+00:00"
+      "lastModified": "2026-01-16T08:43:38.957187+00:00"
     },
     {
       "scriptId": "259059058993651712",
@@ -727,7 +727,7 @@
       "language": "PowerShell",
       "checksum": "sha256:bf6ee7bed33f4d92",
       "metaChecksum": "meta:f38a725c5a8318da",
-      "lastModified": "2026-01-15T19:27:28.414257+00:00"
+      "lastModified": "2026-01-16T08:43:39.060815+00:00"
     },
     {
       "scriptId": "259059056091193344",
@@ -735,7 +735,7 @@
       "language": "PowerShell",
       "checksum": "sha256:1163374ebae89a00",
       "metaChecksum": "meta:de1eca7bb7bb0b37",
-      "lastModified": "2026-01-15T19:27:28.524323+00:00"
+      "lastModified": "2026-01-16T08:43:39.166031+00:00"
     },
     {
       "scriptId": "259059054442831872",
@@ -743,7 +743,7 @@
       "language": "PowerShell",
       "checksum": "sha256:169619b88061cd48",
       "metaChecksum": "meta:a8ef7f3ebdd0366e",
-      "lastModified": "2026-01-15T19:27:28.638418+00:00"
+      "lastModified": "2026-01-16T08:43:39.269272+00:00"
     },
     {
       "scriptId": "259059052882550784",
@@ -751,7 +751,7 @@
       "language": "PowerShell",
       "checksum": "sha256:9b5bb62baef4e360",
       "metaChecksum": "meta:e285e8544706bcae",
-      "lastModified": "2026-01-15T19:27:28.740300+00:00"
+      "lastModified": "2026-01-16T08:43:39.365451+00:00"
     },
     {
       "scriptId": "436712787778891776",
@@ -759,7 +759,7 @@
       "language": "PowerShell",
       "checksum": "sha256:3dc143ec6e1dfa4c",
       "metaChecksum": "meta:388102485d09b79d",
-      "lastModified": "2026-01-15T19:27:28.888502+00:00"
+      "lastModified": "2026-01-16T08:43:39.499100+00:00"
     },
     {
       "scriptId": "2689507915451260928",
@@ -767,7 +767,7 @@
       "language": "PowerShell",
       "checksum": "sha256:bde362a7edefec52",
       "metaChecksum": "meta:1be52a182123725b",
-      "lastModified": "2026-01-15T19:27:29.015230+00:00"
+      "lastModified": "2026-01-16T08:43:39.615684+00:00"
     },
     {
       "scriptId": "7562225567458115584",
@@ -775,7 +775,7 @@
       "language": "PowerShell",
       "checksum": "sha256:ba79a75c82ce6cf5",
       "metaChecksum": "meta:24a664208d58c917",
-      "lastModified": "2026-01-15T19:27:29.140650+00:00"
+      "lastModified": "2026-01-16T08:43:39.727356+00:00"
     },
     {
       "scriptId": "7562208783506063360",
@@ -783,7 +783,7 @@
       "language": "PowerShell",
       "checksum": "sha256:56e6fc655baf55b9",
       "metaChecksum": "meta:54438c43ac6d33c6",
-      "lastModified": "2026-01-15T19:27:29.272563+00:00"
+      "lastModified": "2026-01-16T08:43:39.830852+00:00"
     },
     {
       "scriptId": "7562203720498790400",
@@ -791,7 +791,7 @@
       "language": "PowerShell",
       "checksum": "sha256:2d87c28b7655a1e7",
       "metaChecksum": "meta:ce41859333c108e9",
-      "lastModified": "2026-01-15T19:27:29.395845+00:00"
+      "lastModified": "2026-01-16T08:43:39.949970+00:00"
     },
     {
       "scriptId": "7562203575531061248",
@@ -799,7 +799,7 @@
       "language": "PowerShell",
       "checksum": "sha256:1b39b6f1c9797898",
       "metaChecksum": "meta:409741c2cb536c3f",
-      "lastModified": "2026-01-15T19:27:29.539082+00:00"
+      "lastModified": "2026-01-16T08:43:40.146247+00:00"
     },
     {
       "scriptId": "8969905695147712512",
@@ -807,15 +807,15 @@
       "language": "PowerShell",
       "checksum": "sha256:91b821286a0e4e86",
       "metaChecksum": "meta:2c32df4b98394779",
-      "lastModified": "2026-01-15T19:27:29.685721+00:00"
+      "lastModified": "2026-01-16T08:43:40.297086+00:00"
     },
     {
       "scriptId": "1015917390952198144",
       "filename": "local_user_admin_toggle",
       "language": "PowerShell",
       "checksum": "sha256:18327220f76296ce",
-      "metaChecksum": "meta:487a54d1a7bcd713",
-      "lastModified": "2026-01-15T19:27:29.793830+00:00"
+      "metaChecksum": "meta:e6c0d35d0caa2c41",
+      "lastModified": "2026-01-16T08:43:40.395951+00:00"
     },
     {
       "scriptId": "1015907075732598784",
@@ -823,7 +823,7 @@
       "language": "PowerShell",
       "checksum": "sha256:3990138cf9781c8e",
       "metaChecksum": "meta:776999fc9d9aa337",
-      "lastModified": "2026-01-15T19:27:29.902373+00:00"
+      "lastModified": "2026-01-16T08:43:40.491101+00:00"
     },
     {
       "scriptId": "1015906830558752768",
@@ -831,7 +831,7 @@
       "language": "PowerShell",
       "checksum": "sha256:2aba59ace1abb90b",
       "metaChecksum": "meta:5199e1a24493b23c",
-      "lastModified": "2026-01-15T19:27:30.030215+00:00"
+      "lastModified": "2026-01-16T08:43:40.601304+00:00"
     },
     {
       "scriptId": "1015904364706459648",
@@ -839,7 +839,7 @@
       "language": "PowerShell",
       "checksum": "sha256:df87e1621fa48bbe",
       "metaChecksum": "meta:d339e2439e632b2b",
-      "lastModified": "2026-01-15T19:27:30.143547+00:00"
+      "lastModified": "2026-01-16T08:43:40.697236+00:00"
     },
     {
       "scriptId": "1015783170502094848",
@@ -847,7 +847,7 @@
       "language": "PowerShell",
       "checksum": "sha256:e9ee074c7f6c220f",
       "metaChecksum": "meta:b19ceacb2b4c0cc9",
-      "lastModified": "2026-01-15T19:27:30.249029+00:00"
+      "lastModified": "2026-01-16T08:43:40.810077+00:00"
     },
     {
       "scriptId": "6295817723329372160",
@@ -855,7 +855,7 @@
       "language": "PowerShell",
       "checksum": "sha256:32faa52491c8b666",
       "metaChecksum": "meta:01a25b63bbd647d8",
-      "lastModified": "2026-01-15T19:27:30.374645+00:00"
+      "lastModified": "2026-01-16T08:43:40.920608+00:00"
     },
     {
       "scriptId": "2059305194998857728",
@@ -863,7 +863,7 @@
       "language": "PowerShell",
       "checksum": "sha256:155f8c8a78aac830",
       "metaChecksum": "meta:2f882886e4d56e9d",
-      "lastModified": "2026-01-15T19:27:30.476308+00:00"
+      "lastModified": "2026-01-16T08:43:41.015122+00:00"
     },
     {
       "scriptId": "2059287687210598400",
@@ -871,7 +871,7 @@
       "language": "PowerShell",
       "checksum": "sha256:31f6f7353969cb0c",
       "metaChecksum": "meta:1c4b79cc9638f9a9",
-      "lastModified": "2026-01-15T19:27:30.592714+00:00"
+      "lastModified": "2026-01-16T08:43:41.123596+00:00"
     },
     {
       "scriptId": "6668060130075115520",
@@ -879,7 +879,7 @@
       "language": "PowerShell",
       "checksum": "sha256:50bf2fe1fc8d0837",
       "metaChecksum": "meta:afc6134eb1d64240",
-      "lastModified": "2026-01-15T19:27:30.697420+00:00"
+      "lastModified": "2026-01-16T08:43:41.251104+00:00"
     },
     {
       "scriptId": "5428837218762698752",
@@ -887,7 +887,7 @@
       "language": "PowerShell",
       "checksum": "sha256:e8160ad00c098fc4",
       "metaChecksum": "meta:a6e9a7036e733316",
-      "lastModified": "2026-01-15T19:27:30.807050+00:00"
+      "lastModified": "2026-01-16T08:43:41.351810+00:00"
     },
     {
       "scriptId": "6523706799125475328",
@@ -895,7 +895,7 @@
       "language": "PowerShell",
       "checksum": "sha256:0e45794ad97bc02e",
       "metaChecksum": "meta:1ee3ac04633c1a45",
-      "lastModified": "2026-01-15T19:27:30.919631+00:00"
+      "lastModified": "2026-01-16T08:43:41.453896+00:00"
     },
     {
       "scriptId": "8083647452427669504",
@@ -903,7 +903,7 @@
       "language": "PowerShell",
       "checksum": "sha256:ba6a5c0ac0b04b58",
       "metaChecksum": "meta:2f43706986562705",
-      "lastModified": "2026-01-15T19:27:31.033884+00:00"
+      "lastModified": "2026-01-16T08:43:41.597383+00:00"
     },
     {
       "scriptId": "8083616885623574528",
@@ -911,7 +911,7 @@
       "language": "PowerShell",
       "checksum": "sha256:61e4e02f16768599",
       "metaChecksum": "meta:5a4a135bbe108f32",
-      "lastModified": "2026-01-15T19:27:31.150288+00:00"
+      "lastModified": "2026-01-16T08:43:41.718730+00:00"
     },
     {
       "scriptId": "3077420686222594048",
@@ -919,7 +919,7 @@
       "language": "PowerShell",
       "checksum": "sha256:bc830038a9a47c84",
       "metaChecksum": "meta:fdba6957e8179db4",
-      "lastModified": "2026-01-15T19:27:31.269574+00:00"
+      "lastModified": "2026-01-16T08:43:41.823689+00:00"
     },
     {
       "scriptId": "6533495977667035136",
@@ -927,7 +927,7 @@
       "language": "PowerShell",
       "checksum": "sha256:cc9fa1771c6aedf4",
       "metaChecksum": "meta:d753a6893ff05162",
-      "lastModified": "2026-01-15T19:27:31.378732+00:00"
+      "lastModified": "2026-01-16T08:43:41.980298+00:00"
     },
     {
       "scriptId": "7521762971991781376",
@@ -935,7 +935,7 @@
       "language": "PowerShell",
       "checksum": "sha256:c45236b1118f19fe",
       "metaChecksum": "meta:944ee2d11e6a291f",
-      "lastModified": "2026-01-15T19:27:31.503306+00:00"
+      "lastModified": "2026-01-16T08:43:42.088513+00:00"
     },
     {
       "scriptId": "4253548481531990016",
@@ -943,7 +943,7 @@
       "language": "PowerShell",
       "checksum": "sha256:4f12bab862e0a99f",
       "metaChecksum": "meta:05919e16917561f5",
-      "lastModified": "2026-01-15T19:27:31.647293+00:00"
+      "lastModified": "2026-01-16T08:43:42.203656+00:00"
     },
     {
       "scriptId": "317078575525470208",
@@ -951,7 +951,7 @@
       "language": "PowerShell",
       "checksum": "sha256:15d3cc9f59e00443",
       "metaChecksum": "meta:a85a1efe4c7f2df0",
-      "lastModified": "2026-01-15T19:27:31.762828+00:00"
+      "lastModified": "2026-01-16T08:43:42.298532+00:00"
     },
     {
       "scriptId": "6174064285322764288",
@@ -959,7 +959,7 @@
       "language": "Bat",
       "checksum": "sha256:7cdde3ac493fbd25",
       "metaChecksum": "meta:9e53d0ed187a1a03",
-      "lastModified": "2026-01-15T19:27:31.903788+00:00"
+      "lastModified": "2026-01-16T08:43:42.393896+00:00"
     },
     {
       "scriptId": "2890665459264626688",
@@ -967,7 +967,7 @@
       "language": "Bash",
       "checksum": "sha256:983dfc7baa9a92b4",
       "metaChecksum": "meta:287716d8fbffa267",
-      "lastModified": "2026-01-15T19:27:32.031768+00:00"
+      "lastModified": "2026-01-16T08:43:42.494921+00:00"
     },
     {
       "scriptId": "6351689847169097728",
@@ -975,7 +975,7 @@
       "language": "Bat",
       "checksum": "sha256:0b72f3986f387bee",
       "metaChecksum": "meta:9d227c59e0bafeda",
-      "lastModified": "2026-01-15T19:27:32.174826+00:00"
+      "lastModified": "2026-01-16T08:43:42.593786+00:00"
     },
     {
       "scriptId": "2703029945385623552",
@@ -983,7 +983,7 @@
       "language": "PowerShell",
       "checksum": "sha256:f6aa4b699518039e",
       "metaChecksum": "meta:709f4f1fb497233b",
-      "lastModified": "2026-01-15T19:27:32.294333+00:00"
+      "lastModified": "2026-01-16T08:43:42.712713+00:00"
     },
     {
       "scriptId": "6103852407269097472",
@@ -991,7 +991,7 @@
       "language": "PowerShell",
       "checksum": "sha256:cbe7ded42ed92e81",
       "metaChecksum": "meta:600f86a6e38fc13e",
-      "lastModified": "2026-01-15T19:27:32.406568+00:00"
+      "lastModified": "2026-01-16T08:43:42.816953+00:00"
     },
     {
       "scriptId": "5197034403851927552",
@@ -999,7 +999,7 @@
       "language": "Bash",
       "checksum": "sha256:793e13a1ec36bfbe",
       "metaChecksum": "meta:3af892673fb18506",
-      "lastModified": "2026-01-15T19:27:32.540051+00:00"
+      "lastModified": "2026-01-16T08:43:42.911554+00:00"
     },
     {
       "scriptId": "5261212187550191616",
@@ -1007,7 +1007,7 @@
       "language": "PowerShell",
       "checksum": "sha256:43a38dca8953526a",
       "metaChecksum": "meta:877d61d8200118ce",
-      "lastModified": "2026-01-15T19:27:32.656242+00:00"
+      "lastModified": "2026-01-16T08:43:43.007698+00:00"
     },
     {
       "scriptId": "5830142789672906752",
@@ -1015,7 +1015,7 @@
       "language": "Bash",
       "checksum": "sha256:45a6723a4c8a03cb",
       "metaChecksum": "meta:2f495c61903f648f",
-      "lastModified": "2026-01-15T19:27:32.768757+00:00"
+      "lastModified": "2026-01-16T08:43:43.102417+00:00"
     },
     {
       "scriptId": "8388334911230820352",
@@ -1023,7 +1023,7 @@
       "language": "PowerShell",
       "checksum": "sha256:22b0a554c0325377",
       "metaChecksum": "meta:fa3b3582144d805d",
-      "lastModified": "2026-01-15T19:27:32.903645+00:00"
+      "lastModified": "2026-01-16T08:43:43.230536+00:00"
     },
     {
       "scriptId": "654800809091403776",
@@ -1031,7 +1031,7 @@
       "language": "PowerShell",
       "checksum": "sha256:57e9ad94a46f81a1",
       "metaChecksum": "meta:7d6c2ce48f6cd01d",
-      "lastModified": "2026-01-15T19:27:33.008504+00:00"
+      "lastModified": "2026-01-16T08:43:43.327337+00:00"
     },
     {
       "scriptId": "934483777516347392",
@@ -1039,7 +1039,7 @@
       "language": "Bash",
       "checksum": "sha256:77ae2d911104504a",
       "metaChecksum": "meta:0f75c31410fcb91b",
-      "lastModified": "2026-01-15T19:27:33.147717+00:00"
+      "lastModified": "2026-01-16T08:43:43.419939+00:00"
     },
     {
       "scriptId": "2363511650220425216",
@@ -1047,7 +1047,7 @@
       "language": "PowerShell",
       "checksum": "sha256:43ee2c8447a7a651",
       "metaChecksum": "meta:8a130b8af2903da9",
-      "lastModified": "2026-01-15T19:27:33.259565+00:00"
+      "lastModified": "2026-01-16T08:43:43.528264+00:00"
     },
     {
       "scriptId": "1154509803255455744",
@@ -1055,7 +1055,7 @@
       "language": "PowerShell",
       "checksum": "sha256:926e1828ded57faf",
       "metaChecksum": "meta:f2538dcf8a677224",
-      "lastModified": "2026-01-15T19:27:33.371717+00:00"
+      "lastModified": "2026-01-16T08:43:43.623565+00:00"
     },
     {
       "scriptId": "6582476168459661312",
@@ -1063,7 +1063,7 @@
       "language": "PowerShell",
       "checksum": "sha256:bb4b8e9b36948749",
       "metaChecksum": "meta:0801fca676cee0bb",
-      "lastModified": "2026-01-15T19:27:33.527036+00:00"
+      "lastModified": "2026-01-16T08:43:43.740910+00:00"
     },
     {
       "scriptId": "6403580733975965696",
@@ -1071,7 +1071,7 @@
       "language": "PowerShell",
       "checksum": "sha256:4c976d3d47fcefab",
       "metaChecksum": "meta:1096e3dd6e79f2e5",
-      "lastModified": "2026-01-15T19:27:33.636813+00:00"
+      "lastModified": "2026-01-16T08:43:43.847867+00:00"
     },
     {
       "scriptId": "3659744570500739072",
@@ -1079,7 +1079,7 @@
       "language": "Bat",
       "checksum": "sha256:d66c9f9629deba03",
       "metaChecksum": "meta:f0be7917ba2f61e0",
-      "lastModified": "2026-01-15T19:27:33.759648+00:00"
+      "lastModified": "2026-01-16T08:43:43.963031+00:00"
     },
     {
       "scriptId": "7029137174820597760",
@@ -1087,7 +1087,7 @@
       "language": "PowerShell",
       "checksum": "sha256:b7aee1c6f000d4c9",
       "metaChecksum": "meta:e58ed28ac0db3f54",
-      "lastModified": "2026-01-15T19:27:33.879395+00:00"
+      "lastModified": "2026-01-16T08:43:44.108016+00:00"
     },
     {
       "scriptId": "214958378614583296",
@@ -1095,7 +1095,7 @@
       "language": "PowerShell",
       "checksum": "sha256:3e1fdea1ed194ba4",
       "metaChecksum": "meta:868271aaf643aed6",
-      "lastModified": "2026-01-15T19:27:34.001480+00:00"
+      "lastModified": "2026-01-16T08:43:44.217421+00:00"
     },
     {
       "scriptId": "3354663380039786496",
@@ -1103,7 +1103,7 @@
       "language": "PowerShell",
       "checksum": "sha256:de1b7a94e1a6d260",
       "metaChecksum": "meta:8c7632f48263cf34",
-      "lastModified": "2026-01-15T19:27:34.128595+00:00"
+      "lastModified": "2026-01-16T08:43:44.368911+00:00"
     },
     {
       "scriptId": "3769539001587634176",
@@ -1111,7 +1111,7 @@
       "language": "PowerShell",
       "checksum": "sha256:071a2a786a1f045f",
       "metaChecksum": "meta:7d823bf1353c4336",
-      "lastModified": "2026-01-15T19:27:34.243334+00:00"
+      "lastModified": "2026-01-16T08:43:44.581765+00:00"
     },
     {
       "scriptId": "1907390810231676928",
@@ -1119,8 +1119,8 @@
       "language": "PowerShell",
       "checksum": "sha256:0a6016f20750d1c9",
       "metaChecksum": "meta:aeb716836634c66d",
-      "lastModified": "2026-01-15T19:27:34.388602+00:00"
+      "lastModified": "2026-01-16T08:43:44.679634+00:00"
     }
   ],
-  "lastSync": "2026-01-15T19:27:35.916875+00:00"
+  "lastSync": "2026-01-16T08:43:44.679688+00:00"
 }

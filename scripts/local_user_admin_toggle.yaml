@@ -7,5 +7,6 @@ tags: []
 shared: true
 favourite: false
 readme: ''
-runtimeVariables: []
+runtimeVariables:
+- name: TargetUsername
 placeholderVariables: []
