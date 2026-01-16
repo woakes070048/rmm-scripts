@@ -8,9 +8,9 @@ $ErrorActionPreference = 'Stop'
 ███████╗██║██║ ╚═╝ ██║███████╗██║  ██║██║  ██║╚███╔███╔╝██║  ██╗
 ╚══════╝╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚══╝╚══╝ ╚═╝  ╚═╝
 ================================================================================
- SCRIPT   : Maintenance Reboot                                            v8.1.0
+ SCRIPT   : Maintenance Reboot                                            v8.1.1
  AUTHOR   : Limehawk.io
- DATE     : December 2025
+ DATE     : January 2026
  USAGE    : .\maintenance_reboot.ps1
 ================================================================================
  FILE     : maintenance_reboot.ps1
@@ -140,6 +140,7 @@ $ErrorActionPreference = 'Stop'
 --------------------------------------------------------------------------------
  CHANGELOG
 --------------------------------------------------------------------------------
+ 2026-01-16 v8.1.1 Restored runtime variables to YAML metadata
  2025-12-28 v8.1.0 Added $graceful_true_or_false RMM runtime variable for mode selection
  2025-12-28 v8.0.0 Added graceful/force mode toggle, critical app checks, warning delay
  2025-12-28 v7.2.4 Removed template placeholder cruft
