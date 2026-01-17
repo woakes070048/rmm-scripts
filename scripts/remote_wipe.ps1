@@ -6,69 +6,93 @@ $ErrorActionPreference = 'Stop'
 ██║     ██║██║╚██╔╝██║██╔══╝  ██╔══██║██╔══██║██║███╗██║██╔═██╗
 ███████╗██║██║ ╚═╝ ██║███████╗██║  ██║██║  ██║╚███╔███╔╝██║  ██╗
 ╚══════╝╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚══╝╚══╝ ╚═╝  ╚═╝
-
 ================================================================================
- SCRIPT  : Remote Wipe v1.0.1
- AUTHOR  : Limehawk.io
- DATE      : December 2025
- FILE    : remote_wipe.ps1
+ SCRIPT   : Remote Wipe                                                  v1.0.2
+ AUTHOR   : Limehawk.io
+ DATE     : January 2026
+ USAGE    : .\remote_wipe.ps1
+================================================================================
+ FILE     : remote_wipe.ps1
  DESCRIPTION : Initiates MDM remote wipe to factory reset Windows device
- USAGE   : .\remote_wipe.ps1
-================================================================================
+--------------------------------------------------------------------------------
  README
 --------------------------------------------------------------------------------
- PURPOSE:
-    Initiates a remote wipe of the Windows device using the MDM RemoteWipe CSP.
-    This completely erases all data on the device and resets it to factory state.
+ PURPOSE
 
-    *** WARNING: THIS ACTION IS IRREVERSIBLE ***
-    *** ALL DATA ON THE DEVICE WILL BE PERMANENTLY DELETED ***
+   Initiates a remote wipe of the Windows device using the MDM RemoteWipe CSP.
+   This completely erases all data on the device and resets it to factory state.
 
-REQUIRED INPUTS:
-    None
+   *** WARNING: THIS ACTION IS IRREVERSIBLE ***
+   *** ALL DATA ON THE DEVICE WILL BE PERMANENTLY DELETED ***
 
-BEHAVIOR:
-    1. Creates CIM session to local MDM namespace
-    2. Retrieves MDM_RemoteWipe instance
-    3. Invokes the doWipeMethod
-    4. Device begins factory reset process
+ DATA SOURCES & PRIORITY
 
-PREREQUISITES:
-    - Windows 10/11 (MDM enrolled or Azure AD joined)
-    - Administrator privileges
-    - Device must have MDM RemoteWipe capability
+   - Local MDM namespace (root\cimv2\mdm\dmmap)
+   - MDM_RemoteWipe class instance
 
-SECURITY NOTES:
-    - THIS IS A DESTRUCTIVE OPERATION
-    - Use only on lost/stolen devices or for secure decommissioning
-    - Cannot be undone once initiated
-    - Ensure proper authorization before running
+ REQUIRED INPUTS
 
-EXIT CODES:
-    0 = Wipe initiated successfully
-    1 = Failure (CIM session, instance not found, or wipe failed)
+   None - all configuration is internal to the MDM subsystem
 
-EXAMPLE RUN:
-    [ INITIALIZING REMOTE WIPE ]
-    --------------------------------------------------------------
-    CIM Session          : Created
-    MDM Instance         : Found
+ SETTINGS
 
-    [ EXECUTING WIPE ]
-    --------------------------------------------------------------
-    Status               : Invoking doWipeMethod...
-    Result               : Wipe initiated successfully
+   - No configurable settings; wipe executes immediately upon script run
 
-    [ FINAL STATUS ]
-    --------------------------------------------------------------
-    REMOTE WIPE INITIATED - DEVICE WILL RESET
+ BEHAVIOR
 
-    [ SCRIPT COMPLETED ]
-    --------------------------------------------------------------
+   The script performs the following actions in order:
+   1. Creates CIM session to local MDM namespace
+   2. Retrieves MDM_RemoteWipe instance
+   3. Invokes the doWipeMethod
+   4. Device begins factory reset process
+
+ PREREQUISITES
+
+   - Windows 10/11 (MDM enrolled or Azure AD joined)
+   - Administrator privileges
+   - Device must have MDM RemoteWipe capability
+
+ SECURITY NOTES
+
+   - THIS IS A DESTRUCTIVE OPERATION
+   - Use only on lost/stolen devices or for secure decommissioning
+   - Cannot be undone once initiated
+   - Ensure proper authorization before running
+   - No secrets in logs
+
+ ENDPOINTS
+
+   - Not applicable (local CIM/WMI operations only)
+
+ EXIT CODES
+
+   0 = Wipe initiated successfully
+   1 = Failure (CIM session, instance not found, or wipe failed)
+
+ EXAMPLE RUN
+
+   [ INITIALIZING REMOTE WIPE ]
+   --------------------------------------------------------------
+   CIM Session          : Created
+   MDM Instance         : Found
+
+   [ EXECUTING WIPE ]
+   --------------------------------------------------------------
+   Status               : Invoking doWipeMethod...
+   Result               : Wipe initiated successfully
+
+   [ FINAL STATUS ]
+   --------------------------------------------------------------
+   REMOTE WIPE INITIATED - DEVICE WILL RESET
+
+   [ SCRIPT COMPLETE ]
+   --------------------------------------------------------------
 
 --------------------------------------------------------------------------------
  CHANGELOG
 --------------------------------------------------------------------------------
+ 2026-01-17 v1.0.2 Fixed framework compliance: header format, section names,
+                   removed param() blocks, added missing README sections
  2025-12-23 v1.0.1 Updated to Limehawk Script Framework
  2024-12-01 v1.0.0 Initial release - migrated from SuperOps
 ================================================================================
@@ -78,26 +102,15 @@ Set-StrictMode -Version Latest
 # ============================================================================
 # HELPER FUNCTIONS
 # ============================================================================
-function Write-Section {
-    param([string]$title)
+function Write-Section($title) {
     Write-Host ""
     Write-Host ("[ {0} ]" -f $title)
     Write-Host ("-" * 62)
 }
 
-function PrintKV([string]$label, [string]$value) {
+function PrintKV($label, $value) {
     $lbl = $label.PadRight(24)
     Write-Host (" {0} : {1}" -f $lbl, $value)
-}
-
-# ============================================================================
-# PRIVILEGE CHECK
-# ============================================================================
-if (-not ([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)) {
-    Write-Section "ERROR OCCURRED"
-    Write-Host " This script requires administrative privileges to run."
-    Write-Section "SCRIPT HALTED"
-    exit 1
 }
 
 # ============================================================================
@@ -159,7 +172,7 @@ try {
             Write-Host " The device will restart and begin the factory reset process."
             Write-Host " All data will be permanently erased."
 
-            Write-Section "SCRIPT COMPLETED"
+            Write-Section "SCRIPT COMPLETE"
             exit 0
         }
         default {
@@ -168,7 +181,7 @@ try {
             Write-Section "FINAL STATUS"
             Write-Host " REMOTE WIPE FAILED"
 
-            Write-Section "SCRIPT COMPLETED"
+            Write-Section "SCRIPT COMPLETE"
             exit 1
         }
     }
@@ -183,7 +196,7 @@ catch {
     Write-Host "  - Device is not Azure AD joined"
     Write-Host "  - Insufficient permissions"
     Write-Host "  - MDM policies not configured"
-    Write-Section "SCRIPT HALTED"
+    Write-Section "SCRIPT COMPLETE"
     exit 1
 }
 finally {

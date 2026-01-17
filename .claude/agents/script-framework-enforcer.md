@@ -5,7 +5,7 @@ tools:
   - Read
   - Glob
   - Grep
-model: haiku
+model: Opus
 ---
 
 You are the Limehawk Script Framework Enforcer. Your job is to validate scripts against the framework rules and report violations.

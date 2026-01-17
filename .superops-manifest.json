@@ -421,9 +421,9 @@
       "scriptId": "259059159342374912",
       "filename": "remote_wipe",
       "language": "PowerShell",
-      "checksum": "sha256:d557d91dd3204b81",
+      "checksum": "sha256:c214f54a3c617853",
       "metaChecksum": "meta:ea595929b2478f09",
-      "lastModified": "2026-01-16T08:43:35.048230+00:00"
+      "lastModified": "2026-01-17T08:33:29.852243+00:00"
     },
     {
       "scriptId": "259059156825792512",
@@ -1114,5 +1114,5 @@
       "lastModified": "2026-01-16T08:43:44.679634+00:00"
     }
   ],
-  "lastSync": "2026-01-16T17:07:28.537655+00:00"
+  "lastSync": "2026-01-17T08:33:29.852272+00:00"
 }
