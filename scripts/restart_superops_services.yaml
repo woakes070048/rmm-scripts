@@ -1,11 +1,19 @@
 name: restart_superops_services.ps1
-description: ''
+description: Restarts RMM agent services with automatic RMM execution detection
 language: PowerShell
 runAs: SYSTEM_USER
 timeout: 15
-tags: []
+tags:
+  - maintenance
+  - services
 shared: true
 favourite: false
 readme: ''
-runtimeVariables: []
+runtimeVariables:
+  - name: YourServiceFilterHere
+    label: Service Filter
+    description: Service name filter for fuzzy matching (e.g., "limehawk" matches "*limehawk*")
+    type: TEXT
+    required: true
+    default: limehawk
 placeholderVariables: []
