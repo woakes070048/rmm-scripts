@@ -1090,14 +1090,6 @@
       "lastModified": "2026-01-19T01:01:52.208441+00:00"
     },
     {
-      "scriptId": "3354663380039786496",
-      "filename": "restart_superops_services",
-      "language": "PowerShell",
-      "checksum": "sha256:de1b7a94e1a6d260",
-      "metaChecksum": "meta:8c7632f48263cf34",
-      "lastModified": "2026-01-16T08:43:44.368911+00:00"
-    },
-    {
       "scriptId": "3769539001587634176",
       "filename": "splashtop_service_restart",
       "language": "PowerShell",
@@ -1114,5 +1106,5 @@
       "lastModified": "2026-01-19T01:01:51.492234+00:00"
     }
   ],
-  "lastSync": "2026-01-19T01:44:47.174362+00:00"
+  "lastSync": "2026-01-19T01:51:57.309379+00:00"
 }
