@@ -1112,7 +1112,15 @@
       "metaChecksum": "meta:7ae10be09eabc629",
       "language": "PowerShell",
       "lastModified": "2026-01-19T09:36:22.856642+00:00"
+    },
+    {
+      "scriptId": "3784411666984587264",
+      "filename": "secure_delete_interactive",
+      "checksum": "sha256:c7a848bf4c8ed40d",
+      "metaChecksum": "meta:389e371b208e1999",
+      "language": "PowerShell",
+      "lastModified": "2026-01-19T22:46:59.326016+00:00"
     }
   ],
-  "lastSync": "2026-01-19T22:19:45.772342+00:00"
+  "lastSync": "2026-01-19T22:46:59.326331+00:00"
 }
