@@ -7,7 +7,7 @@ $ErrorActionPreference = 'Stop'
 ███████╗██║██║ ╚═╝ ██║███████╗██║  ██║██║  ██║╚███╔███╔╝██║  ██╗
 ╚══════╝╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚══╝╚══╝ ╚═╝  ╚═╝
 ================================================================================
- SCRIPT   : Restart SuperOps Services                                    v2.0.1
+ SCRIPT   : Restart SuperOps Services                                    v2.1.0
  AUTHOR   : Limehawk.io
  DATE     : January 2026
  USAGE    : .\superops_service_restart.ps1
@@ -160,6 +160,8 @@ Service restart scheduled - will execute after script exits
 --------------------------------------------------------------------------------
  CHANGELOG
 --------------------------------------------------------------------------------
+ 2026-01-18 v2.1.0 DEBUG: Added process tree dump, disabled restart logic
+ 2026-01-18 v2.0.2 Fixed RMM detection to also match service filter pattern
  2026-01-18 v2.0.1 Simplified RMM detection to match superops.exe
  2026-01-18 v2.0.0 Merged scripts, added RMM detection and runtime variable
  2026-01-14 v1.0.2 Fixed header formatting for framework compliance
@@ -195,11 +197,15 @@ function Test-RunningFromRMM {
     .SYNOPSIS
     Detects if the script is running from SuperOps/Limehawk RMM agent
     #>
+    param([string]$Filter)
     $currentPID = $PID
     while ($currentPID -and $currentPID -ne 0) {
         $proc = Get-CimInstance Win32_Process -Filter "ProcessId = $currentPID" -ErrorAction SilentlyContinue
         if ($null -eq $proc) { break }
-        if ($proc.Name -match 'superops') { return $true }
+        # Check for superops OR the service filter (e.g., limehawk)
+        if ($proc.Name -match 'superops' -or ($Filter -and $proc.Name -match [regex]::Escape($Filter))) {
+            return $true
+        }
         $currentPID = $proc.ParentProcessId
     }
     return $false
@@ -265,7 +271,7 @@ if (-not $isAdmin) {
     exit 1
 }
 
-$runningFromRMM = Test-RunningFromRMM
+$runningFromRMM = Test-RunningFromRMM -Filter $serviceFilter
 Write-Host "Running from RMM Agent   : $runningFromRMM"
 
 if ($runningFromRMM) {
@@ -275,7 +281,56 @@ if ($runningFromRMM) {
 }
 
 # ==============================================================================
-# RESTART SERVICES
+# DEBUG: PROCESS TREE ANALYSIS
+# ==============================================================================
+
+Write-Host ""
+Write-Host "[ DEBUG: PROCESS TREE ]"
+Write-Host "--------------------------------------------------------------"
+Write-Host "Current Process:"
+Write-Host "  PID          : $PID"
+Write-Host "  Process Name : $((Get-Process -Id $PID).ProcessName)"
+Write-Host "  Command Line : $([Environment]::CommandLine)"
+Write-Host ""
+Write-Host "Parent Process Chain:"
+
+$currentPID = $PID
+$depth = 0
+while ($currentPID -and $currentPID -ne 0 -and $depth -lt 10) {
+    $proc = Get-CimInstance Win32_Process -Filter "ProcessId = $currentPID" -ErrorAction SilentlyContinue
+    if ($null -eq $proc) { break }
+
+    $indent = "  " + ("  " * $depth)
+    Write-Host "${indent}[$depth] PID: $($proc.ProcessId)"
+    Write-Host "${indent}    Name       : $($proc.Name)"
+    Write-Host "${indent}    Parent PID : $($proc.ParentProcessId)"
+    if ($proc.CommandLine) {
+        $cmdLine = $proc.CommandLine
+        if ($cmdLine.Length -gt 100) { $cmdLine = $cmdLine.Substring(0, 100) + "..." }
+        Write-Host "${indent}    CommandLine: $cmdLine"
+    }
+    if ($proc.ExecutablePath) {
+        Write-Host "${indent}    Path       : $($proc.ExecutablePath)"
+    }
+
+    # Check what patterns this would match
+    $matchesSuperops = $proc.Name -match 'superops'
+    $matchesFilter = $serviceFilter -and ($proc.Name -match [regex]::Escape($serviceFilter))
+    if ($matchesSuperops -or $matchesFilter) {
+        Write-Host "${indent}    ** MATCHES: superops=$matchesSuperops, filter=$matchesFilter **"
+    }
+
+    $currentPID = $proc.ParentProcessId
+    $depth++
+}
+
+Write-Host ""
+Write-Host "Detection Summary:"
+Write-Host "  Filter pattern  : $serviceFilter"
+Write-Host "  Would detect    : $runningFromRMM"
+
+# ==============================================================================
+# RESTART SERVICES (DISABLED FOR DEBUG)
 # ==============================================================================
 
 Write-Host ""
@@ -316,6 +371,13 @@ try {
     }
     Write-Host ""
 
+    # DEBUG: Restart logic disabled - showing what WOULD happen
+    Write-Host "** DEBUG MODE: Restart disabled **"
+    Write-Host "Would use mode   : $(if ($runningFromRMM) { 'Background (scheduled)' } else { 'Direct (synchronous)' })"
+    Write-Host "Would restart    : $($services.Name -join ', ')"
+    $servicesRestarted = 0  # No actual restarts in debug mode
+
+    <# RESTART LOGIC COMMENTED OUT FOR DEBUG
     if ($runningFromRMM) {
         # Background restart approach - spawn detached process
         Write-Host "Scheduling background restart in 2 seconds..."
@@ -344,6 +406,7 @@ try {
             }
         }
     }
+    #>
 
 } catch {
     $errorOccurred = $true
