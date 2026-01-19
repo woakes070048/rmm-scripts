@@ -7,7 +7,7 @@ $ErrorActionPreference = 'Stop'
 ███████╗██║██║ ╚═╝ ██║███████╗██║  ██║██║  ██║╚███╔███╔╝██║  ██╗
 ╚══════╝╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚══╝╚══╝ ╚═╝  ╚═╝
 ================================================================================
- SCRIPT   : Restart SuperOps Services                                    v2.1.1
+ SCRIPT   : Restart SuperOps Services                                    v2.1.2
  AUTHOR   : Limehawk.io
  DATE     : January 2026
  USAGE    : .\superops_service_restart.ps1
@@ -41,7 +41,7 @@ SETTINGS
 
 - Fuzzy matching: Filter "limehawk" matches services like "LimehawkAgent"
 - RMM detection: Checks parent process tree for superops.exe
-- Background restart: 2-second delay when running from RMM agent
+- Background restart: 30-second delay when running from RMM agent
 - Direct restart: Immediate synchronous restart when run manually
 
 --------------------------------------------------------------------------------
@@ -160,6 +160,7 @@ Service restart scheduled - will execute after script exits
 --------------------------------------------------------------------------------
  CHANGELOG
 --------------------------------------------------------------------------------
+ 2026-01-18 v2.1.2 Increased background restart delay to 30 seconds
  2026-01-18 v2.1.1 DEBUG: Re-enabled restart, added command output
  2026-01-18 v2.1.0 DEBUG: Added process tree dump, disabled restart logic
  2026-01-18 v2.0.2 Fixed RMM detection to also match service filter pattern
@@ -375,10 +376,10 @@ try {
     if ($runningFromRMM) {
         # Background restart approach - spawn detached process
         # Script exits immediately, background process restarts services after delay
-        Write-Host "Scheduling background restart in 2 seconds..."
+        Write-Host "Scheduling background restart in 30 seconds..."
 
         $serviceNames = ($services | ForEach-Object { $_.Name }) -join "','"
-        $restartCommand = "Start-Sleep -Seconds 2; @('$serviceNames') | ForEach-Object { Restart-Service -Name `$_ -Force }"
+        $restartCommand = "Start-Sleep -Seconds 30; @('$serviceNames') | ForEach-Object { Restart-Service -Name `$_ -Force }"
 
         Write-Host ""
         Write-Host "DEBUG: Background command:"
@@ -388,7 +389,7 @@ try {
         Start-Process -FilePath "powershell.exe" -ArgumentList "-NoProfile", "-ExecutionPolicy", "Bypass", "-Command", $restartCommand -WindowStyle Hidden
 
         Write-Host "Restart command issued successfully"
-        Write-Host "Script will now exit - services restart in background after 2 seconds"
+        Write-Host "Script will now exit - services restart in background after 30 seconds"
         $servicesRestarted = $servicesFound
     } else {
         # Direct restart - synchronous (safe when not running from RMM)
