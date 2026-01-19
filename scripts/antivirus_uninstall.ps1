@@ -7,7 +7,7 @@ $ErrorActionPreference = 'Stop'
 ███████╗██║██║ ╚═╝ ██║███████╗██║  ██║██║  ██║╚███╔███╔╝██║  ██╗
 ╚══════╝╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚══╝╚══╝ ╚═╝  ╚═╝
 ================================================================================
- SCRIPT   : Antivirus Uninstall (Multi-Vendor)                           v1.2.2
+ SCRIPT   : Antivirus Uninstall (Multi-Vendor)                           v1.2.3
  AUTHOR   : Limehawk.io
  DATE     : January 2026
  USAGE    : .\antivirus_uninstall.ps1
@@ -134,6 +134,7 @@ Note: A system reboot is recommended for complete removal
 --------------------------------------------------------------------------------
  CHANGELOG
 --------------------------------------------------------------------------------
+ 2026-01-18 v1.2.3 Run MCPR in background instead of waiting
  2026-01-18 v1.2.2 Increased MCPR timeout from 5 to 15 minutes
  2026-01-18 v1.2.1 Added timeouts and error handling for WMI/MCPR operations
  2026-01-18 v1.2.0 Rewrote McAfee detection with registry/services/paths/WMI
@@ -433,39 +434,23 @@ if ($mcAfeeDetected) {
         }
 
         Write-Host "  Downloaded to: $mcprPath"
-        Write-Host "Running MCPR tool (silent mode, 15 min timeout)..."
+        Write-Host "Starting MCPR tool in background (silent mode)..."
 
-        # Run MCPR with timeout (15 minutes max - it can be slow)
-        $mcprProcess = Start-Process -FilePath $mcprPath -ArgumentList "/silent" -PassThru -ErrorAction Stop
-        $mcprExited = $mcprProcess.WaitForExit(900000)  # 15 minutes in milliseconds
-
-        if ($mcprExited) {
-            Write-Host "  MCPR exit code: $($mcprProcess.ExitCode)"
-            $mcprSuccess = $true
-        } else {
-            Write-Host "  MCPR timeout (15 min) - killing process"
-            try {
-                $mcprProcess.Kill()
-                $mcprProcess.WaitForExit(5000)
-            } catch {
-                Write-Host "  Warning: Could not kill MCPR process"
-            }
-        }
+        # Run MCPR in background - don't wait, it can take 15+ minutes
+        Start-Process -FilePath $mcprPath -ArgumentList "/silent" -ErrorAction Stop
+        Write-Host "  MCPR started (PID will run in background)"
+        Write-Host "  Note: MCPR may take 15+ minutes to complete"
+        $mcprSuccess = $true
     } catch {
         Write-Host "  MCPR failed: $($_.Exception.Message)"
-    } finally {
-        # Cleanup MCPR file
-        if (Test-Path $mcprPath) {
-            Remove-Item -Path $mcprPath -Force -ErrorAction SilentlyContinue
-        }
     }
 
     if (-not $mcprSuccess) {
         Write-Host ""
-        Write-Host "  Note: MCPR did not complete successfully."
+        Write-Host "  Note: MCPR could not be started."
         Write-Host "  Manual steps may be required:"
         Write-Host "  1. Download MCPR from mcafee.com"
-        Write-Host "  2. Run it manually with user interaction"
+        Write-Host "  2. Run it manually"
         Write-Host "  3. Reboot and verify removal"
     }
 
