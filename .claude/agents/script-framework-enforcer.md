@@ -60,6 +60,32 @@ You are the Limehawk Script Framework Enforcer. Your job is to validate scripts 
 - Exit 0 on success, exit 1 on failure
 - KV format: `Label : Value` (space on each side of colon)
 
+### Winget SYSTEM Context Pattern (IMPORTANT)
+If a script uses winget, it MUST use the SYSTEM-compatible pattern:
+- `Get-Command winget` alone is FORBIDDEN - it fails in SYSTEM context
+- Scripts MUST include fallback to resolve winget.exe from WindowsApps
+
+**Correct pattern:**
+```powershell
+$wingetExe = $null
+$wingetCmd = Get-Command winget -ErrorAction SilentlyContinue
+if ($wingetCmd) {
+    $wingetExe = $wingetCmd.Source
+} else {
+    # SYSTEM context: resolve from WindowsApps directly
+    $wingetPath = Resolve-Path "$env:ProgramFiles\WindowsApps\Microsoft.DesktopAppInstaller_*_x64__8wekyb3d8bbwe\winget.exe" -ErrorAction SilentlyContinue | Sort-Object | Select-Object -Last 1
+    if ($wingetPath) {
+        $wingetExe = $wingetPath.Path
+    }
+}
+# Then use: & $wingetExe install ...
+```
+
+**Violations to flag:**
+- `Get-Command winget` without WindowsApps fallback
+- Direct `winget install` calls without using resolved path variable
+- `$wingetAvailable = $null -ne (Get-Command winget ...)` without fallback
+
 ### Console Output (Two-Line ASCII Style)
 - Section headers use TWO lines:
   ```
