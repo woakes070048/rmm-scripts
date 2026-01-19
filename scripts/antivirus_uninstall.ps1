@@ -7,7 +7,7 @@ $ErrorActionPreference = 'Stop'
 ███████╗██║██║ ╚═╝ ██║███████╗██║  ██║██║  ██║╚███╔███╔╝██║  ██╗
 ╚══════╝╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚══╝╚══╝ ╚═╝  ╚═╝
 ================================================================================
- SCRIPT   : Antivirus Uninstall (Multi-Vendor)                           v1.2.4
+ SCRIPT   : Antivirus Uninstall (Multi-Vendor)                           v1.2.5
  AUTHOR   : Limehawk.io
  DATE     : January 2026
  USAGE    : .\antivirus_uninstall.ps1
@@ -134,6 +134,7 @@ Note: A system reboot is recommended for complete removal
 --------------------------------------------------------------------------------
  CHANGELOG
 --------------------------------------------------------------------------------
+ 2026-01-18 v1.2.5 Improved MCPR log display and added verbose McAfee detection
  2026-01-18 v1.2.4 Check and display recent MCPR logs after starting
  2026-01-18 v1.2.3 Run MCPR in background instead of waiting
  2026-01-18 v1.2.2 Increased MCPR timeout from 5 to 15 minutes
@@ -272,7 +273,11 @@ $regKeys = Get-ChildItem -Path "HKLM:\SOFTWARE" -ErrorAction SilentlyContinue | 
 $regKeys32 = Get-ChildItem -Path "HKLM:\SOFTWARE\WOW6432Node" -ErrorAction SilentlyContinue | Where-Object { $_.Name -match "McAfee" }
 if ($regKeys -or $regKeys32) {
     $mcAfeeRegistryFound = $true
-    Write-Host "  Registry keys    : Found"
+    $allRegKeys = @($regKeys) + @($regKeys32) | Where-Object { $_ }
+    Write-Host "  Registry keys    : Found ($($allRegKeys.Count) keys)"
+    foreach ($key in $allRegKeys) {
+        Write-Host "    - $($key.Name -replace 'HKEY_LOCAL_MACHINE', 'HKLM:')"
+    }
 } else {
     # Also check uninstall keys
     $uninstallKeys = Get-ChildItem -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall" -ErrorAction SilentlyContinue
@@ -280,6 +285,9 @@ if ($regKeys -or $regKeys32) {
     if ($mcAfeeUninstall) {
         $mcAfeeRegistryFound = $true
         Write-Host "  Registry keys    : Found (uninstall entries)"
+        foreach ($entry in @($mcAfeeUninstall)) {
+            Write-Host "    - $($entry.DisplayName)"
+        }
     } else {
         Write-Host "  Registry keys    : Not found"
     }
@@ -294,6 +302,9 @@ foreach ($svcName in $mcAfeeServices) {
 }
 if ($mcAfeeServicesFound.Count -gt 0) {
     Write-Host "  Services         : Found ($($mcAfeeServicesFound.Count) services)"
+    foreach ($svc in $mcAfeeServicesFound) {
+        Write-Host "    - $($svc.Name) ($($svc.Status))"
+    }
 } else {
     Write-Host "  Services         : Not found"
 }
@@ -306,6 +317,9 @@ foreach ($path in $mcAfeePaths) {
 }
 if ($mcAfeePathsFound.Count -gt 0) {
     Write-Host "  Install paths    : Found ($($mcAfeePathsFound.Count) locations)"
+    foreach ($path in $mcAfeePathsFound) {
+        Write-Host "    - $path"
+    }
 } else {
     Write-Host "  Install paths    : Not found"
 }
@@ -316,6 +330,9 @@ try {
     if ($pkgs) {
         $mcAfeePackages = @($pkgs)
         Write-Host "  Get-Package      : Found ($($mcAfeePackages.Count) packages)"
+        foreach ($pkg in $mcAfeePackages) {
+            Write-Host "    - $($pkg.Name) v$($pkg.Version)"
+        }
     } else {
         Write-Host "  Get-Package      : Not found"
     }
@@ -329,6 +346,9 @@ try {
     if ($wmiProducts) {
         $mcAfeeWmiProducts = @($wmiProducts)
         Write-Host "  WMI Products     : Found ($($mcAfeeWmiProducts.Count) products)"
+        foreach ($prod in $mcAfeeWmiProducts) {
+            Write-Host "    - $($prod.Name)"
+        }
     } else {
         Write-Host "  WMI Products     : Not found"
     }
@@ -468,21 +488,22 @@ if ($mcAfeeDetected) {
     foreach ($logPath in $mcprLogPaths) {
         if (Test-Path $logPath) {
             $logs = Get-ChildItem -Path $logPath -Filter "*.log" -ErrorAction SilentlyContinue |
-                    Where-Object { $_.LastWriteTime -gt (Get-Date).AddHours(-1) } |
                     Sort-Object LastWriteTime -Descending |
                     Select-Object -First 3
             if ($logs) {
                 $mcprLogFound = $true
                 Write-Host "  Recent logs in: $logPath"
                 foreach ($log in $logs) {
-                    Write-Host "    - $($log.Name) ($($log.LastWriteTime.ToString('HH:mm:ss')))"
+                    $sizeKB = [Math]::Round($log.Length / 1KB, 1)
+                    Write-Host "    - $($log.Name)"
+                    Write-Host "      Modified: $($log.LastWriteTime.ToString('yyyy-MM-dd HH:mm:ss')) | Size: $sizeKB KB"
                     # Try to get last few lines of log
                     try {
                         $lastLines = Get-Content -Path $log.FullName -Tail 5 -ErrorAction SilentlyContinue
                         if ($lastLines) {
                             foreach ($line in $lastLines) {
                                 if ($line.Trim()) {
-                                    Write-Host "      $($line.Trim().Substring(0, [Math]::Min(60, $line.Trim().Length)))"
+                                    Write-Host "      $($line.Trim().Substring(0, [Math]::Min(80, $line.Trim().Length)))"
                                 }
                             }
                         }
