@@ -356,8 +356,8 @@ echo "=============================================================="
 - On error: `[ERROR] ERROR OCCURRED` and `[ERROR] FINAL STATUS`
 
 **Within sections:** write clean, readable output
-- Inline status prefixes like `[RUN]`, `[OK]` are allowed for progress indicators
-- Example: "[RUN] Downloading file...", "[OK] Download complete"
+- Inline status prefixes `[INFO]`, `[RUN]`, `[OK]`, `[WARN]`, `[ERROR]` are allowed for progress
+- Example: "[RUN] Downloading file...", "[OK] Download complete", "[WARN] Retrying..."
 - Use KV format for data: `Label : Value` (one space each side of colon)
 - Natural language for actions: "Created directory", "Installed package"
 

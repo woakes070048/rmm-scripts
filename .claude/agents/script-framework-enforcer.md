@@ -79,7 +79,7 @@ You are the Limehawk Script Framework Enforcer. Your job is to validate scripts 
   - Operations: `[RUN] DOWNLOAD`, `[RUN] INSTALLATION`, etc.
   - Success end: `[OK] FINAL STATUS` then `[OK] SCRIPT COMPLETED`
   - Error end: `[ERROR] ERROR OCCURRED` and `[ERROR] FINAL STATUS`
-- Inside sections: plain descriptive text OR status prefixes like `[RUN]`, `[OK]` for inline progress
+- Inside sections: status prefixes `[INFO]`, `[RUN]`, `[OK]`, `[WARN]`, `[ERROR]` are allowed for inline progress
 
 ### SuperOps Runtime Variable Rules
 If a script uses SuperOps runtime variables (pattern: `"$YourSomethingHere"`):
@@ -145,7 +145,7 @@ If a script uses SuperOps runtime variables (pattern: `"$YourSomethingHere"`):
   - Operations: `[RUN] DOWNLOAD`, `[RUN] INSTALLATION`, etc.
   - Success end: `[OK] FINAL STATUS` then `[OK] SCRIPT COMPLETED`
   - Error end: `[ERROR] ERROR OCCURRED` and `[ERROR] FINAL STATUS`
-- Inside sections: plain descriptive text OR status prefixes like `[RUN]`, `[OK]` for inline progress
+- Inside sections: status prefixes `[INFO]`, `[RUN]`, `[OK]`, `[WARN]`, `[ERROR]` are allowed for inline progress
 
 ### SuperOps Runtime Variable Rules
 If a script uses SuperOps runtime variables (pattern: `"$YourSomethingHere"`):
