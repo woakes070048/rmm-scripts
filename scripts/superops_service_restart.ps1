@@ -7,7 +7,7 @@ $ErrorActionPreference = 'Stop'
 ███████╗██║██║ ╚═╝ ██║███████╗██║  ██║██║  ██║╚███╔███╔╝██║  ██╗
 ╚══════╝╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚══╝╚══╝ ╚═╝  ╚═╝
 ================================================================================
- SCRIPT   : Restart SuperOps Services                                    v2.0.0
+ SCRIPT   : Restart SuperOps Services                                    v2.0.1
  AUTHOR   : Limehawk.io
  DATE     : January 2026
  USAGE    : .\superops_service_restart.ps1
@@ -40,7 +40,7 @@ All inputs are hardcoded in the script body:
 SETTINGS
 
 - Fuzzy matching: Filter "limehawk" matches services like "LimehawkAgent"
-- RMM detection: Checks parent process tree for Limehawk/SuperOps processes
+- RMM detection: Checks parent process tree for superops.exe
 - Background restart: 2-second delay when running from RMM agent
 - Direct restart: Immediate synchronous restart when run manually
 
@@ -160,6 +160,7 @@ Service restart scheduled - will execute after script exits
 --------------------------------------------------------------------------------
  CHANGELOG
 --------------------------------------------------------------------------------
+ 2026-01-18 v2.0.1 Simplified RMM detection to match superops.exe
  2026-01-18 v2.0.0 Merged scripts, added RMM detection and runtime variable
  2026-01-14 v1.0.2 Fixed header formatting for framework compliance
  2025-12-23 v1.0.1 Updated to Limehawk Script Framework
@@ -198,7 +199,7 @@ function Test-RunningFromRMM {
     while ($currentPID -and $currentPID -ne 0) {
         $proc = Get-CimInstance Win32_Process -Filter "ProcessId = $currentPID" -ErrorAction SilentlyContinue
         if ($null -eq $proc) { break }
-        if ($proc.Name -match 'Limehawk|SuperOps') { return $true }
+        if ($proc.Name -match 'superops') { return $true }
         $currentPID = $proc.ParentProcessId
     }
     return $false
