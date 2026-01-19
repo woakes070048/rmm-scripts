@@ -129,6 +129,7 @@ EXAMPLE RUN
 --------------------------------------------------------------------------------
  CHANGELOG
 --------------------------------------------------------------------------------
+ 2026-01-19 v1.3.0 Updated to new box-style section headers with status indicators
  2026-01-18 v1.2.5 Improved MCPR log display and added verbose McAfee detection
  2026-01-18 v1.2.4 Check and display recent MCPR logs after starting
  2026-01-18 v1.2.3 Run MCPR in background instead of waiting
