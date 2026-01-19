@@ -733,9 +733,9 @@
       "scriptId": "259059054442831872",
       "filename": "antivirus_uninstall",
       "language": "PowerShell",
-      "checksum": "sha256:46615782f8acbc35",
+      "checksum": "sha256:fe9761724e3a3e8d",
       "metaChecksum": "meta:378201304b132487",
-      "lastModified": "2026-01-19T02:53:10.722743+00:00"
+      "lastModified": "2026-01-19T02:58:10.513246+00:00"
     },
     {
       "scriptId": "259059052882550784",
@@ -1106,5 +1106,5 @@
       "lastModified": "2026-01-19T01:01:51.492234+00:00"
     }
   ],
-  "lastSync": "2026-01-19T02:53:10.722768+00:00"
+  "lastSync": "2026-01-19T02:58:10.513271+00:00"
 }
