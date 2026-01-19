@@ -128,20 +128,20 @@ After Functions: Main script execution
 #
 #  EXAMPLE RUN
 #
-#    ┌─[i] INPUT VALIDATION ────────────────────────────────────────┐
+#    ╔═[i]═ INPUT VALIDATION ═══════════════════════════════════════
 #      All required inputs are valid
 #
-#    ┌─[>] OPERATION ───────────────────────────────────────────────┐
+#    ╔═[>]═ OPERATION ════════════════════════════════════════════════
 #      Step 1 complete
 #      Step 2 complete
 #
-#    ┌─[i] RESULT ──────────────────────────────────────────────────┐
+#    ╔═[i]═ RESULT ═══════════════════════════════════════════════════
 #      Status : Success
 #
-#    ┌─[✓] FINAL STATUS ────────────────────────────────────────────┐
+#    ╔═[✓]═ FINAL STATUS ═════════════════════════════════════════════
 #      Operation completed successfully
 #
-#    ┌─[✓] SCRIPT COMPLETED ────────────────────────────────────────┐
+#    ╔═[✓]═ SCRIPT COMPLETED ═════════════════════════════════════════
 #
 # --------------------------------------------------------------------------------
 #  CHANGELOG
@@ -316,7 +316,7 @@ fi
 
 if [[ "$ERROR_OCCURRED" = true ]]; then
     echo ""
-    echo "┌─[✗] ERROR OCCURRED ────────────────────────────────────────────┐"
+    echo "╔═[✗]═ ERROR OCCURRED ════════════════════════════════════════════"
     echo -e "$ERROR_TEXT"
     echo ""
     exit 1
@@ -327,10 +327,10 @@ fi
 
 ## Console Output
 
-**Section header format (Box Style with Status Indicators):**
+**Section header format (Corner Bracket Style with Status Indicators):**
 ```bash
 echo ""
-echo "┌─[i] SECTION NAME ────────────────────────────────────────────┐"
+echo "╔═[i]═ SECTION NAME ═══════════════════════════════════════════"
 ```
 
 **Status indicators:**
@@ -343,10 +343,10 @@ echo "┌─[i] SECTION NAME ─────────────────
 **Section names are DYNAMIC** - choose names that describe the operation
 
 **Common patterns:**
-- Always start with: `┌─[i] INPUT VALIDATION` or `┌─[i] SETUP`
-- Operation sections: `┌─[>] DOWNLOAD`, `┌─[>] INSTALLATION`, `┌─[>] CONFIGURATION`, etc.
-- On success end with: `┌─[✓] FINAL STATUS` and `┌─[✓] SCRIPT COMPLETED`
-- On error: `┌─[✗] ERROR OCCURRED` and `┌─[✗] FINAL STATUS`
+- Always start with: `╔═[i]═ INPUT VALIDATION` or `╔═[i]═ SETUP`
+- Operation sections: `╔═[>]═ DOWNLOAD`, `╔═[>]═ INSTALLATION`, `╔═[>]═ CONFIGURATION`, etc.
+- On success end with: `╔═[✓]═ FINAL STATUS` and `╔═[✓]═ SCRIPT COMPLETED`
+- On error: `╔═[✗]═ ERROR OCCURRED` and `╔═[✗]═ FINAL STATUS`
 
 **Within sections:** write clean, readable output
 - NO additional status prefixes inside sections
@@ -368,14 +368,13 @@ write_section() {
         error)     symbol="✗" ;;
         *)         symbol="i" ;;
     esac
-    local header="┌─[$symbol] $name "
+    local header="╔═[$symbol]═ $name "
     local total_len=62
     local current_len=${#header}
     local padding=$((total_len - current_len))
     if [[ $padding -gt 0 ]]; then
-        header+=$(printf '─%.0s' $(seq 1 $padding))
+        header+=$(printf '═%.0s' $(seq 1 $padding))
     fi
-    header+="┐"
     echo ""
     echo "$header"
 }
@@ -387,7 +386,7 @@ write_section() {
 
 - Use `set -e` to exit on errors (optional, can use explicit checks)
 - Wrap risky operations in if-statements or use `|| { error handling }`
-- On error, print `┌─[✗] ERROR OCCURRED` section with:
+- On error, print `╔═[✗]═ ERROR OCCURRED` section with:
   - What failed (clear description)
   - The actual error message
   - Context (what operation, what parameters)
@@ -398,7 +397,7 @@ write_section() {
 ```bash
 if ! command -v docker &> /dev/null; then
     echo ""
-    echo "┌─[✗] ERROR OCCURRED ────────────────────────────────────────────┐"
+    echo "╔═[✗]═ ERROR OCCURRED ════════════════════════════════════════════"
     echo "  Docker is not installed"
     echo "  Please install Docker before running this script"
     echo ""
@@ -465,13 +464,13 @@ run_task() {
 The number and names of console sections should match the script's actual operations:
 
 **Simple scripts** (1-2 operations):
-- `┌─[i] INPUT VALIDATION` → `┌─[>] OPERATION` → `┌─[i] RESULT` → `┌─[✓] FINAL STATUS` → `┌─[✓] SCRIPT COMPLETED`
+- `╔═[i]═ INPUT VALIDATION` → `╔═[>]═ OPERATION` → `╔═[i]═ RESULT` → `╔═[✓]═ FINAL STATUS` → `╔═[✓]═ SCRIPT COMPLETED`
 
 **Moderate scripts** (3-5 operations):
-- `┌─[i] INPUT VALIDATION` → `┌─[>] DOWNLOAD` → `┌─[>] EXTRACTION` → `┌─[i] RESULT` → `┌─[✓] FINAL STATUS` → `┌─[✓] SCRIPT COMPLETED`
+- `╔═[i]═ INPUT VALIDATION` → `╔═[>]═ DOWNLOAD` → `╔═[>]═ EXTRACTION` → `╔═[i]═ RESULT` → `╔═[✓]═ FINAL STATUS` → `╔═[✓]═ SCRIPT COMPLETED`
 
 **Complex scripts** (6+ operations):
-- `┌─[i] INPUT VALIDATION` → `┌─[>] DOWNLOAD` → `┌─[>] EXTRACTION` → `┌─[>] INSTALLATION` → `┌─[>] CONFIGURATION` → `┌─[>] TESTING` → `┌─[i] RESULT` → `┌─[✓] FINAL STATUS` → `┌─[✓] SCRIPT COMPLETED`
+- `╔═[i]═ INPUT VALIDATION` → `╔═[>]═ DOWNLOAD` → `╔═[>]═ EXTRACTION` → `╔═[>]═ INSTALLATION` → `╔═[>]═ CONFIGURATION` → `╔═[>]═ TESTING` → `╔═[i]═ RESULT` → `╔═[✓]═ FINAL STATUS` → `╔═[✓]═ SCRIPT COMPLETED`
 
 Choose section names that clearly describe what's happening. Be descriptive but concise.
 

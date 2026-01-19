@@ -7,7 +7,7 @@ $ErrorActionPreference = 'Stop'
 ███████╗██║██║ ╚═╝ ██║███████╗██║  ██║██║  ██║╚███╔███╔╝██║  ██╗
 ╚══════╝╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚══╝╚══╝ ╚═╝  ╚═╝
 ================================================================================
- SCRIPT   : Antivirus Uninstall (Multi-Vendor)                           v1.2.5
+ SCRIPT   : Antivirus Uninstall (Multi-Vendor)                           v1.3.0
  AUTHOR   : Limehawk.io
  DATE     : January 2026
  USAGE    : .\antivirus_uninstall.ps1
@@ -92,11 +92,11 @@ EXIT CODES
 --------------------------------------------------------------------------------
 EXAMPLE RUN
 
-┌─[i] SETUP ───────────────────────────────────────────────────┐
+╔═[i]═ SETUP ══════════════════════════════════════════════════
   Script started : 2026-01-18 20:30:15
   Administrator  : Yes
 
-┌─[i] MCAFEE DETECTION ────────────────────────────────────────┐
+╔═[i]═ MCAFEE DETECTION ═══════════════════════════════════════
   Checking for McAfee software...
     Registry keys    : Found (HKLM:\SOFTWARE\McAfee)
     Services         : Found (2 services)
@@ -105,7 +105,7 @@ EXAMPLE RUN
     WMI Products     : Found (3 products)
   McAfee detected    : Yes
 
-┌─[>] MCAFEE UNINSTALLATION ───────────────────────────────────┐
+╔═[>]═ MCAFEE UNINSTALLATION ══════════════════════════════════
   Stopping McAfee services...
     Stopped: mfemms
     Stopped: mfefire
@@ -116,7 +116,7 @@ EXAMPLE RUN
   Running MCPR tool...
   McAfee removal completed
 
-┌─[✓] FINAL STATUS ────────────────────────────────────────────┐
+╔═[✓]═ FINAL STATUS ═══════════════════════════════════════════
   McAfee detected                        : Yes
   McAfee removal attempted               : Yes
   Sophos detected                        : No
@@ -124,12 +124,12 @@ EXAMPLE RUN
 
   Note: A system reboot is recommended for complete removal
 
-┌─[✓] SCRIPT COMPLETED ────────────────────────────────────────┐
+╔═[✓]═ SCRIPT COMPLETED ═══════════════════════════════════════
 
 --------------------------------------------------------------------------------
  CHANGELOG
 --------------------------------------------------------------------------------
- 2026-01-19 v1.3.0 Updated to new box-style section headers with status indicators
+ 2026-01-19 v1.3.0 Updated to corner bracket style section headers
  2026-01-18 v1.2.5 Improved MCPR log display and added verbose McAfee detection
  2026-01-18 v1.2.4 Check and display recent MCPR logs after starting
  2026-01-18 v1.2.3 Run MCPR in background instead of waiting
@@ -225,21 +225,21 @@ $mcprPath = "$env:TEMP\MCPR.exe"
 # ==============================================================================
 
 Write-Host ""
-Write-Host "┌─[i] SETUP ───────────────────────────────────────────────────┐"
+Write-Host "╔═[i]═ SETUP ══════════════════════════════════════════════════"
 
 $isAdmin = ([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)
 
 if (-not $isAdmin) {
     Write-Host "Administrator  : No"
     Write-Host ""
-    Write-Host "┌─[✗] ERROR OCCURRED ──────────────────────────────────────────┐"
+    Write-Host "╔═[✗]═ ERROR OCCURRED ═════════════════════════════════════════"
     Write-Host "This script requires Administrator privileges"
     Write-Host ""
     Write-Host "Troubleshooting:"
     Write-Host "- Right-click PowerShell and select 'Run as Administrator'"
     Write-Host "- Or run from RMM platform with SYSTEM privileges"
     Write-Host ""
-    Write-Host "┌─[✗] SCRIPT COMPLETED ────────────────────────────────────────┐"
+    Write-Host "╔═[✗]═ SCRIPT COMPLETED ═══════════════════════════════════════"
     exit 1
 }
 
@@ -251,7 +251,7 @@ Write-Host "Administrator  : Yes"
 # ==============================================================================
 
 Write-Host ""
-Write-Host "┌─[i] MCAFEE DETECTION ────────────────────────────────────────┐"
+Write-Host "╔═[i]═ MCAFEE DETECTION ═══════════════════════════════════════"
 Write-Host "Checking for McAfee software..."
 
 $mcAfeeRegistryFound = $false
@@ -266,9 +266,11 @@ $regKeys32 = Get-ChildItem -Path "HKLM:\SOFTWARE\WOW6432Node" -ErrorAction Silen
 if ($regKeys -or $regKeys32) {
     $mcAfeeRegistryFound = $true
     $allRegKeys = @($regKeys) + @($regKeys32) | Where-Object { $_ }
-    Write-Host "  Registry keys    : Found ($($allRegKeys.Count) keys)"
+    $keyCount = $allRegKeys.Count
+    Write-Host "  Registry keys    : Found ($keyCount keys)"
     foreach ($key in $allRegKeys) {
-        Write-Host "    - $($key.Name -replace 'HKEY_LOCAL_MACHINE', 'HKLM:')"
+        $keyPath = $key.Name -replace 'HKEY_LOCAL_MACHINE', 'HKLM:'
+        Write-Host "    - $keyPath"
     }
 } else {
     # Also check uninstall keys
@@ -293,9 +295,12 @@ foreach ($svcName in $mcAfeeServices) {
     }
 }
 if ($mcAfeeServicesFound.Count -gt 0) {
-    Write-Host "  Services         : Found ($($mcAfeeServicesFound.Count) services)"
+    $svcCount = $mcAfeeServicesFound.Count
+    Write-Host "  Services         : Found ($svcCount services)"
     foreach ($svc in $mcAfeeServicesFound) {
-        Write-Host "    - $($svc.Name) ($($svc.Status))"
+        $svcName = $svc.Name
+        $svcStatus = $svc.Status
+        Write-Host "    - $svcName ($svcStatus)"
     }
 } else {
     Write-Host "  Services         : Not found"
@@ -308,9 +313,10 @@ foreach ($path in $mcAfeePaths) {
     }
 }
 if ($mcAfeePathsFound.Count -gt 0) {
-    Write-Host "  Install paths    : Found ($($mcAfeePathsFound.Count) locations)"
-    foreach ($path in $mcAfeePathsFound) {
-        Write-Host "    - $path"
+    $pathCount = $mcAfeePathsFound.Count
+    Write-Host "  Install paths    : Found ($pathCount locations)"
+    foreach ($p in $mcAfeePathsFound) {
+        Write-Host "    - $p"
     }
 } else {
     Write-Host "  Install paths    : Not found"
@@ -321,9 +327,12 @@ try {
     $pkgs = Get-Package -Name "*McAfee*" -ErrorAction SilentlyContinue
     if ($pkgs) {
         $mcAfeePackages = @($pkgs)
-        Write-Host "  Get-Package      : Found ($($mcAfeePackages.Count) packages)"
+        $pkgCount = $mcAfeePackages.Count
+        Write-Host "  Get-Package      : Found ($pkgCount packages)"
         foreach ($pkg in $mcAfeePackages) {
-            Write-Host "    - $($pkg.Name) v$($pkg.Version)"
+            $pkgName = $pkg.Name
+            $pkgVer = $pkg.Version
+            Write-Host "    - $pkgName v$pkgVer"
         }
     } else {
         Write-Host "  Get-Package      : Not found"
@@ -337,9 +346,11 @@ try {
     $wmiProducts = Get-CimInstance -ClassName Win32_Product -ErrorAction SilentlyContinue | Where-Object { $_.Name -match "McAfee" }
     if ($wmiProducts) {
         $mcAfeeWmiProducts = @($wmiProducts)
-        Write-Host "  WMI Products     : Found ($($mcAfeeWmiProducts.Count) products)"
+        $wmiCount = $mcAfeeWmiProducts.Count
+        Write-Host "  WMI Products     : Found ($wmiCount products)"
         foreach ($prod in $mcAfeeWmiProducts) {
-            Write-Host "    - $($prod.Name)"
+            $prodName = $prod.Name
+            Write-Host "    - $prodName"
         }
     } else {
         Write-Host "  WMI Products     : Not found"
@@ -362,7 +373,7 @@ if ($mcAfeeRegistryFound -or $mcAfeeServicesFound.Count -gt 0 -or $mcAfeePathsFo
 
 if ($mcAfeeDetected) {
     Write-Host ""
-    Write-Host "┌─[>] MCAFEE UNINSTALLATION ───────────────────────────────────┐"
+    Write-Host "╔═[>]═ MCAFEE UNINSTALLATION ══════════════════════════════════"
     $mcAfeeRemovalAttempted = $true
 
     # Step 1: Stop services
@@ -516,7 +527,7 @@ if ($mcAfeeDetected) {
 # ==============================================================================
 
 Write-Host ""
-Write-Host "┌─[i] SOPHOS DETECTION ────────────────────────────────────────┐"
+Write-Host "╔═[i]═ SOPHOS DETECTION ═══════════════════════════════════════"
 Write-Host "Checking for Sophos software..."
 
 $sophosPackages = @()
@@ -526,7 +537,8 @@ try {
     if ($allSophos) {
         $sophosPackages = @($allSophos)
         $sophosDetected = $true
-        Write-Host "Sophos packages    : Found ($($sophosPackages.Count) packages)"
+        $sophosCount = $sophosPackages.Count
+        Write-Host "Sophos packages    : Found ($sophosCount packages)"
     } else {
         Write-Host "Sophos packages    : Not found"
     }
@@ -544,7 +556,8 @@ foreach ($svcName in $sophosServices) {
     }
 }
 if ($sophosServicesFound.Count -gt 0) {
-    Write-Host "Sophos services    : Found ($($sophosServicesFound.Count) services)"
+    $sophosSvcCount = $sophosServicesFound.Count
+    Write-Host "Sophos services    : Found ($sophosSvcCount services)"
 } else {
     Write-Host "Sophos services    : Not found"
 }
@@ -557,7 +570,7 @@ Write-Host "Sophos detected    : $(if ($sophosDetected) { 'Yes' } else { 'No' })
 
 if ($sophosDetected) {
     Write-Host ""
-    Write-Host "┌─[>] SOPHOS UNINSTALLATION ───────────────────────────────────┐"
+    Write-Host "╔═[>]═ SOPHOS UNINSTALLATION ══════════════════════════════════"
     $sophosRemovalAttempted = $true
 
     # Stop Sophos services first
@@ -597,7 +610,7 @@ if ($sophosDetected) {
 # ==============================================================================
 
 Write-Host ""
-Write-Host "┌─[i] MICROSOFT SECURITY ESSENTIALS DETECTION ─────────────────┐"
+Write-Host "╔═[i]═ MICROSOFT SECURITY ESSENTIALS DETECTION ════════════════"
 Write-Host "Checking for Microsoft Security Essentials..."
 
 $mseDetected = Test-Path -Path $mseSetupPath
@@ -615,7 +628,7 @@ Write-Host "MSE detected       : $(if ($mseDetected) { 'Yes' } else { 'No' })"
 
 if ($mseDetected) {
     Write-Host ""
-    Write-Host "┌─[>] MICROSOFT SECURITY ESSENTIALS UNINSTALLATION ────────────┐"
+    Write-Host "╔═[>]═ MICROSOFT SECURITY ESSENTIALS UNINSTALLATION ═══════════"
     $mseRemovalAttempted = $true
 
     try {
@@ -634,7 +647,7 @@ if ($mseDetected) {
 # ==============================================================================
 
 Write-Host ""
-Write-Host "┌─[✓] FINAL STATUS ────────────────────────────────────────────┐"
+Write-Host "╔═[✓]═ FINAL STATUS ═══════════════════════════════════════════"
 
 Write-Host "McAfee detected                        : $(if ($mcAfeeDetected) { 'Yes' } else { 'No' })"
 if ($mcAfeeDetected) {
@@ -661,6 +674,6 @@ if ($mcAfeeDetected -or $sophosDetected -or $mseDetected) {
 # ==============================================================================
 
 Write-Host ""
-Write-Host "┌─[✓] SCRIPT COMPLETED ────────────────────────────────────────┐"
+Write-Host "╔═[✓]═ SCRIPT COMPLETED ═══════════════════════════════════════"
 
 exit 0

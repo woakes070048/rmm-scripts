@@ -131,20 +131,20 @@ $ErrorActionPreference = 'Stop'
 
  EXAMPLE RUN
 
-   ┌─[i] INPUT VALIDATION ────────────────────────────────────────┐
+   ╔═[i]═ INPUT VALIDATION ═══════════════════════════════════════
      All required inputs are valid
 
-   ┌─[>] OPERATION ───────────────────────────────────────────────┐
+   ╔═[>]═ OPERATION ════════════════════════════════════════════════
      Step 1 complete
      Step 2 complete
 
-   ┌─[i] RESULT ──────────────────────────────────────────────────┐
+   ╔═[i]═ RESULT ═══════════════════════════════════════════════════
      Status : Success
 
-   ┌─[✓] FINAL STATUS ────────────────────────────────────────────┐
+   ╔═[✓]═ FINAL STATUS ═════════════════════════════════════════════
      Operation completed successfully
 
-   ┌─[✓] SCRIPT COMPLETED ────────────────────────────────────────┐
+   ╔═[✓]═ SCRIPT COMPLETED ═════════════════════════════════════════
 
 --------------------------------------------------------------------------------
  CHANGELOG
@@ -302,7 +302,7 @@ The error message should:
 - Use scalar variables only: `$errorOccurred = $false` and `$errorText = ""`
 - NO arrays or lists for error tracking
 - Build error messages with newline concatenation
-- If INPUT validation fails, print `┌─[✗] ERROR OCCURRED` section and exit 1
+- If INPUT validation fails, print `╔═[✗]═ ERROR OCCURRED` section and exit 1
 - DO NOT pre-validate operations (file existence, module availability, network connectivity)
 - Let `$ErrorActionPreference = 'Stop'` catch operational failures naturally
 
@@ -331,10 +331,10 @@ if (-not (Get-Module $moduleName)) { ... }
 
 ## Console Output
 
-**Section header format (Box Style with Status Indicators):**
+**Section header format (Corner Bracket Style with Status Indicators):**
 ```powershell
 Write-Host ""
-Write-Host "┌─[i] SECTION NAME ────────────────────────────────────────────┐"
+Write-Host "╔═[i]═ SECTION NAME ═══════════════════════════════════════════"
 ```
 
 **Status indicators:**
@@ -347,10 +347,10 @@ Write-Host "┌─[i] SECTION NAME ───────────────
 **Section names are DYNAMIC** - choose names that describe the operation
 
 **Common patterns:**
-- Always start with: `┌─[i] INPUT VALIDATION` or `┌─[i] SETUP`
-- Operation sections: `┌─[>] DOWNLOAD`, `┌─[>] INSTALLATION`, `┌─[>] CONFIGURATION`, etc.
-- On success end with: `┌─[✓] FINAL STATUS` and `┌─[✓] SCRIPT COMPLETED`
-- On error: `┌─[✗] ERROR OCCURRED` and `┌─[✗] FINAL STATUS`
+- Always start with: `╔═[i]═ INPUT VALIDATION` or `╔═[i]═ SETUP`
+- Operation sections: `╔═[>]═ DOWNLOAD`, `╔═[>]═ INSTALLATION`, `╔═[>]═ CONFIGURATION`, etc.
+- On success end with: `╔═[✓]═ FINAL STATUS` and `╔═[✓]═ SCRIPT COMPLETED`
+- On error: `╔═[✗]═ ERROR OCCURRED` and `╔═[✗]═ FINAL STATUS`
 
 **Within sections:** write clean, readable output
 - NO additional status prefixes inside sections
@@ -364,10 +364,9 @@ function Write-Section {
     param([string]$Type, [string]$Name)
     $indicators = @{ 'i'='i'; 'action'='>'; 'success'='✓'; 'warn'='!'; 'error'='✗' }
     $symbol = $indicators[$Type]
-    $header = "┌─[$symbol] $Name "
+    $header = "╔═[$symbol]═ $Name "
     $padding = 62 - $header.Length
-    if ($padding -gt 0) { $header += "─" * $padding }
-    $header += "┐"
+    if ($padding -gt 0) { $header += "═" * $padding }
     Write-Host ""
     Write-Host $header
 }
@@ -434,13 +433,13 @@ Provide sensible defaults for optional fields (0 for numbers, 'Unknown' for stri
 The number and names of console sections should match the script's actual operations:
 
 **Simple scripts** (1-2 operations):
-- `┌─[i] INPUT VALIDATION` → `┌─[>] OPERATION` → `┌─[i] RESULT` → `┌─[✓] FINAL STATUS` → `┌─[✓] SCRIPT COMPLETED`
+- `╔═[i]═ INPUT VALIDATION` → `╔═[>]═ OPERATION` → `╔═[i]═ RESULT` → `╔═[✓]═ FINAL STATUS` → `╔═[✓]═ SCRIPT COMPLETED`
 
 **Moderate scripts** (3-5 operations):
-- `┌─[i] INPUT VALIDATION` → `┌─[>] DOWNLOAD` → `┌─[>] EXTRACTION` → `┌─[i] RESULT` → `┌─[✓] FINAL STATUS` → `┌─[✓] SCRIPT COMPLETED`
+- `╔═[i]═ INPUT VALIDATION` → `╔═[>]═ DOWNLOAD` → `╔═[>]═ EXTRACTION` → `╔═[i]═ RESULT` → `╔═[✓]═ FINAL STATUS` → `╔═[✓]═ SCRIPT COMPLETED`
 
 **Complex scripts** (6+ operations):
-- `┌─[i] INPUT VALIDATION` → `┌─[>] DOWNLOAD` → `┌─[>] EXTRACTION` → `┌─[>] INSTALLATION` → `┌─[>] CONFIGURATION` → `┌─[>] TESTING` → `┌─[i] RESULT` → `┌─[✓] FINAL STATUS` → `┌─[✓] SCRIPT COMPLETED`
+- `╔═[i]═ INPUT VALIDATION` → `╔═[>]═ DOWNLOAD` → `╔═[>]═ EXTRACTION` → `╔═[>]═ INSTALLATION` → `╔═[>]═ CONFIGURATION` → `╔═[>]═ TESTING` → `╔═[i]═ RESULT` → `╔═[✓]═ FINAL STATUS` → `╔═[✓]═ SCRIPT COMPLETED`
 
 Choose section names that clearly describe what's happening. Be descriptive but concise.
 
