@@ -7,7 +7,7 @@ $ErrorActionPreference = 'Stop'
 ███████╗██║██║ ╚═╝ ██║███████╗██║  ██║██║  ██║╚███╔███╔╝██║  ██╗
 ╚══════╝╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚══╝╚══╝ ╚═╝  ╚═╝
 ================================================================================
- SCRIPT   : Antivirus Uninstall (Multi-Vendor)                           v1.2.3
+ SCRIPT   : Antivirus Uninstall (Multi-Vendor)                           v1.2.4
  AUTHOR   : Limehawk.io
  DATE     : January 2026
  USAGE    : .\antivirus_uninstall.ps1
@@ -134,6 +134,7 @@ Note: A system reboot is recommended for complete removal
 --------------------------------------------------------------------------------
  CHANGELOG
 --------------------------------------------------------------------------------
+ 2026-01-18 v1.2.4 Check and display recent MCPR logs after starting
  2026-01-18 v1.2.3 Run MCPR in background instead of waiting
  2026-01-18 v1.2.2 Increased MCPR timeout from 5 to 15 minutes
  2026-01-18 v1.2.1 Added timeouts and error handling for WMI/MCPR operations
@@ -452,6 +453,46 @@ if ($mcAfeeDetected) {
         Write-Host "  1. Download MCPR from mcafee.com"
         Write-Host "  2. Run it manually"
         Write-Host "  3. Reboot and verify removal"
+    }
+
+    # Check for recent MCPR logs
+    Write-Host ""
+    Write-Host "Checking for MCPR logs..."
+    $mcprLogPaths = @(
+        "$env:ProgramData\McAfee\MCPR",
+        "$env:TEMP\McAfeeLogs",
+        "$env:TEMP",
+        "C:\ProgramData\McAfee\MCPR"
+    )
+    $mcprLogFound = $false
+    foreach ($logPath in $mcprLogPaths) {
+        if (Test-Path $logPath) {
+            $logs = Get-ChildItem -Path $logPath -Filter "*.log" -ErrorAction SilentlyContinue |
+                    Where-Object { $_.LastWriteTime -gt (Get-Date).AddHours(-1) } |
+                    Sort-Object LastWriteTime -Descending |
+                    Select-Object -First 3
+            if ($logs) {
+                $mcprLogFound = $true
+                Write-Host "  Recent logs in: $logPath"
+                foreach ($log in $logs) {
+                    Write-Host "    - $($log.Name) ($($log.LastWriteTime.ToString('HH:mm:ss')))"
+                    # Try to get last few lines of log
+                    try {
+                        $lastLines = Get-Content -Path $log.FullName -Tail 5 -ErrorAction SilentlyContinue
+                        if ($lastLines) {
+                            foreach ($line in $lastLines) {
+                                if ($line.Trim()) {
+                                    Write-Host "      $($line.Trim().Substring(0, [Math]::Min(60, $line.Trim().Length)))"
+                                }
+                            }
+                        }
+                    } catch { }
+                }
+            }
+        }
+    }
+    if (-not $mcprLogFound) {
+        Write-Host "  No recent MCPR logs found (may appear after MCPR completes)"
     }
 
     Write-Host ""
