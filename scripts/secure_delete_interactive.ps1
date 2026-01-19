@@ -7,7 +7,7 @@ $ErrorActionPreference = 'Stop'
 ███████╗██║██║ ╚═╝ ██║███████╗██║  ██║██║  ██║╚███╔███╔╝██║  ██╗
 ╚══════╝╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚══╝╚══╝ ╚═╝  ╚═╝
 ================================================================================
- SCRIPT   : Secure Delete Interactive                                    v1.0.0
+ SCRIPT   : Secure Delete Interactive                                    v1.0.1
  AUTHOR   : Limehawk.io
  DATE     : January 2026
  USAGE    : .\secure_delete_interactive.ps1
@@ -138,6 +138,7 @@ EXAMPLE RUN:
 --------------------------------------------------------------------------------
  CHANGELOG
 --------------------------------------------------------------------------------
+ 2026-01-19 v1.0.1 Fix garbled winget progress bar output with --disable-interactivity
  2026-01-19 v1.0.0 Initial release - interactive version of secure delete script
 ================================================================================
 #>
@@ -1233,8 +1234,8 @@ if (-not $sdeleteAvailable) {
         }
 
         try {
-            $installResult = & $wingetExe install Microsoft.Sysinternals.SDelete --accept-source-agreements --accept-package-agreements 2>&1
-            Write-Host $installResult
+            # Use --disable-interactivity to prevent garbled progress bar output
+            & $wingetExe install Microsoft.Sysinternals.SDelete --accept-source-agreements --accept-package-agreements --disable-interactivity
 
             # Refresh PATH and verify installation
             $env:Path = [System.Environment]::GetEnvironmentVariable('Path', 'Machine') + ';' + [System.Environment]::GetEnvironmentVariable('Path', 'User')
