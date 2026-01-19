@@ -6,7 +6,6 @@ docs/superops_scripts.json
 
 # Local config files
 .mcp.json
-.claude/
 
 # Environment files
 .env
