@@ -7,7 +7,7 @@ $ErrorActionPreference = 'Stop'
 ███████╗██║██║ ╚═╝ ██║███████╗██║  ██║██║  ██║╚███╔███╔╝██║  ██╗
 ╚══════╝╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚══╝╚══╝ ╚═╝  ╚═╝
 ================================================================================
- SCRIPT   : Secure Delete with Certificate                               v1.0.3
+ SCRIPT   : Secure Delete with Certificate                               v1.0.4
  AUTHOR   : Limehawk.io
  DATE     : January 2026
  USAGE    : .\secure_delete_with_certificate.ps1
@@ -29,20 +29,20 @@ DATA SOURCES & PRIORITY:
     2. System information from WMI/CIM
     3. SDelete output capture
 
-REQUIRED INPUTS:
-    $targetPath       - File or folder path to securely delete
-    $outputDirectory  - Where to save the certificate (default: Desktop)
-    $overwritePasses  - Number of overwrite passes (default: 3)
-    $operatorName     - Name of person executing the deletion
-    $caseReference    - Legal case reference number (optional)
-    $witnessName      - Name of witness if present (optional)
-    $notes            - Additional notes for the certificate (optional)
+REQUIRED INPUTS (SuperOps Runtime Variables):
+    $YourTargetPathHere       - File or folder path to securely delete
+    $YourOutputDirectoryHere  - Where to save the certificate (default: Desktop)
+    $YourOverwritePassesHere  - Number of overwrite passes (default: 3)
+    $YourOperatorNameHere     - Name of person executing the deletion
+    $YourCaseReferenceHere    - Legal case reference number (optional)
+    $YourWitnessNameHere      - Name of witness if present (optional)
+    $YourNotesHere            - Additional notes for the certificate (optional)
 
-SETTINGS:
-    $dryRun           - Test mode: performs all steps except actual deletion ($true/$false)
-    $recursive        - Process subfolders if target is directory ($true/$false)
-    $generateHtml     - Generate HTML certificate in addition to text ($true/$false)
-    $autoInstallSDelete - Auto-install SDelete via winget if not found ($true/$false)
+SETTINGS (SuperOps Runtime Variables):
+    $YourDryRunHere           - Test mode: true/false (default: true)
+    $YourRecursiveHere        - Process subfolders if target is directory: true/false
+    $YourGenerateHtmlHere     - Generate HTML certificate in addition to text: true/false
+    $YourAutoInstallSDeleteHere - Auto-install SDelete via winget if not found: true/false
 
 BEHAVIOR:
     1. Validates target path exists and SDelete is available
@@ -182,6 +182,7 @@ EXAMPLE RUN (DRY RUN MODE):
 --------------------------------------------------------------------------------
  CHANGELOG
 --------------------------------------------------------------------------------
+ 2026-01-19 v1.0.4 Fixed runtime variable documentation in README and code comments
  2026-01-19 v1.0.3 Added SuperOps runtime variables and placeholder validation
  2026-01-19 v1.0.2 Updated to two-line ASCII console output style
  2025-12-23 v1.0.1 Updated to Limehawk Script Framework
@@ -196,16 +197,37 @@ Set-StrictMode -Version Latest
 # These placeholders are replaced by SuperOps at runtime.
 # Use double quotes - single quotes prevent replacement.
 
-$targetPath       = "$YourTargetPathHere"
-$outputDirectory  = "$YourOutputDirectoryHere"
-$overwritePasses  = "$YourOverwritePassesHere"
-$operatorName     = "$YourOperatorNameHere"
-$caseReference    = "$YourCaseReferenceHere"
-$witnessName      = "$YourWitnessNameHere"
-$notes            = "$YourNotesHere"
-$dryRun           = "$YourDryRunHere"
-$recursive        = "$YourRecursiveHere"
-$generateHtml     = "$YourGenerateHtmlHere"
+# Required: File or folder path to securely delete (e.g., C:\Sensitive\Data)
+$targetPath = "$YourTargetPathHere"
+
+# Optional: Where to save the certificate (leave empty for Desktop)
+$outputDirectory = "$YourOutputDirectoryHere"
+
+# Optional: Number of overwrite passes, 1-35 (default: 3, DoD standard)
+$overwritePasses = "$YourOverwritePassesHere"
+
+# Required: Name of person executing the deletion (for legal documentation)
+$operatorName = "$YourOperatorNameHere"
+
+# Optional: Legal case reference number (e.g., CASE-2025-001)
+$caseReference = "$YourCaseReferenceHere"
+
+# Optional: Name of witness if present for legal proceedings
+$witnessName = "$YourWitnessNameHere"
+
+# Optional: Additional notes for the certificate
+$notes = "$YourNotesHere"
+
+# Setting: Test mode - performs all steps except actual deletion (true/false, default: true)
+$dryRun = "$YourDryRunHere"
+
+# Setting: Process subfolders if target is a directory (true/false)
+$recursive = "$YourRecursiveHere"
+
+# Setting: Generate HTML certificate in addition to plain text (true/false)
+$generateHtml = "$YourGenerateHtmlHere"
+
+# Setting: Auto-install SDelete via winget if not found (true/false)
 $autoInstallSDelete = "$YourAutoInstallSDeleteHere"
 
 # ==============================================================================
@@ -999,7 +1021,7 @@ function New-HtmlCertificate {
         <div class="footer">
             <strong>END OF CERTIFICATE$(if ($dryRun) { ' (DRY RUN PREVIEW)' })</strong><br>
             Session ID: $($SystemInfo['SessionId'])<br>
-            Generated by Limehawk Secure Deletion Script v1.0.3
+            Generated by Limehawk Secure Deletion Script v1.0.4
         </div>
     </div>
 </body>
