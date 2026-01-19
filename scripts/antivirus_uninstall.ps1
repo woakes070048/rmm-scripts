@@ -7,7 +7,7 @@ $ErrorActionPreference = 'Stop'
 ███████╗██║██║ ╚═╝ ██║███████╗██║  ██║██║  ██║╚███╔███╔╝██║  ██╗
 ╚══════╝╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚══╝╚══╝ ╚═╝  ╚═╝
 ================================================================================
- SCRIPT   : Antivirus Uninstall (Multi-Vendor)                           v1.2.0
+ SCRIPT   : Antivirus Uninstall (Multi-Vendor)                           v1.2.1
  AUTHOR   : Limehawk.io
  DATE     : January 2026
  USAGE    : .\antivirus_uninstall.ps1
@@ -134,6 +134,7 @@ Note: A system reboot is recommended for complete removal
 --------------------------------------------------------------------------------
  CHANGELOG
 --------------------------------------------------------------------------------
+ 2026-01-18 v1.2.1 Added timeouts and error handling for WMI/MCPR operations
  2026-01-18 v1.2.0 Rewrote McAfee detection with registry/services/paths/WMI
  2025-12-23 v1.1.0 Updated to Limehawk Script Framework
  2025-11-02 v1.0.0 Initial migration from SuperOps
@@ -368,46 +369,107 @@ if ($mcAfeeDetected) {
         Write-Host "Uninstalling via Get-Package..."
         foreach ($pkg in $mcAfeePackages) {
             try {
-                Write-Host "  Uninstalling: $($pkg.Name)"
-                $pkg | Uninstall-Package -AllVersions -Force -ErrorAction SilentlyContinue
+                Write-Host "  Uninstalling: $($pkg.Name)..."
+                $pkg | Uninstall-Package -AllVersions -Force -ErrorAction Stop
+                Write-Host "    Success"
             } catch {
-                Write-Host "  Failed: $($pkg.Name)"
+                Write-Host "    Failed: $($_.Exception.Message)"
             }
         }
     }
 
-    # Step 3: Uninstall via WMI
+    # Step 3: Uninstall via WMI (with timeout)
     if ($mcAfeeWmiProducts.Count -gt 0) {
         Write-Host "Uninstalling via WMI..."
         foreach ($product in $mcAfeeWmiProducts) {
             try {
-                Write-Host "  Uninstalling: $($product.Name)"
-                $product | Invoke-CimMethod -MethodName Uninstall -ErrorAction SilentlyContinue | Out-Null
+                Write-Host "  Uninstalling: $($product.Name)..."
+                $job = Start-Job -ScriptBlock {
+                    param($prodId)
+                    $p = Get-CimInstance -ClassName Win32_Product | Where-Object { $_.IdentifyingNumber -eq $prodId }
+                    if ($p) { $p | Invoke-CimMethod -MethodName Uninstall }
+                } -ArgumentList $product.IdentifyingNumber
+
+                $completed = Wait-Job -Job $job -Timeout 120
+                if ($completed) {
+                    Remove-Job -Job $job -Force
+                    Write-Host "    Success"
+                } else {
+                    Stop-Job -Job $job
+                    Remove-Job -Job $job -Force
+                    Write-Host "    Timeout (120s) - skipping"
+                }
             } catch {
-                Write-Host "  Failed: $($product.Name)"
+                Write-Host "    Failed: $($_.Exception.Message)"
             }
         }
     }
 
-    # Step 4: Download and run MCPR tool
+    # Step 4: Download and run MCPR tool (with timeout)
     Write-Host "Downloading MCPR (McAfee Consumer Product Removal) tool..."
+    $mcprSuccess = $false
     try {
         [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
-        Invoke-WebRequest -Uri $mcprUrl -OutFile $mcprPath -UseBasicParsing -ErrorAction Stop
+
+        # Download with timeout
+        $downloadJob = Start-Job -ScriptBlock {
+            param($url, $path)
+            Invoke-WebRequest -Uri $url -OutFile $path -UseBasicParsing
+        } -ArgumentList $mcprUrl, $mcprPath
+
+        $downloadCompleted = Wait-Job -Job $downloadJob -Timeout 60
+        if (-not $downloadCompleted) {
+            Stop-Job -Job $downloadJob
+            Remove-Job -Job $downloadJob -Force
+            throw "Download timeout (60s)"
+        }
+
+        $downloadResult = Receive-Job -Job $downloadJob -ErrorAction Stop
+        Remove-Job -Job $downloadJob -Force
+
+        if (-not (Test-Path $mcprPath)) {
+            throw "Download failed - file not found"
+        }
+
         Write-Host "  Downloaded to: $mcprPath"
+        Write-Host "Running MCPR tool (silent mode, 5 min timeout)..."
 
-        Write-Host "Running MCPR tool (silent mode)..."
-        $mcprProcess = Start-Process -FilePath $mcprPath -ArgumentList "/silent" -Wait -PassThru -ErrorAction Stop
-        Write-Host "  MCPR exit code: $($mcprProcess.ExitCode)"
+        # Run MCPR with timeout (5 minutes max)
+        $mcprProcess = Start-Process -FilePath $mcprPath -ArgumentList "/silent" -PassThru -ErrorAction Stop
+        $mcprExited = $mcprProcess.WaitForExit(300000)  # 5 minutes in milliseconds
 
-        # Cleanup
-        Remove-Item -Path $mcprPath -Force -ErrorAction SilentlyContinue
+        if ($mcprExited) {
+            Write-Host "  MCPR exit code: $($mcprProcess.ExitCode)"
+            $mcprSuccess = $true
+        } else {
+            Write-Host "  MCPR timeout (5 min) - killing process"
+            try {
+                $mcprProcess.Kill()
+                $mcprProcess.WaitForExit(5000)
+            } catch {
+                Write-Host "  Warning: Could not kill MCPR process"
+            }
+        }
     } catch {
-        Write-Host "  MCPR download/run failed: $($_.Exception.Message)"
-        Write-Host "  Note: Manual MCPR run may be required"
+        Write-Host "  MCPR failed: $($_.Exception.Message)"
+    } finally {
+        # Cleanup MCPR file
+        if (Test-Path $mcprPath) {
+            Remove-Item -Path $mcprPath -Force -ErrorAction SilentlyContinue
+        }
     }
 
-    Write-Host "McAfee removal completed"
+    if (-not $mcprSuccess) {
+        Write-Host ""
+        Write-Host "  Note: MCPR did not complete successfully."
+        Write-Host "  Manual steps may be required:"
+        Write-Host "  1. Download MCPR from mcafee.com"
+        Write-Host "  2. Run it manually with user interaction"
+        Write-Host "  3. Reboot and verify removal"
+    }
+
+    Write-Host ""
+    Write-Host "McAfee removal attempted"
 }
 
 # ==============================================================================
