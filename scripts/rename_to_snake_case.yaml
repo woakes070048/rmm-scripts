@@ -3,7 +3,9 @@ description: Renames files in a directory to snake_case format
 language: PowerShell
 runAs: SYSTEM_USER
 timeout: 15
-tags: []
+tags:
+- limehawk
+- windows
 shared: true
 favourite: false
 readme: ''

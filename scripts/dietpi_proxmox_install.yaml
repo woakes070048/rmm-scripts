@@ -3,7 +3,11 @@ description: ''
 language: Bash
 runAs: SYSTEM_USER
 timeout: 15
-tags: []
+tags:
+- install
+- limehawk
+- server
+- windows
 shared: false
 favourite: false
 readme: ''

@@ -3,7 +3,10 @@ description: ''
 language: Bash
 runAs: SYSTEM_USER
 timeout: 15
-tags: []
+tags:
+- limehawk
+- macos
+- power
 shared: false
 favourite: false
 readme: ''

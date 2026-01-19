@@ -4,7 +4,9 @@ description: Runs Microsoft Malicious Software Removal Tool with configurable sc
 language: PowerShell
 runAs: SYSTEM_USER
 timeout: 60
-tags: []
+tags:
+- limehawk
+- windows
 shared: true
 favourite: false
 readme: ''

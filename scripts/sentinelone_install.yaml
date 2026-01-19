@@ -3,7 +3,11 @@ description: Silently installs SentinelOne endpoint agent with site token
 language: PowerShell
 runAs: SYSTEM_USER
 timeout: 15
-tags: []
+tags:
+- install
+- limehawk
+- sentinelone
+- windows
 shared: false
 favourite: false
 readme: ''

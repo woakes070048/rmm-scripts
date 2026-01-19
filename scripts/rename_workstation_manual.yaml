@@ -3,7 +3,10 @@ description: Rename a Windows device with manual client override and sync to Sup
 language: PowerShell
 runAs: SYSTEM_USER
 timeout: 15
-tags: []
+tags:
+- limehawk
+- rename
+- windows
 shared: true
 favourite: false
 readme: ''

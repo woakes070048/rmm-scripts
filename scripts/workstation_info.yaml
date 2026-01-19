@@ -3,7 +3,10 @@ description: ''
 language: VBScript
 runAs: SYSTEM_USER
 timeout: 15
-tags: []
+tags:
+- inventory
+- limehawk
+- windows
 shared: false
 favourite: false
 readme: ''

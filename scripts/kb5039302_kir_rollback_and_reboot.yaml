@@ -3,7 +3,10 @@ description: ''
 language: Bat
 runAs: SYSTEM_USER
 timeout: 15
-tags: []
+tags:
+- limehawk
+- power
+- windows
 shared: true
 favourite: false
 readme: ''

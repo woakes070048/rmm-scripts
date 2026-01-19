@@ -3,7 +3,11 @@ description: ''
 language: PowerShell
 runAs: SYSTEM_USER
 timeout: 15
-tags: []
+tags:
+- limehawk
+- splashtop
+- uninstall
+- windows
 shared: false
 favourite: false
 readme: ''
