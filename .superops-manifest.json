@@ -205,9 +205,9 @@
       "scriptId": "259059215009177600",
       "filename": "superops_service_restart",
       "language": "PowerShell",
-      "checksum": "sha256:4cd2e770f3bf024b",
+      "checksum": "sha256:1e9acce7e06622ca",
       "metaChecksum": "meta:34f9b905c1756e94",
-      "lastModified": "2026-01-19T04:20:16.160167+00:00"
+      "lastModified": "2026-01-19T04:23:48.018014+00:00"
     },
     {
       "scriptId": "259059213503422464",
@@ -1106,5 +1106,5 @@
       "lastModified": "2026-01-19T01:01:51.492234+00:00"
     }
   ],
-  "lastSync": "2026-01-19T04:20:16.804421+00:00"
+  "lastSync": "2026-01-19T04:23:48.727779+00:00"
 }
