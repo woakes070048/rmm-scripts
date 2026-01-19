@@ -1,3 +1,4 @@
+$ErrorActionPreference = 'Stop'
 <#
 ██╗     ██╗███╗   ███╗███████╗██╗  ██╗ █████╗ ██╗    ██╗██╗  ██╗
 ██║     ██║████╗ ████║██╔════╝██║  ██║██╔══██╗██║    ██║██║ ██╔╝
@@ -5,18 +6,17 @@
 ██║     ██║██║╚██╔╝██║██╔══╝  ██╔══██║██╔══██║██║███╗██║██╔═██╗
 ███████╗██║██║ ╚═╝ ██║███████╗██║  ██║██║  ██║╚███╔███╔╝██║  ██╗
 ╚══════╝╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚══╝╚══╝ ╚═╝  ╚═╝
-
 ================================================================================
- SCRIPT    : Antivirus Uninstall (Multi-Vendor) 1.1.0
- AUTHOR    : Limehawk.io
- DATE      : December 2025
- USAGE     : .\antivirus_uninstall.ps1
- FILE      : antivirus_uninstall.ps1
+ SCRIPT   : Antivirus Uninstall (Multi-Vendor)                           v1.2.0
+ AUTHOR   : Limehawk.io
+ DATE     : January 2026
+ USAGE    : .\antivirus_uninstall.ps1
+================================================================================
+ FILE     : antivirus_uninstall.ps1
  DESCRIPTION : Removes common third-party antivirus software (McAfee, Sophos, etc.)
-================================================================================
+--------------------------------------------------------------------------------
  README
 --------------------------------------------------------------------------------
-
 PURPOSE
 
 Detects and uninstalls common third-party antivirus software from Windows
@@ -24,126 +24,166 @@ systems including McAfee, Sophos, and Microsoft Security Essentials. This
 script is designed for scenarios where existing AV must be removed before
 deploying a new endpoint protection solution.
 
+--------------------------------------------------------------------------------
 DATA SOURCES & PRIORITY
 
-1. System package manager (Get-Package) - Primary detection method
-2. Windows Installer database (WMI Win32_Product) - Fallback for stubborn installations
-3. File system paths - Verify specific AV installations
+1. Registry keys - Most reliable detection method
+2. Windows services - Detect running AV services
+3. File system paths - Check known installation directories
+4. System package manager (Get-Package) - Package-based detection
+5. WMI Win32_Product - Fallback for stubborn installations
 
+--------------------------------------------------------------------------------
 REQUIRED INPUTS
 
 All antivirus products to target are hardcoded in this script. No external
 inputs required. The script will attempt to uninstall:
 
-- McAfee products (all variants)
+- McAfee products (all variants including consumer and enterprise)
 - Sophos products (all variants)
 - Microsoft Security Essentials
 
+--------------------------------------------------------------------------------
 SETTINGS
 
 - Uses silent/quiet uninstall methods where possible
 - Stops services before uninstallation
-- Attempts multiple detection methods for thoroughness
+- Attempts multiple detection AND removal methods for thoroughness
+- Downloads MCPR (McAfee Consumer Product Removal) tool if needed
 - No reboot is forced (though some AV may require it)
 
+--------------------------------------------------------------------------------
 BEHAVIOR
 
 1. Validates execution environment (must run as Administrator)
-2. Detects McAfee software using Get-Package
-3. Uninstalls all detected McAfee components
+2. Detects McAfee using registry, services, paths, packages, and WMI
+3. Attempts uninstall via multiple methods (packages, WMI, MCPR tool)
 4. Detects Sophos software
-5. Stops Sophos services
-6. Uninstalls all detected Sophos components
-7. Detects Microsoft Security Essentials
-8. Uninstalls Microsoft Security Essentials if found
-9. Reports final status
+5. Stops Sophos services and uninstalls components
+6. Detects and removes Microsoft Security Essentials
+7. Reports final status with detection and removal details
 
+--------------------------------------------------------------------------------
 PREREQUISITES
 
 - Windows PowerShell 5.1 or PowerShell 7+
 - Administrator privileges (required for software uninstallation)
-- No modules required
+- Internet access (optional, for downloading MCPR tool)
 
+--------------------------------------------------------------------------------
 SECURITY NOTES
 
-- No secrets logged or displayed
+- No secrets in logs
 - Requires elevation (will fail if not admin)
 - Some antivirus may require tamper protection to be disabled first
 - A reboot may be required after uninstallation for complete removal
 
+--------------------------------------------------------------------------------
 ENDPOINTS
 
-- None (local system operations only)
+- download.mcafee.com (optional, for MCPR tool download)
 
+--------------------------------------------------------------------------------
 EXIT CODES
 
-- 0: Success - All detected antivirus software uninstalled
-- 1: Failure - Error during uninstallation process
+0 = Success - All detected antivirus software processed
+1 = Failure - Error during detection or uninstallation
 
+--------------------------------------------------------------------------------
 EXAMPLE RUN
-
-PS> .\antivirus_uninstall.ps1
 
 [ SETUP ]
 --------------------------------------------------------------
-Script started : 2025-11-02 08:30:15
+Script started : 2026-01-18 20:30:15
 Administrator  : Yes
 
 [ MCAFEE DETECTION ]
 --------------------------------------------------------------
 Checking for McAfee software...
-McAfee packages found : 7
+  Registry keys    : Found (HKLM:\SOFTWARE\McAfee)
+  Services         : Found (2 services)
+  Install paths    : Found (C:\Program Files\McAfee)
+  Get-Package      : Not found
+  WMI Products     : Found (3 products)
+McAfee detected    : Yes
 
 [ MCAFEE UNINSTALLATION ]
 --------------------------------------------------------------
-Uninstalling McAfee Endpoint Security Platform...
-Uninstalling McAfee Agent...
-Uninstalling McAfee VirusScan Enterprise...
+Stopping McAfee services...
+  Stopped: mfemms
+  Stopped: mfefire
+Attempting WMI uninstall...
+  Uninstalling: McAfee Agent
+  Uninstalling: McAfee Endpoint Security Platform
+Downloading MCPR tool...
+Running MCPR tool...
 McAfee removal completed
-
-[ SOPHOS DETECTION ]
---------------------------------------------------------------
-Checking for Sophos software...
-Sophos software found : No
-
-[ MICROSOFT SECURITY ESSENTIALS DETECTION ]
---------------------------------------------------------------
-Checking for Microsoft Security Essentials...
-Installation path : Not found
 
 [ FINAL STATUS ]
 --------------------------------------------------------------
-McAfee uninstalled                     : Yes
-Sophos uninstalled                     : Not installed
-Microsoft Security Essentials removed  : Not installed
+McAfee detected                        : Yes
+McAfee removal attempted               : Yes
+Sophos detected                        : No
+Microsoft Security Essentials detected : No
+
+Note: A system reboot is recommended for complete removal
 
 [ SCRIPT COMPLETED ]
 --------------------------------------------------------------
-Script completed successfully
-Exit code : 0
+
 --------------------------------------------------------------------------------
  CHANGELOG
 --------------------------------------------------------------------------------
+ 2026-01-18 v1.2.0 Rewrote McAfee detection with registry/services/paths/WMI
  2025-12-23 v1.1.0 Updated to Limehawk Script Framework
  2025-11-02 v1.0.0 Initial migration from SuperOps
+================================================================================
 #>
 
-$ErrorActionPreference = 'Stop'
 Set-StrictMode -Version Latest
 
-# ============================================================================
-# HARDCODED INPUTS
-# ============================================================================
+# ==============================================================================
+# STATE VARIABLES
+# ==============================================================================
 
-# McAfee products to target for removal
-$mcAfeeProductNames = @(
-    "McAfee Endpoint Security Adaptive Threat Protection",
-    "McAfee Endpoint Security Web Control",
-    "McAfee Endpoint Security Threat Prevention",
-    "McAfee Endpoint Security Firewall",
-    "McAfee Endpoint Security Platform",
-    "McAfee VirusScan Enterprise",
-    "McAfee Agent"
+$mcAfeeDetected = $false
+$mcAfeeRemovalAttempted = $false
+$sophosDetected = $false
+$sophosRemovalAttempted = $false
+$mseDetected = $false
+$mseRemovalAttempted = $false
+
+# ==============================================================================
+# HARDCODED INPUTS
+# ==============================================================================
+
+# McAfee registry paths to check
+$mcAfeeRegistryPaths = @(
+    "HKLM:\SOFTWARE\McAfee",
+    "HKLM:\SOFTWARE\WOW6432Node\McAfee",
+    "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\*",
+    "HKLM:\SOFTWARE\WOW6432Node\Microsoft\Windows\CurrentVersion\Uninstall\*"
+)
+
+# McAfee services to look for and stop
+$mcAfeeServices = @(
+    "mfemms",      # McAfee Management Service
+    "mfefire",     # McAfee Firewall Core Service
+    "mfevtp",      # McAfee Validation Trust Protection Service
+    "mcshield",    # McAfee On-Access Scanner
+    "McAfeeFramework", # McAfee Framework Service
+    "masvc",       # McAfee Agent Service
+    "macmnsvc",    # McAfee Common Services
+    "mfewc"        # McAfee Endpoint Security Web Control
+)
+
+# McAfee installation paths to check
+$mcAfeePaths = @(
+    "C:\Program Files\McAfee",
+    "C:\Program Files (x86)\McAfee",
+    "C:\Program Files\Common Files\McAfee",
+    "C:\Program Files (x86)\Common Files\McAfee",
+    "C:\ProgramData\McAfee"
 )
 
 # Sophos products to target for removal
@@ -166,108 +206,213 @@ $sophosProductNames = @(
 # Sophos services to stop before uninstallation
 $sophosServices = @(
     "Sophos Anti-Virus",
-    "Sophos AutoUpdate Service"
+    "Sophos AutoUpdate Service",
+    "Sophos Endpoint Defense Service",
+    "Sophos MCS Agent",
+    "Sophos MCS Client"
 )
 
 # Microsoft Security Essentials installation path
 $mseSetupPath = "C:\Program Files\Microsoft Security Client\Setup.exe"
 
-# ============================================================================
+# MCPR download URL
+$mcprUrl = "https://download.mcafee.com/molbin/iss-loc/SupportTools/MCPR/MCPR.exe"
+$mcprPath = "$env:TEMP\MCPR.exe"
+
+# ==============================================================================
 # INPUT VALIDATION
-# ============================================================================
+# ==============================================================================
 
 Write-Host ""
 Write-Host "[ SETUP ]"
 Write-Host "--------------------------------------------------------------"
 
-$errorOccurred = $false
-$errorText = ""
-
-# Check if running as Administrator
 $isAdmin = ([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)
 
 if (-not $isAdmin) {
-    $errorOccurred = $true
-    $errorText = "This script requires Administrator privileges to uninstall software"
-}
-
-if ($errorOccurred) {
+    Write-Host "Administrator  : No"
     Write-Host ""
     Write-Host "[ ERROR OCCURRED ]"
     Write-Host "--------------------------------------------------------------"
-    Write-Host $errorText
+    Write-Host "This script requires Administrator privileges"
     Write-Host ""
     Write-Host "Troubleshooting:"
     Write-Host "- Right-click PowerShell and select 'Run as Administrator'"
     Write-Host "- Or run from RMM platform with SYSTEM privileges"
     Write-Host ""
+    Write-Host "[ SCRIPT COMPLETED ]"
+    Write-Host "--------------------------------------------------------------"
     exit 1
 }
 
 Write-Host "Script started : $(Get-Date -Format 'yyyy-MM-dd HH:mm:ss')"
 Write-Host "Administrator  : Yes"
 
-# ============================================================================
-# MCAFEE DETECTION
-# ============================================================================
+# ==============================================================================
+# MCAFEE DETECTION (Multi-Method)
+# ==============================================================================
 
 Write-Host ""
 Write-Host "[ MCAFEE DETECTION ]"
 Write-Host "--------------------------------------------------------------"
 Write-Host "Checking for McAfee software..."
 
+$mcAfeeRegistryFound = $false
+$mcAfeeServicesFound = @()
+$mcAfeePathsFound = @()
 $mcAfeePackages = @()
-$mcAfeeFound = $false
+$mcAfeeWmiProducts = @()
 
-try {
-    $allMcAfee = Get-Package -Name "McAfee*" -ErrorAction SilentlyContinue
-    if ($allMcAfee) {
-        $mcAfeePackages = $allMcAfee
-        $mcAfeeFound = $true
-        Write-Host "McAfee packages found : $($mcAfeePackages.Count)"
+# Method 1: Registry check
+$regKeys = Get-ChildItem -Path "HKLM:\SOFTWARE" -ErrorAction SilentlyContinue | Where-Object { $_.Name -match "McAfee" }
+$regKeys32 = Get-ChildItem -Path "HKLM:\SOFTWARE\WOW6432Node" -ErrorAction SilentlyContinue | Where-Object { $_.Name -match "McAfee" }
+if ($regKeys -or $regKeys32) {
+    $mcAfeeRegistryFound = $true
+    Write-Host "  Registry keys    : Found"
+} else {
+    # Also check uninstall keys
+    $uninstallKeys = Get-ChildItem -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall" -ErrorAction SilentlyContinue
+    $mcAfeeUninstall = $uninstallKeys | Get-ItemProperty -ErrorAction SilentlyContinue | Where-Object { $_.DisplayName -match "McAfee" }
+    if ($mcAfeeUninstall) {
+        $mcAfeeRegistryFound = $true
+        Write-Host "  Registry keys    : Found (uninstall entries)"
     } else {
-        Write-Host "McAfee packages found : 0"
+        Write-Host "  Registry keys    : Not found"
     }
-} catch {
-    Write-Host "McAfee packages found : 0"
 }
 
-# ============================================================================
-# MCAFEE UNINSTALLATION
-# ============================================================================
+# Method 2: Services check
+foreach ($svcName in $mcAfeeServices) {
+    $svc = Get-Service -Name $svcName -ErrorAction SilentlyContinue
+    if ($svc) {
+        $mcAfeeServicesFound += $svc
+    }
+}
+if ($mcAfeeServicesFound.Count -gt 0) {
+    Write-Host "  Services         : Found ($($mcAfeeServicesFound.Count) services)"
+} else {
+    Write-Host "  Services         : Not found"
+}
 
-if ($mcAfeeFound) {
+# Method 3: Path check
+foreach ($path in $mcAfeePaths) {
+    if (Test-Path -Path $path) {
+        $mcAfeePathsFound += $path
+    }
+}
+if ($mcAfeePathsFound.Count -gt 0) {
+    Write-Host "  Install paths    : Found ($($mcAfeePathsFound.Count) locations)"
+} else {
+    Write-Host "  Install paths    : Not found"
+}
+
+# Method 4: Get-Package check
+try {
+    $pkgs = Get-Package -Name "*McAfee*" -ErrorAction SilentlyContinue
+    if ($pkgs) {
+        $mcAfeePackages = @($pkgs)
+        Write-Host "  Get-Package      : Found ($($mcAfeePackages.Count) packages)"
+    } else {
+        Write-Host "  Get-Package      : Not found"
+    }
+} catch {
+    Write-Host "  Get-Package      : Not found"
+}
+
+# Method 5: WMI check (slower but catches more)
+try {
+    $wmiProducts = Get-CimInstance -ClassName Win32_Product -ErrorAction SilentlyContinue | Where-Object { $_.Name -match "McAfee" }
+    if ($wmiProducts) {
+        $mcAfeeWmiProducts = @($wmiProducts)
+        Write-Host "  WMI Products     : Found ($($mcAfeeWmiProducts.Count) products)"
+    } else {
+        Write-Host "  WMI Products     : Not found"
+    }
+} catch {
+    Write-Host "  WMI Products     : Check failed"
+}
+
+# Determine if McAfee is detected
+if ($mcAfeeRegistryFound -or $mcAfeeServicesFound.Count -gt 0 -or $mcAfeePathsFound.Count -gt 0 -or $mcAfeePackages.Count -gt 0 -or $mcAfeeWmiProducts.Count -gt 0) {
+    $mcAfeeDetected = $true
+    Write-Host "McAfee detected    : Yes"
+} else {
+    Write-Host "McAfee detected    : No"
+}
+
+# ==============================================================================
+# MCAFEE UNINSTALLATION (Multi-Method)
+# ==============================================================================
+
+if ($mcAfeeDetected) {
     Write-Host ""
     Write-Host "[ MCAFEE UNINSTALLATION ]"
     Write-Host "--------------------------------------------------------------"
+    $mcAfeeRemovalAttempted = $true
 
-    try {
-        foreach ($package in $mcAfeePackages) {
-            Write-Host "Uninstalling $($package.Name)..."
-            $package | Uninstall-Package -AllVersions -Force -ErrorAction Stop
+    # Step 1: Stop services
+    if ($mcAfeeServicesFound.Count -gt 0) {
+        Write-Host "Stopping McAfee services..."
+        foreach ($svc in $mcAfeeServicesFound) {
+            try {
+                Stop-Service -Name $svc.Name -Force -ErrorAction SilentlyContinue
+                Write-Host "  Stopped: $($svc.Name)"
+            } catch {
+                Write-Host "  Failed to stop: $($svc.Name)"
+            }
         }
-        Write-Host "McAfee removal completed"
-    } catch {
-        Write-Host ""
-        Write-Host "[ ERROR OCCURRED ]"
-        Write-Host "--------------------------------------------------------------"
-        Write-Host "Failed to uninstall McAfee software"
-        Write-Host ""
-        Write-Host "Error details:"
-        Write-Host $_.Exception.Message
-        Write-Host ""
-        Write-Host "Troubleshooting:"
-        Write-Host "- McAfee tamper protection may be enabled"
-        Write-Host "- Disable tamper protection via McAfee console first"
-        Write-Host "- Use McAfee Consumer Product Removal tool if needed"
-        Write-Host ""
-        exit 1
     }
+
+    # Step 2: Uninstall via Get-Package
+    if ($mcAfeePackages.Count -gt 0) {
+        Write-Host "Uninstalling via Get-Package..."
+        foreach ($pkg in $mcAfeePackages) {
+            try {
+                Write-Host "  Uninstalling: $($pkg.Name)"
+                $pkg | Uninstall-Package -AllVersions -Force -ErrorAction SilentlyContinue
+            } catch {
+                Write-Host "  Failed: $($pkg.Name)"
+            }
+        }
+    }
+
+    # Step 3: Uninstall via WMI
+    if ($mcAfeeWmiProducts.Count -gt 0) {
+        Write-Host "Uninstalling via WMI..."
+        foreach ($product in $mcAfeeWmiProducts) {
+            try {
+                Write-Host "  Uninstalling: $($product.Name)"
+                $product | Invoke-CimMethod -MethodName Uninstall -ErrorAction SilentlyContinue | Out-Null
+            } catch {
+                Write-Host "  Failed: $($product.Name)"
+            }
+        }
+    }
+
+    # Step 4: Download and run MCPR tool
+    Write-Host "Downloading MCPR (McAfee Consumer Product Removal) tool..."
+    try {
+        [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
+        Invoke-WebRequest -Uri $mcprUrl -OutFile $mcprPath -UseBasicParsing -ErrorAction Stop
+        Write-Host "  Downloaded to: $mcprPath"
+
+        Write-Host "Running MCPR tool (silent mode)..."
+        $mcprProcess = Start-Process -FilePath $mcprPath -ArgumentList "/silent" -Wait -PassThru -ErrorAction Stop
+        Write-Host "  MCPR exit code: $($mcprProcess.ExitCode)"
+
+        # Cleanup
+        Remove-Item -Path $mcprPath -Force -ErrorAction SilentlyContinue
+    } catch {
+        Write-Host "  MCPR download/run failed: $($_.Exception.Message)"
+        Write-Host "  Note: Manual MCPR run may be required"
+    }
+
+    Write-Host "McAfee removal completed"
 }
 
-# ============================================================================
+# ==============================================================================
 # SOPHOS DETECTION
-# ============================================================================
+# ==============================================================================
 
 Write-Host ""
 Write-Host "[ SOPHOS DETECTION ]"
@@ -275,155 +420,152 @@ Write-Host "--------------------------------------------------------------"
 Write-Host "Checking for Sophos software..."
 
 $sophosPackages = @()
-$sophosFound = $false
 
 try {
-    $allSophos = Get-Package -Name "Sophos*" -ErrorAction SilentlyContinue
+    $allSophos = Get-Package -Name "*Sophos*" -ErrorAction SilentlyContinue
     if ($allSophos) {
-        $sophosPackages = $allSophos
-        $sophosFound = $true
-        Write-Host "Sophos software found : Yes"
-        Write-Host "Sophos packages       : $($sophosPackages.Count)"
+        $sophosPackages = @($allSophos)
+        $sophosDetected = $true
+        Write-Host "Sophos packages    : Found ($($sophosPackages.Count) packages)"
     } else {
-        Write-Host "Sophos software found : No"
+        Write-Host "Sophos packages    : Not found"
     }
 } catch {
-    Write-Host "Sophos software found : No"
+    Write-Host "Sophos packages    : Not found"
 }
 
-# ============================================================================
-# SOPHOS UNINSTALLATION
-# ============================================================================
+# Also check for Sophos services
+$sophosServicesFound = @()
+foreach ($svcName in $sophosServices) {
+    $svc = Get-Service -Name $svcName -ErrorAction SilentlyContinue
+    if ($svc) {
+        $sophosServicesFound += $svc
+        $sophosDetected = $true
+    }
+}
+if ($sophosServicesFound.Count -gt 0) {
+    Write-Host "Sophos services    : Found ($($sophosServicesFound.Count) services)"
+} else {
+    Write-Host "Sophos services    : Not found"
+}
 
-if ($sophosFound) {
+Write-Host "Sophos detected    : $(if ($sophosDetected) { 'Yes' } else { 'No' })"
+
+# ==============================================================================
+# SOPHOS UNINSTALLATION
+# ==============================================================================
+
+if ($sophosDetected) {
     Write-Host ""
     Write-Host "[ SOPHOS UNINSTALLATION ]"
     Write-Host "--------------------------------------------------------------"
+    $sophosRemovalAttempted = $true
 
-    try {
-        # Stop Sophos services first
+    # Stop Sophos services first
+    if ($sophosServicesFound.Count -gt 0) {
         Write-Host "Stopping Sophos services..."
-        foreach ($serviceName in $sophosServices) {
-            $service = Get-Service -Name $serviceName -ErrorAction SilentlyContinue
-            if ($service) {
-                Write-Host "Stopping service: $serviceName"
-                Stop-Service -Name $serviceName -Force -ErrorAction SilentlyContinue
+        foreach ($svc in $sophosServicesFound) {
+            try {
+                Stop-Service -Name $svc.Name -Force -ErrorAction SilentlyContinue
+                Write-Host "  Stopped: $($svc.Name)"
+            } catch {
+                Write-Host "  Failed to stop: $($svc.Name)"
             }
         }
-
-        # Uninstall Sophos packages in recommended order
-        foreach ($productName in $sophosProductNames) {
-            $matchingPackage = $sophosPackages | Where-Object { $_.Name -like "*$productName*" }
-            if ($matchingPackage) {
-                Write-Host "Uninstalling $($matchingPackage.Name)..."
-                $matchingPackage | Uninstall-Package -Force -ErrorAction Stop
-            }
-        }
-
-        Write-Host "Sophos removal completed"
-    } catch {
-        Write-Host ""
-        Write-Host "[ ERROR OCCURRED ]"
-        Write-Host "--------------------------------------------------------------"
-        Write-Host "Failed to uninstall Sophos software"
-        Write-Host ""
-        Write-Host "Error details:"
-        Write-Host $_.Exception.Message
-        Write-Host ""
-        Write-Host "Troubleshooting:"
-        Write-Host "- Sophos tamper protection may be enabled"
-        Write-Host "- Disable tamper protection in Sophos Central first"
-        Write-Host "- Use Sophos Zap tool for stubborn installations"
-        Write-Host ""
-        exit 1
     }
+
+    # Uninstall Sophos packages
+    if ($sophosPackages.Count -gt 0) {
+        Write-Host "Uninstalling Sophos packages..."
+        foreach ($pkg in $sophosPackages) {
+            try {
+                Write-Host "  Uninstalling: $($pkg.Name)"
+                $pkg | Uninstall-Package -Force -ErrorAction SilentlyContinue
+            } catch {
+                Write-Host "  Failed: $($pkg.Name)"
+            }
+        }
+    }
+
+    Write-Host "Sophos removal completed"
+    Write-Host ""
+    Write-Host "Note: If Sophos persists, tamper protection may be enabled"
+    Write-Host "      Disable it in Sophos Central or use Sophos Zap tool"
 }
 
-# ============================================================================
+# ==============================================================================
 # MICROSOFT SECURITY ESSENTIALS DETECTION
-# ============================================================================
+# ==============================================================================
 
 Write-Host ""
 Write-Host "[ MICROSOFT SECURITY ESSENTIALS DETECTION ]"
 Write-Host "--------------------------------------------------------------"
 Write-Host "Checking for Microsoft Security Essentials..."
 
-$mseFound = Test-Path -Path $mseSetupPath
+$mseDetected = Test-Path -Path $mseSetupPath
 
-if ($mseFound) {
-    Write-Host "Installation path : Found"
+if ($mseDetected) {
+    Write-Host "Installation path  : Found"
 } else {
-    Write-Host "Installation path : Not found"
+    Write-Host "Installation path  : Not found"
 }
+Write-Host "MSE detected       : $(if ($mseDetected) { 'Yes' } else { 'No' })"
 
-# ============================================================================
+# ==============================================================================
 # MICROSOFT SECURITY ESSENTIALS UNINSTALLATION
-# ============================================================================
+# ==============================================================================
 
-if ($mseFound) {
+if ($mseDetected) {
     Write-Host ""
     Write-Host "[ MICROSOFT SECURITY ESSENTIALS UNINSTALLATION ]"
     Write-Host "--------------------------------------------------------------"
+    $mseRemovalAttempted = $true
 
     try {
         Write-Host "Running uninstaller..."
-        Start-Process -FilePath $mseSetupPath -ArgumentList "/x", "/u", "/s" -Wait -ErrorAction Stop
-        Write-Host "Microsoft Security Essentials removed"
+        $mseProcess = Start-Process -FilePath $mseSetupPath -ArgumentList "/x", "/u", "/s" -Wait -PassThru -ErrorAction Stop
+        Write-Host "  Exit code: $($mseProcess.ExitCode)"
+        Write-Host "Microsoft Security Essentials removal completed"
     } catch {
-        Write-Host ""
-        Write-Host "[ ERROR OCCURRED ]"
-        Write-Host "--------------------------------------------------------------"
-        Write-Host "Failed to uninstall Microsoft Security Essentials"
-        Write-Host ""
-        Write-Host "Error details:"
-        Write-Host $_.Exception.Message
-        Write-Host ""
-        Write-Host "Troubleshooting:"
-        Write-Host "- Uninstaller may require user interaction"
-        Write-Host "- Try manual removal via Control Panel"
-        Write-Host ""
-        exit 1
+        Write-Host "  Failed: $($_.Exception.Message)"
+        Write-Host "  Note: Manual removal via Control Panel may be required"
     }
 }
 
-# ============================================================================
+# ==============================================================================
 # FINAL STATUS
-# ============================================================================
+# ==============================================================================
 
 Write-Host ""
 Write-Host "[ FINAL STATUS ]"
 Write-Host "--------------------------------------------------------------"
 
-if ($mcAfeeFound) {
-    Write-Host "McAfee uninstalled                     : Yes"
-} else {
-    Write-Host "McAfee uninstalled                     : Not installed"
+Write-Host "McAfee detected                        : $(if ($mcAfeeDetected) { 'Yes' } else { 'No' })"
+if ($mcAfeeDetected) {
+    Write-Host "McAfee removal attempted               : $(if ($mcAfeeRemovalAttempted) { 'Yes' } else { 'No' })"
 }
 
-if ($sophosFound) {
-    Write-Host "Sophos uninstalled                     : Yes"
-} else {
-    Write-Host "Sophos uninstalled                     : Not installed"
+Write-Host "Sophos detected                        : $(if ($sophosDetected) { 'Yes' } else { 'No' })"
+if ($sophosDetected) {
+    Write-Host "Sophos removal attempted               : $(if ($sophosRemovalAttempted) { 'Yes' } else { 'No' })"
 }
 
-if ($mseFound) {
-    Write-Host "Microsoft Security Essentials removed  : Yes"
-} else {
-    Write-Host "Microsoft Security Essentials removed  : Not installed"
+Write-Host "Microsoft Security Essentials detected : $(if ($mseDetected) { 'Yes' } else { 'No' })"
+if ($mseDetected) {
+    Write-Host "MSE removal attempted                  : $(if ($mseRemovalAttempted) { 'Yes' } else { 'No' })"
 }
 
-Write-Host ""
-Write-Host "Note: A system reboot may be required for complete removal"
+if ($mcAfeeDetected -or $sophosDetected -or $mseDetected) {
+    Write-Host ""
+    Write-Host "Note: A system reboot is recommended for complete removal"
+}
 
-# ============================================================================
+# ==============================================================================
 # SCRIPT COMPLETED
-# ============================================================================
+# ==============================================================================
 
 Write-Host ""
 Write-Host "[ SCRIPT COMPLETED ]"
 Write-Host "--------------------------------------------------------------"
-Write-Host "Script completed successfully"
-Write-Host "Exit code : 0"
-Write-Host ""
 
 exit 0
