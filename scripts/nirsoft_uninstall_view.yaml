@@ -4,10 +4,8 @@ language: PowerShell
 runAs: SYSTEM_USER
 timeout: 15
 tags:
-- limehawk
-- uninstall
-- utility
-- windows
+- Cleanup
+- Windows
 shared: false
 favourite: false
 readme: ''

@@ -4,9 +4,8 @@ language: PowerShell
 runAs: SYSTEM_USER
 timeout: 15
 tags:
-- limehawk
-- utility
-- windows
+- Maintenance
+- Windows
 shared: false
 favourite: false
 readme: ''

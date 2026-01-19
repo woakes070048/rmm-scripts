@@ -4,9 +4,8 @@ language: PowerShell
 runAs: SYSTEM_USER
 timeout: 15
 tags:
-- install
-- limehawk
-- windows
+- Software
+- Windows
 shared: true
 favourite: false
 readme: ''

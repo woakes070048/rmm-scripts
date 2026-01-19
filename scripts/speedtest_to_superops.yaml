@@ -4,10 +4,9 @@ language: PowerShell
 runAs: SYSTEM_USER
 timeout: 15
 tags:
-- diagnostics
-- limehawk
-- superops
-- windows
+- Network
+- Software
+- Windows
 shared: true
 favourite: false
 readme: ''

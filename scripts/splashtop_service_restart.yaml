@@ -4,10 +4,9 @@ language: PowerShell
 runAs: SYSTEM_USER
 timeout: 15
 tags:
-- limehawk
-- maintenance
-- splashtop
-- windows
+- Services
+- Software
+- Windows
 shared: true
 favourite: false
 readme: ''

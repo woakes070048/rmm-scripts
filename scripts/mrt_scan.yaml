@@ -5,8 +5,8 @@ language: PowerShell
 runAs: SYSTEM_USER
 timeout: 60
 tags:
-- limehawk
-- windows
+- Antivirus
+- Windows
 shared: true
 favourite: false
 readme: ''

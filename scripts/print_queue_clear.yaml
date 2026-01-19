@@ -4,10 +4,8 @@ language: PowerShell
 runAs: SYSTEM_USER
 timeout: 15
 tags:
-- limehawk
-- maintenance
-- printer
-- windows
+- Services
+- Windows
 shared: false
 favourite: false
 readme: ''

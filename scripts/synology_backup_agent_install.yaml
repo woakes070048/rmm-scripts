@@ -4,10 +4,10 @@ language: PowerShell
 runAs: SYSTEM_USER
 timeout: 15
 tags:
-- backup
-- install
-- limehawk
-- windows
+- Backup
+- Logs
+- Software
+- Windows
 shared: false
 favourite: false
 readme: ''

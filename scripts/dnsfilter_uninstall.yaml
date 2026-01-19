@@ -4,11 +4,10 @@ language: PowerShell
 runAs: SYSTEM_USER
 timeout: 15
 tags:
-- limehawk
-- network
-- security
-- uninstall
-- windows
+- Cleanup
+- Network
+- Security
+- Windows
 shared: false
 favourite: false
 readme: ''

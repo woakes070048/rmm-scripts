@@ -4,10 +4,9 @@ language: Bash
 runAs: SYSTEM_USER
 timeout: 15
 tags:
-- limehawk
-- linux
-- superops
-- uninstall
+- Cleanup
+- Linux
+- Software
 shared: false
 favourite: false
 readme: ''

@@ -4,9 +4,8 @@ language: Bash
 runAs: SYSTEM_USER
 timeout: 15
 tags:
-- limehawk
-- macos
-- power
+- Mac
+- Services
 shared: false
 favourite: false
 readme: ''

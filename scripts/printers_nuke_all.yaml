@@ -4,10 +4,9 @@ language: Bat
 runAs: SYSTEM_USER
 timeout: 15
 tags:
-- limehawk
-- printer
-- uninstall
-- windows
+- Cleanup
+- Services
+- Windows
 shared: true
 favourite: false
 readme: ''

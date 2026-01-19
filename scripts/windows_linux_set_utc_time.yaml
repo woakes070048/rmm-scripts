@@ -4,8 +4,8 @@ language: PowerShell
 runAs: SYSTEM_USER
 timeout: 15
 tags:
-- limehawk
-- linux
+- Linux
+- Maintenance
 shared: false
 favourite: false
 readme: ''

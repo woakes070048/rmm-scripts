@@ -4,9 +4,9 @@ language: PowerShell
 runAs: SYSTEM_USER
 timeout: 15
 tags:
-- limehawk
-- updates
-- windows
+- Patch
+- Recovery
+- Windows
 shared: false
 favourite: false
 readme: ''

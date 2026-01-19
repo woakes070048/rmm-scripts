@@ -4,10 +4,9 @@ language: Bat
 runAs: SYSTEM_USER
 timeout: 15
 tags:
-- disk
-- limehawk
-- uninstall
-- windows
+- Cleanup
+- Disk
+- Windows
 shared: true
 favourite: false
 readme: ''

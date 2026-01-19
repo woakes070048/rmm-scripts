@@ -4,11 +4,10 @@ language: PowerShell
 runAs: SYSTEM_USER
 timeout: 15
 tags:
-- limehawk
-- maintenance
-- security
-- updates
-- windows
+- Antivirus
+- Patch
+- Services
+- Windows
 shared: false
 favourite: false
 readme: ''

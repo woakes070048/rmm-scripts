@@ -4,8 +4,8 @@ language: Bash
 runAs: SYSTEM_USER
 timeout: 15
 tags:
-- limehawk
-- windows
+- Maintenance
+- Windows
 shared: false
 favourite: false
 readme: ''

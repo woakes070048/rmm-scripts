@@ -4,10 +4,8 @@ language: Bash
 runAs: SYSTEM_USER
 timeout: 15
 tags:
-- install
-- limehawk
-- macos
-- superops
+- Mac
+- Software
 shared: false
 favourite: false
 readme: ''

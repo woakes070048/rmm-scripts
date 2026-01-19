@@ -4,10 +4,9 @@ language: PowerShell
 runAs: SYSTEM_USER
 timeout: 15
 tags:
-- limehawk
-- splashtop
-- uninstall
-- windows
+- Cleanup
+- Software
+- Windows
 shared: false
 favourite: false
 readme: ''

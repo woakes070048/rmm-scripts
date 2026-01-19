@@ -4,9 +4,8 @@ language: Bash
 runAs: SYSTEM_USER
 timeout: 15
 tags:
-- inventory
-- limehawk
-- macos
+- Mac
+- Monitoring
 shared: false
 favourite: false
 readme: ''

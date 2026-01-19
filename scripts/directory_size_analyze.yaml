@@ -4,9 +4,8 @@ language: PowerShell
 runAs: SYSTEM_USER
 timeout: 15
 tags:
-- disk
-- limehawk
-- windows
+- Disk
+- Windows
 shared: false
 favourite: false
 readme: ''
