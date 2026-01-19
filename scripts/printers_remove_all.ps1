@@ -8,9 +8,9 @@ $ErrorActionPreference = 'Stop'
 ╚══════╝╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚══╝╚══╝ ╚═╝  ╚═╝
 
 ================================================================================
-SCRIPT  : Remove All Printers v1.1.0
+SCRIPT  : Remove All Printers v1.1.1
 AUTHOR  : Limehawk.io
-DATE      : December 2025
+DATE      : January 2026
 USAGE   : .\printers_remove_all.ps1
 FILE    : printers_remove_all.ps1
 DESCRIPTION : Removes all printers, drivers, and ports from Windows
@@ -48,39 +48,41 @@ EXIT CODES:
     1 = Failure
 
 EXAMPLE RUN:
-    [ INPUT VALIDATION ]
-    --------------------------------------------------------------
+
+    [INFO] INPUT VALIDATION
+    ==============================================================
     Remove Drivers : True
     Remove Ports   : True
 
-    [ REMOVING PRINTERS ]
-    --------------------------------------------------------------
+    [RUN] REMOVING PRINTERS
+    ==============================================================
     Found 3 printer(s)
     Removing : HP LaserJet Pro MFP M428fdw
     Removing : Microsoft Print to PDF
     Removing : Canon LBP6030
     Removed 3 printer(s)
 
-    [ REMOVING PRINTER PORTS ]
-    --------------------------------------------------------------
+    [RUN] REMOVING PRINTER PORTS
+    ==============================================================
     Found 2 orphaned port(s)
     Removing : IP_192.168.1.100
     Removing : IP_192.168.1.101
     Removed 2 port(s)
 
-    [ REMOVING UNUSED DRIVERS ]
-    --------------------------------------------------------------
+    [RUN] REMOVING UNUSED DRIVERS
+    ==============================================================
     Removed unused printer drivers
 
-    [ FINAL STATUS ]
-    --------------------------------------------------------------
+    [OK] FINAL STATUS
+    ==============================================================
     Result : All printers removed successfully
 
-    [ SCRIPT COMPLETED ]
-    --------------------------------------------------------------
+    [OK] SCRIPT COMPLETED
+    ==============================================================
 
 CHANGELOG
 --------------------------------------------------------------------------------
+2026-01-19 v1.1.1 Updated to two-line ASCII console output style
 2025-12-23 v1.1.0 Updated to Limehawk Script Framework
 2024-12-01 v1.0.0 Initial release - converted from batch script
 ================================================================================
@@ -97,8 +99,8 @@ $removePorts = $true
 # INPUT VALIDATION
 # ============================================================================
 Write-Host ""
-Write-Host "[ INPUT VALIDATION ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[INFO] INPUT VALIDATION"
+Write-Host "=============================================================="
 Write-Host "Remove Drivers : $removeDrivers"
 Write-Host "Remove Ports   : $removePorts"
 
@@ -110,8 +112,8 @@ Write-Host "This operation cannot be undone."
 # REMOVE PRINTERS
 # ============================================================================
 Write-Host ""
-Write-Host "[ REMOVING PRINTERS ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[RUN] REMOVING PRINTERS"
+Write-Host "=============================================================="
 
 try {
     $printers = Get-Printer -ErrorAction SilentlyContinue
@@ -152,8 +154,8 @@ catch {
 # ============================================================================
 if ($removePorts) {
     Write-Host ""
-    Write-Host "[ REMOVING PRINTER PORTS ]"
-    Write-Host "--------------------------------------------------------------"
+    Write-Host "[RUN] REMOVING PRINTER PORTS"
+    Write-Host "=============================================================="
 
     try {
         # Get all printer ports
@@ -207,8 +209,8 @@ if ($removePorts) {
 # ============================================================================
 if ($removeDrivers) {
     Write-Host ""
-    Write-Host "[ REMOVING UNUSED DRIVERS ]"
-    Write-Host "--------------------------------------------------------------"
+    Write-Host "[RUN] REMOVING UNUSED DRIVERS"
+    Write-Host "=============================================================="
 
     try {
         # Get all printer drivers
@@ -258,8 +260,8 @@ if ($removeDrivers) {
 # FINAL STATUS
 # ============================================================================
 Write-Host ""
-Write-Host "[ FINAL STATUS ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[OK] FINAL STATUS"
+Write-Host "=============================================================="
 
 $finalPrinters = Get-Printer -ErrorAction SilentlyContinue
 $finalCount = @($finalPrinters).Count
@@ -273,7 +275,7 @@ else {
 }
 
 Write-Host ""
-Write-Host "[ SCRIPT COMPLETED ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[OK] SCRIPT COMPLETED"
+Write-Host "=============================================================="
 
 exit 0

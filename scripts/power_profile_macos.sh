@@ -7,9 +7,9 @@
 # ███████╗██║██║ ╚═╝ ██║███████╗██║  ██║██║  ██║╚███╔███╔╝██║  ██╗
 # ╚══════╝╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚══╝╚══╝ ╚═╝  ╚═╝
 # ================================================================================
-#  SCRIPT   : Power Profile Always-On (macOS)                              v1.1.0
+#  SCRIPT   : Power Profile Always-On (macOS)                              v1.1.1
 #  AUTHOR   : Limehawk.io
-#  DATE     : December 2025
+#  DATE     : January 2026
 #  USAGE    : sudo ./power_profile_macos.sh
 # ================================================================================
 #  FILE     : power_profile_macos.sh
@@ -80,35 +80,36 @@
 #
 #  EXAMPLE RUN
 #
-#    [ POWER PROFILE ALWAYS-ON - macOS ]
-#    --------------------------------------------------------------
+#    [RUN] POWER PROFILE ALWAYS-ON - macOS
+#    ==============================================================
 #
-#    [ SYSTEM CHECK ]
-#    --------------------------------------------------------------
+#    [INFO] SYSTEM CHECK
+#    ==============================================================
 #    Battery Status : NOT DETECTED (Desktop)
 #
-#    [ APPLYING POWER SETTINGS ]
-#    --------------------------------------------------------------
+#    [RUN] APPLYING POWER SETTINGS
+#    ==============================================================
 #    Display Sleep (AC) : 30 minutes
 #    Display Sleep (DC) : 10 minutes
 #    Disk Sleep (AC)    : 60 minutes
 #    Disk Sleep (DC)    : 30 minutes
 #    System Sleep (AC)  : Never (0)
 #
-#    [ CONFIGURING HIBERNATION ]
-#    --------------------------------------------------------------
+#    [RUN] CONFIGURING HIBERNATION
+#    ==============================================================
 #    Hibernation        : DISABLED (Desktop)
 #
-#    [ FINAL STATUS ]
-#    --------------------------------------------------------------
+#    [INFO] RESULT
+#    ==============================================================
 #    Result : SUCCESS
 #
-#    [ SCRIPT COMPLETE ]
-#    --------------------------------------------------------------
+#    [OK] SCRIPT COMPLETED
+#    ==============================================================
 #
 # --------------------------------------------------------------------------------
 #  CHANGELOG
 # --------------------------------------------------------------------------------
+#  2026-01-19 v1.1.1 Updated to two-line ASCII console output style
 #  2025-12-23 v1.1.0 Updated to Limehawk Script Framework
 #  2024-01-01 v1.0.0 Initial release
 # ================================================================================
@@ -120,14 +121,14 @@ set -euo pipefail
 # ============================================================================
 
 echo ""
-echo "[ POWER PROFILE ALWAYS-ON - macOS ]"
-echo "--------------------------------------------------------------"
+echo "[RUN] POWER PROFILE ALWAYS-ON - macOS"
+echo "=============================================================="
 
 # Ensure script is run as root
 if [ "$(id -u)" -ne 0 ]; then
     echo ""
-    echo "[ ERROR OCCURRED ]"
-    echo "--------------------------------------------------------------"
+    echo "[ERROR] ERROR OCCURRED"
+    echo "=============================================================="
     echo "This script must be run as root (sudo)"
     echo ""
     exit 1
@@ -137,8 +138,8 @@ fi
 # DETECT BATTERY PRESENCE
 # ============================================================================
 echo ""
-echo "[ SYSTEM CHECK ]"
-echo "--------------------------------------------------------------"
+echo "[INFO] SYSTEM CHECK"
+echo "=============================================================="
 
 has_battery=$(pmset -g batt | grep -c 'Battery Power' || true)
 
@@ -152,15 +153,15 @@ fi
 # CONFIGURE POWER SETTINGS
 # ============================================================================
 echo ""
-echo "[ APPLYING POWER SETTINGS ]"
-echo "--------------------------------------------------------------"
+echo "[RUN] APPLYING POWER SETTINGS"
+echo "=============================================================="
 
 # Set display sleep to 30 minutes when on AC
 echo "Display Sleep (AC) : 30 minutes"
 if ! sudo pmset -a displaysleep 30; then
     echo ""
-    echo "[ ERROR OCCURRED ]"
-    echo "--------------------------------------------------------------"
+    echo "[ERROR] ERROR OCCURRED"
+    echo "=============================================================="
     echo "Failed to set display sleep (AC)"
     exit 1
 fi
@@ -169,8 +170,8 @@ fi
 echo "Display Sleep (DC) : 10 minutes"
 if ! sudo pmset -b displaysleep 10; then
     echo ""
-    echo "[ ERROR OCCURRED ]"
-    echo "--------------------------------------------------------------"
+    echo "[ERROR] ERROR OCCURRED"
+    echo "=============================================================="
     echo "Failed to set display sleep (DC)"
     exit 1
 fi
@@ -179,8 +180,8 @@ fi
 echo "Disk Sleep (AC)    : 60 minutes"
 if ! sudo pmset -a disksleep 60; then
     echo ""
-    echo "[ ERROR OCCURRED ]"
-    echo "--------------------------------------------------------------"
+    echo "[ERROR] ERROR OCCURRED"
+    echo "=============================================================="
     echo "Failed to set disk sleep (AC)"
     exit 1
 fi
@@ -189,8 +190,8 @@ fi
 echo "Disk Sleep (DC)    : 30 minutes"
 if ! sudo pmset -b disksleep 30; then
     echo ""
-    echo "[ ERROR OCCURRED ]"
-    echo "--------------------------------------------------------------"
+    echo "[ERROR] ERROR OCCURRED"
+    echo "=============================================================="
     echo "Failed to set disk sleep (DC)"
     exit 1
 fi
@@ -201,8 +202,8 @@ if [ "$has_battery" -eq 0 ]; then
     echo "System Sleep (AC)  : Never (0)"
     if ! sudo pmset -a sleep 0; then
         echo ""
-        echo "[ ERROR OCCURRED ]"
-        echo "--------------------------------------------------------------"
+        echo "[ERROR] ERROR OCCURRED"
+        echo "=============================================================="
         echo "Failed to set system sleep (AC)"
         exit 1
     fi
@@ -211,8 +212,8 @@ else
     echo "System Sleep (DC)  : 20 minutes"
     if ! sudo pmset -b sleep 20; then
         echo ""
-        echo "[ ERROR OCCURRED ]"
-        echo "--------------------------------------------------------------"
+        echo "[ERROR] ERROR OCCURRED"
+        echo "=============================================================="
         echo "Failed to set system sleep (DC)"
         exit 1
     fi
@@ -222,15 +223,15 @@ fi
 # CONFIGURE HIBERNATION
 # ============================================================================
 echo ""
-echo "[ CONFIGURING HIBERNATION ]"
-echo "--------------------------------------------------------------"
+echo "[RUN] CONFIGURING HIBERNATION"
+echo "=============================================================="
 
 if [ "$has_battery" -eq 0 ]; then
     echo "Hibernation        : DISABLED (Desktop)"
     if ! sudo pmset -a hibernatemode 0; then
         echo ""
-        echo "[ ERROR OCCURRED ]"
-        echo "--------------------------------------------------------------"
+        echo "[ERROR] ERROR OCCURRED"
+        echo "=============================================================="
         echo "Failed to disable hibernation"
         exit 1
     fi
@@ -242,12 +243,12 @@ fi
 # FINAL STATUS
 # ============================================================================
 echo ""
-echo "[ FINAL STATUS ]"
-echo "--------------------------------------------------------------"
+echo "[INFO] RESULT"
+echo "=============================================================="
 echo "Result : SUCCESS"
 echo "Power settings configured successfully"
 
 echo ""
-echo "[ SCRIPT COMPLETE ]"
-echo "--------------------------------------------------------------"
+echo "[OK] SCRIPT COMPLETED"
+echo "=============================================================="
 exit 0

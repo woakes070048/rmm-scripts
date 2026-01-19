@@ -7,9 +7,9 @@
 # ███████╗██║██║ ╚═╝ ██║███████╗██║  ██║██║  ██║╚███╔███╔╝██║  ██╗
 # ╚══════╝╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚══╝╚══╝ ╚═╝  ╚═╝
 # ================================================================================
-#  SCRIPT   : SentinelOne Agent Uninstall (Linux)                          v1.1.0
+#  SCRIPT   : SentinelOne Agent Uninstall (Linux)                          v1.1.1
 #  AUTHOR   : Limehawk.io
-#  DATE     : December 2025
+#  DATE     : January 2026
 #  USAGE    : sudo ./sentinelone_uninstall_linux.sh
 # ================================================================================
 #  FILE     : sentinelone_uninstall_linux.sh
@@ -66,27 +66,27 @@
 #
 #  EXAMPLE RUN
 #
-#    [ SENTINELONE UNINSTALL ]
-#    --------------------------------------------------------------
+#    [RUN] SENTINELONE UNINSTALL
+#    ==============================================================
 #    Starting SentinelOne agent uninstallation...
 #
-#    Permissions : root
-#
-#    sentinelctl found : yes
+#    Permissions     : root
+#    sentinelctl     : found
 #
 #    Running uninstall command...
 #
-#    [ FINAL STATUS ]
-#    --------------------------------------------------------------
+#    [OK] FINAL STATUS
+#    ==============================================================
 #    Result : SUCCESS
 #    SentinelOne agent uninstalled successfully
 #
-#    [ SCRIPT COMPLETE ]
-#    --------------------------------------------------------------
+#    [OK] SCRIPT COMPLETED
+#    ==============================================================
 #
 # --------------------------------------------------------------------------------
 #  CHANGELOG
 # --------------------------------------------------------------------------------
+#  2026-01-19 v1.1.1 Updated to two-line ASCII console output style
 #  2025-12-23 v1.1.0 Updated to Limehawk Script Framework
 #  2024-01-01 v1.0.0 Initial release
 # ================================================================================
@@ -98,16 +98,16 @@ set -e
 # ============================================================================
 
 echo ""
-echo "[ SENTINELONE UNINSTALL ]"
-echo "--------------------------------------------------------------"
+echo "[RUN] SENTINELONE UNINSTALL"
+echo "=============================================================="
 echo "Starting SentinelOne agent uninstallation..."
 echo ""
 
 # Check if running as root
 if [ "$EUID" -ne 0 ]; then
     echo ""
-    echo "[ ERROR OCCURRED ]"
-    echo "--------------------------------------------------------------"
+    echo "[ERROR] ERROR OCCURRED"
+    echo "=============================================================="
     echo "This script must be run as root"
     echo ""
     echo "Troubleshooting:"
@@ -117,14 +117,13 @@ if [ "$EUID" -ne 0 ]; then
     exit 1
 fi
 
-echo "Permissions : root"
-echo ""
+echo "Permissions     : root"
 
 # Check if sentinelctl exists
 if ! command -v sentinelctl &> /dev/null; then
     echo ""
-    echo "[ ERROR OCCURRED ]"
-    echo "--------------------------------------------------------------"
+    echo "[ERROR] ERROR OCCURRED"
+    echo "=============================================================="
     echo "sentinelctl command not found"
     echo ""
     echo "Troubleshooting:"
@@ -134,25 +133,25 @@ if ! command -v sentinelctl &> /dev/null; then
     exit 1
 fi
 
-echo "sentinelctl found : yes"
+echo "sentinelctl     : found"
 echo ""
 
 # Uninstall SentinelOne agent
 echo "Running uninstall command..."
 if sudo sentinelctl uninstall; then
     echo ""
-    echo "[ FINAL STATUS ]"
-    echo "--------------------------------------------------------------"
+    echo "[OK] FINAL STATUS"
+    echo "=============================================================="
     echo "Result : SUCCESS"
     echo "SentinelOne agent uninstalled successfully"
     echo ""
-    echo "[ SCRIPT COMPLETE ]"
-    echo "--------------------------------------------------------------"
+    echo "[OK] SCRIPT COMPLETED"
+    echo "=============================================================="
     exit 0
 else
     echo ""
-    echo "[ ERROR OCCURRED ]"
-    echo "--------------------------------------------------------------"
+    echo "[ERROR] ERROR OCCURRED"
+    echo "=============================================================="
     echo "SentinelOne uninstall failed"
     echo ""
     echo "Troubleshooting:"

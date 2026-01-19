@@ -8,9 +8,9 @@ $ErrorActionPreference = 'Stop'
 ███████╗██║██║ ╚═╝ ██║███████╗██║  ██║██║  ██║╚███╔███╔╝██║  ██╗
 ╚══════╝╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚══╝╚══╝ ╚═╝  ╚═╝
 ================================================================================
- SCRIPT   : SuperOps Agent Uninstaller                                   v1.2.3
+ SCRIPT   : SuperOps Agent Uninstaller                                   v1.2.4
  AUTHOR   : Limehawk.io
- DATE      : December 2025
+ DATE     : January 2026
  USAGE    : .\superops_agent_uninstaller.ps1
 ================================================================================
  FILE     : superops_agent_uninstaller.ps1
@@ -61,28 +61,29 @@ DESCRIPTION : Uninstalls SuperOps agent via WMI/CIM with diagnostic reporting
  - 0: Success (uninstall executed, or product already absent).
  - 1: Script error occurred.
 
- EXAMPLE RUN (Style A)
- [ TARGET PARAMETERS ]
- --------------------------------------------------------------
+ EXAMPLE RUN
+ [INFO] TARGET PARAMETERS
+ ==============================================================
  Product GUID             : {3BB93941-0FBF-4E6E-CFC2-01C0FA4F9301}
 
- [ UNINSTALL ACTION ]
- --------------------------------------------------------------
- STATUS                   : Attempting uninstall via WMI...
- STATUS                   : No matching product found via WMI.
- STATUS                   : No matching product found via CIM.
- RESULT                   : PRODUCT NOT INSTALLED OR ALREADY REMOVED
+ [RUN] UNINSTALL ACTION
+ ==============================================================
+ [RUN] STATUS             : Attempting uninstall via WMI...
+ [WARN] STATUS            : No matching product found via WMI.
+ [WARN] STATUS            : No matching product found via CIM.
+ [OK] RESULT              : PRODUCT NOT INSTALLED OR ALREADY REMOVED
 
- [ FINAL STATUS ]
- --------------------------------------------------------------
- UNINSTALL PROCESS FINISHED (NO ACTION NEEDED).
+ [INFO] FINAL STATUS
+ ==============================================================
+ [OK] UNINSTALL PROCESS FINISHED (NO ACTION NEEDED).
 
- [ SCRIPT COMPLETED ]
- --------------------------------------------------------------
+ [INFO] SCRIPT COMPLETED
+ ==============================================================
 
 --------------------------------------------------------------------------------
  CHANGELOG
 --------------------------------------------------------------------------------
+ 2026-01-19 v1.2.4 Updated to two-line ASCII console output style
  2025-12-23 v1.2.3 Updated to Limehawk Script Framework
  2025-08-20 v1.2.2 Treats missing product as success (already removed) instead of failure
  2025-08-20 v1.2.1 Fixed cleanup command string formatting in service check to prevent parse errors
@@ -99,10 +100,10 @@ Set-StrictMode -Version Latest
 #================================================================================
 
 function Write-Section {
-    param([string]$title)
+    param([string]$prefix, [string]$title)
     Write-Host ""
-    Write-Host ("[ {0} ]" -f $title)
-    Write-Host ("-" * 62)
+    Write-Host ("[{0}] {1}" -f $prefix, $title)
+    Write-Host ("=" * 62)
 }
 
 function PrintKV([string]$label, [string]$value) {
@@ -118,11 +119,11 @@ $ProductGUID = '{3BB93941-0FBF-4E6E-CFC2-01C0FA4F9301}'
 $uninstallAttempted = $false
 
 try {
-    Write-Section 'TARGET PARAMETERS'
+    Write-Section 'INFO' 'TARGET PARAMETERS'
     PrintKV 'Product GUID' $ProductGUID
 
-    Write-Section 'UNINSTALL ACTION'
-    PrintKV 'STATUS' 'Attempting uninstall via WMI...'
+    Write-Section 'RUN' 'UNINSTALL ACTION'
+    Write-Host "[RUN] Attempting uninstall via WMI..."
     try {
         $wmiProduct = Get-WmiObject -Class Win32_Product -Filter "IdentifyingNumber='$ProductGUID'" -ErrorAction Stop | Select-Object -First 1
         if ($wmiProduct) {
@@ -131,13 +132,13 @@ try {
             PrintKV 'PUBLISHER' $wmiProduct.Vendor
             PrintKV 'METHOD USED' 'WMI (Win32_Product)'
             $wmiProduct.Uninstall() | Out-Null
-            PrintKV 'RESULT' 'UNINSTALL SUCCESSFUL VIA WMI'
+            Write-Host "[OK] UNINSTALL SUCCESSFUL VIA WMI"
             $uninstallAttempted = $true
         } else {
-            PrintKV 'STATUS' 'No matching product found via WMI.'
+            Write-Host "[WARN] No matching product found via WMI."
         }
     } catch {
-        PrintKV 'STATUS' 'WMI uninstall failed. Trying CIM...'
+        Write-Host "[WARN] WMI uninstall failed. Trying CIM..."
     }
 
     if (-not $uninstallAttempted) {
@@ -149,10 +150,10 @@ try {
                 PrintKV 'PUBLISHER' $cimProduct.Vendor
                 PrintKV 'METHOD USED' 'CIM (Win32_Product)'
                 $cimProduct | Invoke-CimMethod -MethodName Uninstall | Out-Null
-                PrintKV 'RESULT' 'UNINSTALL SUCCESSFUL VIA CIM'
+                Write-Host "[OK] UNINSTALL SUCCESSFUL VIA CIM"
                 $uninstallAttempted = $true
             } else {
-                PrintKV 'STATUS' 'No matching product found via CIM.'
+                Write-Host "[WARN] No matching product found via CIM."
             }
         } catch {
             throw 'CIM uninstall also failed.'
@@ -160,20 +161,20 @@ try {
     }
 
     if (-not $uninstallAttempted) {
-        PrintKV 'RESULT' 'PRODUCT NOT INSTALLED OR ALREADY REMOVED'
+        Write-Host "[OK] PRODUCT NOT INSTALLED OR ALREADY REMOVED"
         $uninstallAttempted = $true  # Treat as success
     }
 
 } catch {
-    Write-Section 'ERROR OCCURRED'
+    Write-Section 'ERROR' 'ERROR OCCURRED'
     PrintKV 'ERROR MESSAGE' $_.Exception.Message
 } finally {
-    Write-Section 'POST-UNINSTALL SERVICE CHECK'
-    PrintKV 'STATUS' 'Checking for leftover services (SuperOps/RMM)...'
+    Write-Section 'INFO' 'POST-UNINSTALL SERVICE CHECK'
+    Write-Host "[RUN] Checking for leftover services (SuperOps/RMM)..."
     $leftoverServices = Get-Service -ErrorAction SilentlyContinue | Where-Object { $_.DisplayName -match 'SuperOps|RMM' }
 
     if ($leftoverServices) {
-        PrintKV 'WARNING' 'LEFTOVER SERVICES FOUND. MANUAL DELETION MAY BE NEEDED.'
+        Write-Host "[WARN] LEFTOVER SERVICES FOUND. MANUAL DELETION MAY BE NEEDED."
         foreach ($service in $leftoverServices) {
             Write-Host ""
             PrintKV '  - Found Service' ("{0} ({1})" -f $service.DisplayName, $service.Name)
@@ -181,21 +182,21 @@ try {
             PrintKV '    Cleanup Command' $cleanupCmd
         }
     } else {
-        PrintKV 'STATUS' 'No leftover services found.'
+        Write-Host "[OK] No leftover services found."
     }
 
-    Write-Section 'FINAL STATUS'
+    Write-Section 'INFO' 'FINAL STATUS'
     if ($uninstallAttempted) {
         if ($wmiProduct -or $cimProduct) {
-            Write-Host 'UNINSTALL PROCESS FINISHED.'
+            Write-Host '[OK] UNINSTALL PROCESS FINISHED.'
         } else {
-            Write-Host 'UNINSTALL PROCESS FINISHED (NO ACTION NEEDED).'
+            Write-Host '[OK] UNINSTALL PROCESS FINISHED (NO ACTION NEEDED).'
         }
         exit 0
     } else {
-        Write-Host 'SCRIPT FINISHED WITH ERRORS.'
+        Write-Host '[ERROR] SCRIPT FINISHED WITH ERRORS.'
         exit 1
     }
 
-    Write-Section 'SCRIPT COMPLETED'
+    Write-Section 'INFO' 'SCRIPT COMPLETED'
 }

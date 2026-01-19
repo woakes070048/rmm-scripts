@@ -8,9 +8,9 @@ $ErrorActionPreference = 'Stop'
 ╚══════╝╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚══╝╚══╝ ╚═╝  ╚═╝
 
 ================================================================================
- SCRIPT   : OneStart Complete Removal v1.2.0
+ SCRIPT   : OneStart Complete Removal v1.2.2
  AUTHOR   : Limehawk.io
- DATE      : December 2025
+ DATE      : January 2026
  USAGE    : .\onestart_complete_removal.ps1
 ================================================================================
  FILE     : onestart_complete_removal.ps1
@@ -75,12 +75,12 @@ EXIT CODES
 
 --------------------------------------------------------------
 EXAMPLE RUN
-[ INPUT VALIDATION ]
---------------------------------------------------------------
+[INFO] INPUT VALIDATION
+==============================================================
 Application Name : OneStart
 
-[ NIRSOFT UNINSTALLVIEW SETUP ]
---------------------------------------------------------------
+[RUN] SETTING UP NIRSOFT UNINSTALLVIEW
+==============================================================
 Architecture : 64-bit
 Download URL : https://www.nirsoft.net/utils/uninstallview-x64.zip
 Downloading UninstallView...
@@ -88,51 +88,51 @@ Download complete
 Extracting to C:\limehawk\nirsoft...
 Extraction complete
 
-[ UNINSTALL ATTEMPT ]
---------------------------------------------------------------
+[RUN] ATTEMPTING UNINSTALL
+==============================================================
 Searching for : OneStart
 Attempting silent uninstall...
 Uninstall command issued
 Waiting 10 seconds for uninstall to complete...
 
-[ PROCESS TERMINATION ]
---------------------------------------------------------------
+[RUN] TERMINATING PROCESSES
+==============================================================
 Searching for OneStart/DBar processes...
 Found process : OneStart (PID: 12345)
 Terminated : OneStart
 Process cleanup complete
 
-[ SCHEDULED TASK REMOVAL ]
---------------------------------------------------------------
+[RUN] REMOVING SCHEDULED TASKS
+==============================================================
 Searching for OneStart scheduled tasks...
 Found : OneStartUpdaterTaskUser134.0.6
 Removed : OneStartUpdaterTaskUser134.0.6
 Removing task folders...
 Task cleanup complete
 
-[ FILE CLEANUP ]
---------------------------------------------------------------
+[RUN] CLEANING FILES
+==============================================================
 Checking known OneStart locations...
 Removed : C:\Users\User\AppData\Local\OneStart.ai
 Removed : C:\Users\User\AppData\Roaming\OneStart
 File cleanup complete
 
-[ REGISTRY BACKUP ]
---------------------------------------------------------------
+[RUN] BACKING UP REGISTRY
+==============================================================
 Creating registry backups before removal...
 Backed up : HKCU:\Software\OneStart.ai
 Backup location : <SystemDrive>\limehawk\registry_backup\onestart_20251201_120000
 Registry backup complete
 
-[ REGISTRY CLEANUP ]
---------------------------------------------------------------
+[RUN] CLEANING REGISTRY
+==============================================================
 Cleaning registry keys...
 Removed : HKCU:\Software\OneStart.ai
 Checking startup entries...
 Registry cleanup complete
 
-[ FINAL STATUS ]
---------------------------------------------------------------
+[INFO] FINAL STATUS
+==============================================================
 Result : Success
 Uninstall Attempted : Yes
 Processes Terminated : 1
@@ -141,11 +141,14 @@ Folders Removed : 2
 Registry Keys Backed Up : 1
 Registry Keys Removed : 1
 
-[ SCRIPT COMPLETED ]
+[OK] SCRIPT COMPLETED
+==============================================================
 
 --------------------------------------------------------------------------------
  CHANGELOG
 --------------------------------------------------------------------------------
+ 2026-01-19 v1.2.2 Fixed EXAMPLE RUN section formatting
+ 2026-01-19 v1.2.1 Updated to two-line ASCII console output style
  2025-12-23 v1.2.0 Updated to Limehawk Script Framework
  2025-12-01 v1.1.0 Add registry backup before removal to $env:SystemDrive\limehawk\registry_backup
  2025-12-01 v1.0.0 Initial release - combines NirSoft uninstall with manual cleanup
@@ -231,8 +234,8 @@ $registryKeysRemoved  = 0
 # ==============================================================================
 
 Write-Host ""
-Write-Host "[ INPUT VALIDATION ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[INFO] INPUT VALIDATION"
+Write-Host "=============================================================="
 
 $errorOccurred = $false
 $errorText     = ""
@@ -245,8 +248,8 @@ if ([string]::IsNullOrWhiteSpace($appName)) {
 
 if ($errorOccurred) {
     Write-Host ""
-    Write-Host "[ ERROR OCCURRED ]"
-    Write-Host "--------------------------------------------------------------"
+    Write-Host "[ERROR] VALIDATION FAILED"
+    Write-Host "=============================================================="
     Write-Host "Input validation failed:"
     Write-Host $errorText
     exit 1
@@ -259,8 +262,8 @@ Write-Host "Application Name : $appName"
 # ==============================================================================
 
 Write-Host ""
-Write-Host "[ NIRSOFT UNINSTALLVIEW SETUP ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[INFO] NIRSOFT UNINSTALLVIEW SETUP"
+Write-Host "=============================================================="
 
 if ([Environment]::Is64BitOperatingSystem) {
     $downloadUrl = "https://www.nirsoft.net/utils/uninstallview-x64.zip"
@@ -282,13 +285,13 @@ try {
     $uninstallViewPath = Join-Path $destinationFolder "UninstallView.exe"
 
     if (-not (Test-Path $uninstallViewPath)) {
-        Write-Host "Downloading UninstallView..."
+        Write-Host "[RUN] Downloading UninstallView..."
         Invoke-WebRequest -Uri $downloadUrl -OutFile $zipFilePath -UseBasicParsing
-        Write-Host "Download complete"
+        Write-Host "[OK] Download complete"
 
-        Write-Host "Extracting to $destinationFolder..."
+        Write-Host "[RUN] Extracting to $destinationFolder..."
         Expand-Archive -Path $zipFilePath -DestinationPath $destinationFolder -Force
-        Write-Host "Extraction complete"
+        Write-Host "[OK] Extraction complete"
 
         if (Test-Path $zipFilePath) {
             Remove-Item $zipFilePath -Force
@@ -308,12 +311,12 @@ catch {
 # ==============================================================================
 
 Write-Host ""
-Write-Host "[ UNINSTALL ATTEMPT ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[INFO] UNINSTALL ATTEMPT"
+Write-Host "=============================================================="
 
 if ($uninstallViewPath -and (Test-Path $uninstallViewPath)) {
-    Write-Host "Searching for : $appName"
-    Write-Host "Attempting silent uninstall..."
+    Write-Host "[RUN] Searching for : $appName"
+    Write-Host "[RUN] Attempting silent uninstall..."
 
     try {
         $process = Start-Process -FilePath $uninstallViewPath `
@@ -321,7 +324,7 @@ if ($uninstallViewPath -and (Test-Path $uninstallViewPath)) {
             -PassThru -Wait -WindowStyle Hidden
 
         $uninstallAttempted = $true
-        Write-Host "Uninstall command issued (exit code: $($process.ExitCode))"
+        Write-Host "[OK] Uninstall command issued (exit code: $($process.ExitCode))"
         Write-Host "Waiting 10 seconds for uninstall to complete..."
         Start-Sleep -Seconds 10
     }
@@ -337,10 +340,10 @@ if ($uninstallViewPath -and (Test-Path $uninstallViewPath)) {
 # ==============================================================================
 
 Write-Host ""
-Write-Host "[ PROCESS TERMINATION ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[INFO] PROCESS TERMINATION"
+Write-Host "=============================================================="
 
-Write-Host "Searching for OneStart/DBar processes..."
+Write-Host "[RUN] Searching for OneStart/DBar processes..."
 
 foreach ($pattern in $processPatterns) {
     try {
@@ -349,11 +352,11 @@ foreach ($pattern in $processPatterns) {
             Write-Host "Found process : $($proc.ProcessName) (PID: $($proc.Id))"
             try {
                 Stop-Process -Id $proc.Id -Force -ErrorAction Stop
-                Write-Host "Terminated : $($proc.ProcessName)"
+                Write-Host "[OK] Terminated : $($proc.ProcessName)"
                 $processesTerminated++
             }
             catch {
-                Write-Host "Failed to terminate : $($proc.ProcessName)"
+                Write-Host "[WARN] Failed to terminate : $($proc.ProcessName)"
             }
         }
     }
@@ -366,17 +369,17 @@ if ($processesTerminated -eq 0) {
     Write-Host "No matching processes found"
 }
 
-Write-Host "Process cleanup complete"
+Write-Host "[OK] Process cleanup complete"
 
 # ==============================================================================
 # SCHEDULED TASK REMOVAL
 # ==============================================================================
 
 Write-Host ""
-Write-Host "[ SCHEDULED TASK REMOVAL ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[INFO] SCHEDULED TASK REMOVAL"
+Write-Host "=============================================================="
 
-Write-Host "Searching for OneStart scheduled tasks..."
+Write-Host "[RUN] Searching for OneStart scheduled tasks..."
 
 foreach ($taskPath in $taskPathPatterns) {
     foreach ($taskName in $taskNamePatterns) {
@@ -386,11 +389,11 @@ foreach ($taskPath in $taskPathPatterns) {
                 Write-Host "Found : $($task.TaskName)"
                 try {
                     Unregister-ScheduledTask -TaskPath $task.TaskPath -TaskName $task.TaskName -Confirm:$false -ErrorAction Stop
-                    Write-Host "Removed : $($task.TaskName)"
+                    Write-Host "[OK] Removed : $($task.TaskName)"
                     $tasksRemoved++
                 }
                 catch {
-                    Write-Host "Failed to remove : $($task.TaskName)"
+                    Write-Host "[WARN] Failed to remove : $($task.TaskName)"
                 }
             }
         }
@@ -407,11 +410,11 @@ try {
         Write-Host "Found : $($task.TaskName)"
         try {
             Unregister-ScheduledTask -TaskPath $task.TaskPath -TaskName $task.TaskName -Confirm:$false -ErrorAction Stop
-            Write-Host "Removed : $($task.TaskName)"
+            Write-Host "[OK] Removed : $($task.TaskName)"
             $tasksRemoved++
         }
         catch {
-            Write-Host "Failed to remove : $($task.TaskName)"
+            Write-Host "[WARN] Failed to remove : $($task.TaskName)"
         }
     }
 }
@@ -420,7 +423,7 @@ catch {
 }
 
 # Remove task folders
-Write-Host "Removing task folders..."
+Write-Host "[RUN] Removing task folders..."
 $taskFoldersToRemove = @('\OneStartUser\OneStartUpdater\', '\OneStartUser\')
 
 try {
@@ -449,27 +452,27 @@ if ($tasksRemoved -eq 0) {
     Write-Host "No matching tasks found"
 }
 
-Write-Host "Task cleanup complete"
+Write-Host "[OK] Task cleanup complete"
 
 # ==============================================================================
 # FILE CLEANUP
 # ==============================================================================
 
 Write-Host ""
-Write-Host "[ FILE CLEANUP ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[INFO] FILE CLEANUP"
+Write-Host "=============================================================="
 
-Write-Host "Checking known OneStart locations..."
+Write-Host "[RUN] Checking known OneStart locations..."
 
 foreach ($folderPath in $folderPaths) {
     if (Test-Path $folderPath) {
         try {
             Remove-Item -Path $folderPath -Recurse -Force -ErrorAction Stop
-            Write-Host "Removed : $folderPath"
+            Write-Host "[OK] Removed : $folderPath"
             $foldersRemoved++
         }
         catch {
-            Write-Host "Failed to remove : $folderPath - $($_.Exception.Message)"
+            Write-Host "[WARN] Failed to remove : $folderPath - $($_.Exception.Message)"
         }
     }
 }
@@ -488,11 +491,11 @@ foreach ($profile in $userProfiles) {
         if (Test-Path $userPath) {
             try {
                 Remove-Item -Path $userPath -Recurse -Force -ErrorAction Stop
-                Write-Host "Removed : $userPath"
+                Write-Host "[OK] Removed : $userPath"
                 $foldersRemoved++
             }
             catch {
-                Write-Host "Failed to remove : $userPath"
+                Write-Host "[WARN] Failed to remove : $userPath"
             }
         }
     }
@@ -502,17 +505,17 @@ if ($foldersRemoved -eq 0) {
     Write-Host "No leftover folders found"
 }
 
-Write-Host "File cleanup complete"
+Write-Host "[OK] File cleanup complete"
 
 # ==============================================================================
 # REGISTRY BACKUP
 # ==============================================================================
 
 Write-Host ""
-Write-Host "[ REGISTRY BACKUP ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[INFO] REGISTRY BACKUP"
+Write-Host "=============================================================="
 
-Write-Host "Creating registry backups before removal..."
+Write-Host "[RUN] Creating registry backups before removal..."
 
 try {
     if (-not (Test-Path $registryBackupFolder)) {
@@ -534,14 +537,14 @@ try {
 
                 $regExport = Start-Process -FilePath "reg.exe" -ArgumentList "export `"$regExePath`" `"$backupFile`" /y" -Wait -PassThru -WindowStyle Hidden
                 if ($regExport.ExitCode -eq 0) {
-                    Write-Host "Backed up : $regPath"
+                    Write-Host "[OK] Backed up : $regPath"
                     $registryKeysBackedUp++
                 } else {
-                    Write-Host "Failed to backup : $regPath"
+                    Write-Host "[WARN] Failed to backup : $regPath"
                 }
             }
             catch {
-                Write-Host "Failed to backup : $regPath - $($_.Exception.Message)"
+                Write-Host "[WARN] Failed to backup : $regPath - $($_.Exception.Message)"
             }
         }
     }
@@ -560,7 +563,7 @@ try {
 
                         $regExport = Start-Process -FilePath "reg.exe" -ArgumentList "export `"$regExePath`" `"$backupFile`" /y" -Wait -PassThru -WindowStyle Hidden
                         if ($regExport.ExitCode -eq 0) {
-                            Write-Host "Backed up Run key : $runKey"
+                            Write-Host "[OK] Backed up Run key : $runKey"
                             $registryKeysBackedUp++
                         }
                     }
@@ -584,33 +587,33 @@ if ($registryKeysBackedUp -eq 0) {
     Write-Host "No registry keys found to backup"
 }
 
-Write-Host "Registry backup complete"
+Write-Host "[OK] Registry backup complete"
 
 # ==============================================================================
 # REGISTRY CLEANUP
 # ==============================================================================
 
 Write-Host ""
-Write-Host "[ REGISTRY CLEANUP ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[INFO] REGISTRY CLEANUP"
+Write-Host "=============================================================="
 
-Write-Host "Cleaning registry keys..."
+Write-Host "[RUN] Cleaning registry keys..."
 
 foreach ($regPath in $registryPaths) {
     if (Test-Path $regPath) {
         try {
             Remove-Item -Path $regPath -Recurse -Force -ErrorAction Stop
-            Write-Host "Removed : $regPath"
+            Write-Host "[OK] Removed : $regPath"
             $registryKeysRemoved++
         }
         catch {
-            Write-Host "Failed to remove : $regPath"
+            Write-Host "[WARN] Failed to remove : $regPath"
         }
     }
 }
 
 # Clean Run keys
-Write-Host "Checking startup entries..."
+Write-Host "[RUN] Checking startup entries..."
 foreach ($runKey in $runKeyPaths) {
     if (Test-Path $runKey) {
         try {
@@ -619,11 +622,11 @@ foreach ($runKey in $runKeyPaths) {
                 $props.PSObject.Properties | Where-Object { $_.Name -like "*OneStart*" -or $_.Name -like "*DBar*" } | ForEach-Object {
                     try {
                         Remove-ItemProperty -Path $runKey -Name $_.Name -Force -ErrorAction Stop
-                        Write-Host "Removed startup entry : $($_.Name)"
+                        Write-Host "[OK] Removed startup entry : $($_.Name)"
                         $registryKeysRemoved++
                     }
                     catch {
-                        Write-Host "Failed to remove startup entry : $($_.Name)"
+                        Write-Host "[WARN] Failed to remove startup entry : $($_.Name)"
                     }
                 }
             }
@@ -638,15 +641,15 @@ if ($registryKeysRemoved -eq 0) {
     Write-Host "No leftover registry keys found"
 }
 
-Write-Host "Registry cleanup complete"
+Write-Host "[OK] Registry cleanup complete"
 
 # ==============================================================================
 # FINAL STATUS
 # ==============================================================================
 
 Write-Host ""
-Write-Host "[ FINAL STATUS ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[INFO] FINAL STATUS"
+Write-Host "=============================================================="
 
 Write-Host "Result : Success"
 Write-Host "Uninstall Attempted : $(if ($uninstallAttempted) { 'Yes' } else { 'No' })"
@@ -657,5 +660,6 @@ Write-Host "Registry Keys Backed Up : $registryKeysBackedUp"
 Write-Host "Registry Keys Removed : $registryKeysRemoved"
 
 Write-Host ""
-Write-Host "[ SCRIPT COMPLETED ]"
+Write-Host "[INFO] SCRIPT COMPLETED"
+Write-Host "=============================================================="
 exit 0

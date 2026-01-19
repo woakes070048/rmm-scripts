@@ -7,7 +7,7 @@ $ErrorActionPreference = 'Stop'
 ███████╗██║██║ ╚═╝ ██║███████╗██║  ██║██║  ██║╚███╔███╔╝██║  ██╗
 ╚══════╝╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚══╝╚══╝ ╚═╝  ╚═╝
 ================================================================================
- SCRIPT   : Antivirus Uninstall (Multi-Vendor)                           v1.3.0
+ SCRIPT   : Antivirus Uninstall (Multi-Vendor)                           v1.3.1
  AUTHOR   : Limehawk.io
  DATE     : January 2026
  USAGE    : .\antivirus_uninstall.ps1
@@ -92,11 +92,13 @@ EXIT CODES
 --------------------------------------------------------------------------------
 EXAMPLE RUN
 
-╔═[i]═ SETUP ══════════════════════════════════════════════════
+[INFO] SETUP
+==============================================================
   Script started : 2026-01-18 20:30:15
   Administrator  : Yes
 
-╔═[i]═ MCAFEE DETECTION ═══════════════════════════════════════
+[INFO] MCAFEE DETECTION
+==============================================================
   Checking for McAfee software...
     Registry keys    : Found (HKLM:\SOFTWARE\McAfee)
     Services         : Found (2 services)
@@ -105,7 +107,8 @@ EXAMPLE RUN
     WMI Products     : Found (3 products)
   McAfee detected    : Yes
 
-╔═[>]═ MCAFEE UNINSTALLATION ══════════════════════════════════
+[RUN] MCAFEE UNINSTALLATION
+==============================================================
   Stopping McAfee services...
     Stopped: mfemms
     Stopped: mfefire
@@ -116,7 +119,8 @@ EXAMPLE RUN
   Running MCPR tool...
   McAfee removal completed
 
-╔═[✓]═ FINAL STATUS ═══════════════════════════════════════════
+[OK] FINAL STATUS
+==============================================================
   McAfee detected                        : Yes
   McAfee removal attempted               : Yes
   Sophos detected                        : No
@@ -124,11 +128,13 @@ EXAMPLE RUN
 
   Note: A system reboot is recommended for complete removal
 
-╔═[✓]═ SCRIPT COMPLETED ═══════════════════════════════════════
+[OK] SCRIPT COMPLETED
+==============================================================
 
 --------------------------------------------------------------------------------
  CHANGELOG
 --------------------------------------------------------------------------------
+ 2026-01-19 v1.3.1 Updated to two-line ASCII console output style
  2026-01-19 v1.3.0 Updated to corner bracket style section headers
  2026-01-18 v1.2.5 Improved MCPR log display and added verbose McAfee detection
  2026-01-18 v1.2.4 Check and display recent MCPR logs after starting
@@ -225,21 +231,24 @@ $mcprPath = "$env:TEMP\MCPR.exe"
 # ==============================================================================
 
 Write-Host ""
-Write-Host "╔═[i]═ SETUP ══════════════════════════════════════════════════"
+Write-Host "[INFO] SETUP"
+Write-Host "=============================================================="
 
 $isAdmin = ([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)
 
 if (-not $isAdmin) {
     Write-Host "Administrator  : No"
     Write-Host ""
-    Write-Host "╔═[✗]═ ERROR OCCURRED ═════════════════════════════════════════"
+    Write-Host "[ERROR] ERROR OCCURRED"
+    Write-Host "=============================================================="
     Write-Host "This script requires Administrator privileges"
     Write-Host ""
     Write-Host "Troubleshooting:"
     Write-Host "- Right-click PowerShell and select 'Run as Administrator'"
     Write-Host "- Or run from RMM platform with SYSTEM privileges"
     Write-Host ""
-    Write-Host "╔═[✗]═ SCRIPT COMPLETED ═══════════════════════════════════════"
+    Write-Host "[ERROR] SCRIPT COMPLETED"
+    Write-Host "=============================================================="
     exit 1
 }
 
@@ -251,7 +260,8 @@ Write-Host "Administrator  : Yes"
 # ==============================================================================
 
 Write-Host ""
-Write-Host "╔═[i]═ MCAFEE DETECTION ═══════════════════════════════════════"
+Write-Host "[INFO] MCAFEE DETECTION"
+Write-Host "=============================================================="
 Write-Host "Checking for McAfee software..."
 
 $mcAfeeRegistryFound = $false
@@ -373,7 +383,8 @@ if ($mcAfeeRegistryFound -or $mcAfeeServicesFound.Count -gt 0 -or $mcAfeePathsFo
 
 if ($mcAfeeDetected) {
     Write-Host ""
-    Write-Host "╔═[>]═ MCAFEE UNINSTALLATION ══════════════════════════════════"
+    Write-Host "[RUN] MCAFEE UNINSTALLATION"
+    Write-Host "=============================================================="
     $mcAfeeRemovalAttempted = $true
 
     # Step 1: Stop services
@@ -527,7 +538,8 @@ if ($mcAfeeDetected) {
 # ==============================================================================
 
 Write-Host ""
-Write-Host "╔═[i]═ SOPHOS DETECTION ═══════════════════════════════════════"
+Write-Host "[INFO] SOPHOS DETECTION"
+Write-Host "=============================================================="
 Write-Host "Checking for Sophos software..."
 
 $sophosPackages = @()
@@ -570,7 +582,8 @@ Write-Host "Sophos detected    : $(if ($sophosDetected) { 'Yes' } else { 'No' })
 
 if ($sophosDetected) {
     Write-Host ""
-    Write-Host "╔═[>]═ SOPHOS UNINSTALLATION ══════════════════════════════════"
+    Write-Host "[RUN] SOPHOS UNINSTALLATION"
+    Write-Host "=============================================================="
     $sophosRemovalAttempted = $true
 
     # Stop Sophos services first
@@ -610,7 +623,8 @@ if ($sophosDetected) {
 # ==============================================================================
 
 Write-Host ""
-Write-Host "╔═[i]═ MICROSOFT SECURITY ESSENTIALS DETECTION ════════════════"
+Write-Host "[INFO] MICROSOFT SECURITY ESSENTIALS DETECTION"
+Write-Host "=============================================================="
 Write-Host "Checking for Microsoft Security Essentials..."
 
 $mseDetected = Test-Path -Path $mseSetupPath
@@ -628,7 +642,8 @@ Write-Host "MSE detected       : $(if ($mseDetected) { 'Yes' } else { 'No' })"
 
 if ($mseDetected) {
     Write-Host ""
-    Write-Host "╔═[>]═ MICROSOFT SECURITY ESSENTIALS UNINSTALLATION ═══════════"
+    Write-Host "[RUN] MICROSOFT SECURITY ESSENTIALS UNINSTALLATION"
+    Write-Host "=============================================================="
     $mseRemovalAttempted = $true
 
     try {
@@ -647,7 +662,8 @@ if ($mseDetected) {
 # ==============================================================================
 
 Write-Host ""
-Write-Host "╔═[✓]═ FINAL STATUS ═══════════════════════════════════════════"
+Write-Host "[OK] FINAL STATUS"
+Write-Host "=============================================================="
 
 Write-Host "McAfee detected                        : $(if ($mcAfeeDetected) { 'Yes' } else { 'No' })"
 if ($mcAfeeDetected) {
@@ -674,6 +690,7 @@ if ($mcAfeeDetected -or $sophosDetected -or $mseDetected) {
 # ==============================================================================
 
 Write-Host ""
-Write-Host "╔═[✓]═ SCRIPT COMPLETED ═══════════════════════════════════════"
+Write-Host "[OK] SCRIPT COMPLETED"
+Write-Host "=============================================================="
 
 exit 0

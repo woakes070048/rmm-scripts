@@ -8,9 +8,9 @@ $ErrorActionPreference = 'Stop'
 ███████╗██║██║ ╚═╝ ██║███████╗██║  ██║██║  ██║╚███╔███╔╝██║  ██╗
 ╚══════╝╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚══╝╚══╝ ╚═╝  ╚═╝
 ================================================================================
- SCRIPT    : Print Queue Reset 1.2.0
+ SCRIPT    : Print Queue Reset 1.2.1
  AUTHOR    : Limehawk.io
- DATE      : December 2025
+ DATE      : January 2026
  USAGE     : .\print_queue_reset.ps1
  FILE      : print_queue_reset.ps1
 DESCRIPTION : Resets Windows print queue by clearing spooler directory
@@ -75,46 +75,47 @@ EXIT CODES
 
 EXAMPLE RUN
 
-[ INPUT VALIDATION ]
---------------------------------------------------------------
+[INFO] INPUT VALIDATION
+==============================================================
 Service name validated
 Stop timeout validated
 Start timeout validated
 
-[ SERVICE STATUS CHECK ]
---------------------------------------------------------------
+[INFO] SERVICE STATUS CHECK
+==============================================================
 Service : Spooler
 Status  : Running
 
-[ STOPPING PRINT SPOOLER ]
---------------------------------------------------------------
+[RUN] STOPPING PRINT SPOOLER
+==============================================================
 Stopping service Spooler
 Service stopped successfully
 
-[ CLEARING PRINT QUEUE ]
---------------------------------------------------------------
+[RUN] CLEARING PRINT QUEUE
+==============================================================
 Spooler Directory : C:\Windows\System32\spool\PRINTERS
 Total Files Found : 5
 Removing files...
 Files Removed     : 5
 Queue cleared successfully
 
-[ STARTING PRINT SPOOLER ]
---------------------------------------------------------------
+[RUN] STARTING PRINT SPOOLER
+==============================================================
 Starting service Spooler
 Service started successfully
 
-[ FINAL STATUS ]
---------------------------------------------------------------
+[OK] FINAL STATUS
+==============================================================
 Service : Spooler
 Status  : Running
 Result  : Print queue cleared and service restarted successfully
 
-[ SCRIPT COMPLETED ]
---------------------------------------------------------------
+[OK] SCRIPT COMPLETED
+==============================================================
 --------------------------------------------------------------------------------
  CHANGELOG
 --------------------------------------------------------------------------------
+ 2026-01-19 v1.2.1 Updated to two-line ASCII console output style
  2025-12-23 v1.2.0 Updated to Limehawk Script Framework
  2025-01-17 v1.1.0 Add retry logic and handle locked files gracefully
  2025-01-17 v1.0.1 Fix Count property error for single file case
@@ -136,8 +137,8 @@ $startTimeout = 30
 # ============================================================================
 
 Write-Host ""
-Write-Host "[ INPUT VALIDATION ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[INFO] INPUT VALIDATION"
+Write-Host "=============================================================="
 
 $errorOccurred = $false
 $errorText     = ""
@@ -162,8 +163,8 @@ if ($startTimeout -lt 1) {
 
 if ($errorOccurred) {
     Write-Host ""
-    Write-Host "[ ERROR OCCURRED ]"
-    Write-Host "--------------------------------------------------------------"
+    Write-Host "[ERROR] VALIDATION FAILED"
+    Write-Host "=============================================================="
     Write-Host "Input validation failed:"
     Write-Host $errorText
     Write-Host ""
@@ -181,8 +182,8 @@ Write-Host "Start timeout validated"
 try {
     # Check service status
     Write-Host ""
-    Write-Host "[ SERVICE STATUS CHECK ]"
-    Write-Host "--------------------------------------------------------------"
+    Write-Host "[INFO] SERVICE STATUS CHECK"
+    Write-Host "=============================================================="
 
     $service = Get-Service -Name $serviceName
     Write-Host "Service : $($service.Name)"
@@ -190,8 +191,8 @@ try {
 
     # Stop the Print Spooler service if running
     Write-Host ""
-    Write-Host "[ STOPPING PRINT SPOOLER ]"
-    Write-Host "--------------------------------------------------------------"
+    Write-Host "[RUN] STOPPING PRINT SPOOLER"
+    Write-Host "=============================================================="
 
     if ($service.Status -eq 'Running') {
         Write-Host "Stopping service $serviceName"
@@ -219,8 +220,8 @@ try {
 
     # Clear the print queue
     Write-Host ""
-    Write-Host "[ CLEARING PRINT QUEUE ]"
-    Write-Host "--------------------------------------------------------------"
+    Write-Host "[RUN] CLEARING PRINT QUEUE"
+    Write-Host "=============================================================="
 
     $spoolPath = "$env:SystemRoot\System32\spool\PRINTERS"
     Write-Host "Spooler Directory : $spoolPath"
@@ -282,8 +283,8 @@ try {
 
     # Start the Print Spooler service
     Write-Host ""
-    Write-Host "[ STARTING PRINT SPOOLER ]"
-    Write-Host "--------------------------------------------------------------"
+    Write-Host "[RUN] STARTING PRINT SPOOLER"
+    Write-Host "=============================================================="
 
     Write-Host "Starting service $serviceName"
     Start-Service -Name $serviceName
@@ -303,8 +304,8 @@ try {
 
     # Final status
     Write-Host ""
-    Write-Host "[ FINAL STATUS ]"
-    Write-Host "--------------------------------------------------------------"
+    Write-Host "[OK] FINAL STATUS"
+    Write-Host "=============================================================="
 
     $service = Get-Service -Name $serviceName
     Write-Host "Service : $($service.Name)"
@@ -312,16 +313,16 @@ try {
     Write-Host "Result  : Print queue cleared and service restarted successfully"
 
     Write-Host ""
-    Write-Host "[ SCRIPT COMPLETED ]"
-    Write-Host "--------------------------------------------------------------"
+    Write-Host "[OK] SCRIPT COMPLETED"
+    Write-Host "=============================================================="
     Write-Host ""
 
     exit 0
 
 } catch {
     Write-Host ""
-    Write-Host "[ ERROR OCCURRED ]"
-    Write-Host "--------------------------------------------------------------"
+    Write-Host "[ERROR] SCRIPT FAILED"
+    Write-Host "=============================================================="
     Write-Host "Failed to reset print queue"
     Write-Host ""
     Write-Host "Error Message : $($_.Exception.Message)"

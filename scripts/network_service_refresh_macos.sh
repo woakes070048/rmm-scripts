@@ -7,9 +7,9 @@
 # ███████╗██║██║ ╚═╝ ██║███████╗██║  ██║██║  ██║╚███╔███╔╝██║  ██╗
 # ╚══════╝╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚══╝╚══╝ ╚═╝  ╚═╝
 # ================================================================================
-#  SCRIPT   : Network Service Refresh (macOS)                              v1.1.0
+#  SCRIPT   : Network Service Refresh (macOS)                              v1.1.1
 #  AUTHOR   : Limehawk.io
-#  DATE     : December 2025
+#  DATE     : January 2026
 #  USAGE    : sudo ./network_service_refresh_macos.sh
 # ================================================================================
 #  FILE     : network_service_refresh_macos.sh
@@ -74,17 +74,17 @@
 #
 #  EXAMPLE RUN
 #
-#    [ INPUT VALIDATION ]
-#    --------------------------------------------------------------
+#    [INFO] INPUT VALIDATION
+#    ==============================================================
 #     Toggle Delay             : 2s
 #     Running as root          : Yes
 #
-#    [ NETWORK SERVICES ]
-#    --------------------------------------------------------------
+#    [INFO] NETWORK SERVICES
+#    ==============================================================
 #    Found 3 network service(s)
 #
-#    [ OPERATION ]
-#    --------------------------------------------------------------
+#    [RUN] OPERATION
+#    ==============================================================
 #    Processing: Wi-Fi
 #      Toggling 'Wi-Fi' off...
 #      Toggling 'Wi-Fi' on...
@@ -92,17 +92,18 @@
 #      Toggling 'Ethernet' off...
 #      Toggling 'Ethernet' on...
 #
-#    [ RESULT ]
-#    --------------------------------------------------------------
+#    [INFO] RESULT
+#    ==============================================================
 #     Status                   : Success
 #     Services Processed       : 3
 #
-#    [ SCRIPT COMPLETE ]
-#    --------------------------------------------------------------
+#    [OK] SCRIPT COMPLETED
+#    ==============================================================
 #
 # --------------------------------------------------------------------------------
 #  CHANGELOG
 # --------------------------------------------------------------------------------
+#  2026-01-19 v1.1.1 Updated to two-line ASCII console output style
 #  2025-12-23 v1.1.0 Updated to Limehawk Script Framework
 #  2024-11-01 v1.0.0 Initial release
 # ================================================================================
@@ -120,9 +121,11 @@ TOGGLE_DELAY=2
 # ============================================================================
 
 print_section() {
+    local status="$1"
+    local title="$2"
     echo ""
-    echo "[ $1 ]"
-    echo "--------------------------------------------------------------"
+    echo "[$status] $title"
+    echo "=============================================================="
 }
 
 print_kv() {
@@ -152,29 +155,29 @@ toggle_network_service() {
 # MAIN EXECUTION
 # ============================================================================
 
-print_section "INPUT VALIDATION"
+print_section "INFO" "INPUT VALIDATION"
 print_kv "Toggle Delay" "${TOGGLE_DELAY}s"
 
 # Check for root privileges
 if [ "$(id -u)" != "0" ]; then
     echo ""
-    echo "[ ERROR OCCURRED ]"
-    echo "--------------------------------------------------------------"
+    echo "[ERROR] ERROR OCCURRED"
+    echo "=============================================================="
     echo "This script must be run with root privileges (sudo)"
     echo ""
     exit 1
 fi
 print_kv "Running as root" "Yes"
 
-print_section "NETWORK SERVICES"
+print_section "INFO" "NETWORK SERVICES"
 
 # Get the list of network services (skip the header line)
 network_services=$(networksetup -listallnetworkservices | tail -n +2)
 
 if [ -z "$network_services" ]; then
     echo ""
-    echo "[ ERROR OCCURRED ]"
-    echo "--------------------------------------------------------------"
+    echo "[ERROR] ERROR OCCURRED"
+    echo "=============================================================="
     echo "No network services found"
     echo ""
     exit 1
@@ -184,7 +187,7 @@ fi
 service_count=$(echo "$network_services" | wc -l | tr -d ' ')
 echo "Found $service_count network service(s)"
 
-print_section "OPERATION"
+print_section "RUN" "OPERATION"
 
 # Iterate over each network service
 processed=0
@@ -203,17 +206,17 @@ while IFS= read -r service; do
     ((processed++))
 done <<< "$network_services"
 
-print_section "RESULT"
+print_section "INFO" "RESULT"
 print_kv "Status" "Success"
 print_kv "Services Processed" "$processed"
 
-print_section "FINAL STATUS"
+print_section "INFO" "FINAL STATUS"
 echo "Network services have been refreshed."
 echo ""
 echo "Current network service status:"
 networksetup -listallnetworkservices
 
 echo ""
-echo "[ SCRIPT COMPLETE ]"
-echo "--------------------------------------------------------------"
+echo "[OK] SCRIPT COMPLETED"
+echo "=============================================================="
 exit 0

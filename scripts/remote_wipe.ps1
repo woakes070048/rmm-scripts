@@ -7,7 +7,7 @@ $ErrorActionPreference = 'Stop'
 ███████╗██║██║ ╚═╝ ██║███████╗██║  ██║██║  ██║╚███╔███╔╝██║  ██╗
 ╚══════╝╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚══╝╚══╝ ╚═╝  ╚═╝
 ================================================================================
- SCRIPT   : Remote Wipe                                                  v1.0.2
+ SCRIPT   : Remote Wipe                                                  v1.0.3
  AUTHOR   : Limehawk.io
  DATE     : January 2026
  USAGE    : .\remote_wipe.ps1
@@ -71,26 +71,27 @@ $ErrorActionPreference = 'Stop'
 
  EXAMPLE RUN
 
-   [ INITIALIZING REMOTE WIPE ]
-   --------------------------------------------------------------
+   [WARN] INITIALIZING REMOTE WIPE
+   ==============================================================
    CIM Session          : Created
    MDM Instance         : Found
 
-   [ EXECUTING WIPE ]
-   --------------------------------------------------------------
+   [RUN] EXECUTING WIPE
+   ==============================================================
    Status               : Invoking doWipeMethod...
    Result               : Wipe initiated successfully
 
-   [ FINAL STATUS ]
-   --------------------------------------------------------------
+   [OK] FINAL STATUS
+   ==============================================================
    REMOTE WIPE INITIATED - DEVICE WILL RESET
 
-   [ SCRIPT COMPLETE ]
-   --------------------------------------------------------------
+   [OK] SCRIPT COMPLETE
+   ==============================================================
 
 --------------------------------------------------------------------------------
  CHANGELOG
 --------------------------------------------------------------------------------
+ 2026-01-19 v1.0.3 Updated to two-line ASCII console output style
  2026-01-17 v1.0.2 Fixed framework compliance: header format, section names,
                    removed param() blocks, added missing README sections
  2025-12-23 v1.0.1 Updated to Limehawk Script Framework
@@ -102,10 +103,11 @@ Set-StrictMode -Version Latest
 # ============================================================================
 # HELPER FUNCTIONS
 # ============================================================================
-function Write-Section($title) {
+function Write-Section {
+    param([string]$title, [string]$status = "INFO")
     Write-Host ""
-    Write-Host ("[ {0} ]" -f $title)
-    Write-Host ("-" * 62)
+    Write-Host ("[$status] $title")
+    Write-Host ("=" * 62)
 }
 
 function PrintKV($label, $value) {
@@ -122,7 +124,7 @@ try {
     $className = "MDM_RemoteWipe"
     $methodName = "doWipeMethod"
 
-    Write-Section "INITIALIZING REMOTE WIPE"
+    Write-Section "INITIALIZING REMOTE WIPE" "WARN"
     Write-Host ""
     Write-Host " *** WARNING: THIS WILL ERASE ALL DATA ON THIS DEVICE ***"
     Write-Host " *** THIS ACTION CANNOT BE UNDONE ***"
@@ -155,7 +157,7 @@ try {
     $params.Add($param)
 
     # Execute wipe
-    Write-Section "EXECUTING WIPE"
+    Write-Section "EXECUTING WIPE" "RUN"
 
     PrintKV "Status" "Invoking doWipeMethod..."
 
@@ -166,28 +168,28 @@ try {
         0 {
             PrintKV "Result" "Wipe initiated successfully"
 
-            Write-Section "FINAL STATUS"
+            Write-Section "FINAL STATUS" "OK"
             Write-Host " REMOTE WIPE INITIATED - DEVICE WILL RESET"
             Write-Host ""
             Write-Host " The device will restart and begin the factory reset process."
             Write-Host " All data will be permanently erased."
 
-            Write-Section "SCRIPT COMPLETE"
+            Write-Section "SCRIPT COMPLETE" "OK"
             exit 0
         }
         default {
             PrintKV "Result" "FAILED (Return code: $($result.ReturnValue))"
 
-            Write-Section "FINAL STATUS"
+            Write-Section "FINAL STATUS" "ERROR"
             Write-Host " REMOTE WIPE FAILED"
 
-            Write-Section "SCRIPT COMPLETE"
+            Write-Section "SCRIPT COMPLETE" "ERROR"
             exit 1
         }
     }
 }
 catch {
-    Write-Section "ERROR OCCURRED"
+    Write-Section "ERROR OCCURRED" "ERROR"
     PrintKV "Error Message" $_.Exception.Message
     PrintKV "Error Type" $_.Exception.GetType().FullName
     Write-Host ""
@@ -196,7 +198,7 @@ catch {
     Write-Host "  - Device is not Azure AD joined"
     Write-Host "  - Insufficient permissions"
     Write-Host "  - MDM policies not configured"
-    Write-Section "SCRIPT COMPLETE"
+    Write-Section "SCRIPT COMPLETE" "ERROR"
     exit 1
 }
 finally {

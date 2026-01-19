@@ -7,9 +7,9 @@
 # ███████╗██║██║ ╚═╝ ██║███████╗██║  ██║██║  ██║╚███╔███╔╝██║  ██╗
 # ╚══════╝╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚══╝╚══╝ ╚═╝  ╚═╝
 # ================================================================================
-#  SCRIPT   : Enable macOS Auto-Updates                                    v1.1.0
+#  SCRIPT   : Enable macOS Auto-Updates                                    v1.1.1
 #  AUTHOR   : Limehawk.io
-#  DATE     : December 2025
+#  DATE     : January 2026
 #  USAGE    : sudo ./macos_auto_updates_enable.sh
 # ================================================================================
 #  FILE     : macos_auto_updates_enable.sh
@@ -75,8 +75,8 @@
 #
 #  EXAMPLE RUN
 #
-#    [ ENABLING AUTO-UPDATES ]
-#    --------------------------------------------------------------
+#    [RUN] ENABLING AUTO-UPDATES
+#    ==============================================================
 #    Enabling automatic check for updates...
 #    Enabling automatic download of updates...
 #    Enabling App Store auto-updates...
@@ -84,8 +84,8 @@
 #    Enabling critical security updates...
 #    Enabling automatic macOS updates...
 #
-#    [ VERIFICATION ]
-#    --------------------------------------------------------------
+#    [INFO] VERIFICATION
+#    ==============================================================
 #    AutomaticCheckEnabled           : 1
 #    AutomaticDownload               : 1
 #    AutoUpdate (App Store)          : 1
@@ -93,16 +93,17 @@
 #    CriticalUpdateInstall           : 1
 #    AutomaticallyInstallMacOSUpdates: 1
 #
-#    [ FINAL STATUS ]
-#    --------------------------------------------------------------
+#    [INFO] RESULT
+#    ==============================================================
 #    All auto-update settings have been enabled.
 #
-#    [ SCRIPT COMPLETE ]
-#    --------------------------------------------------------------
+#    [OK] SCRIPT COMPLETED
+#    ==============================================================
 #
 # --------------------------------------------------------------------------------
 #  CHANGELOG
 # --------------------------------------------------------------------------------
+#  2026-01-19 v1.1.1 Updated to two-line ASCII console output style
 #  2025-12-23 v1.1.0 Updated to Limehawk Script Framework
 #  2024-01-01 v1.0.0 Initial release
 # ================================================================================
@@ -114,14 +115,14 @@ set -euo pipefail
 # ============================================================================
 
 echo ""
-echo "[ ENABLING AUTO-UPDATES ]"
-echo "--------------------------------------------------------------"
+echo "[RUN] ENABLING AUTO-UPDATES"
+echo "=============================================================="
 
 # Check if running as root
 if [[ $EUID -ne 0 ]]; then
     echo ""
-    echo "[ ERROR OCCURRED ]"
-    echo "--------------------------------------------------------------"
+    echo "[ERROR] ERROR OCCURRED"
+    echo "=============================================================="
     echo "This script must be run as root (use sudo)"
     echo ""
     exit 1
@@ -146,8 +147,8 @@ echo "Enabling automatic macOS updates..."
 defaults write /Library/Preferences/com.apple.SoftwareUpdate AutomaticallyInstallMacOSUpdates -bool true
 
 echo ""
-echo "[ VERIFICATION ]"
-echo "--------------------------------------------------------------"
+echo "[INFO] VERIFICATION"
+echo "=============================================================="
 echo "AutomaticCheckEnabled           : $(defaults read /Library/Preferences/com.apple.SoftwareUpdate AutomaticCheckEnabled 2>/dev/null || echo 'not set')"
 echo "AutomaticDownload               : $(defaults read /Library/Preferences/com.apple.SoftwareUpdate AutomaticDownload 2>/dev/null || echo 'not set')"
 echo "AutoUpdate (App Store)          : $(defaults read /Library/Preferences/com.apple.commerce AutoUpdate 2>/dev/null || echo 'not set')"
@@ -156,11 +157,11 @@ echo "CriticalUpdateInstall           : $(defaults read /Library/Preferences/com
 echo "AutomaticallyInstallMacOSUpdates: $(defaults read /Library/Preferences/com.apple.SoftwareUpdate AutomaticallyInstallMacOSUpdates 2>/dev/null || echo 'not set')"
 
 echo ""
-echo "[ FINAL STATUS ]"
-echo "--------------------------------------------------------------"
+echo "[INFO] RESULT"
+echo "=============================================================="
 echo "All auto-update settings have been enabled."
 
 echo ""
-echo "[ SCRIPT COMPLETE ]"
-echo "--------------------------------------------------------------"
+echo "[OK] SCRIPT COMPLETED"
+echo "=============================================================="
 exit 0

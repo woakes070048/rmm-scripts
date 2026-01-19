@@ -8,9 +8,9 @@ $ErrorActionPreference = 'Stop'
 ███████╗██║██║ ╚═╝ ██║███████╗██║  ██║██║  ██║╚███╔███╔╝██║  ██╗
 ╚══════╝╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚══╝╚══╝ ╚═╝  ╚═╝
 ================================================================================
- SCRIPT   : Wake-on-LAN Enable                                           v1.0.1
+ SCRIPT   : Wake-on-LAN Enable                                           v1.0.3
  AUTHOR   : Limehawk.io
- DATE      : December 2025
+ DATE     : January 2026
  USAGE    : .\wol_enable.ps1
 ================================================================================
  FILE     : wol_enable.ps1
@@ -70,30 +70,32 @@ DESCRIPTION : Enables Wake-on-LAN settings for Ethernet adapters
 
  EXAMPLE RUN
 
- [ SYSTEM DETECTION ]
- --------------------------------------------------------------
+ [INFO] SYSTEM DETECTION
+ ==============================================================
  Manufacturer : Dell Inc.
 
- [ BIOS CONFIGURATION ]
- --------------------------------------------------------------
+ [RUN] BIOS CONFIGURATION
+ ==============================================================
  Installing DellBIOSProvider module...
  Setting WakeOnLan to LANOnly...
  BIOS WOL configured successfully
 
- [ NIC CONFIGURATION ]
- --------------------------------------------------------------
+ [RUN] NIC CONFIGURATION
+ ==============================================================
  Enabling WOL for Intel(R) Ethernet...
  NIC WOL enabled successfully
 
- [ RESULT ]
- --------------------------------------------------------------
+ [OK] RESULT
+ ==============================================================
  Status : Success
 
- [ SCRIPT COMPLETED ]
- --------------------------------------------------------------
+ [OK] SCRIPT COMPLETE
+ ==============================================================
 --------------------------------------------------------------------------------
  CHANGELOG
 --------------------------------------------------------------------------------
+ 2026-01-19 v1.0.3 Fixed EXAMPLE RUN section formatting
+ 2026-01-19 v1.0.2 Updated to two-line ASCII console output style
  2025-12-23 v1.0.1 Updated to Limehawk Script Framework
  2025-11-29 v1.0.0 Initial Style A implementation
 ================================================================================
@@ -109,169 +111,169 @@ $summary = ""
 
 # ==== RUNTIME OUTPUT ====
 Write-Host ""
-Write-Host "[ DEPENDENCY CHECK ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[INFO] DEPENDENCY CHECK"
+Write-Host "=============================================================="
 
 # Check and install NuGet provider
 $PPNuGet = Get-PackageProvider -ListAvailable | Where-Object { $_.Name -eq "Nuget" }
 if (-not $PPNuGet) {
-    Write-Host "Installing NuGet provider..."
+    Write-Host "[RUN] Installing NuGet provider..."
     Install-PackageProvider -Name NuGet -MinimumVersion 2.8.5.201 -Force
     $summary += "Installed NuGet. "
 } else {
-    Write-Host "NuGet provider already installed"
+    Write-Host "[OK] NuGet provider already installed"
 }
 
 # Check PSGallery
 $PSGallery = Get-PSRepository -Name PSGallery -ErrorAction SilentlyContinue
 if (-not $PSGallery) {
-    Write-Host "Configuring PSGallery..."
+    Write-Host "[RUN] Configuring PSGallery..."
     Set-PSRepository -InstallationPolicy Trusted -Name PSGallery
     $summary += "Configured PSGallery. "
 } else {
-    Write-Host "PSGallery already configured"
+    Write-Host "[OK] PSGallery already configured"
 }
 
 # Check PowerShellGet version
 $PsGetVersion = (Get-Module PowerShellGet -ListAvailable | Sort-Object Version -Descending | Select-Object -First 1).Version
 if ($PsGetVersion -lt [version]'2.0') {
-    Write-Host "PowerShellGet version $PsGetVersion is outdated, updating..."
+    Write-Host "[RUN] PowerShellGet version $PsGetVersion is outdated, updating..."
     try {
         Install-Module -Name PowerShellGet -MinimumVersion 2.2 -Force -AllowClobber -ErrorAction Stop
-        Write-Host "PowerShellGet updated. Please rerun this script."
+        Write-Host "[WARN] PowerShellGet updated. Please rerun this script."
         $summary += "Updated PowerShellGet. "
         $resultCode = 1
     } catch {
-        Write-Host "Warning: Could not update PowerShellGet: $($_.Exception.Message)"
+        Write-Host "[WARN] Could not update PowerShellGet: $($_.Exception.Message)"
         $summary += "PowerShellGet update failed. "
     }
 }
 
 if ($resultCode -eq 1) {
     Write-Host ""
-    Write-Host "[ RESULT ]"
-    Write-Host "--------------------------------------------------------------"
+    Write-Host "[WARN] RESULT"
+    Write-Host "=============================================================="
     Write-Host "Status  : Rerun Required"
     Write-Host "Summary : $summary"
     Write-Host ""
-    Write-Host "[ SCRIPT COMPLETED ]"
-    Write-Host "--------------------------------------------------------------"
+    Write-Host "[INFO] SCRIPT COMPLETE"
+    Write-Host "=============================================================="
     exit 1
 }
 
 Write-Host ""
-Write-Host "[ SYSTEM DETECTION ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[INFO] SYSTEM DETECTION"
+Write-Host "=============================================================="
 
 # Detect manufacturer
 $Manufacturer = (Get-CimInstance -ClassName Win32_ComputerSystem).Manufacturer
 Write-Host "Manufacturer : $Manufacturer"
 
 Write-Host ""
-Write-Host "[ BIOS CONFIGURATION ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[INFO] BIOS CONFIGURATION"
+Write-Host "=============================================================="
 
 try {
     if ($Manufacturer -like "*Dell*") {
         $summary += "Dell system. "
-        Write-Host "Detected Dell system"
+        Write-Host "[RUN] Detected Dell system"
 
         # Install Dell BIOS Provider if needed
         $Mod = Get-Module -ListAvailable -Name DellBIOSProvider
         if (-not $Mod) {
-            Write-Host "Installing DellBIOSProvider module..."
+            Write-Host "[RUN] Installing DellBIOSProvider module..."
             Install-Module -Name DellBIOSProvider -Force -ErrorAction Stop
             $summary += "Installed DellBIOSProvider. "
         }
         Import-Module DellBIOSProvider -Global
 
         # Set WOL
-        Write-Host "Setting WakeOnLan to LANOnly..."
+        Write-Host "[RUN] Setting WakeOnLan to LANOnly..."
         Set-Item -Path "DellSmBios:\PowerManagement\WakeOnLan" -Value "LANOnly" -ErrorAction Stop
-        Write-Host "Dell BIOS WOL configured successfully"
+        Write-Host "[OK] Dell BIOS WOL configured successfully"
         $summary += "Dell WOL updated. "
 
     } elseif ($Manufacturer -like "*HP*" -or $Manufacturer -like "*Hewlett*") {
         $summary += "HP system. "
-        Write-Host "Detected HP system"
+        Write-Host "[RUN] Detected HP system"
 
         # Install HP CMSL if needed
         $Mod = Get-Module -ListAvailable -Name HPCMSL
         if (-not $Mod) {
-            Write-Host "Installing HPCMSL module..."
+            Write-Host "[RUN] Installing HPCMSL module..."
             Install-Module -Name HPCMSL -Force -AcceptLicense -ErrorAction Stop
             $summary += "Installed HPCMSL. "
         }
         Import-Module HPCMSL -Global
 
         # Set WOL for all WOL-related settings
-        Write-Host "Configuring HP Wake On LAN settings..."
+        Write-Host "[RUN] Configuring HP Wake On LAN settings..."
         $WolTypes = Get-HPBIOSSettingsList | Where-Object { $_.Name -like "*Wake On Lan*" }
         foreach ($WolType in $WolTypes) {
             Write-Host "  Setting: $($WolType.Name)"
             Set-HPBIOSSettingValue -Name $($WolType.Name) -Value "Boot to Hard Drive" -ErrorAction Stop
         }
-        Write-Host "HP BIOS WOL configured successfully"
+        Write-Host "[OK] HP BIOS WOL configured successfully"
         $summary += "HP WOL updated. "
 
     } elseif ($Manufacturer -like "*Lenovo*") {
         $summary += "Lenovo system. "
-        Write-Host "Detected Lenovo system"
+        Write-Host "[RUN] Detected Lenovo system"
 
         # Set WOL via WMI
-        Write-Host "Setting WakeOnLAN via WMI..."
+        Write-Host "[RUN] Setting WakeOnLAN via WMI..."
         (Get-WmiObject -Class "Lenovo_SetBiosSetting" -Namespace "root\wmi" -ErrorAction Stop).SetBiosSetting('WakeOnLAN,Primary') | Out-Null
         (Get-WmiObject -Class "Lenovo_SaveBiosSettings" -Namespace "root\wmi" -ErrorAction Stop).SaveBiosSettings() | Out-Null
-        Write-Host "Lenovo BIOS WOL configured successfully"
+        Write-Host "[OK] Lenovo BIOS WOL configured successfully"
         $summary += "Lenovo WOL updated. "
 
     } else {
-        Write-Host "Manufacturer '$Manufacturer' not supported for BIOS WOL configuration"
+        Write-Host "[WARN] Manufacturer '$Manufacturer' not supported for BIOS WOL configuration"
         Write-Host "Supported manufacturers: Dell, HP, Lenovo"
         $summary += "$Manufacturer not supported. "
     }
 } catch {
-    Write-Host "Warning: BIOS WOL configuration failed: $($_.Exception.Message)"
+    Write-Host "[WARN] BIOS WOL configuration failed: $($_.Exception.Message)"
     $summary += "BIOS WOL error. "
 }
 
 Write-Host ""
-Write-Host "[ NIC CONFIGURATION ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[INFO] NIC CONFIGURATION"
+Write-Host "=============================================================="
 
 # Enable WOL on all capable NICs
 $NicsWithWake = Get-CimInstance -ClassName "MSPower_DeviceWakeEnable" -Namespace "root/wmi" -ErrorAction SilentlyContinue
 
 if ($NicsWithWake) {
     foreach ($Nic in $NicsWithWake) {
-        Write-Host "Enabling WOL for: $($Nic.InstanceName)"
+        Write-Host "[RUN] Enabling WOL for: $($Nic.InstanceName)"
         try {
             Set-CimInstance -InputObject $Nic -Property @{Enable = $true} -ErrorAction Stop
-            Write-Host "  Success"
+            Write-Host "[OK] Success"
             $summary += "$($Nic.InstanceName) WOL enabled. "
         } catch {
-            Write-Host "  Warning: $($_.Exception.Message)"
+            Write-Host "[WARN] $($_.Exception.Message)"
             $summary += "$($Nic.InstanceName) WOL error. "
         }
     }
 } else {
-    Write-Host "No NICs with Wake-on-LAN capability found"
+    Write-Host "[WARN] No NICs with Wake-on-LAN capability found"
     $summary += "No WOL NICs found. "
 }
 
 Write-Host ""
-Write-Host "[ RESULT ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[INFO] RESULT"
+Write-Host "=============================================================="
 Write-Host "Status  : Success"
 Write-Host "Summary : $summary"
 
 Write-Host ""
-Write-Host "[ FINAL STATUS ]"
-Write-Host "--------------------------------------------------------------"
-Write-Host "Wake-on-LAN configuration completed."
+Write-Host "[INFO] FINAL STATUS"
+Write-Host "=============================================================="
+Write-Host "[OK] Wake-on-LAN configuration completed."
 Write-Host "A reboot may be required for BIOS changes to take effect."
 
 Write-Host ""
-Write-Host "[ SCRIPT COMPLETED ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[INFO] SCRIPT COMPLETE"
+Write-Host "=============================================================="
 exit 0

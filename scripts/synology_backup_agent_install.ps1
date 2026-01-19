@@ -8,9 +8,9 @@ $ErrorActionPreference = 'Stop'
 ╚══════╝╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚══╝╚══╝ ╚═╝  ╚═╝
 
 ================================================================================
-SCRIPT  : Synology Active Backup Agent Install v1.1.0
+SCRIPT  : Synology Active Backup Agent Install v1.1.2
 AUTHOR  : Limehawk.io
-DATE      : December 2025
+DATE    : January 2026
 USAGE   : .\synology_backup_agent_install.ps1
 FILE    : synology_backup_agent_install.ps1
 DESCRIPTION : Installs Synology Active Backup for Business Agent via winget
@@ -44,26 +44,28 @@ EXIT CODES:
     1 = Failure
 
 EXAMPLE RUN:
-    [ WINGET CHECK ]
-    --------------------------------------------------------------
+    [RUN] WINGET CHECK
+    ==============================================================
     Checking for winget...
     winget is available
 
-    [ INSTALLATION ]
-    --------------------------------------------------------------
+    [RUN] INSTALLATION
+    ==============================================================
     Installing Synology Active Backup for Business Agent...
     Installation completed successfully
 
-    [ FINAL STATUS ]
-    --------------------------------------------------------------
+    [OK] FINAL STATUS
+    ==============================================================
     Result : SUCCESS
     Connect to your Synology NAS to configure backup tasks
 
-    [ SCRIPT COMPLETED ]
-    --------------------------------------------------------------
+    [INFO] SCRIPT COMPLETED
+    ==============================================================
 
 CHANGELOG
 --------------------------------------------------------------------------------
+2026-01-19 v1.1.2 Fixed EXAMPLE RUN section formatting
+2026-01-19 v1.1.1 Updated to two-line ASCII console output style
 2025-12-23 v1.1.0 Updated to Limehawk Script Framework
 2024-12-01 v1.0.0 Initial release - migrated from SuperOps
 ================================================================================
@@ -79,39 +81,39 @@ $packageId = 'Synology.ActiveBackupForBusinessAgent'
 # WINGET CHECK
 # ============================================================================
 Write-Host ""
-Write-Host "[ WINGET CHECK ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[INFO] WINGET CHECK"
+Write-Host "=============================================================="
 
-Write-Host "Checking for winget..."
+Write-Host "[RUN] Checking for winget..."
 
 if (-not (Get-Command winget -ErrorAction SilentlyContinue)) {
     Write-Host ""
-    Write-Host "[ ERROR OCCURRED ]"
-    Write-Host "--------------------------------------------------------------"
+    Write-Host "[ERROR] WINGET NOT FOUND"
+    Write-Host "=============================================================="
     Write-Host "winget is not installed on this system"
     Write-Host "Install App Installer from Microsoft Store"
     exit 1
 }
 
-Write-Host "winget is available"
+Write-Host "[OK] winget is available"
 
 # ============================================================================
 # INSTALLATION
 # ============================================================================
 Write-Host ""
-Write-Host "[ INSTALLATION ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[INFO] INSTALLATION"
+Write-Host "=============================================================="
 
 try {
-    Write-Host "Installing Synology Active Backup for Business Agent..."
+    Write-Host "[RUN] Installing Synology Active Backup for Business Agent..."
     $result = winget install --id=$packageId -e --silent --accept-package-agreements --accept-source-agreements 2>&1
     Write-Host $result
-    Write-Host "Installation completed successfully"
+    Write-Host "[OK] Installation completed successfully"
 }
 catch {
     Write-Host ""
-    Write-Host "[ ERROR OCCURRED ]"
-    Write-Host "--------------------------------------------------------------"
+    Write-Host "[ERROR] INSTALLATION FAILED"
+    Write-Host "=============================================================="
     Write-Host "Failed to install Synology Active Backup Agent"
     Write-Host "Error : $($_.Exception.Message)"
     exit 1
@@ -121,13 +123,13 @@ catch {
 # FINAL STATUS
 # ============================================================================
 Write-Host ""
-Write-Host "[ FINAL STATUS ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[INFO] FINAL STATUS"
+Write-Host "=============================================================="
 Write-Host "Result : SUCCESS"
 Write-Host "Connect to your Synology NAS to configure backup tasks"
 
 Write-Host ""
-Write-Host "[ SCRIPT COMPLETED ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[INFO] SCRIPT COMPLETED"
+Write-Host "=============================================================="
 
 exit 0

@@ -7,9 +7,9 @@
 # ███████╗██║██║ ╚═╝ ██║███████╗██║  ██║██║  ██║╚███╔███╔╝██║  ██╗
 # ╚══════╝╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚══╝╚══╝ ╚═╝  ╚═╝
 # ================================================================================
-#  SCRIPT   : Screenshot Capture (macOS)                                   v1.1.0
+#  SCRIPT   : Screenshot Capture (macOS)                                   v1.1.1
 #  AUTHOR   : Limehawk.io
-#  DATE     : December 2025
+#  DATE     : January 2026
 #  USAGE    : ./screenshot_macos.sh
 # ================================================================================
 #  FILE     : screenshot_macos.sh
@@ -69,22 +69,23 @@
 #
 #  EXAMPLE RUN
 #
-#    [ SCREENSHOT CAPTURE - macOS ]
-#    --------------------------------------------------------------
+#    [RUN] SCREENSHOT CAPTURE - macOS
+#    ==============================================================
 #    Creating screenshot directory...
 #    Capturing screenshot...
 #
-#    [ FINAL STATUS ]
-#    --------------------------------------------------------------
+#    [OK] FINAL STATUS
+#    ==============================================================
 #    Result    : SUCCESS
 #    Saved to  : /tmp/screenshots/screenshot_20241223_120000.png
 #
-#    [ SCRIPT COMPLETE ]
-#    --------------------------------------------------------------
+#    [OK] SCRIPT COMPLETED
+#    ==============================================================
 #
 # --------------------------------------------------------------------------------
 #  CHANGELOG
 # --------------------------------------------------------------------------------
+#  2026-01-19 v1.1.1 Updated to two-line ASCII console output style
 #  2025-12-23 v1.1.0 Updated to Limehawk Script Framework
 #  2024-01-01 v1.0.0 Initial release
 # ================================================================================
@@ -105,8 +106,8 @@ SAVE_PATH="${SAVE_DIR}/${FILENAME}"
 # ============================================================================
 
 echo ""
-echo "[ SCREENSHOT CAPTURE - macOS ]"
-echo "--------------------------------------------------------------"
+echo "[RUN] SCREENSHOT CAPTURE - macOS"
+echo "=============================================================="
 
 # Create directory if needed
 if [ ! -d "$SAVE_DIR" ]; then
@@ -120,21 +121,19 @@ echo "Capturing screenshot..."
 # -x = no sound, captures silently
 if screencapture -x "$SAVE_PATH"; then
     echo ""
-    echo "[ FINAL STATUS ]"
-    echo "--------------------------------------------------------------"
+    echo "[OK] FINAL STATUS"
+    echo "=============================================================="
     echo "Result    : SUCCESS"
     echo "Saved to  : $SAVE_PATH"
+    echo ""
+    echo "[OK] SCRIPT COMPLETED"
+    echo "=============================================================="
+    exit 0
 else
     echo ""
-    echo "[ ERROR OCCURRED ]"
-    echo "--------------------------------------------------------------"
+    echo "[ERROR] ERROR OCCURRED"
+    echo "=============================================================="
     echo "Failed to capture screenshot"
     echo ""
     exit 1
 fi
-
-echo ""
-echo "[ SCRIPT COMPLETE ]"
-echo "--------------------------------------------------------------"
-
-exit 0

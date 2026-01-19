@@ -8,9 +8,9 @@ $ErrorActionPreference = 'Stop'
 ╚══════╝╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚══╝╚══╝ ╚═╝  ╚═╝
 
 ================================================================================
-SCRIPT  : Clear Windows 10 Start Menu Tiles v1.1.0
+SCRIPT  : Clear Windows 10 Start Menu Tiles v1.1.1
 AUTHOR  : Limehawk.io
-DATE      : December 2025
+DATE      : January 2026
 USAGE   : .\start_menu_clear_tiles.ps1
 FILE    : start_menu_clear_tiles.ps1
 DESCRIPTION : Removes all pinned app tiles from Windows 10 Start menu
@@ -47,34 +47,35 @@ EXIT CODES:
     1 = Failure
 
 EXAMPLE RUN:
-    [ INPUT VALIDATION ]
-    --------------------------------------------------------------
+    [INFO] INPUT VALIDATION
+    ==============================================================
     Target User : DOMAIN\username
     Registry Path : HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\CloudStore\...
 
-    [ MODIFYING START MENU ]
-    --------------------------------------------------------------
+    [RUN] MODIFYING START MENU
+    ==============================================================
     Reading current tile configuration...
     Applying clean tile layout...
     Registry updated successfully
 
-    [ RESTARTING EXPLORER ]
-    --------------------------------------------------------------
+    [RUN] RESTARTING EXPLORER
+    ==============================================================
     Stopping Explorer process...
     Waiting for system to stabilize...
     Explorer restarted successfully
     Initializing Start menu...
 
-    [ FINAL STATUS ]
-    --------------------------------------------------------------
+    [OK] FINAL STATUS
+    ==============================================================
     Result : SUCCESS
     Start menu tiles have been cleared
 
-    [ SCRIPT COMPLETED ]
-    --------------------------------------------------------------
+    [INFO] SCRIPT COMPLETED
+    ==============================================================
 
 CHANGELOG
 --------------------------------------------------------------------------------
+2026-01-19 v1.1.1 Updated to two-line ASCII console output style
 2025-12-23 v1.1.0 Updated to Limehawk Script Framework
 2024-12-01 v1.0.0 Initial release - migrated from SuperOps
 ================================================================================
@@ -90,8 +91,8 @@ $registryPath = "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\CloudStore\Stor
 # INPUT VALIDATION
 # ============================================================================
 Write-Host ""
-Write-Host "[ INPUT VALIDATION ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[INFO] INPUT VALIDATION"
+Write-Host "=============================================================="
 
 $currentUser = [System.Security.Principal.WindowsIdentity]::GetCurrent().Name
 Write-Host "Target User   : $currentUser"
@@ -100,8 +101,8 @@ Write-Host "Target User   : $currentUser"
 $osVersion = [System.Environment]::OSVersion.Version
 if ($osVersion.Build -ge 22000) {
     Write-Host ""
-    Write-Host "[ WARNING ]"
-    Write-Host "--------------------------------------------------------------"
+    Write-Host "[WARN] WARNING"
+    Write-Host "=============================================================="
     Write-Host "Windows 11 detected - this script is designed for Windows 10"
     Write-Host "Windows 11 uses a different Start menu system"
 }
@@ -110,8 +111,8 @@ if ($osVersion.Build -ge 22000) {
 # MODIFY START MENU
 # ============================================================================
 Write-Host ""
-Write-Host "[ MODIFYING START MENU ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[RUN] MODIFYING START MENU"
+Write-Host "=============================================================="
 
 try {
     Write-Host "Reading current tile configuration..."
@@ -133,8 +134,8 @@ try {
 }
 catch {
     Write-Host ""
-    Write-Host "[ ERROR OCCURRED ]"
-    Write-Host "--------------------------------------------------------------"
+    Write-Host "[ERROR] ERROR OCCURRED"
+    Write-Host "=============================================================="
     Write-Host "Failed to modify Start menu configuration"
     Write-Host "Error : $($_.Exception.Message)"
     exit 1
@@ -144,8 +145,8 @@ catch {
 # RESTART EXPLORER
 # ============================================================================
 Write-Host ""
-Write-Host "[ RESTARTING EXPLORER ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[RUN] RESTARTING EXPLORER"
+Write-Host "=============================================================="
 
 try {
     Write-Host "Stopping Explorer process..."
@@ -178,8 +179,8 @@ try {
 }
 catch {
     Write-Host ""
-    Write-Host "[ WARNING ]"
-    Write-Host "--------------------------------------------------------------"
+    Write-Host "[WARN] WARNING"
+    Write-Host "=============================================================="
     Write-Host "Explorer restart may have encountered issues"
     Write-Host "Error : $($_.Exception.Message)"
     Write-Host "The Start menu changes should still take effect after manual restart"
@@ -189,14 +190,14 @@ catch {
 # FINAL STATUS
 # ============================================================================
 Write-Host ""
-Write-Host "[ FINAL STATUS ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[OK] FINAL STATUS"
+Write-Host "=============================================================="
 Write-Host "Result : SUCCESS"
 Write-Host "Start menu tiles have been cleared"
 Write-Host "Changes are effective immediately"
 
 Write-Host ""
-Write-Host "[ SCRIPT COMPLETED ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[INFO] SCRIPT COMPLETED"
+Write-Host "=============================================================="
 
 exit 0

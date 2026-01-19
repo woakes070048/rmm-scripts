@@ -9,9 +9,9 @@ $ErrorActionPreference = 'Stop'
 ███████╗██║██║ ╚═╝ ██║███████╗██║  ██║██║  ██║╚███╔███╔╝██║  ██╗
 ╚══════╝╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚══╝╚══╝ ╚═╝  ╚═╝
 ================================================================================
- SCRIPT   : Speedtest to SuperOps                                         v1.1.0
+ SCRIPT   : Speedtest to SuperOps                                         v1.1.1
  AUTHOR   : Limehawk.io
- DATE      : December 2025
+ DATE     : January 2026
  USAGE    : .\speedtest_to_superops.ps1
 ================================================================================
  FILE     : speedtest_to_superops.ps1
@@ -93,12 +93,12 @@ EXIT CODES
 
 EXAMPLE RUN
 
-  [ INPUT VALIDATION ]
-  --------------------------------------------------------------
+  [INFO] INPUT VALIDATION
+  ==============================================================
   All required inputs are present
 
-  [ DOWNLOAD ]
-  --------------------------------------------------------------
+  [INFO] DOWNLOAD
+  ==============================================================
   Created extraction directory
   Extraction Path : C:\Users\admin\AppData\Local\Temp\SpeedtestCLI
   Downloading Speedtest CLI archive
@@ -106,20 +106,20 @@ EXAMPLE RUN
   Downloaded Speedtest CLI archive
   Archive Size : 7.3 MB
 
-  [ EXTRACTION ]
-  --------------------------------------------------------------
+  [INFO] EXTRACTION
+  ==============================================================
   Extracting Speedtest CLI archive
   Extracted Speedtest CLI successfully
   Executable Path : C:\Users\admin\AppData\Local\Temp\SpeedtestCLI\speedtest.exe
   Removed temporary ZIP file
 
-  [ SPEED TEST ]
-  --------------------------------------------------------------
+  [RUN] SPEED TEST
+  ==============================================================
   Executing speedtest (this may take 30-60 seconds)
   Speedtest completed successfully
 
-  [ RESULTS ]
-  --------------------------------------------------------------
+  [OK] RESULTS
+  ==============================================================
   Download Speed  : 357.32 Mbps
   Upload Speed    : 41.93 Mbps
   Ping Latency    : 12.5 ms
@@ -133,24 +133,25 @@ EXAMPLE RUN
   Server IP       : 198.XXX.XXX.XXX
   Result URL      : https://www.speedtest.net/result/c/a1b2c3d4-e5f6
 
-  [ SUPEROPS SYNC ]
-  --------------------------------------------------------------
+  [RUN] SUPEROPS SYNC
+  ==============================================================
   Sent Download Speed to SuperOps
   Sent Upload Speed to SuperOps
   Sent ISP to SuperOps
   Sent Speedtest URL to SuperOps
   All custom fields synchronized successfully
 
-  [ FINAL STATUS ]
-  --------------------------------------------------------------
+  [OK] FINAL STATUS
+  ==============================================================
   Status : Success
   Metrics captured and synchronized to SuperOps
 
-  [ SCRIPT COMPLETED ]
-  --------------------------------------------------------------
+  [OK] SCRIPT COMPLETED
+  ==============================================================
 --------------------------------------------------------------------------------
  CHANGELOG
 --------------------------------------------------------------------------------
+ 2026-01-19 v1.1.1 Updated to two-line ASCII console output style
  2025-12-23 v1.1.0 Updated to Limehawk Script Framework
  2025-10-31 v1.0.0 Initial release
 ================================================================================
@@ -173,8 +174,8 @@ $exePath        = Join-Path $extractPath "speedtest.exe"
 # ============================================================================
 
 Write-Host ""
-Write-Host "[ INPUT VALIDATION ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[INFO] INPUT VALIDATION"
+Write-Host "=============================================================="
 
 $errorOccurred = $false
 $errorText     = ""
@@ -199,9 +200,8 @@ if ([string]::IsNullOrWhiteSpace($extractPath)) {
 
 if ($errorOccurred) {
     Write-Host ""
-    Write-Host "[ ERROR OCCURRED ]"
-    Write-Host "--------------------------------------------------------------"
-    Write-Host "Input validation failed:"
+    Write-Host "[ERROR] INPUT VALIDATION FAILED"
+    Write-Host "=============================================================="
     Write-Host $errorText
     Write-Host ""
     Write-Host "Troubleshooting:"
@@ -217,8 +217,8 @@ Write-Host "All required inputs are present"
 # ============================================================================
 
 Write-Host ""
-Write-Host "[ DOWNLOAD ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[INFO] DOWNLOAD"
+Write-Host "=============================================================="
 
 # Create extraction directory if needed
 if (-not (Test-Path $extractPath)) {
@@ -228,10 +228,8 @@ if (-not (Test-Path $extractPath)) {
         Write-Host "Extraction Path : $extractPath"
     } catch {
         Write-Host ""
-        Write-Host "[ ERROR OCCURRED ]"
-        Write-Host "--------------------------------------------------------------"
-        Write-Host "Failed to create extraction directory"
-        Write-Host ""
+        Write-Host "[ERROR] FAILED TO CREATE EXTRACTION DIRECTORY"
+        Write-Host "=============================================================="
         Write-Host "Error Message:"
         Write-Host $_.Exception.Message
         Write-Host ""
@@ -258,10 +256,8 @@ if (-not (Test-Path $exePath)) {
         Write-Host "Archive Size : $zipSizeMB MB"
     } catch {
         Write-Host ""
-        Write-Host "[ ERROR OCCURRED ]"
-        Write-Host "--------------------------------------------------------------"
-        Write-Host "Failed to download Speedtest CLI"
-        Write-Host ""
+        Write-Host "[ERROR] FAILED TO DOWNLOAD SPEEDTEST CLI"
+        Write-Host "=============================================================="
         Write-Host "Error Message:"
         Write-Host $_.Exception.Message
         Write-Host ""
@@ -284,8 +280,8 @@ if (-not (Test-Path $exePath)) {
 # ============================================================================
 
 Write-Host ""
-Write-Host "[ EXTRACTION ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[INFO] EXTRACTION"
+Write-Host "=============================================================="
 
 if (Test-Path $exePath) {
     Write-Host "Speedtest executable already extracted"
@@ -302,10 +298,8 @@ if (Test-Path $exePath) {
         Write-Host "Removed temporary ZIP file"
     } catch {
         Write-Host ""
-        Write-Host "[ ERROR OCCURRED ]"
-        Write-Host "--------------------------------------------------------------"
-        Write-Host "Failed to extract Speedtest CLI"
-        Write-Host ""
+        Write-Host "[ERROR] FAILED TO EXTRACT SPEEDTEST CLI"
+        Write-Host "=============================================================="
         Write-Host "Error Message:"
         Write-Host $_.Exception.Message
         Write-Host ""
@@ -325,8 +319,8 @@ if (Test-Path $exePath) {
 # ============================================================================
 
 Write-Host ""
-Write-Host "[ SPEED TEST ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[RUN] SPEED TEST"
+Write-Host "=============================================================="
 
 try {
     Write-Host "Executing speedtest (this may take 30-60 seconds)"
@@ -338,10 +332,8 @@ try {
     Write-Host "Speedtest completed successfully"
 } catch {
     Write-Host ""
-    Write-Host "[ ERROR OCCURRED ]"
-    Write-Host "--------------------------------------------------------------"
-    Write-Host "Failed to execute speedtest or parse results"
-    Write-Host ""
+    Write-Host "[ERROR] FAILED TO EXECUTE SPEEDTEST"
+    Write-Host "=============================================================="
     Write-Host "Error Message:"
     Write-Host $_.Exception.Message
     Write-Host ""
@@ -358,8 +350,8 @@ try {
 # Validate essential data is present
 if (-not $speedData.download -or -not $speedData.upload) {
     Write-Host ""
-    Write-Host "[ ERROR OCCURRED ]"
-    Write-Host "--------------------------------------------------------------"
+    Write-Host "[ERROR] INVALID SPEEDTEST DATA"
+    Write-Host "=============================================================="
     Write-Host "Speedtest did not return valid upload/download data"
     Write-Host ""
     Write-Host "Returned Data:"
@@ -377,8 +369,8 @@ if (-not $speedData.download -or -not $speedData.upload) {
 # ============================================================================
 
 Write-Host ""
-Write-Host "[ RESULTS ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[OK] RESULTS"
+Write-Host "=============================================================="
 
 # Calculate speeds in Mbps (no rounding for decimal precision)
 $downloadMbps = ($speedData.download.bandwidth * 8 / 1MB)
@@ -414,8 +406,8 @@ Write-Host "Result URL      : $resultUrl"
 # ============================================================================
 
 Write-Host ""
-Write-Host "[ SUPEROPS SYNC ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[RUN] SUPEROPS SYNC"
+Write-Host "=============================================================="
 
 $syncErrorOccurred = $false
 $syncErrorText     = ""
@@ -462,9 +454,9 @@ try {
 
 if ($syncErrorOccurred) {
     Write-Host ""
-    Write-Host "[ ERROR OCCURRED ]"
-    Write-Host "--------------------------------------------------------------"
-    Write-Host "Failed to send one or more custom fields to SuperOps:"
+    Write-Host "[ERROR] SUPEROPS SYNC FAILED"
+    Write-Host "=============================================================="
+    Write-Host "Failed to send one or more custom fields:"
     Write-Host $syncErrorText
     Write-Host ""
     Write-Host "Troubleshooting:"
@@ -482,13 +474,13 @@ Write-Host "All custom fields synchronized successfully"
 # ============================================================================
 
 Write-Host ""
-Write-Host "[ FINAL STATUS ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[OK] FINAL STATUS"
+Write-Host "=============================================================="
 Write-Host "Status : Success"
 Write-Host "Metrics captured and synchronized to SuperOps"
 
 Write-Host ""
-Write-Host "[ SCRIPT COMPLETED ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[OK] SCRIPT COMPLETED"
+Write-Host "=============================================================="
 
 exit 0

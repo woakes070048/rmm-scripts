@@ -8,9 +8,9 @@ $ErrorActionPreference = 'Stop'
 ███████╗██║██║ ╚═╝ ██║███████╗██║  ██║██║  ██║╚███╔███╔╝██║  ██╗
 ╚══════╝╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚══╝╚══╝ ╚═╝  ╚═╝
 ================================================================================
- SCRIPT   : Windows Update Reset                                         v1.0.1
+ SCRIPT   : Windows Update Reset                                         v1.0.2
  AUTHOR   : Limehawk.io
- DATE      : December 2025
+ DATE      : January 2026
  USAGE    : .\windows_update_reset.ps1
 ================================================================================
  FILE     : windows_update_reset.ps1
@@ -73,46 +73,47 @@ DESCRIPTION : Resets Windows Update components and clears cache
 
  EXAMPLE RUN
 
- [ INPUT VALIDATION ]
- --------------------------------------------------------------
+ [INFO] INPUT VALIDATION
+ ==============================================================
  Reboot After Reset : False
 
- [ STOPPING SERVICES ]
- --------------------------------------------------------------
+ [RUN] STOPPING SERVICES
+ ==============================================================
  Stopping BITS...
  Stopping wuauserv...
  Stopping appidsvc...
  Stopping cryptsvc...
 
- [ CLEARING CACHES ]
- --------------------------------------------------------------
+ [RUN] CLEARING CACHES
+ ==============================================================
  Flushing DNS...
  Clearing QMGR data...
  Renaming SoftwareDistribution...
  Renaming catroot2...
 
- [ RESETTING COMPONENTS ]
- --------------------------------------------------------------
+ [RUN] RESETTING COMPONENTS
+ ==============================================================
  Resetting security descriptors...
  Re-registering DLLs...
  Resetting Winsock...
 
- [ STARTING SERVICES ]
- --------------------------------------------------------------
+ [RUN] STARTING SERVICES
+ ==============================================================
  Starting BITS...
  Starting wuauserv...
  Starting appidsvc...
  Starting cryptsvc...
 
- [ RESULT ]
- --------------------------------------------------------------
+ [OK] RESULT
+ ==============================================================
  Status : Success
 
- [ SCRIPT COMPLETED ]
- --------------------------------------------------------------
+ [OK] SCRIPT COMPLETED
+ ==============================================================
 --------------------------------------------------------------------------------
  CHANGELOG
 --------------------------------------------------------------------------------
+ 2026-01-19 v1.0.2 Updated to two-line ASCII console output style
  2025-12-23 v1.0.1 Updated to Limehawk Script Framework
  2025-11-29 v1.0.0 Initial Style A implementation
 ================================================================================
@@ -131,8 +132,8 @@ $RebootAfterReset = $false
 $isAdmin = ([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole] "Administrator")
 if (-not $isAdmin) {
     Write-Host ""
-    Write-Host "[ ERROR OCCURRED ]"
-    Write-Host "--------------------------------------------------------------"
+    Write-Host "[ERROR] ADMIN PRIVILEGES REQUIRED"
+    Write-Host "=============================================================="
     Write-Host "Script requires admin privileges."
     Write-Host "Please relaunch as Administrator."
     exit 1
@@ -140,14 +141,14 @@ if (-not $isAdmin) {
 
 # ==== RUNTIME OUTPUT ====
 Write-Host ""
-Write-Host "[ INPUT VALIDATION ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[INFO] INPUT VALIDATION"
+Write-Host "=============================================================="
 Write-Host "Reboot After Reset : $RebootAfterReset"
 
 # ==== STOP SERVICES ====
 Write-Host ""
-Write-Host "[ STOPPING SERVICES ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[RUN] STOPPING SERVICES"
+Write-Host "=============================================================="
 
 $services = @('bits', 'wuauserv', 'appidsvc', 'cryptsvc')
 foreach ($svc in $services) {
@@ -163,8 +164,8 @@ foreach ($svc in $services) {
 
 # ==== CLEAR CACHES ====
 Write-Host ""
-Write-Host "[ CLEARING CACHES ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[RUN] CLEARING CACHES"
+Write-Host "=============================================================="
 
 try {
     Write-Host "Flushing DNS..."
@@ -205,8 +206,8 @@ try {
 
 # ==== RESET COMPONENTS ====
 Write-Host ""
-Write-Host "[ RESETTING COMPONENTS ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[RUN] RESETTING COMPONENTS"
+Write-Host "=============================================================="
 
 try {
     # Reset Windows Update policies
@@ -266,8 +267,8 @@ try {
 
 # ==== START SERVICES ====
 Write-Host ""
-Write-Host "[ STARTING SERVICES ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[RUN] STARTING SERVICES"
+Write-Host "=============================================================="
 
 foreach ($svc in $services) {
     Write-Host "Starting $svc..."
@@ -276,23 +277,26 @@ foreach ($svc in $services) {
 
 if ($errorOccurred) {
     Write-Host ""
-    Write-Host "[ ERROR OCCURRED ]"
-    Write-Host "--------------------------------------------------------------"
+    Write-Host "[WARN] ERRORS OCCURRED"
+    Write-Host "=============================================================="
     Write-Host $errorText
 }
 
-Write-Host ""
-Write-Host "[ RESULT ]"
-Write-Host "--------------------------------------------------------------"
 if ($errorOccurred) {
+    Write-Host ""
+    Write-Host "[WARN] RESULT"
+    Write-Host "=============================================================="
     Write-Host "Status : Partial Success (some operations failed)"
 } else {
+    Write-Host ""
+    Write-Host "[OK] RESULT"
+    Write-Host "=============================================================="
     Write-Host "Status : Success"
 }
 
 Write-Host ""
-Write-Host "[ FINAL STATUS ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[INFO] FINAL STATUS"
+Write-Host "=============================================================="
 Write-Host "Windows Update components have been reset."
 Write-Host "A reboot is recommended to complete the process."
 
@@ -301,9 +305,15 @@ if ($RebootAfterReset) {
     shutdown /g /f /t 60 /c "Windows Update reset complete. Rebooting..."
 }
 
-Write-Host ""
-Write-Host "[ SCRIPT COMPLETED ]"
-Write-Host "--------------------------------------------------------------"
+if ($errorOccurred) {
+    Write-Host ""
+    Write-Host "[WARN] SCRIPT COMPLETED"
+    Write-Host "=============================================================="
+} else {
+    Write-Host ""
+    Write-Host "[OK] SCRIPT COMPLETED"
+    Write-Host "=============================================================="
+}
 
 if ($errorOccurred) {
     exit 1

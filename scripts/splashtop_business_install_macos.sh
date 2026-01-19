@@ -7,9 +7,9 @@
 # ███████╗██║██║ ╚═╝ ██║███████╗██║  ██║██║  ██║╚███╔███╔╝██║  ██╗
 # ╚══════╝╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚══╝╚══╝ ╚═╝  ╚═╝
 # ================================================================================
-#  SCRIPT   : Splashtop Business Install (macOS)                           v1.1.0
+#  SCRIPT   : Splashtop Business Install (macOS)                           v1.1.1
 #  AUTHOR   : Limehawk.io
-#  DATE     : December 2025
+#  DATE     : January 2026
 #  USAGE    : sudo ./splashtop_business_install_macos.sh
 # ================================================================================
 #  FILE     : splashtop_business_install_macos.sh
@@ -70,24 +70,31 @@
 #
 #  EXAMPLE RUN
 #
-#    [ SPLASHTOP BUSINESS INSTALL - macOS ]
-#    --------------------------------------------------------------
+#    [RUN] DOWNLOADING INSTALLER
+#    ==============================================================
 #    Downloading Splashtop Business installer...
 #    Download completed
+#
+#    [RUN] MOUNTING DMG
+#    ==============================================================
 #    Mounting installer DMG...
+#
+#    [RUN] INSTALLING
+#    ==============================================================
 #    Installing Splashtop Business...
+#
+#    [RUN] CLEANUP
+#    ==============================================================
 #    Cleaning up...
 #
-#    [ FINAL STATUS ]
-#    --------------------------------------------------------------
+#    [OK] SCRIPT COMPLETED
+#    ==============================================================
 #    Splashtop Business installed successfully
-#
-#    [ SCRIPT COMPLETE ]
-#    --------------------------------------------------------------
 #
 # --------------------------------------------------------------------------------
 #  CHANGELOG
 # --------------------------------------------------------------------------------
+#  2026-01-19 v1.1.1 Updated to two-line ASCII console output style
 #  2025-12-23 v1.1.0 Updated to Limehawk Script Framework
 #  2024-01-01 v1.0.0 Initial release
 # ================================================================================
@@ -108,8 +115,8 @@ MOUNT_DIR="/Volumes/Splashtop Business"
 
 handle_error() {
     echo ""
-    echo "[ ERROR OCCURRED ]"
-    echo "--------------------------------------------------------------"
+    echo "[ERROR] ERROR OCCURRED"
+    echo "=============================================================="
     echo "$1"
     echo ""
     exit 1
@@ -120,8 +127,8 @@ handle_error() {
 # ============================================================================
 
 echo ""
-echo "[ SPLASHTOP BUSINESS INSTALL - macOS ]"
-echo "--------------------------------------------------------------"
+echo "[RUN] DOWNLOADING INSTALLER"
+echo "=============================================================="
 
 # Download installer
 echo "Downloading Splashtop Business installer..."
@@ -132,9 +139,17 @@ if [ ! -f "$SPLASHTOP_INSTALLER" ]; then
 fi
 echo "Download completed"
 
+echo ""
+echo "[RUN] MOUNTING DMG"
+echo "=============================================================="
+
 # Mount DMG
 echo "Mounting installer DMG..."
 hdiutil attach "$SPLASHTOP_INSTALLER" -nobrowse || handle_error "Failed to mount DMG"
+
+echo ""
+echo "[RUN] INSTALLING"
+echo "=============================================================="
 
 # Install package
 PKG_PATH="$MOUNT_DIR/Splashtop Business.pkg"
@@ -146,17 +161,17 @@ else
     handle_error "Package not found in mounted DMG"
 fi
 
+echo ""
+echo "[RUN] CLEANUP"
+echo "=============================================================="
+
 # Cleanup
 echo "Cleaning up..."
 hdiutil detach "$MOUNT_DIR" || handle_error "Failed to unmount DMG"
 rm -f "$SPLASHTOP_INSTALLER" || handle_error "Failed to remove installer"
 
 echo ""
-echo "[ FINAL STATUS ]"
-echo "--------------------------------------------------------------"
+echo "[OK] SCRIPT COMPLETED"
+echo "=============================================================="
 echo "Splashtop Business installed successfully"
-
-echo ""
-echo "[ SCRIPT COMPLETE ]"
-echo "--------------------------------------------------------------"
 exit 0

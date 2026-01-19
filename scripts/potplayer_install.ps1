@@ -8,9 +8,9 @@ $ErrorActionPreference = 'Stop'
 ╚══════╝╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚══╝╚══╝ ╚═╝  ╚═╝
 
 ================================================================================
-SCRIPT  : PotPlayer Install v1.0.1
+SCRIPT  : PotPlayer Install v1.0.2
 AUTHOR  : Limehawk.io
-DATE      : December 2025
+DATE      : January 2026
 USAGE   : .\potplayer_install.ps1
 FILE    : potplayer_install.ps1
 DESCRIPTION : Downloads and silently installs PotPlayer media player
@@ -46,39 +46,40 @@ EXIT CODES:
     1 = Failure
 
 EXAMPLE RUN:
-    [ INPUT VALIDATION ]
-    --------------------------------------------------------------
+    [INFO] INPUT VALIDATION
+    ==============================================================
     Base URL : https://potplayer.daum.net
     System : 64-bit
-    Inputs validated successfully
+    [OK] Inputs validated successfully
 
-    [ DOWNLOAD ]
-    --------------------------------------------------------------
-    Fetching download links from PotPlayer website...
+    [INFO] DOWNLOAD
+    ==============================================================
+    [RUN] Fetching download links from PotPlayer website...
     Found installer for 64-bit system
-    Downloading PotPlayer installer...
-    Download completed successfully
+    [RUN] Downloading PotPlayer installer...
+    [OK] Download completed successfully
 
-    [ INSTALLATION ]
-    --------------------------------------------------------------
-    Installing PotPlayer silently...
-    Installation completed successfully
+    [INFO] INSTALLATION
+    ==============================================================
+    [RUN] Installing PotPlayer silently...
+    [OK] Installation completed successfully
 
-    [ CLEANUP ]
-    --------------------------------------------------------------
-    Removing installer file...
-    Cleanup completed
+    [INFO] CLEANUP
+    ==============================================================
+    [RUN] Removing installer file...
+    [OK] Cleanup completed
 
-    [ FINAL STATUS ]
-    --------------------------------------------------------------
+    [INFO] FINAL STATUS
+    ==============================================================
     Result : SUCCESS
     PotPlayer installed successfully
 
-    [ SCRIPT COMPLETED ]
-    --------------------------------------------------------------
+    [INFO] SCRIPT COMPLETED
+    ==============================================================
 
 CHANGELOG
 --------------------------------------------------------------------------------
+2026-01-19 v1.0.2 Updated to two-line ASCII console output style
 2025-12-23 v1.0.1 Updated to Limehawk Script Framework
 2024-12-01 v1.0.0 Initial release - migrated from SuperOps
 ================================================================================
@@ -94,8 +95,8 @@ $baseUrl = 'https://potplayer.daum.net'
 # INPUT VALIDATION
 # ============================================================================
 Write-Host ""
-Write-Host "[ INPUT VALIDATION ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[INFO] INPUT VALIDATION"
+Write-Host "=============================================================="
 
 $errorOccurred = $false
 $errorText = ""
@@ -108,8 +109,8 @@ if ([string]::IsNullOrWhiteSpace($baseUrl)) {
 
 if ($errorOccurred) {
     Write-Host ""
-    Write-Host "[ ERROR OCCURRED ]"
-    Write-Host "--------------------------------------------------------------"
+    Write-Host "[ERROR] VALIDATION FAILED"
+    Write-Host "=============================================================="
     Write-Host $errorText
     exit 1
 }
@@ -117,17 +118,17 @@ if ($errorOccurred) {
 $systemArch = if ([Environment]::Is64BitOperatingSystem) { "64-bit" } else { "32-bit" }
 Write-Host "Base URL : $baseUrl"
 Write-Host "System : $systemArch"
-Write-Host "Inputs validated successfully"
+Write-Host "[OK] Inputs validated successfully"
 
 # ============================================================================
 # DOWNLOAD
 # ============================================================================
 Write-Host ""
-Write-Host "[ DOWNLOAD ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[INFO] DOWNLOAD"
+Write-Host "=============================================================="
 
 try {
-    Write-Host "Fetching download links from PotPlayer website..."
+    Write-Host "[RUN] Fetching download links from PotPlayer website..."
     $webContent = Invoke-WebRequest -Uri $baseUrl -UseBasicParsing
     $links = $webContent.Links.Href | Where-Object { $_ -match '.*PotPlayerSetup(64)?.exe$' } | Select-Object -Unique
 
@@ -148,14 +149,14 @@ try {
     Write-Host "Found installer for $systemArch system"
 
     $installerPath = Join-Path -Path $env:TEMP -ChildPath (Split-Path -Leaf $installerLink)
-    Write-Host "Downloading PotPlayer installer..."
+    Write-Host "[RUN] Downloading PotPlayer installer..."
     Invoke-WebRequest -Uri $installerLink -OutFile $installerPath -UseBasicParsing
-    Write-Host "Download completed successfully"
+    Write-Host "[OK] Download completed successfully"
 }
 catch {
     Write-Host ""
-    Write-Host "[ ERROR OCCURRED ]"
-    Write-Host "--------------------------------------------------------------"
+    Write-Host "[ERROR] DOWNLOAD FAILED"
+    Write-Host "=============================================================="
     Write-Host "Failed to download PotPlayer"
     Write-Host "Error : $($_.Exception.Message)"
     exit 1
@@ -165,23 +166,23 @@ catch {
 # INSTALLATION
 # ============================================================================
 Write-Host ""
-Write-Host "[ INSTALLATION ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[INFO] INSTALLATION"
+Write-Host "=============================================================="
 
 try {
-    Write-Host "Installing PotPlayer silently..."
+    Write-Host "[RUN] Installing PotPlayer silently..."
     $process = Start-Process -FilePath $installerPath -ArgumentList "/S" -Wait -PassThru -NoNewWindow
 
     if ($process.ExitCode -ne 0) {
         throw "Installation failed with exit code: $($process.ExitCode)"
     }
 
-    Write-Host "Installation completed successfully"
+    Write-Host "[OK] Installation completed successfully"
 }
 catch {
     Write-Host ""
-    Write-Host "[ ERROR OCCURRED ]"
-    Write-Host "--------------------------------------------------------------"
+    Write-Host "[ERROR] INSTALLATION FAILED"
+    Write-Host "=============================================================="
     Write-Host "Failed to install PotPlayer"
     Write-Host "Error : $($_.Exception.Message)"
     exit 1
@@ -191,24 +192,24 @@ catch {
 # CLEANUP
 # ============================================================================
 Write-Host ""
-Write-Host "[ CLEANUP ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[INFO] CLEANUP"
+Write-Host "=============================================================="
 
-Write-Host "Removing installer file..."
+Write-Host "[RUN] Removing installer file..."
 Remove-Item -Path $installerPath -Force -ErrorAction SilentlyContinue
-Write-Host "Cleanup completed"
+Write-Host "[OK] Cleanup completed"
 
 # ============================================================================
 # FINAL STATUS
 # ============================================================================
 Write-Host ""
-Write-Host "[ FINAL STATUS ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[INFO] FINAL STATUS"
+Write-Host "=============================================================="
 Write-Host "Result : SUCCESS"
 Write-Host "PotPlayer installed successfully"
 
 Write-Host ""
-Write-Host "[ SCRIPT COMPLETED ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[INFO] SCRIPT COMPLETED"
+Write-Host "=============================================================="
 
 exit 0

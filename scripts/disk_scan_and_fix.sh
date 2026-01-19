@@ -7,7 +7,7 @@
 # ███████╗██║██║ ╚═╝ ██║███████╗██║  ██║██║  ██║╚███╔███╔╝██║  ██╗
 # ╚══════╝╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚══╝╚══╝ ╚═╝  ╚═╝
 # ================================================================================
-#  SCRIPT   : Disk Scan and Fix (macOS)                                  v2.0.0
+#  SCRIPT   : Disk Scan and Fix (macOS)                                  v2.0.1
 #  AUTHOR   : Limehawk.io
 #  DATE     : January 2026
 #  USAGE    : sudo ./disk_scan_and_fix.sh
@@ -71,35 +71,36 @@
 #
 #  EXAMPLE RUN
 #
-#    [ DISK SCAN ]
-#    --------------------------------------------------------------
+#    [RUN] DISK SCAN
+#    ==============================================================
 #    Starting comprehensive disk and volume health check...
 #
-#    [ DISK: disk0 ]
-#    --------------------------------------------------------------
+#    [INFO] DISK: disk0
+#    ==============================================================
 #    Checking partition map health for disk0...
-#    Partition map of disk0 appears to be OK
+#    [OK] Partition map of disk0 appears to be OK
 #
-#    [ VOLUMES: disk0 ]
-#    --------------------------------------------------------------
+#    [INFO] VOLUMES: disk0
+#    ==============================================================
 #    Checking file system health for disk0s1...
-#    File system of disk0s1 appears to be OK
+#    [OK] File system of disk0s1 appears to be OK
 #
-#    [ SMART STATUS: disk0 ]
-#    --------------------------------------------------------------
-#    SMART status of disk0 indicates it is OK
+#    [INFO] SMART STATUS: disk0
+#    ==============================================================
+#    [OK] SMART status of disk0 indicates it is OK
 #
-#    [ FINAL STATUS ]
-#    --------------------------------------------------------------
+#    [OK] FINAL STATUS
+#    ==============================================================
 #    Result : SUCCESS
 #    Comprehensive health check completed
 #
-#    [ SCRIPT COMPLETE ]
-#    --------------------------------------------------------------
+#    [INFO] SCRIPT COMPLETE
+#    ==============================================================
 #
 # --------------------------------------------------------------------------------
 #  CHANGELOG
 # --------------------------------------------------------------------------------
+#  2026-01-19 v2.0.1 Updated to two-line ASCII console output style
 #  2026-01-14 v2.0.0 Complete rewrite with Limehawk Script Framework
 #  2024-01-01 v1.0.0 Initial release
 # ================================================================================
@@ -117,8 +118,8 @@ SMART_CHECKED=0
 # ============================================================================
 
 echo ""
-echo "[ DISK SCAN ]"
-echo "--------------------------------------------------------------"
+echo "[RUN] DISK SCAN"
+echo "=============================================================="
 echo "Starting comprehensive disk and volume health check..."
 
 # Get the list of all mounted disks
@@ -126,8 +127,8 @@ DISKS=$(diskutil list | grep 'disk[0-9]' | awk '{print $1}' | sort -u)
 
 if [[ -z "$DISKS" ]]; then
     echo ""
-    echo "[ ERROR OCCURRED ]"
-    echo "--------------------------------------------------------------"
+    echo "[ERROR] ERROR OCCURRED"
+    echo "=============================================================="
     echo "No disks found"
     echo ""
     exit 1
@@ -136,15 +137,15 @@ fi
 # Loop through each disk
 for disk in $DISKS; do
     echo ""
-    echo "[ DISK: $disk ]"
-    echo "--------------------------------------------------------------"
+    echo "[INFO] DISK: $disk"
+    echo "=============================================================="
     echo "Checking partition map health for $disk..."
 
     # Using diskutil to verify the partition map
     if diskutil verifyDisk "$disk" 2>&1; then
-        echo "Partition map of $disk appears to be OK"
+        echo "[OK] Partition map of $disk appears to be OK"
     else
-        echo "An error occurred with the partition map of $disk"
+        echo "[WARN] An error occurred with the partition map of $disk"
         echo "Check the disk using Disk Utility"
         ERROR_OCCURRED=true
     fi
@@ -156,8 +157,8 @@ for disk in $DISKS; do
 
     if [[ -n "$VOLUMES" ]]; then
         echo ""
-        echo "[ VOLUMES: $disk ]"
-        echo "--------------------------------------------------------------"
+        echo "[INFO] VOLUMES: $disk"
+        echo "=============================================================="
 
         # Loop through each volume on the disk
         for volume in $VOLUMES; do
@@ -165,9 +166,9 @@ for disk in $DISKS; do
 
             # Using diskutil to verify the volume
             if diskutil verifyVolume "$volume" 2>&1; then
-                echo "File system of $volume appears to be OK"
+                echo "[OK] File system of $volume appears to be OK"
             else
-                echo "An error occurred with the file system of $volume"
+                echo "[WARN] An error occurred with the file system of $volume"
                 echo "Check the volume using Disk Utility"
                 ERROR_OCCURRED=true
             fi
@@ -181,50 +182,52 @@ for disk in $DISKS; do
 
     if [[ "$SMART_STATUS" == "Verified" || "$SMART_STATUS" == "Supported" ]]; then
         echo ""
-        echo "[ SMART STATUS: $disk ]"
-        echo "--------------------------------------------------------------"
+        echo "[INFO] SMART STATUS: $disk"
+        echo "=============================================================="
         echo "Checking SMART status for $disk..."
 
         SMART_OUTPUT=$(diskutil info "$disk" | grep "SMART Status")
         echo "$SMART_OUTPUT"
 
         if echo "$SMART_OUTPUT" | grep -q "Verified"; then
-            echo "SMART status of $disk indicates it is OK"
+            echo "[OK] SMART status of $disk indicates it is OK"
         else
-            echo "SMART status check indicates a potential issue with $disk"
+            echo "[WARN] SMART status check indicates a potential issue with $disk"
             echo "Consider further diagnostics"
         fi
 
         SMART_CHECKED=$((SMART_CHECKED + 1))
     elif [[ -n "$SMART_STATUS" ]]; then
         echo ""
-        echo "[ SMART STATUS: $disk ]"
-        echo "--------------------------------------------------------------"
+        echo "[INFO] SMART STATUS: $disk"
+        echo "=============================================================="
         echo "SMART Status : $SMART_STATUS"
     fi
 done
 
 echo ""
-echo "[ SUMMARY ]"
-echo "--------------------------------------------------------------"
+echo "[INFO] SUMMARY"
+echo "=============================================================="
 echo "Disks Checked   : $DISKS_CHECKED"
 echo "Volumes Checked : $VOLUMES_CHECKED"
 echo "SMART Checked   : $SMART_CHECKED"
 
 echo ""
-echo "[ FINAL STATUS ]"
-echo "--------------------------------------------------------------"
 if [[ "$ERROR_OCCURRED" = true ]]; then
+    echo "[WARN] FINAL STATUS"
+    echo "=============================================================="
     echo "Result : COMPLETED WITH WARNINGS"
     echo "Some checks reported issues - review output above"
 else
+    echo "[OK] FINAL STATUS"
+    echo "=============================================================="
     echo "Result : SUCCESS"
     echo "Comprehensive health check completed"
 fi
 
 echo ""
-echo "[ SCRIPT COMPLETE ]"
-echo "--------------------------------------------------------------"
+echo "[INFO] SCRIPT COMPLETE"
+echo "=============================================================="
 
 if [[ "$ERROR_OCCURRED" = true ]]; then
     exit 1

@@ -8,9 +8,9 @@ $ErrorActionPreference = 'Stop'
 ███████╗██║██║ ╚═╝ ██║███████╗██║  ██║██║  ██║╚███╔███╔╝██║  ██╗
 ╚══════╝╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚══╝╚══╝ ╚═╝  ╚═╝
 ================================================================================
- SCRIPT   : Time Sync Fix                                                v1.0.1
+ SCRIPT   : Time Sync Fix                                                v1.0.3
  AUTHOR   : Limehawk.io
- DATE      : December 2025
+ DATE     : January 2026
  USAGE    : .\time_sync_fix.ps1
 ================================================================================
  FILE     : time_sync_fix.ps1
@@ -70,13 +70,13 @@ DESCRIPTION : Fixes Windows time synchronization by resetting NTP configuration
 
  EXAMPLE RUN
 
- [ INPUT VALIDATION ]
- --------------------------------------------------------------
+ [INFO] INPUT VALIDATION
+ ==============================================================
  Time Zone   : Eastern Standard Time
  NTP Servers : 0.pool.ntp.org,1.pool.ntp.org,2.pool.ntp.org,3.pool.ntp.org
 
- [ OPERATION ]
- --------------------------------------------------------------
+ [RUN] OPERATION
+ ==============================================================
  Setting timezone...
  Stopping Windows Time service...
  Re-registering Windows Time service...
@@ -86,17 +86,19 @@ DESCRIPTION : Fixes Windows time synchronization by resetting NTP configuration
  Configuring NTP servers...
  Forcing time resync...
 
- [ RESULT ]
- --------------------------------------------------------------
+ [OK] RESULT
+ ==============================================================
  Status    : Success
  Time Zone : Eastern Standard Time
  Time      : 2025-11-29 14:32:15
 
- [ SCRIPT COMPLETED ]
- --------------------------------------------------------------
+ [OK] SCRIPT COMPLETED
+ ==============================================================
 --------------------------------------------------------------------------------
  CHANGELOG
 --------------------------------------------------------------------------------
+ 2026-01-19 v1.0.3 Fixed EXAMPLE RUN section formatting
+ 2026-01-19 v1.0.2 Updated to two-line ASCII console output style
  2025-12-23 v1.0.1 Updated to Limehawk Script Framework
  2025-11-29 v1.0.0 Initial Style A implementation
 ================================================================================
@@ -126,72 +128,72 @@ if ([string]::IsNullOrWhiteSpace($NtpServers)) {
 
 if ($errorOccurred) {
     Write-Host ""
-    Write-Host "[ ERROR OCCURRED ]"
-    Write-Host "--------------------------------------------------------------"
+    Write-Host "[ERROR] VALIDATION FAILED"
+    Write-Host "=============================================================="
     Write-Host $errorText
     exit 1
 }
 
 # ==== RUNTIME OUTPUT ====
 Write-Host ""
-Write-Host "[ INPUT VALIDATION ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[INFO] INPUT VALIDATION"
+Write-Host "=============================================================="
 Write-Host "Time Zone   : $TimeZone"
 Write-Host "NTP Servers : $NtpServers"
 
 Write-Host ""
-Write-Host "[ OPERATION ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[RUN] OPERATION"
+Write-Host "=============================================================="
 
 try {
     # Set timezone
-    Write-Host "Setting timezone..."
+    Write-Host "[RUN] Setting timezone..."
     tzutil /s "$TimeZone"
     if ($LASTEXITCODE -ne 0) {
         throw "Failed to set timezone. Verify timezone ID is valid."
     }
 
     # Stop Windows Time service
-    Write-Host "Stopping Windows Time service..."
+    Write-Host "[RUN] Stopping Windows Time service..."
     Stop-Service -Name w32time -Force -ErrorAction SilentlyContinue
     Start-Sleep -Seconds 2
 
     # Unregister and re-register the service
-    Write-Host "Re-registering Windows Time service..."
+    Write-Host "[RUN] Re-registering Windows Time service..."
     w32tm /unregister 2>$null
     Start-Sleep -Seconds 1
     w32tm /register 2>$null
     Start-Sleep -Seconds 1
 
     # Configure SpecialPollInterval (24 hours = 86400 seconds)
-    Write-Host "Configuring NTP poll interval..."
+    Write-Host "[RUN] Configuring NTP poll interval..."
     $regPath = "HKLM:\SYSTEM\CurrentControlSet\Services\W32Time\TimeProviders\NtpClient"
     Set-ItemProperty -Path $regPath -Name "SpecialPollInterval" -Value 86400 -Type DWord -Force
 
     # Set service triggers
-    Write-Host "Setting service triggers..."
+    Write-Host "[RUN] Setting service triggers..."
     sc.exe triggerinfo w32time start/networkon stop/networkoff 2>$null
 
     # Start Windows Time service
-    Write-Host "Starting Windows Time service..."
+    Write-Host "[RUN] Starting Windows Time service..."
     Start-Service -Name w32time -ErrorAction Stop
     Start-Sleep -Seconds 2
 
     # Configure NTP servers
-    Write-Host "Configuring NTP servers..."
+    Write-Host "[RUN] Configuring NTP servers..."
     $peerList = ($NtpServers -split ',') | ForEach-Object { "$_,0x1" }
     $peerListString = $peerList -join ' '
     w32tm /config /manualpeerlist:"$peerListString" /syncfromflags:manual /update
     if ($LASTEXITCODE -ne 0) {
-        Write-Host "Warning: NTP configuration returned non-zero exit code"
+        Write-Host "[WARN] NTP configuration returned non-zero exit code"
     }
 
     # Force resync
-    Write-Host "Forcing time resync..."
+    Write-Host "[RUN] Forcing time resync..."
     Start-Sleep -Seconds 2
     w32tm /resync /force
     if ($LASTEXITCODE -ne 0) {
-        Write-Host "Warning: Time resync returned non-zero exit code"
+        Write-Host "[WARN] Time resync returned non-zero exit code"
     }
 
 } catch {
@@ -201,8 +203,8 @@ try {
 
 if ($errorOccurred) {
     Write-Host ""
-    Write-Host "[ ERROR OCCURRED ]"
-    Write-Host "--------------------------------------------------------------"
+    Write-Host "[ERROR] ERROR OCCURRED"
+    Write-Host "=============================================================="
     Write-Host $errorText
 }
 
@@ -211,28 +213,28 @@ $currentTime = Get-Date -Format "yyyy-MM-dd HH:mm:ss"
 $currentTz = (Get-TimeZone).Id
 
 Write-Host ""
-Write-Host "[ RESULT ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[INFO] RESULT"
+Write-Host "=============================================================="
 if ($errorOccurred) {
-    Write-Host "Status : Failure"
+    Write-Host "[ERROR] Status : Failure"
 } else {
-    Write-Host "Status    : Success"
+    Write-Host "[OK] Status    : Success"
     Write-Host "Time Zone : $currentTz"
     Write-Host "Time      : $currentTime"
 }
 
 Write-Host ""
-Write-Host "[ FINAL STATUS ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[INFO] FINAL STATUS"
+Write-Host "=============================================================="
 if ($errorOccurred) {
-    Write-Host "Time synchronization fix failed. See error above."
+    Write-Host "[ERROR] Time synchronization fix failed. See error above."
 } else {
-    Write-Host "Time synchronization has been reset and configured."
+    Write-Host "[OK] Time synchronization has been reset and configured."
 }
 
 Write-Host ""
-Write-Host "[ SCRIPT COMPLETED ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[INFO] SCRIPT COMPLETED"
+Write-Host "=============================================================="
 
 if ($errorOccurred) {
     exit 1

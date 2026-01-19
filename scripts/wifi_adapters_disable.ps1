@@ -8,9 +8,9 @@ $ErrorActionPreference = 'Stop'
 ╚══════╝╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚══╝╚══╝ ╚═╝  ╚═╝
 
 ================================================================================
- SCRIPT  : Disable Wi-Fi Adapters v1.0.6
+ SCRIPT  : Disable Wi-Fi Adapters v1.0.8
  AUTHOR  : Limehawk.io
- DATE      : December 2025
+ DATE    : January 2026
  FILE    : wifi_adapters_disable.ps1
  DESCRIPTION : Disables all physical and virtual Wi-Fi network adapters
  USAGE   : .\wifi_adapters_disable.ps1
@@ -48,29 +48,31 @@ EXIT CODES:
     1 = Failure
 
 EXAMPLE RUN:
-    [ ADAPTER DISCOVERY ]
-    --------------------------------------------------------------
+    [INFO] ADAPTER DISCOVERY
+    ==============================================================
     Total Adapters Found     : 5
     Categorized as Wired     : 1
     Categorized as Wi-Fi     : 2
 
-    [ PROCESSING WI-FI ADAPTERS ]
-    --------------------------------------------------------------
+    [RUN] PROCESSING WI-FI ADAPTERS
+    ==============================================================
     Adapter Name             : Wi-Fi
     ACTION                   : DISABLING
     RESULT                   : DISABLED
 
-    [ FINAL STATUS ]
-    --------------------------------------------------------------
+    [OK] FINAL STATUS
+    ==============================================================
     Wi-Fi Adapters Disabled  : 2
     SCRIPT SUCCEEDED
 
-    [ SCRIPT COMPLETED ]
-    --------------------------------------------------------------
+    [OK] SCRIPT COMPLETED
+    ==============================================================
 
 --------------------------------------------------------------------------------
  CHANGELOG
 --------------------------------------------------------------------------------
+ 2026-01-19 v1.0.8 Fixed EXAMPLE RUN section formatting
+ 2026-01-19 v1.0.7 Updated to two-line ASCII console output style
  2025-12-23 v1.0.6 Updated to Limehawk Script Framework
  2024-12-01 v1.0.5 Migrated from SuperOps - removed module dependency
 ================================================================================
@@ -81,10 +83,10 @@ Set-StrictMode -Version Latest
 # HELPER FUNCTIONS
 # ============================================================================
 function Write-Section {
-    param([string]$title)
+    param([string]$prefix, [string]$title)
     Write-Host ""
-    Write-Host ("[ {0} ]" -f $title)
-    Write-Host ("-" * 62)
+    Write-Host ("[{0}] {1}" -f $prefix, $title)
+    Write-Host ("=" * 62)
 }
 
 function PrintKV([string]$label, [string]$value) {
@@ -96,9 +98,9 @@ function PrintKV([string]$label, [string]$value) {
 # PRIVILEGE CHECK
 # ============================================================================
 if (-not ([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)) {
-    Write-Section "ERROR OCCURRED"
+    Write-Section "ERROR" "PRIVILEGE CHECK FAILED"
     Write-Host " This script requires administrative privileges to run."
-    Write-Section "SCRIPT HALTED"
+    Write-Section "ERROR" "SCRIPT HALTED"
     exit 1
 }
 
@@ -107,7 +109,7 @@ if (-not ([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdenti
 # ============================================================================
 try {
     # Discover and Categorize Adapters
-    Write-Section "ADAPTER DISCOVERY"
+    Write-Section "INFO" "ADAPTER DISCOVERY"
     $allAdapters = Get-NetAdapter -IncludeHidden
 
     $wifiAdapters = $allAdapters | Where-Object {
@@ -124,7 +126,7 @@ try {
     PrintKV "Categorized as Wi-Fi" $wifiAdapters.Count
 
     # Display Detailed List for Review
-    Write-Section "DETECTED NETWORK ADAPTERS"
+    Write-Section "INFO" "DETECTED NETWORK ADAPTERS"
     $wifiAdapterIds = $wifiAdapters.InstanceID
     $wiredAdapterIds = $wiredAdapters.InstanceID
 
@@ -145,11 +147,11 @@ try {
     }
 
     # Process Wi-Fi Adapters
-    Write-Section "PROCESSING WI-FI ADAPTERS"
+    Write-Section "RUN" "PROCESSING WI-FI ADAPTERS"
     $disabledCount = 0
 
     if ($wifiAdapters.Count -eq 0) {
-        Write-Host " No adapters categorized as Wi-Fi were found to process."
+        Write-Host "[WARN] No adapters categorized as Wi-Fi were found to process."
     }
     else {
         foreach ($adapter in $wifiAdapters) {
@@ -158,37 +160,37 @@ try {
             if (-not $currentTarget) {
                 Write-Host ""
                 PrintKV "Adapter Name" $adapter.Name
-                PrintKV "STATUS" "SKIPPING (Adapter no longer exists)"
+                Write-Host "[WARN] STATUS: SKIPPING (Adapter no longer exists)"
                 continue
             }
 
             if ($currentTarget.Status -ne "Disabled") {
                 Write-Host ""
                 PrintKV "Adapter Name" $currentTarget.Name
-                PrintKV "ACTION" "DISABLING"
+                Write-Host "[RUN] ACTION: DISABLING"
                 $currentTarget | Disable-NetAdapter -Confirm:$false
-                PrintKV "RESULT" "DISABLED"
+                Write-Host "[OK] RESULT: DISABLED"
                 $disabledCount++
             }
         }
         if ($disabledCount -eq 0) {
-            Write-Host " All Wi-Fi adapters were already disabled or skipped."
+            Write-Host "[OK] All Wi-Fi adapters were already disabled or skipped."
         }
     }
 
     # Final Summary
-    Write-Section "FINAL STATUS"
+    Write-Section "INFO" "FINAL STATUS"
     PrintKV "Wi-Fi Adapters Disabled" $disabledCount
     PrintKV "Adapters Unchanged" ($allAdapters.Count - $disabledCount)
-    Write-Host " SCRIPT SUCCEEDED"
+    Write-Host "[OK] SCRIPT SUCCEEDED"
 
-    Write-Section "SCRIPT COMPLETED"
+    Write-Section "INFO" "SCRIPT COMPLETED"
     exit 0
 }
 catch {
-    Write-Section "ERROR OCCURRED"
+    Write-Section "ERROR" "ERROR OCCURRED"
     PrintKV "Error Message" $_.Exception.Message
     PrintKV "Error Type" $_.Exception.GetType().FullName
-    Write-Section "SCRIPT HALTED"
+    Write-Section "ERROR" "SCRIPT HALTED"
     exit 1
 }

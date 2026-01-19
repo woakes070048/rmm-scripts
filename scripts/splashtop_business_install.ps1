@@ -8,9 +8,9 @@ $ErrorActionPreference = 'Stop'
 ╚══════╝╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚══╝╚══╝ ╚═╝  ╚═╝
 
 ================================================================================
-SCRIPT  : Splashtop Business Install v1.0.1
+SCRIPT  : Splashtop Business Install v1.0.2
 AUTHOR  : Limehawk.io
-DATE      : December 2025
+DATE      : January 2026
 USAGE   : .\splashtop_business_install.ps1
 FILE    : splashtop_business_install.ps1
 DESCRIPTION : Downloads and installs Splashtop Business client silently
@@ -46,38 +46,39 @@ EXIT CODES:
     1 = Failure
 
 EXAMPLE RUN:
-    [ INPUT VALIDATION ]
-    --------------------------------------------------------------
+    [INFO] INPUT VALIDATION
+    ==============================================================
     Download URL : https://redirect.splashtop.com/my/src/msi
     Temp Directory : C:\Temp
     Inputs validated successfully
 
-    [ DOWNLOAD ]
-    --------------------------------------------------------------
+    [RUN] DOWNLOAD
+    ==============================================================
     Downloading Splashtop Business installer...
     Download completed successfully
     File Size : 45.2 MB
 
-    [ INSTALLATION ]
-    --------------------------------------------------------------
+    [RUN] INSTALLATION
+    ==============================================================
     Installing Splashtop Business silently...
     Installation completed successfully
 
-    [ CLEANUP ]
-    --------------------------------------------------------------
+    [RUN] CLEANUP
+    ==============================================================
     Removing installer file...
     Cleanup completed
 
-    [ FINAL STATUS ]
-    --------------------------------------------------------------
+    [OK] FINAL STATUS
+    ==============================================================
     Result : SUCCESS
     Splashtop Business installed successfully
 
-    [ SCRIPT COMPLETED ]
-    --------------------------------------------------------------
+    [INFO] SCRIPT COMPLETED
+    ==============================================================
 
 CHANGELOG
 --------------------------------------------------------------------------------
+2026-01-19 v1.0.2 Updated to two-line ASCII console output style
 2025-12-23 v1.0.1 Updated to Limehawk Script Framework
 2024-12-01 v1.0.0 Initial release - migrated from SuperOps
 ================================================================================
@@ -94,8 +95,8 @@ $tempDirectory = "$env:SystemDrive\Temp"
 # INPUT VALIDATION
 # ============================================================================
 Write-Host ""
-Write-Host "[ INPUT VALIDATION ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[INFO] INPUT VALIDATION"
+Write-Host "=============================================================="
 
 $errorOccurred = $false
 $errorText = ""
@@ -114,8 +115,8 @@ if ([string]::IsNullOrWhiteSpace($tempDirectory)) {
 
 if ($errorOccurred) {
     Write-Host ""
-    Write-Host "[ ERROR OCCURRED ]"
-    Write-Host "--------------------------------------------------------------"
+    Write-Host "[ERROR] ERROR OCCURRED"
+    Write-Host "=============================================================="
     Write-Host $errorText
     exit 1
 }
@@ -139,8 +140,8 @@ if (-not (Test-Path $tempDirectory)) {
 # DOWNLOAD
 # ============================================================================
 Write-Host ""
-Write-Host "[ DOWNLOAD ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[RUN] DOWNLOAD"
+Write-Host "=============================================================="
 
 try {
     Write-Host "Downloading Splashtop Business installer..."
@@ -162,8 +163,8 @@ try {
 }
 catch {
     Write-Host ""
-    Write-Host "[ ERROR OCCURRED ]"
-    Write-Host "--------------------------------------------------------------"
+    Write-Host "[ERROR] ERROR OCCURRED"
+    Write-Host "=============================================================="
     Write-Host "Failed to download Splashtop installer"
     Write-Host "Error : $($_.Exception.Message)"
     exit 1
@@ -173,8 +174,8 @@ catch {
 # INSTALLATION
 # ============================================================================
 Write-Host ""
-Write-Host "[ INSTALLATION ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[RUN] INSTALLATION"
+Write-Host "=============================================================="
 
 try {
     Write-Host "Installing Splashtop Business silently..."
@@ -190,8 +191,8 @@ try {
 }
 catch {
     Write-Host ""
-    Write-Host "[ ERROR OCCURRED ]"
-    Write-Host "--------------------------------------------------------------"
+    Write-Host "[ERROR] ERROR OCCURRED"
+    Write-Host "=============================================================="
     Write-Host "Failed to install Splashtop Business"
     Write-Host "Error : $($_.Exception.Message)"
     Write-Host "Check install log : $logPath"
@@ -202,8 +203,8 @@ catch {
 # CLEANUP
 # ============================================================================
 Write-Host ""
-Write-Host "[ CLEANUP ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[RUN] CLEANUP"
+Write-Host "=============================================================="
 
 try {
     Write-Host "Removing installer file..."
@@ -218,13 +219,13 @@ catch {
 # FINAL STATUS
 # ============================================================================
 Write-Host ""
-Write-Host "[ FINAL STATUS ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[OK] FINAL STATUS"
+Write-Host "=============================================================="
 Write-Host "Result : SUCCESS"
 Write-Host "Splashtop Business installed successfully"
 
 Write-Host ""
-Write-Host "[ SCRIPT COMPLETED ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[INFO] SCRIPT COMPLETED"
+Write-Host "=============================================================="
 
 exit 0

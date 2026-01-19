@@ -6,9 +6,9 @@
  ███████╗██║██║ ╚═╝ ██║███████╗██║  ██║██║  ██║╚███╔███╔╝██║  ██╗
  ╚══════╝╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚══╝╚══╝ ╚═╝  ╚═╝
 ================================================================================
- SCRIPT   : SuperOps Agent Uninstall (Windows)                            v1.1.0
+ SCRIPT   : SuperOps Agent Uninstall (Windows)                            v1.1.1
  AUTHOR   : Limehawk.io
- DATE      : December 2025
+ DATE      : January 2026
  USAGE    : .\superops_agent_uninstall_windows.ps1
 ================================================================================
  FILE     : superops_agent_uninstall_windows.ps1
@@ -62,34 +62,35 @@ DESCRIPTION : Uninstalls SuperOps RMM agent using official or registry method
  - 0 success
  - 1 failure
 
- EXAMPLE RUN (Style A)
- [ INPUT VALIDATION ]
- --------------------------------------------------------------
+ EXAMPLE RUN
+ [INFO] INPUT VALIDATION
+ ==============================================================
  Administrator privileges: Confirmed
  Searching for SuperOps installation...
 
- [ OPERATION ]
- --------------------------------------------------------------
+ [RUN] OPERATION
+ ==============================================================
  Found SuperOps uninstall program: C:\Program Files\SuperOps\uninstall.exe
  Executing vendor uninstaller...
  Uninstallation process started
  Waiting for uninstaller to complete...
  Uninstallation completed successfully
 
- [ RESULT ]
- --------------------------------------------------------------
+ [OK] RESULT
+ ==============================================================
  Status: Success
 
- [ FINAL STATUS ]
- --------------------------------------------------------------
+ [OK] FINAL STATUS
+ ==============================================================
  SuperOps agent uninstalled successfully
 
- [ SCRIPT COMPLETED ]
- --------------------------------------------------------------
+ [INFO] SCRIPT COMPLETED
+ ==============================================================
 
 --------------------------------------------------------------------------------
  CHANGELOG
 --------------------------------------------------------------------------------
+ 2026-01-19 v1.1.1 Updated to two-line ASCII console output style
  2025-12-23 v1.1.0 Updated to Limehawk Script Framework
  2025-11-02 v1.0.0 Initial release
 ================================================================================
@@ -127,30 +128,30 @@ Please run PowerShell as Administrator and try again."
 }
 
 if ($errorOccurred) {
-    Write-Output ""
-    Write-Output "[ ERROR OCCURRED ]"
-    Write-Output "--------------------------------------------------------------"
-    Write-Output $errorText
-    Write-Output ""
-    Write-Output "[ RESULT ]"
-    Write-Output "--------------------------------------------------------------"
-    Write-Output "Status: Failure"
-    Write-Output ""
-    Write-Output "[ FINAL STATUS ]"
-    Write-Output "--------------------------------------------------------------"
-    Write-Output "Script cannot proceed. See error details above."
-    Write-Output ""
-    Write-Output "[ SCRIPT COMPLETED ]"
-    Write-Output "--------------------------------------------------------------"
+    Write-Host ""
+    Write-Host "[ERROR] ERROR OCCURRED"
+    Write-Host "=============================================================="
+    Write-Host $errorText
+    Write-Host ""
+    Write-Host "[ERROR] RESULT"
+    Write-Host "=============================================================="
+    Write-Host "Status: Failure"
+    Write-Host ""
+    Write-Host "[ERROR] FINAL STATUS"
+    Write-Host "=============================================================="
+    Write-Host "Script cannot proceed. See error details above."
+    Write-Host ""
+    Write-Host "[INFO] SCRIPT COMPLETED"
+    Write-Host "=============================================================="
     exit 1
 }
 
-# ==== RUNTIME OUTPUT (Style A) ====
-Write-Output ""
-Write-Output "[ INPUT VALIDATION ]"
-Write-Output "--------------------------------------------------------------"
-Write-Output "Administrator privileges: Confirmed"
-Write-Output "Searching for SuperOps installation..."
+# ==== RUNTIME OUTPUT ====
+Write-Host ""
+Write-Host "[INFO] INPUT VALIDATION"
+Write-Host "=============================================================="
+Write-Host "Administrator privileges: Confirmed"
+Write-Host "Searching for SuperOps installation..."
 
 $uninstallerFound = $false
 $uninstallerPath = ""
@@ -161,25 +162,25 @@ foreach ($path in $superOpsInstallPaths) {
     if (Test-Path $uninstallExe) {
         $uninstallerFound = $true
         $uninstallerPath = $uninstallExe
-        Write-Output "Found vendor uninstaller: $uninstallerPath"
+        Write-Host "Found vendor uninstaller: $uninstallerPath"
         break
     }
 }
 
-Write-Output ""
-Write-Output "[ OPERATION ]"
-Write-Output "--------------------------------------------------------------"
+Write-Host ""
+Write-Host "[RUN] OPERATION"
+Write-Host "=============================================================="
 
 try {
     if ($uninstallerFound) {
         # Method 1: Use vendor's official uninstaller
-        Write-Output "Executing vendor uninstaller..."
-        Write-Output "Command: $uninstallerPath"
+        Write-Host "Executing vendor uninstaller..."
+        Write-Host "Command: $uninstallerPath"
 
         $process = Start-Process -FilePath $uninstallerPath -Wait -PassThru -NoNewWindow
 
         if ($process.ExitCode -eq 0) {
-            Write-Output "Vendor uninstaller completed successfully"
+            Write-Host "Vendor uninstaller completed successfully"
         } else {
             $errorOccurred = $true
             $errorText = "Vendor uninstaller exited with code: $($process.ExitCode)"
@@ -187,7 +188,7 @@ try {
 
     } else {
         # Method 2: Registry-based MSI uninstall
-        Write-Output "Vendor uninstaller not found, searching registry for MSI uninstall information..."
+        Write-Host "Vendor uninstaller not found, searching registry for MSI uninstall information..."
 
         $uninstallInfo = $null
         foreach ($regPath in $uninstallRegistryPaths) {
@@ -201,36 +202,36 @@ try {
         }
 
         if ($uninstallInfo) {
-            Write-Output "Found SuperOps installation: $($uninstallInfo.DisplayName)"
+            Write-Host "Found SuperOps installation: $($uninstallInfo.DisplayName)"
 
             if ($uninstallInfo.UninstallString) {
                 $uninstallString = $uninstallInfo.UninstallString
-                Write-Output "Uninstall string: $uninstallString"
+                Write-Host "Uninstall string: $uninstallString"
 
                 # Parse MSI uninstall string
                 if ($uninstallString -match 'msiexec\.exe\s+/[IX]\s*(\{[A-F0-9\-]+\})') {
                     $productCode = $matches[1]
                     $msiArgs = "/x $productCode $silentUninstallArgs"
 
-                    Write-Output "Executing MSI uninstall..."
-                    Write-Output "Command: msiexec.exe $msiArgs"
+                    Write-Host "Executing MSI uninstall..."
+                    Write-Host "Command: msiexec.exe $msiArgs"
 
                     $process = Start-Process -FilePath "msiexec.exe" -ArgumentList $msiArgs -Wait -PassThru -NoNewWindow
 
                     if ($process.ExitCode -eq 0) {
-                        Write-Output "MSI uninstallation completed successfully"
+                        Write-Host "MSI uninstallation completed successfully"
                     } else {
                         $errorOccurred = $true
                         $errorText = "MSI uninstaller exited with code: $($process.ExitCode)"
                     }
                 } else {
                     # Direct execution of uninstall string
-                    Write-Output "Executing uninstall command directly..."
+                    Write-Host "Executing uninstall command directly..."
 
                     $process = Start-Process -FilePath "cmd.exe" -ArgumentList "/c `"$uninstallString`" $silentUninstallArgs" -Wait -PassThru -NoNewWindow
 
                     if ($process.ExitCode -eq 0) {
-                        Write-Output "Uninstallation completed successfully"
+                        Write-Host "Uninstallation completed successfully"
                     } else {
                         $errorOccurred = $true
                         $errorText = "Uninstaller exited with code: $($process.ExitCode)"
@@ -257,33 +258,41 @@ The agent may not be installed, or may have been manually removed."
 
 # ==== OUTPUT RESULTS ====
 if ($errorOccurred) {
-    Write-Output ""
-    Write-Output "[ ERROR OCCURRED ]"
-    Write-Output "--------------------------------------------------------------"
-    Write-Output $errorText
+    Write-Host ""
+    Write-Host "[ERROR] ERROR OCCURRED"
+    Write-Host "=============================================================="
+    Write-Host $errorText
 }
 
-Write-Output ""
-Write-Output "[ RESULT ]"
-Write-Output "--------------------------------------------------------------"
+Write-Host ""
 if ($errorOccurred) {
-    Write-Output "Status: Failure"
+    Write-Host "[ERROR] RESULT"
 } else {
-    Write-Output "Status: Success"
+    Write-Host "[OK] RESULT"
 }
-
-Write-Output ""
-Write-Output "[ FINAL STATUS ]"
-Write-Output "--------------------------------------------------------------"
+Write-Host "=============================================================="
 if ($errorOccurred) {
-    Write-Output "SuperOps agent uninstallation failed. See error details above."
+    Write-Host "Status: Failure"
 } else {
-    Write-Output "SuperOps agent uninstalled successfully"
+    Write-Host "Status: Success"
 }
 
-Write-Output ""
-Write-Output "[ SCRIPT COMPLETED ]"
-Write-Output "--------------------------------------------------------------"
+Write-Host ""
+if ($errorOccurred) {
+    Write-Host "[ERROR] FINAL STATUS"
+} else {
+    Write-Host "[OK] FINAL STATUS"
+}
+Write-Host "=============================================================="
+if ($errorOccurred) {
+    Write-Host "SuperOps agent uninstallation failed. See error details above."
+} else {
+    Write-Host "SuperOps agent uninstalled successfully"
+}
+
+Write-Host ""
+Write-Host "[INFO] SCRIPT COMPLETED"
+Write-Host "=============================================================="
 
 if ($errorOccurred) {
     exit 1

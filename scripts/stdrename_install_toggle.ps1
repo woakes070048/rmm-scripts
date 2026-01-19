@@ -8,9 +8,9 @@ $ErrorActionPreference = 'Stop'
 ███████╗██║██║ ╚═╝ ██║███████╗██║  ██║██║  ██║╚███╔███╔╝██║  ██╗
 ╚══════╝╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚══╝╚══╝ ╚═╝  ╚═╝
 ================================================================================
- SCRIPT   : stdrename Install Toggle v1.1.0
+ SCRIPT   : stdrename Install Toggle v1.1.1
  AUTHOR   : Limehawk.io
- DATE      : December 2025
+ DATE      : January 2026
  USAGE    : .\stdrename_install_toggle.ps1
 ================================================================================
  FILE     : stdrename_install_toggle.ps1
@@ -65,28 +65,29 @@ DESCRIPTION : Toggles installation of stdrename file renaming utility
 
  EXAMPLE RUN
 
- [ INPUT VALIDATION ]
- --------------------------------------------------------------
+ [INFO] INPUT VALIDATION
+ ==============================================================
  Download URL : https://github.com/Gadiguibou/stdrename/releases/latest/download/stdrename.exe
  Install Path : C:\Windows\System32
  Exe Path     : C:\Windows\System32\stdrename.exe
 
- [ OPERATION ]
- --------------------------------------------------------------
+ [RUN] OPERATION
+ ==============================================================
  Checking for existing installation...
  stdrename not found, downloading...
  Download complete
 
- [ RESULT ]
- --------------------------------------------------------------
+ [OK] RESULT
+ ==============================================================
  Status : Success
  Action : Installed
 
- [ SCRIPT COMPLETED ]
- --------------------------------------------------------------
+ [INFO] SCRIPT COMPLETED
+ ==============================================================
 --------------------------------------------------------------------------------
  CHANGELOG
 --------------------------------------------------------------------------------
+ 2026-01-19 v1.1.1 Updated to two-line ASCII console output style
  2025-12-23 v1.1.0 Updated to Limehawk Script Framework
  2025-11-29 v1.0.0 Initial Style A implementation
 ================================================================================
@@ -113,23 +114,23 @@ if ([string]::IsNullOrWhiteSpace($DownloadUrl)) {
 
 if ($errorOccurred) {
     Write-Host ""
-    Write-Host "[ ERROR OCCURRED ]"
-    Write-Host "--------------------------------------------------------------"
+    Write-Host "[ERROR] ERROR OCCURRED"
+    Write-Host "=============================================================="
     Write-Host $errorText
     exit 1
 }
 
 # ==== RUNTIME OUTPUT ====
 Write-Host ""
-Write-Host "[ INPUT VALIDATION ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[INFO] INPUT VALIDATION"
+Write-Host "=============================================================="
 Write-Host "Download URL : $DownloadUrl"
 Write-Host "Install Path : $InstallPath"
 Write-Host "Exe Path     : $ExePath"
 
 Write-Host ""
-Write-Host "[ OPERATION ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[RUN] OPERATION"
+Write-Host "=============================================================="
 
 try {
     Write-Host "Checking for existing installation..."
@@ -160,14 +161,18 @@ try {
 
 if ($errorOccurred) {
     Write-Host ""
-    Write-Host "[ ERROR OCCURRED ]"
-    Write-Host "--------------------------------------------------------------"
+    Write-Host "[ERROR] ERROR OCCURRED"
+    Write-Host "=============================================================="
     Write-Host $errorText
 }
 
 Write-Host ""
-Write-Host "[ RESULT ]"
-Write-Host "--------------------------------------------------------------"
+if ($errorOccurred) {
+    Write-Host "[ERROR] RESULT"
+} else {
+    Write-Host "[OK] RESULT"
+}
+Write-Host "=============================================================="
 if ($errorOccurred) {
     Write-Host "Status : Failure"
 } else {
@@ -176,8 +181,12 @@ if ($errorOccurred) {
 }
 
 Write-Host ""
-Write-Host "[ FINAL STATUS ]"
-Write-Host "--------------------------------------------------------------"
+if ($errorOccurred) {
+    Write-Host "[ERROR] FINAL STATUS"
+} else {
+    Write-Host "[OK] FINAL STATUS"
+}
+Write-Host "=============================================================="
 if ($errorOccurred) {
     Write-Host "stdrename toggle failed. See error above."
 } else {
@@ -190,8 +199,8 @@ if ($errorOccurred) {
 }
 
 Write-Host ""
-Write-Host "[ SCRIPT COMPLETED ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[INFO] SCRIPT COMPLETED"
+Write-Host "=============================================================="
 
 if ($errorOccurred) {
     exit 1

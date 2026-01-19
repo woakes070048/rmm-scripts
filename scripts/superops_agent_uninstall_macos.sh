@@ -7,9 +7,9 @@
 # ███████╗██║██║ ╚═╝ ██║███████╗██║  ██║██║  ██║╚███╔███╔╝██║  ██╗
 # ╚══════╝╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚══╝╚══╝ ╚═╝  ╚═╝
 # ================================================================================
-#  SCRIPT   : SuperOps Agent Uninstall (macOS)                             v1.1.0
+#  SCRIPT   : SuperOps Agent Uninstall (macOS)                             v1.1.1
 #  AUTHOR   : Limehawk.io
-#  DATE     : December 2025
+#  DATE     : January 2026
 #  USAGE    : sudo ./superops_agent_uninstall_macos.sh
 # ================================================================================
 #  FILE     : superops_agent_uninstall_macos.sh
@@ -63,36 +63,36 @@
 #  - 0 success
 #  - 1 failure
 #
-#  EXAMPLE RUN (Style A)
-#  [ INPUT VALIDATION ]
-#  --------------------------------------------------------------
-#  Uninstall Script: /Library/superops/uninstall.sh
+#  EXAMPLE RUN
 #
-#  [ OPERATION ]
-#  --------------------------------------------------------------
-#  Checking for uninstall script...
-#  Uninstall script found
-#  Executing uninstall script with sudo...
-#  Removing SuperOps RMM Agent...
-#  Stopping services...
-#  Removing launch agents...
-#  Removing files...
-#  Uninstallation complete
+#    [INFO] INPUT VALIDATION
+#    ==============================================================
+#    Uninstall Script: /Library/superops/uninstall.sh
 #
-#  [ RESULT ]
-#  --------------------------------------------------------------
-#  Status: Success
+#    [RUN] UNINSTALLING
+#    ==============================================================
+#    Checking for uninstall script...
+#    Uninstall script found
+#    Executing uninstall script with sudo...
+#    Removing SuperOps RMM Agent...
+#    Stopping services...
+#    Removing launch agents...
+#    Removing files...
+#    Uninstall script completed successfully
 #
-#  [ FINAL STATUS ]
-#  --------------------------------------------------------------
-#  SuperOps agent uninstalled successfully
+#    [INFO] RESULT
+#    ==============================================================
+#    Status: Success
 #
-#  [ SCRIPT COMPLETED ]
-#  --------------------------------------------------------------
+#    [OK] SCRIPT COMPLETED
+#    ==============================================================
+#    SuperOps agent uninstalled successfully
+#
 # --------------------------------------------------------------------------------
 # --------------------------------------------------------------------------------
 #  CHANGELOG
 # --------------------------------------------------------------------------------
+#  2026-01-19 v1.1.1 Updated to two-line ASCII console output style
 #  2025-12-23 v1.1.0 Updated to Limehawk Script Framework
 #  2024-11-02 v1.0.0 Initial migration from SuperOps
 # ================================================================================
@@ -116,32 +116,29 @@ fi
 
 if [ "$ERROR_OCCURRED" -eq 1 ]; then
     echo ""
-    echo "[ ERROR OCCURRED ]"
-    echo "--------------------------------------------------------------"
+    echo "[ERROR] ERROR OCCURRED"
+    echo "=============================================================="
     echo "$ERROR_TEXT"
     echo ""
-    echo "[ RESULT ]"
-    echo "--------------------------------------------------------------"
+    echo "[INFO] RESULT"
+    echo "=============================================================="
     echo "Status: Failure"
     echo ""
-    echo "[ FINAL STATUS ]"
-    echo "--------------------------------------------------------------"
+    echo "[ERROR] FINAL STATUS"
+    echo "=============================================================="
     echo "Script cannot proceed. Invalid configuration."
-    echo ""
-    echo "[ SCRIPT COMPLETED ]"
-    echo "--------------------------------------------------------------"
     exit 1
 fi
 
-# ==== RUNTIME OUTPUT (Style A) ====
+# ==== RUNTIME OUTPUT ====
 echo ""
-echo "[ INPUT VALIDATION ]"
-echo "--------------------------------------------------------------"
+echo "[INFO] INPUT VALIDATION"
+echo "=============================================================="
 echo "Uninstall Script: $UNINSTALL_SCRIPT_PATH"
 
 echo ""
-echo "[ OPERATION ]"
-echo "--------------------------------------------------------------"
+echo "[RUN] UNINSTALLING"
+echo "=============================================================="
 
 # Check if uninstall script exists
 echo "Checking for uninstall script..."
@@ -178,14 +175,14 @@ fi
 # ==== OUTPUT RESULTS ====
 if [ "$ERROR_OCCURRED" -eq 1 ]; then
     echo ""
-    echo "[ ERROR OCCURRED ]"
-    echo "--------------------------------------------------------------"
+    echo "[ERROR] ERROR OCCURRED"
+    echo "=============================================================="
     echo "$ERROR_TEXT"
 fi
 
 echo ""
-echo "[ RESULT ]"
-echo "--------------------------------------------------------------"
+echo "[INFO] RESULT"
+echo "=============================================================="
 if [ "$ERROR_OCCURRED" -eq 1 ]; then
     echo "Status: Failure"
 else
@@ -193,17 +190,15 @@ else
 fi
 
 echo ""
-echo "[ FINAL STATUS ]"
-echo "--------------------------------------------------------------"
 if [ "$ERROR_OCCURRED" -eq 1 ]; then
+    echo "[ERROR] FINAL STATUS"
+    echo "=============================================================="
     echo "SuperOps agent uninstallation failed. See error details above."
 else
+    echo "[OK] SCRIPT COMPLETED"
+    echo "=============================================================="
     echo "SuperOps agent uninstalled successfully"
 fi
-
-echo ""
-echo "[ SCRIPT COMPLETED ]"
-echo "--------------------------------------------------------------"
 
 if [ "$ERROR_OCCURRED" -eq 1 ]; then
     exit 1

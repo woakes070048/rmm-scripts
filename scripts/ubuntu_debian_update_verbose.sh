@@ -7,9 +7,9 @@
 # ███████╗██║██║ ╚═╝ ██║███████╗██║  ██║██║  ██║╚███╔███╔╝██║  ██╗
 # ╚══════╝╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚══╝╚══╝ ╚═╝  ╚═╝
 # ================================================================================
-#  SCRIPT   : Ubuntu/Debian System Update (Verbose)                        v1.1.0
+#  SCRIPT   : Ubuntu/Debian System Update (Verbose)                        v1.1.1
 #  AUTHOR   : Limehawk.io
-#  DATE     : December 2025
+#  DATE     : January 2026
 #  USAGE    : sudo ./ubuntu_debian_update_verbose.sh
 # ================================================================================
 #  FILE     : ubuntu_debian_update_verbose.sh
@@ -61,32 +61,39 @@
 #
 #  EXAMPLE OUTPUT
 #  -----------------------------------------------------------------------
-#  === Starting System Update ===
+#    [RUN] STARTING SYSTEM UPDATE
+#    ==============================================================
 #
-#  --- Starting: Updating package lists ---
-#  Hit:1 http://archive.ubuntu.com/ubuntu jammy InRelease
-#  +++ Success: Updating package lists +++
+#    [RUN] Updating package lists
+#    ==============================================================
+#    Hit:1 http://archive.ubuntu.com/ubuntu jammy InRelease
+#    [OK] Updating package lists
 #
-#  --- apt-utils already installed ---
+#    [INFO] apt-utils already installed
 #
-#  --- Starting: Upgrading all system packages ---
-#  Reading package lists...
-#  Building dependency tree...
-#  +++ Success: Upgrading all system packages +++
+#    [RUN] Upgrading all system packages
+#    ==============================================================
+#    Reading package lists...
+#    Building dependency tree...
+#    [OK] Upgrading all system packages
 #
-#  --- Starting: Removing unused packages ---
-#  +++ Success: Removing unused packages +++
+#    [RUN] Removing unused packages
+#    ==============================================================
+#    [OK] Removing unused packages
 #
-#  --- Starting: Cleaning up apt cache ---
-#  +++ Success: Cleaning up apt cache +++
+#    [RUN] Cleaning up apt cache
+#    ==============================================================
+#    [OK] Cleaning up apt cache
 #
-#  === All System Update Tasks Complete ===
+#    [OK] ALL SYSTEM UPDATE TASKS COMPLETE
+#    ==============================================================
 #
-#  *** System reboot required ***
+#    [WARN] System reboot required
 #
 # --------------------------------------------------------------------------------
 #  CHANGELOG
 # --------------------------------------------------------------------------------
+#  2026-01-19 v1.1.1 Updated to two-line ASCII console output style
 #  2025-12-23 v1.1.0 Updated to Limehawk Script Framework
 #  2024-11-18 v1.0.0 Initial release
 # ================================================================================
@@ -122,16 +129,20 @@ fi
 run_task_verbose() {
     local description="$1"
     shift
-    
-    echo -e "\n${YELLOW}--- Starting: $description ---${NC}"
-    
+
+    echo ""
+    echo -e "${YELLOW}[RUN] $description${NC}"
+    echo "=============================================================="
+
     "$@"
     local status=$?
-    
+
     if [ $status -eq 0 ]; then
-        echo -e "${GREEN}+++ Success: $description +++${NC}"
+        echo -e "${GREEN}[OK] $description${NC}"
     else
-        echo -e "\n${RED}!!! FAILED: $description (Exit Code: $status) !!!${NC}"
+        echo ""
+        echo -e "${RED}[ERROR] $description (Exit Code: $status)${NC}"
+        echo "=============================================================="
         echo -e "${RED}Halting script due to error.${NC}"
         exit $status
     fi
@@ -140,7 +151,9 @@ run_task_verbose() {
 # ============================================================================
 # MAIN SCRIPT EXECUTION
 # ============================================================================
-echo -e "${GREEN}=== Starting System Update ===${NC}"
+echo ""
+echo -e "${GREEN}[RUN] STARTING SYSTEM UPDATE${NC}"
+echo "=============================================================="
 
 run_task_verbose "Updating package lists" apt-get update
 
@@ -149,7 +162,7 @@ if [ "$ENSURE_APT_UTILS" = true ]; then
     if ! dpkg -l | grep -q "^ii.*apt-utils"; then
         run_task_verbose "Installing apt-utils for proper package configuration" apt-get install -y apt-utils
     else
-        echo -e "${GREEN}--- apt-utils already installed ---${NC}"
+        echo -e "${GREEN}[INFO] apt-utils already installed${NC}"
     fi
 fi
 
@@ -167,8 +180,11 @@ if [ "$ENABLE_CACHE_CLEAN" = true ]; then
     run_task_verbose "Cleaning up apt cache" apt-get clean
 fi
 
-echo -e "\n${GREEN}=== All System Update Tasks Complete ===${NC}"
+echo ""
+echo -e "${GREEN}[OK] ALL SYSTEM UPDATE TASKS COMPLETE${NC}"
+echo "=============================================================="
 
 if [ -f /var/run/reboot-required ]; then
-    echo -e "\n${YELLOW}*** System reboot required ***${NC}"
+    echo ""
+    echo -e "${YELLOW}[WARN] System reboot required${NC}"
 fi

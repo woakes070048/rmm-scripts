@@ -8,9 +8,9 @@ $ErrorActionPreference = 'Stop'
 ╚══════╝╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚══╝╚══╝ ╚═╝  ╚═╝
 
 ================================================================================
-SCRIPT  : NinjaOne Uninstall v1.0.1
+SCRIPT  : NinjaOne Uninstall v1.0.2
 AUTHOR  : Limehawk.io
-DATE      : December 2025
+DATE      : January 2026
 USAGE   : .\ninjaone_uninstall.ps1
 FILE    : ninjaone_uninstall.ps1
 DESCRIPTION : Completely removes NinjaOne RMM agent and Ninja Remote from Windows
@@ -50,54 +50,55 @@ EXIT CODES:
     1 = Failure (requires admin privileges)
 
 EXAMPLE RUN:
-    [ SETUP ]
-    --------------------------------------------------------------
+    [INFO] SETUP
+    ==============================================================
     Transcript logging started
     Log Path : C:\Windows\temp\NinjaRemoval_01-12-2024_143022.txt
 
-    [ LOCATE INSTALLATION ]
-    --------------------------------------------------------------
+    [RUN] LOCATE INSTALLATION
+    ==============================================================
     Registry Path : HKLM:\SOFTWARE\WOW6432Node\NinjaRMM LLC\NinjaRMMAgent
     Install Location : C:\Program Files\NinjaRMMAgent
 
-    [ UNINSTALL AGENT ]
-    --------------------------------------------------------------
+    [RUN] UNINSTALL AGENT
+    ==============================================================
     Disabling uninstall prevention...
     Running MSI uninstaller...
     Finished running uninstaller
 
-    [ STOP SERVICES ]
-    --------------------------------------------------------------
+    [RUN] STOP SERVICES
+    ==============================================================
     Stopping NinjaRMMAgent service...
     Stopping nmsmanager service...
     Removing services...
 
-    [ CLEANUP FILES ]
-    --------------------------------------------------------------
+    [RUN] CLEANUP FILES
+    ==============================================================
     Removing installation directory...
     Removing data directory...
 
-    [ CLEANUP REGISTRY ]
-    --------------------------------------------------------------
+    [RUN] CLEANUP REGISTRY
+    ==============================================================
     Removing registry entries...
 
-    [ REMOVE NINJA REMOTE ]
-    --------------------------------------------------------------
+    [RUN] REMOVE NINJA REMOTE
+    ==============================================================
     Stopping Ninja Remote process...
     Removing Ninja Remote service...
     Removing virtual display driver...
     Removing Ninja Remote directory...
 
-    [ FINAL STATUS ]
-    --------------------------------------------------------------
+    [OK] FINAL STATUS
+    ==============================================================
     Result : SUCCESS
     NinjaOne removal completed
 
-    [ SCRIPT COMPLETED ]
-    --------------------------------------------------------------
+    [OK] SCRIPT COMPLETED
+    ==============================================================
 
 CHANGELOG
 --------------------------------------------------------------------------------
+2026-01-19 v1.0.2 Updated to two-line ASCII console output style
 2025-12-23 v1.0.1 Updated to Limehawk Script Framework
 2024-12-01 v1.0.0 Initial release - migrated from SuperOps
 ================================================================================
@@ -110,8 +111,8 @@ Set-StrictMode -Version Latest
 $currentUser = New-Object Security.Principal.WindowsPrincipal $([Security.Principal.WindowsIdentity]::GetCurrent())
 if (-not ($currentUser.IsInRole([Security.Principal.WindowsBuiltinRole]::Administrator))) {
     Write-Host ""
-    Write-Host "[ ERROR OCCURRED ]"
-    Write-Host "--------------------------------------------------------------"
+    Write-Host "[ERROR] ADMIN CHECK FAILED"
+    Write-Host "=============================================================="
     Write-Host "This script must be run with administrator privileges"
     exit 1
 }
@@ -120,8 +121,8 @@ if (-not ($currentUser.IsInRole([Security.Principal.WindowsBuiltinRole]::Adminis
 # SETUP
 # ============================================================================
 Write-Host ""
-Write-Host "[ SETUP ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[INFO] SETUP"
+Write-Host "=============================================================="
 
 $now = Get-Date -Format 'dd-MM-yyyy_HHmmss'
 $logPath = "$env:windir\temp\NinjaRemoval_$now.txt"
@@ -160,8 +161,8 @@ function Uninstall-NinjaMSI {
 # LOCATE INSTALLATION
 # ============================================================================
 Write-Host ""
-Write-Host "[ LOCATE INSTALLATION ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[RUN] LOCATE INSTALLATION"
+Write-Host "=============================================================="
 
 $ninjaRegPath = 'HKLM:\SOFTWARE\WOW6432Node\NinjaRMM LLC\NinjaRMMAgent'
 $ninjaDataDirectory = "$env:ProgramData\NinjaRMMAgent"
@@ -194,8 +195,8 @@ if ($ninjaInstallLocation) {
 # UNINSTALL AGENT
 # ============================================================================
 Write-Host ""
-Write-Host "[ UNINSTALL AGENT ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[RUN] UNINSTALL AGENT"
+Write-Host "=============================================================="
 
 $uninstallString = (Get-ItemProperty $uninstallRegPath -ErrorAction SilentlyContinue | Where-Object { ($_.DisplayName -eq 'NinjaRMMAgent') -and ($_.UninstallString -match 'msiexec') }).UninstallString
 
@@ -210,8 +211,8 @@ if ($uninstallString -and $ninjaInstallLocation) {
 # STOP SERVICES AND PROCESSES
 # ============================================================================
 Write-Host ""
-Write-Host "[ STOP SERVICES ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[RUN] STOP SERVICES"
+Write-Host "=============================================================="
 
 $ninjaServices = @('NinjaRMMAgent', 'nmsmanager', 'lockhart')
 $processes = @("NinjaRMMAgent", "NinjaRMMAgentPatcher", "njbar", "NinjaRMMProxyProcess64")
@@ -237,8 +238,8 @@ foreach ($svc in $ninjaServices) {
 # CLEANUP FILES
 # ============================================================================
 Write-Host ""
-Write-Host "[ CLEANUP FILES ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[RUN] CLEANUP FILES"
+Write-Host "=============================================================="
 
 if ($ninjaInstallLocation -and (Test-Path $ninjaInstallLocation)) {
     Write-Host "Removing installation directory..."
@@ -254,8 +255,8 @@ if (Test-Path $ninjaDataDirectory) {
 # CLEANUP REGISTRY
 # ============================================================================
 Write-Host ""
-Write-Host "[ CLEANUP REGISTRY ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[RUN] CLEANUP REGISTRY"
+Write-Host "=============================================================="
 
 $msiWrapperReg = 'HKLM:\SOFTWARE\WOW6432Node\EXEMSI.COM\MSI Wrapper\Installed'
 $productInstallerReg = 'HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Installer\UserData\S-1-5-18\Products'
@@ -284,8 +285,8 @@ if (Test-Path $ninjaRegPath) {
 # REMOVE NINJA REMOTE
 # ============================================================================
 Write-Host ""
-Write-Host "[ REMOVE NINJA REMOTE ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[RUN] REMOVE NINJA REMOTE"
+Write-Host "=============================================================="
 
 $nrProcess = 'ncstreamer'
 $nrProc = Get-Process $nrProcess -ErrorAction SilentlyContinue
@@ -351,15 +352,15 @@ if ($nrPrinter) {
 # FINAL STATUS
 # ============================================================================
 Write-Host ""
-Write-Host "[ FINAL STATUS ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[OK] FINAL STATUS"
+Write-Host "=============================================================="
 Write-Host "Result : SUCCESS"
 Write-Host "NinjaOne removal completed"
 Write-Host "Review log for any warnings : $logPath"
 
 Write-Host ""
-Write-Host "[ SCRIPT COMPLETED ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[OK] SCRIPT COMPLETED"
+Write-Host "=============================================================="
 
 Stop-Transcript | Out-Null
 

@@ -9,9 +9,9 @@ $ErrorActionPreference = 'Stop'
 ███████╗██║██║ ╚═╝ ██║███████╗██║  ██║██║  ██║╚███╔███╔╝██║  ██╗
 ╚══════╝╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚══╝╚══╝ ╚═╝  ╚═╝
 ================================================================================
- SCRIPT   : Limehawk Admin Profile Branding v3.2.5
+ SCRIPT   : Limehawk Admin Profile Branding v3.2.6
  AUTHOR   : Limehawk.io
- DATE      : December 2025
+ DATE      : January 2026
  USAGE    : .\limehawk_admin_profile_branding.ps1
 ================================================================================
  FILE     : limehawk_admin_profile_branding.ps1
@@ -48,6 +48,7 @@ $ErrorActionPreference = 'Stop'
 --------------------------------------------------------------------------------
  CHANGELOG
 --------------------------------------------------------------------------------
+ 2026-01-19 v3.2.6 Updated to two-line ASCII console output style
  2025-12-23 v3.2.5 Updated to Limehawk Script Framework
  2025-12-04 v3.2.4 Remove UserSwitch registry fix (didn't help, showed all users)
  2025-12-04 v3.2.2 Fix white line artifact - use dark background color instead of white; 2025-12-04 v3.2.1 Add account labels to branding output for clarity
@@ -118,9 +119,8 @@ if ($GeneratedPasswordLength -lt 8) {
 
 if ($errorOccurred) {
     Write-Host ""
-    Write-Host "[ ERROR OCCURRED ]"
-    Write-Host "--------------------------------------------------------------"
-    Write-Host "Input validation failed:"
+    Write-Host "[ERROR] INPUT VALIDATION FAILED"
+    Write-Host "=============================================================="
     Write-Host $errorText
     exit 1
 }
@@ -129,10 +129,10 @@ if ($errorOccurred) {
 # HELPERS (ASCII formatting, sanitization, etc.)
 # =============================================================================
 function Write-Section {
-    param([string]$Title)
+    param([string]$Title, [string]$Status = "INFO")
     Write-Host ""
-    Write-Host ("[ {0} ]" -f $Title)
-    Write-Host ("-" * 80)
+    Write-Host ("[$Status] $Title")
+    Write-Host "=============================================================="
 }
 function PrintKV {
     param([string]$Label,[string]$Value)
@@ -472,11 +472,13 @@ try {
     PrintKV "hawkadmin (built-in)" "Disabled, password synced to SuperOps"
     PrintKV "limehawk (MSP admin)" "Enabled, password synced to SuperOps"
 
-    Write-Section "SCRIPT COMPLETED"
+    Write-Section "SCRIPT COMPLETED" "OK"
     exit 0
 }
 catch {
-    Write-Section "ERROR OCCURRED"
+    Write-Host ""
+    Write-Host "[ERROR] SCRIPT FAILED"
+    Write-Host "=============================================================="
     PrintKV "ERROR MESSAGE" ($_.Exception.Message.ToUpper())
     exit 1
 }

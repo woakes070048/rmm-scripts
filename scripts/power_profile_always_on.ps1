@@ -8,7 +8,7 @@ $ErrorActionPreference = 'Stop'
 ╚══════╝╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚══╝╚══╝ ╚═╝  ╚═╝
 
 ================================================================================
-SCRIPT  : Set Always-On Power Profile v2.2.0
+SCRIPT  : Set Always-On Power Profile v2.2.1
 AUTHOR  : Limehawk.io
 DATE      : January 2026
 USAGE   : .\power_profile_always_on.ps1
@@ -68,30 +68,32 @@ EXIT CODES:
     1 = Failure
 
 EXAMPLE RUN:
-    [ INPUT VALIDATION ]
-    --------------------------------------------------------------
+
+    [INFO] INPUT VALIDATION
+    ==============================================================
     All required inputs are valid
 
-    [ POWER PLAN SETUP ]
-    --------------------------------------------------------------
+    [RUN] POWER PLAN SETUP
+    ==============================================================
     Custom Plan Name         : Always On - Limehawk
     Plan Status              : Creating new plan
     Active Plan              : Always On - Limehawk
 
-    [ APPLYING POWER SETTINGS ]
-    --------------------------------------------------------------
+    [RUN] APPLYING POWER SETTINGS
+    ==============================================================
     Display Timeout (AC)     : 30 minutes
     Standby Timeout (AC)     : 0 (Never)
 
-    [ FINAL STATUS ]
-    --------------------------------------------------------------
+    [OK] FINAL STATUS
+    ==============================================================
     Power plan configured successfully
 
-    [ SCRIPT COMPLETED ]
-    --------------------------------------------------------------
+    [OK] SCRIPT COMPLETED
+    ==============================================================
 
 CHANGELOG
 --------------------------------------------------------------------------------
+2026-01-19 v2.2.1 Updated to two-line ASCII console output style
 2026-01-05 v2.2.0 Added Windows 11 note about hidden power plans in Settings UI
 2025-12-23 v2.1.0 Updated to Limehawk Script Framework
 2024-12-01 v2.0.0 Migrated from SuperOps - removed module dependency
@@ -120,8 +122,8 @@ $highPerfGuid = "8c5e7fda-e8bf-4a96-9a85-a6e23a8c635c"
 # INPUT VALIDATION
 # ============================================================================
 Write-Host ""
-Write-Host "[ INPUT VALIDATION ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[INFO] INPUT VALIDATION"
+Write-Host "=============================================================="
 
 $errorOccurred = $false
 $errorText = ""
@@ -154,13 +156,13 @@ foreach ($name in $timeouts.Keys) {
 
 if ($errorOccurred) {
     Write-Host ""
-    Write-Host "[ ERROR OCCURRED ]"
-    Write-Host "--------------------------------------------------------------"
+    Write-Host "[ERROR] VALIDATION FAILED"
+    Write-Host "=============================================================="
     Write-Host "Input validation failed:"
     Write-Host $errorText
     Write-Host ""
-    Write-Host "[ SCRIPT COMPLETED ]"
-    Write-Host "--------------------------------------------------------------"
+    Write-Host "[ERROR] SCRIPT COMPLETED"
+    Write-Host "=============================================================="
     exit 1
 }
 
@@ -170,19 +172,19 @@ Write-Host "All required inputs are valid"
 # PRIVILEGE CHECK
 # ============================================================================
 Write-Host ""
-Write-Host "[ INITIALIZING SCRIPT ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[INFO] INITIALIZING SCRIPT"
+Write-Host "=============================================================="
 
 $identity = [System.Security.Principal.WindowsIdentity]::GetCurrent()
 $principal = New-Object System.Security.Principal.WindowsPrincipal($identity)
 if (-not $principal.IsInRole([System.Security.Principal.WindowsBuiltInRole]::Administrator)) {
     Write-Host ""
-    Write-Host "[ ERROR OCCURRED ]"
-    Write-Host "--------------------------------------------------------------"
+    Write-Host "[ERROR] ADMINISTRATOR REQUIRED"
+    Write-Host "=============================================================="
     Write-Host "This script must be run with Administrator privileges"
     Write-Host ""
-    Write-Host "[ SCRIPT COMPLETED ]"
-    Write-Host "--------------------------------------------------------------"
+    Write-Host "[ERROR] SCRIPT COMPLETED"
+    Write-Host "=============================================================="
     exit 1
 }
 
@@ -197,8 +199,8 @@ Write-Host ("Previous Active Plan".PadRight(24) + " : $previousPlanName")
 # CREATE OR REUSE CUSTOM POWER PLAN
 # ============================================================================
 Write-Host ""
-Write-Host "[ POWER PLAN SETUP ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[RUN] POWER PLAN SETUP"
+Write-Host "=============================================================="
 
 Write-Host ("Custom Plan Name".PadRight(24) + " : $customPlanName")
 
@@ -232,12 +234,12 @@ else {
     }
     else {
         Write-Host ""
-        Write-Host "[ ERROR OCCURRED ]"
-        Write-Host "--------------------------------------------------------------"
+        Write-Host "[ERROR] PLAN CREATION FAILED"
+        Write-Host "=============================================================="
         Write-Host "Failed to create custom power plan"
         Write-Host ""
-        Write-Host "[ SCRIPT COMPLETED ]"
-        Write-Host "--------------------------------------------------------------"
+        Write-Host "[ERROR] SCRIPT COMPLETED"
+        Write-Host "=============================================================="
         exit 1
     }
 }
@@ -249,8 +251,8 @@ Write-Host ("Active Plan".PadRight(24) + " : $customPlanName")
 # APPLY POWER SETTINGS
 # ============================================================================
 Write-Host ""
-Write-Host "[ APPLYING POWER SETTINGS ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[RUN] APPLYING POWER SETTINGS"
+Write-Host "=============================================================="
 
 $formatLabel = { param($val) if ($val -eq 0) { "0 (Never)" } else { "$val minutes" } }
 
@@ -276,8 +278,8 @@ Write-Host ("Standby Timeout (DC)".PadRight(24) + " : " + (& $formatLabel $stand
 # CONFIGURE HIBERNATION
 # ============================================================================
 Write-Host ""
-Write-Host "[ CONFIGURING HIBERNATION ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[RUN] CONFIGURING HIBERNATION"
+Write-Host "=============================================================="
 
 $battery = Get-CimInstance -ClassName Win32_Battery -ErrorAction SilentlyContinue
 
@@ -298,14 +300,14 @@ else {
 # FINAL STATUS
 # ============================================================================
 Write-Host ""
-Write-Host "[ FINAL STATUS ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[OK] FINAL STATUS"
+Write-Host "=============================================================="
 Write-Host "Result : SUCCESS"
 Write-Host "Power plan configured: $customPlanName"
 Write-Host "Settings are effective immediately"
 
 Write-Host ""
-Write-Host "[ SCRIPT COMPLETED ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[OK] SCRIPT COMPLETED"
+Write-Host "=============================================================="
 
 exit 0

@@ -7,9 +7,9 @@
 # ███████╗██║██║ ╚═╝ ██║███████╗██║  ██║██║  ██║╚███╔███╔╝██║  ██╗
 # ╚══════╝╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚══╝╚══╝ ╚═╝  ╚═╝
 # ================================================================================
-#  SCRIPT   : Disable .DS_Store on Network Shares                          v1.1.0
+#  SCRIPT   : Disable .DS_Store on Network Shares                          v1.1.1
 #  AUTHOR   : Limehawk.io
-#  DATE     : December 2025
+#  DATE     : January 2026
 #  USAGE    : ./ds_store_disable_macos.sh
 # ================================================================================
 #  FILE     : ds_store_disable_macos.sh
@@ -64,18 +64,19 @@
 #
 #  EXAMPLE RUN
 #
-#    [ DISABLE .DS_STORE ON NETWORK SHARES ]
-#    --------------------------------------------------------------
+#    [RUN] DISABLE .DS_STORE ON NETWORK SHARES
+#    ==============================================================
 #    Setting applied: DSDontWriteNetworkStores = true
 #
 #    NOTE: Log out and back in (or reboot) for changes to take effect.
 #
-#    [ SCRIPT COMPLETE ]
-#    --------------------------------------------------------------
+#    [OK] SCRIPT COMPLETED
+#    ==============================================================
 #
 # --------------------------------------------------------------------------------
 #  CHANGELOG
 # --------------------------------------------------------------------------------
+#  2026-01-19 v1.1.1 Updated to two-line ASCII console output style
 #  2025-12-23 v1.1.0 Updated to Limehawk Script Framework
 #  2024-12-01 v1.0.0 Initial release - migrated from SuperOps
 # ================================================================================
@@ -87,8 +88,8 @@ set -euo pipefail
 # ============================================================================
 
 echo ""
-echo "[ DISABLE .DS_STORE ON NETWORK SHARES ]"
-echo "--------------------------------------------------------------"
+echo "[RUN] DISABLE .DS_STORE ON NETWORK SHARES"
+echo "=============================================================="
 
 defaults write com.apple.desktopservices DSDontWriteNetworkStores true
 
@@ -97,6 +98,6 @@ echo ""
 echo "NOTE: Log out and back in (or reboot) for changes to take effect."
 
 echo ""
-echo "[ SCRIPT COMPLETE ]"
-echo "--------------------------------------------------------------"
+echo "[OK] SCRIPT COMPLETED"
+echo "=============================================================="
 exit 0

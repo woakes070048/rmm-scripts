@@ -7,9 +7,9 @@
 # ███████╗██║██║ ╚═╝ ██║███████╗██║  ██║██║  ██║╚███╔███╔╝██║  ██╗
 # ╚══════╝╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚══╝╚══╝ ╚═╝  ╚═╝
 # ================================================================================
-#  SCRIPT   : SuperOps Agent Reinstall (macOS)                             v1.1.0
+#  SCRIPT   : SuperOps Agent Reinstall (macOS)                             v1.1.1
 #  AUTHOR   : Limehawk.io
-#  DATE     : December 2025
+#  DATE     : January 2026
 #  USAGE    : sudo ./superops_agent_reinstall_macos.sh
 # ================================================================================
 #  FILE     : superops_agent_reinstall_macos.sh
@@ -72,39 +72,45 @@
 #  - 0 success
 #  - 1 failure
 #
-#  EXAMPLE RUN (Style A)
-#  [ INPUT VALIDATION ]
-#  --------------------------------------------------------------
-#  Package URL: https://app.superops.com/downloads/agent.pkg
-#  Uninstall Script: /Library/superops/uninstall.sh
+#  EXAMPLE RUN
 #
-#  [ OPERATION ]
-#  --------------------------------------------------------------
-#  Starting background reinstall process...
-#  Background process will wait for uninstall completion
-#  Uninstalling current SuperOps agent...
-#  Executing uninstall script...
-#  Uninstallation completed successfully.
-#  [Background] Uninstall detected, waiting for cleanup...
-#  [Background] Downloading new agent from URL...
-#  [Background] File downloaded successfully.
-#  [Background] Starting installation...
-#  [Background] Installation completed successfully.
+#    [INFO] INPUT VALIDATION
+#    ==============================================================
+#    Package URL: https://app.superops.com/downloads/agent.pkg
+#    Uninstall Script: /Library/superops/uninstall.sh
+#    Agent Directory: /Library/superops
 #
-#  [ RESULT ]
-#  --------------------------------------------------------------
-#  Status: Success
+#    [RUN] REINSTALLING
+#    ==============================================================
+#    Starting background reinstall process...
+#    Background process will wait for uninstall completion
+#    Background process started (PID: 12345)
+#    Uninstalling current SuperOps agent...
+#    Changing to agent directory: /Library/superops
+#    Executing uninstall script...
+#    Uninstallation completed successfully
+#    Background process is now installing new agent...
+#    Waiting for background installation to complete...
+#    [Background] Uninstall detected, waiting for cleanup...
+#    [Background] Downloading new agent from URL...
+#    [Background] File downloaded successfully.
+#    [Background] Starting installation...
+#    [Background] Installation completed successfully.
+#    Background installation completed successfully
 #
-#  [ FINAL STATUS ]
-#  --------------------------------------------------------------
-#  SuperOps agent reinstalled successfully
+#    [INFO] RESULT
+#    ==============================================================
+#    Status: Success
 #
-#  [ SCRIPT COMPLETED ]
-#  --------------------------------------------------------------
+#    [OK] SCRIPT COMPLETED
+#    ==============================================================
+#    SuperOps agent reinstalled successfully
+#
 # --------------------------------------------------------------------------------
 # --------------------------------------------------------------------------------
 #  CHANGELOG
 # --------------------------------------------------------------------------------
+#  2026-01-19 v1.1.1 Updated to two-line ASCII console output style
 #  2025-12-23 v1.1.0 Updated to Limehawk Script Framework
 #  2024-11-02 v1.0.0 Initial migration from SuperOps
 # ================================================================================
@@ -145,34 +151,31 @@ fi
 
 if [ "$ERROR_OCCURRED" -eq 1 ]; then
     echo ""
-    echo "[ ERROR OCCURRED ]"
-    echo "--------------------------------------------------------------"
+    echo "[ERROR] ERROR OCCURRED"
+    echo "=============================================================="
     echo "$ERROR_TEXT"
     echo ""
-    echo "[ RESULT ]"
-    echo "--------------------------------------------------------------"
+    echo "[INFO] RESULT"
+    echo "=============================================================="
     echo "Status: Failure"
     echo ""
-    echo "[ FINAL STATUS ]"
-    echo "--------------------------------------------------------------"
+    echo "[ERROR] FINAL STATUS"
+    echo "=============================================================="
     echo "Script cannot proceed. See error details above."
-    echo ""
-    echo "[ SCRIPT COMPLETED ]"
-    echo "--------------------------------------------------------------"
     exit 1
 fi
 
-# ==== RUNTIME OUTPUT (Style A) ====
+# ==== RUNTIME OUTPUT ====
 echo ""
-echo "[ INPUT VALIDATION ]"
-echo "--------------------------------------------------------------"
+echo "[INFO] INPUT VALIDATION"
+echo "=============================================================="
 echo "Package URL: $PKGURL"
 echo "Uninstall Script: $UNINSTALL_SCRIPT_PATH"
 echo "Agent Directory: $AGENT_DIRECTORY"
 
 echo ""
-echo "[ OPERATION ]"
-echo "--------------------------------------------------------------"
+echo "[RUN] REINSTALLING"
+echo "=============================================================="
 
 # Extract filename from URL
 BASE_NAME="$(basename "$PKGURL")"
@@ -268,14 +271,14 @@ fi
 # ==== OUTPUT RESULTS ====
 if [ "$ERROR_OCCURRED" -eq 1 ]; then
     echo ""
-    echo "[ ERROR OCCURRED ]"
-    echo "--------------------------------------------------------------"
+    echo "[ERROR] ERROR OCCURRED"
+    echo "=============================================================="
     echo "$ERROR_TEXT"
 fi
 
 echo ""
-echo "[ RESULT ]"
-echo "--------------------------------------------------------------"
+echo "[INFO] RESULT"
+echo "=============================================================="
 if [ "$ERROR_OCCURRED" -eq 1 ]; then
     echo "Status: Failure"
 else
@@ -283,17 +286,15 @@ else
 fi
 
 echo ""
-echo "[ FINAL STATUS ]"
-echo "--------------------------------------------------------------"
 if [ "$ERROR_OCCURRED" -eq 1 ]; then
+    echo "[ERROR] FINAL STATUS"
+    echo "=============================================================="
     echo "SuperOps agent reinstallation failed. See error details above."
 else
+    echo "[OK] SCRIPT COMPLETED"
+    echo "=============================================================="
     echo "SuperOps agent reinstalled successfully"
 fi
-
-echo ""
-echo "[ SCRIPT COMPLETED ]"
-echo "--------------------------------------------------------------"
 
 if [ "$ERROR_OCCURRED" -eq 1 ]; then
     exit 1

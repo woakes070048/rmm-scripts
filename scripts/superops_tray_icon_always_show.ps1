@@ -8,9 +8,9 @@ $ErrorActionPreference = 'Stop'
 ███████╗██║██║ ╚═╝ ██║███████╗██║  ██║██║  ██║╚███╔███╔╝██║  ██╗
 ╚══════╝╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚══╝╚══╝ ╚═╝  ╚═╝
 ================================================================================
- SCRIPT   : SuperOps Tray Icon Always Show                                v1.4.0
+ SCRIPT   : SuperOps Tray Icon Always Show                                v1.4.1
  AUTHOR   : Limehawk.io
- DATE      : December 2025
+ DATE     : January 2026
  USAGE    : .\superops_tray_icon_always_show.ps1
 ================================================================================
  FILE     : superops_tray_icon_always_show.ps1
@@ -74,34 +74,35 @@ DESCRIPTION : Configures Windows to always show SuperOps tray icon
  - 0 success
  - 1 failure
 
- EXAMPLE RUN (Style A)
- [ INPUT VALIDATION ]
- --------------------------------------------------------------
+ EXAMPLE RUN
+ [INFO] INPUT VALIDATION
+ ==============================================================
  Registry Path : HKCU:\Control Panel\NotifyIconSettings
  Search Pattern : *superops*
 
- [ OPERATION ]
- --------------------------------------------------------------
- Scanning notification icon settings...
+ [RUN] OPERATION
+ ==============================================================
+ [RUN] Scanning notification icon settings...
  Found 15 registered notification icons
- Checking for SuperOps entries...
- Set IsPromoted=1 for key: 1234567890
- Processing complete
+ [RUN] Checking for SuperOps entries...
+ [OK] Set IsPromoted=1 for key: 1234567890
+ [OK] Processing complete
 
- [ RESULT ]
- --------------------------------------------------------------
- Status : Success
+ [INFO] RESULT
+ ==============================================================
+ [OK] Status : Success
  Icons Modified : 1
 
- [ FINAL STATUS ]
- --------------------------------------------------------------
- SuperOps tray icon configured to always show
+ [INFO] FINAL STATUS
+ ==============================================================
+ [OK] SuperOps tray icon configured to always show
 
- [ SCRIPT COMPLETED ]
- --------------------------------------------------------------
+ [INFO] SCRIPT COMPLETED
+ ==============================================================
 --------------------------------------------------------------------------------
  CHANGELOG
 --------------------------------------------------------------------------------
+ 2026-01-19 v1.4.1 Updated to two-line ASCII console output style
  2025-12-28 v1.4.0 Add OS version check - requires Windows 11 (build 22000+)
  2025-12-28 v1.3.0 Handle missing registry path gracefully (exit 0 instead of error)
  2025-12-28 v1.2.0 Added user context check, made warning more obvious
@@ -124,16 +125,16 @@ $searchPattern  = "*superops*"
 
 # ==== USER CONTEXT CHECK ====
 Write-Host ""
-Write-Host "[ USER CHECK ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[INFO] USER CHECK"
+Write-Host "=============================================================="
 
 $currentUser = [System.Security.Principal.WindowsIdentity]::GetCurrent().Name
 Write-Host "Running as : $currentUser"
 
 if ($currentUser -match "SYSTEM$") {
     Write-Host ""
-    Write-Host "[ ERROR OCCURRED ]"
-    Write-Host "--------------------------------------------------------------"
+    Write-Host "[ERROR] INVALID USER CONTEXT"
+    Write-Host "=============================================================="
     Write-Host "This script must run as the logged-in user, not SYSTEM"
     Write-Host ""
     Write-Host "Tray icon settings are per-user (stored in HKCU)."
@@ -144,11 +145,11 @@ if ($currentUser -match "SYSTEM$") {
     Write-Host "  - GPO: Use a logon script"
     Write-Host "  - Manual: Run from user's PowerShell session"
     Write-Host ""
-    Write-Host "[ SCRIPT COMPLETED ]"
-    Write-Host "--------------------------------------------------------------"
+    Write-Host "[INFO] SCRIPT COMPLETED"
+    Write-Host "=============================================================="
     exit 1
 }
-Write-Host "Context is valid (not SYSTEM)"
+Write-Host "[OK] Context is valid (not SYSTEM)"
 
 # ==== OS VERSION CHECK ====
 $osVersion = [System.Environment]::OSVersion.Version
@@ -156,16 +157,16 @@ $osBuild = $osVersion.Build
 $minBuild = 22000  # Windows 11
 
 Write-Host ""
-Write-Host "[ OS CHECK ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[INFO] OS CHECK"
+Write-Host "=============================================================="
 Write-Host "OS Build   : $osBuild"
 
 if ($osBuild -lt $minBuild) {
     $osInfo = Get-CimInstance -ClassName Win32_OperatingSystem
     Write-Host "OS Name    : $($osInfo.Caption)"
     Write-Host ""
-    Write-Host "[ UNSUPPORTED OS ]"
-    Write-Host "--------------------------------------------------------------"
+    Write-Host "[ERROR] UNSUPPORTED OS"
+    Write-Host "=============================================================="
     Write-Host "This script requires Windows 11 (build $minBuild or later)."
     Write-Host ""
     Write-Host "Your system (build $osBuild) uses a different registry structure"
@@ -179,21 +180,21 @@ if ($osBuild -lt $minBuild) {
     Write-Host "  Right-click the taskbar > Taskbar settings > Notification area"
     Write-Host "  > Select which icons appear on the taskbar > Toggle SuperOps on"
     Write-Host ""
-    Write-Host "[ RESULT ]"
-    Write-Host "--------------------------------------------------------------"
-    Write-Host "Status : Not Supported (OS too old)"
+    Write-Host "[INFO] RESULT"
+    Write-Host "=============================================================="
+    Write-Host "[ERROR] Status : Not Supported (OS too old)"
     Write-Host ""
-    Write-Host "[ SCRIPT COMPLETED ]"
-    Write-Host "--------------------------------------------------------------"
+    Write-Host "[INFO] SCRIPT COMPLETED"
+    Write-Host "=============================================================="
     exit 1
 }
-Write-Host "OS version supported"
+Write-Host "[OK] OS version supported"
 
 # ==== VALIDATION ====
 if (-not (Test-Path $notifyIconPath)) {
     Write-Host ""
-    Write-Host "[ REGISTRY PATH NOT FOUND ]"
-    Write-Host "--------------------------------------------------------------"
+    Write-Host "[WARN] REGISTRY PATH NOT FOUND"
+    Write-Host "=============================================================="
     Write-Host "Path: $notifyIconPath"
     Write-Host ""
     Write-Host "This registry key is created by Windows when notification icons"
@@ -202,35 +203,35 @@ if (-not (Test-Path $notifyIconPath)) {
     Write-Host "  - User hasn't logged in with a GUI session"
     Write-Host "  - No apps have registered notification icons"
     Write-Host ""
-    Write-Host "[ RESULT ]"
-    Write-Host "--------------------------------------------------------------"
-    Write-Host "Status : Skipped (no icons registered yet)"
+    Write-Host "[INFO] RESULT"
+    Write-Host "=============================================================="
+    Write-Host "[OK] Status : Skipped (no icons registered yet)"
     Write-Host ""
-    Write-Host "[ SCRIPT COMPLETED ]"
-    Write-Host "--------------------------------------------------------------"
+    Write-Host "[INFO] SCRIPT COMPLETED"
+    Write-Host "=============================================================="
     exit 0
 }
 
-# ==== RUNTIME OUTPUT (Style A) ====
+# ==== RUNTIME OUTPUT ====
 Write-Host ""
-Write-Host "[ INPUT VALIDATION ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[INFO] INPUT VALIDATION"
+Write-Host "=============================================================="
 Write-Host "Registry Path  : $notifyIconPath"
 Write-Host "Search Pattern : $searchPattern"
 
 Write-Host ""
-Write-Host "[ OPERATION ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[RUN] OPERATION"
+Write-Host "=============================================================="
 
 try {
-    Write-Host "Scanning notification icon settings..."
+    Write-Host "[RUN] Scanning notification icon settings..."
 
     # Get all subkeys
     $subKeys = Get-ChildItem -Path $notifyIconPath -ErrorAction Stop
 
     $iconsFound = $subKeys.Count
     Write-Host "Found $iconsFound registered notification icons"
-    Write-Host "Checking for SuperOps entries..."
+    Write-Host "[RUN] Checking for SuperOps entries..."
 
     foreach ($key in $subKeys) {
         try {
@@ -249,22 +250,22 @@ try {
             if ($matchFound) {
                 try {
                     Set-ItemProperty -Path $key.PSPath -Name "IsPromoted" -Value 1 -Type DWord -ErrorAction Stop
-                    Write-Host "Set IsPromoted=1 for key: $($key.PSChildName)"
+                    Write-Host "[OK] Set IsPromoted=1 for key: $($key.PSChildName)"
                     $iconsModified++
                 } catch {
-                    Write-Host "Warning: Failed to set IsPromoted for key $($key.PSChildName): $($_.Exception.Message)"
+                    Write-Host "[WARN] Failed to set IsPromoted for key $($key.PSChildName): $($_.Exception.Message)"
                 }
             }
         } catch {
-            Write-Host "Warning: Could not read key $($key.PSChildName): $($_.Exception.Message)"
+            Write-Host "[WARN] Could not read key $($key.PSChildName): $($_.Exception.Message)"
             # Continue processing other keys
         }
     }
 
-    Write-Host "Processing complete"
+    Write-Host "[OK] Processing complete"
 
     if ($iconsModified -eq 0) {
-        Write-Host "Note: No SuperOps entries found. This could mean:"
+        Write-Host "[WARN] No SuperOps entries found. This could mean:"
         Write-Host "  - SuperOps agent is not installed"
         Write-Host "  - SuperOps tray icon has not been displayed yet"
         Write-Host "  - SuperOps tray icon is already configured to always show"
@@ -277,38 +278,38 @@ try {
 
 if ($errorOccurred) {
     Write-Host ""
-    Write-Host "[ ERROR OCCURRED ]"
-    Write-Host "--------------------------------------------------------------"
+    Write-Host "[ERROR] ERROR OCCURRED"
+    Write-Host "=============================================================="
     Write-Host $errorText
 }
 
 Write-Host ""
-Write-Host "[ RESULT ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[INFO] RESULT"
+Write-Host "=============================================================="
 if ($errorOccurred) {
-    Write-Host "Status         : Failure"
+    Write-Host "[ERROR] Status         : Failure"
 } else {
-    Write-Host "Status         : Success"
+    Write-Host "[OK] Status         : Success"
 }
 Write-Host "Icons Found    : $iconsFound"
 Write-Host "Icons Modified : $iconsModified"
 
 Write-Host ""
-Write-Host "[ FINAL STATUS ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[INFO] FINAL STATUS"
+Write-Host "=============================================================="
 if ($errorOccurred) {
-    Write-Host "Failed to configure SuperOps tray icon settings. See error details above."
+    Write-Host "[ERROR] Failed to configure SuperOps tray icon settings. See error details above."
 } else {
     if ($iconsModified -gt 0) {
-        Write-Host "SuperOps tray icon configured to always show"
+        Write-Host "[OK] SuperOps tray icon configured to always show"
     } else {
-        Write-Host "No SuperOps tray icon entries found to configure"
+        Write-Host "[WARN] No SuperOps tray icon entries found to configure"
     }
 }
 
 Write-Host ""
-Write-Host "[ SCRIPT COMPLETED ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[INFO] SCRIPT COMPLETED"
+Write-Host "=============================================================="
 
 if ($errorOccurred) {
     exit 1

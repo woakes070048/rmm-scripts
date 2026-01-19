@@ -7,7 +7,7 @@ $ErrorActionPreference = 'Stop'
 ███████╗██║██║ ╚═╝ ██║███████╗██║  ██║██║  ██║╚███╔███╔╝██║  ██╗
 ╚══════╝╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚══╝╚══╝ ╚═╝  ╚═╝
 ================================================================================
- SCRIPT   : Canon imageCLASS MF455dw Driver Install                       v1.0.0
+ SCRIPT   : Canon imageCLASS MF455dw Driver Install                       v1.1.1
  AUTHOR   : Limehawk.io
  DATE     : January 2026
  USAGE    : .\canon_mf455dw_driver_install.ps1
@@ -78,64 +78,70 @@ $ErrorActionPreference = 'Stop'
 
  EXAMPLE RUN
 
-   [ INPUT VALIDATION ]
-   --------------------------------------------------------------
-   Driver URL   : https://gdlp01.c-wss.com/gds/7/...
-   Printer IP   : 192.168.1.100
-   Printer Name : Canon MF455dw
+   [INFO] INPUT VALIDATION
+   ==============================================================
+     Driver URL   : https://gdlp01.c-wss.com/gds/7/...
+     Printer IP   : 192.168.1.100
+     Printer Name : Canon MF455dw
 
-   [ DOWNLOAD ]
-   --------------------------------------------------------------
-   Downloading driver package...
-   Download complete : 156.2 MB
+   [RUN] SETUP
+   ==============================================================
+     Created temp directory : C:\Users\admin\AppData\Local\Temp\CanonMF455dw
 
-   [ EXTRACTION ]
-   --------------------------------------------------------------
-   Extracting driver files...
-   Extraction complete
+   [RUN] DOWNLOAD
+   ==============================================================
+     Downloading driver package...
+     Download complete : 156.2 MB
 
-   [ DRIVER INSTALLATION ]
-   --------------------------------------------------------------
-   Installing UFR II LT driver via pnputil...
-   Driver installed successfully
+   [RUN] EXTRACTION
+   ==============================================================
+     Extracting driver files...
+     Extraction complete
 
-   [ PRINTER SETUP ]
-   --------------------------------------------------------------
-   Creating TCP/IP port : IP_192.168.1.100
-   Adding printer queue : Canon MF455dw
-   Printer added successfully
+   [RUN] DRIVER INSTALLATION
+   ==============================================================
+     Installing UFR II LT driver via pnputil...
+     Driver installed successfully
 
-   [ CLEANUP ]
-   --------------------------------------------------------------
-   Removing temporary files...
-   Cleanup complete
+   [RUN] PRINTER SETUP
+   ==============================================================
+     Creating TCP/IP port : IP_192.168.1.100
+     Adding printer queue : Canon MF455dw
+     Printer added successfully
 
-   [ FINAL STATUS ]
-   --------------------------------------------------------------
-   Result : SUCCESS
+   [RUN] CLEANUP
+   ==============================================================
+     Removing temporary files...
+     Cleanup complete
 
-   [ SCRIPT COMPLETE ]
-   --------------------------------------------------------------
+   [OK] FINAL STATUS
+   ==============================================================
+     Result : SUCCESS
+
+   [OK] SCRIPT COMPLETED
+   ==============================================================
 
 --------------------------------------------------------------------------------
  CHANGELOG
 --------------------------------------------------------------------------------
+ 2026-01-19 v1.1.1 Updated to two-line ASCII console output style
+ 2026-01-19 v1.1.0 Updated to corner bracket style section headers
  2026-01-05 v1.0.0 Initial release
 ================================================================================
 #>
 Set-StrictMode -Version Latest
 
-# ============================================================================
+# ==============================================================================
 # HARDCODED INPUTS
-# ============================================================================
+# ==============================================================================
 $driverUrl     = 'https://gdlp01.c-wss.com/gds/7/0100011217/01/MF450MFDriverV720W64.exe'
 $printerIp     = ''                        # Set to printer IP to auto-create queue, or leave empty
 $printerName   = 'Canon imageCLASS MF455dw'
 $installScanner = $false                   # Set to $true to also install scanner driver
 
-# ============================================================================
+# ==============================================================================
 # SCRIPT VARIABLES
-# ============================================================================
+# ==============================================================================
 $tempDir       = Join-Path $env:TEMP 'CanonMF455dw'
 $installerPath = Join-Path $tempDir 'MF450MFDriverV720W64.exe'
 $extractDir    = Join-Path $tempDir 'Extracted'
@@ -144,12 +150,12 @@ $extractDir    = Join-Path $tempDir 'Extracted'
 $driverInfPattern = 'CNLB*.INF'
 $driverName    = 'Canon Generic Plus UFR II'
 
-# ============================================================================
+# ==============================================================================
 # INPUT VALIDATION
-# ============================================================================
+# ==============================================================================
 Write-Host ""
-Write-Host "[ INPUT VALIDATION ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[INFO] INPUT VALIDATION"
+Write-Host "=============================================================="
 
 $errorOccurred = $false
 $errorText = ""
@@ -167,41 +173,41 @@ if ([string]::IsNullOrWhiteSpace($printerName)) {
 
 if ($errorOccurred) {
     Write-Host ""
-    Write-Host "[ ERROR OCCURRED ]"
-    Write-Host "--------------------------------------------------------------"
-    Write-Host $errorText
+    Write-Host "[ERROR] ERROR OCCURRED"
+    Write-Host "=============================================================="
+    Write-Host "  $($errorText -replace "`n", "`n  ")"
     exit 1
 }
 
-Write-Host "Driver URL   : $driverUrl"
-Write-Host "Printer IP   : $(if ([string]::IsNullOrWhiteSpace($printerIp)) { '(not set - driver only)' } else { $printerIp })"
-Write-Host "Printer Name : $printerName"
-Write-Host "Scanner      : $installScanner"
+Write-Host "  Driver URL   : $driverUrl"
+Write-Host "  Printer IP   : $(if ([string]::IsNullOrWhiteSpace($printerIp)) { '(not set - driver only)' } else { $printerIp })"
+Write-Host "  Printer Name : $printerName"
+Write-Host "  Scanner      : $installScanner"
 
-# ============================================================================
+# ==============================================================================
 # SETUP
-# ============================================================================
+# ==============================================================================
 Write-Host ""
-Write-Host "[ SETUP ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[RUN] SETUP"
+Write-Host "=============================================================="
 
 # Create temp directory
 if (-not (Test-Path $tempDir)) {
     New-Item -Path $tempDir -ItemType Directory -Force | Out-Null
-    Write-Host "Created temp directory : $tempDir"
+    Write-Host "  Created temp directory : $tempDir"
 } else {
-    Write-Host "Using existing temp directory : $tempDir"
+    Write-Host "  Using existing temp directory : $tempDir"
 }
 
-# ============================================================================
+# ==============================================================================
 # DOWNLOAD
-# ============================================================================
+# ==============================================================================
 Write-Host ""
-Write-Host "[ DOWNLOAD ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[RUN] DOWNLOAD"
+Write-Host "=============================================================="
 
 try {
-    Write-Host "Downloading driver package..."
+    Write-Host "  Downloading driver package..."
 
     $curlArgs = @(
         '-L',
@@ -226,25 +232,25 @@ try {
 
     $fileSize = (Get-Item $installerPath).Length
     $fileSizeMB = [math]::Round($fileSize / 1MB, 2)
-    Write-Host "Download complete : $fileSizeMB MB"
+    Write-Host "  Download complete : $fileSizeMB MB"
 }
 catch {
     Write-Host ""
-    Write-Host "[ ERROR OCCURRED ]"
-    Write-Host "--------------------------------------------------------------"
-    Write-Host "Download failed : $($_.Exception.Message)"
+    Write-Host "[ERROR] ERROR OCCURRED"
+    Write-Host "=============================================================="
+    Write-Host "  Download failed : $($_.Exception.Message)"
     exit 1
 }
 
-# ============================================================================
+# ==============================================================================
 # EXTRACTION
-# ============================================================================
+# ==============================================================================
 Write-Host ""
-Write-Host "[ EXTRACTION ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[RUN] EXTRACTION"
+Write-Host "=============================================================="
 
 try {
-    Write-Host "Extracting driver files..."
+    Write-Host "  Extracting driver files..."
 
     # Create extraction directory
     if (-not (Test-Path $extractDir)) {
@@ -263,7 +269,7 @@ try {
     $infFiles = Get-ChildItem -Path $extractDir -Filter '*.INF' -Recurse -ErrorAction SilentlyContinue
     if ($infFiles.Count -gt 0) {
         $extracted = $true
-        Write-Host "Extraction method : /D: switch"
+        Write-Host "  Extraction method : /D: switch"
     }
 
     # Method 2: If /D: didn't work, try running the installer which may auto-extract
@@ -282,7 +288,7 @@ try {
                 if ($infFiles.Count -gt 0) {
                     $extractDir = $path
                     $extracted = $true
-                    Write-Host "Found driver files at : $path"
+                    Write-Host "  Found driver files at : $path"
                     break
                 }
             }
@@ -300,13 +306,13 @@ try {
         $infFiles = Get-ChildItem -Path $extractDir -Filter '*.INF' -Recurse -ErrorAction SilentlyContinue
         if ($infFiles.Count -gt 0) {
             $extracted = $true
-            Write-Host "Extraction method : /extract_all:"
+            Write-Host "  Extraction method : /extract_all:"
         }
     }
 
     # Method 4: Run installer silently and let it extract to default location
     if (-not $extracted) {
-        Write-Host "Running installer to extract drivers..."
+        Write-Host "  Running installer to extract drivers..."
 
         # Run the installer - it typically extracts and runs setup
         # We'll intercept after extraction
@@ -327,7 +333,7 @@ try {
                 if ($infFiles) {
                     $extractDir = Split-Path $infFiles.FullName -Parent
                     $extracted = $true
-                    Write-Host "Found driver files at : $extractDir"
+                    Write-Host "  Found driver files at : $extractDir"
                     break
                 }
             }
@@ -338,26 +344,26 @@ try {
         throw "Could not extract driver files. Manual extraction may be required."
     }
 
-    Write-Host "Extraction complete"
+    Write-Host "  Extraction complete"
 }
 catch {
     Write-Host ""
-    Write-Host "[ ERROR OCCURRED ]"
-    Write-Host "--------------------------------------------------------------"
-    Write-Host "Extraction failed : $($_.Exception.Message)"
+    Write-Host "[ERROR] ERROR OCCURRED"
+    Write-Host "=============================================================="
+    Write-Host "  Extraction failed : $($_.Exception.Message)"
     exit 1
 }
 
-# ============================================================================
+# ==============================================================================
 # DRIVER INSTALLATION
-# ============================================================================
+# ==============================================================================
 Write-Host ""
-Write-Host "[ DRIVER INSTALLATION ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[RUN] DRIVER INSTALLATION"
+Write-Host "=============================================================="
 
 try {
     # Find the UFR II driver INF file
-    Write-Host "Searching for driver INF files..."
+    Write-Host "  Searching for driver INF files..."
 
     $infFile = Get-ChildItem -Path $extractDir -Filter $driverInfPattern -Recurse -ErrorAction SilentlyContinue | Select-Object -First 1
 
@@ -376,22 +382,22 @@ try {
         throw "Could not find driver INF file in extracted files"
     }
 
-    Write-Host "Found driver INF : $($infFile.FullName)"
+    Write-Host "  Found driver INF : $($infFile.FullName)"
 
     # Install driver using pnputil
-    Write-Host "Installing driver via pnputil..."
+    Write-Host "  Installing driver via pnputil..."
 
     $pnpArgs = @('/add-driver', $infFile.FullName, '/install')
     $pnpResult = & pnputil.exe @pnpArgs 2>&1
 
     if ($LASTEXITCODE -ne 0 -and $LASTEXITCODE -ne 259) {
         # Exit code 259 means driver already exists, which is fine
-        Write-Host "pnputil output:"
-        $pnpResult | ForEach-Object { Write-Host "  $_" }
+        Write-Host "  pnputil output:"
+        $pnpResult | ForEach-Object { Write-Host "    $_" }
         throw "pnputil failed with exit code $LASTEXITCODE"
     }
 
-    Write-Host "Driver staged in Windows driver store"
+    Write-Host "  Driver staged in Windows driver store"
 
     # Get the actual driver name from the INF
     $infContent = Get-Content $infFile.FullName -Raw
@@ -401,32 +407,32 @@ try {
         $driverModels = Get-PrinterDriver -ErrorAction SilentlyContinue | Where-Object { $_.Name -match 'Canon' -and $_.Name -match 'UFR|Generic' }
         if ($driverModels) {
             $driverName = $driverModels[0].Name
-            Write-Host "Driver name : $driverName"
+            Write-Host "  Driver name : $driverName"
         }
     }
 
-    Write-Host "Driver installed successfully"
+    Write-Host "  Driver installed successfully"
 }
 catch {
     Write-Host ""
-    Write-Host "[ ERROR OCCURRED ]"
-    Write-Host "--------------------------------------------------------------"
-    Write-Host "Driver installation failed : $($_.Exception.Message)"
+    Write-Host "[ERROR] ERROR OCCURRED"
+    Write-Host "=============================================================="
+    Write-Host "  Driver installation failed : $($_.Exception.Message)"
     Write-Host ""
-    Write-Host "Troubleshooting:"
-    Write-Host "  - Ensure you are running as Administrator"
-    Write-Host "  - Check Windows Event Viewer for driver errors"
-    Write-Host "  - Try manual installation via Device Manager"
+    Write-Host "  Troubleshooting:"
+    Write-Host "    - Ensure you are running as Administrator"
+    Write-Host "    - Check Windows Event Viewer for driver errors"
+    Write-Host "    - Try manual installation via Device Manager"
     exit 1
 }
 
-# ============================================================================
+# ==============================================================================
 # PRINTER SETUP (Optional)
-# ============================================================================
+# ==============================================================================
 if (-not [string]::IsNullOrWhiteSpace($printerIp)) {
     Write-Host ""
-    Write-Host "[ PRINTER SETUP ]"
-    Write-Host "--------------------------------------------------------------"
+    Write-Host "[RUN] PRINTER SETUP"
+    Write-Host "=============================================================="
 
     try {
         $portName = "IP_$printerIp"
@@ -434,17 +440,17 @@ if (-not [string]::IsNullOrWhiteSpace($printerIp)) {
         # Check if port already exists
         $existingPort = Get-PrinterPort -Name $portName -ErrorAction SilentlyContinue
         if (-not $existingPort) {
-            Write-Host "Creating TCP/IP port : $portName"
+            Write-Host "  Creating TCP/IP port : $portName"
             Add-PrinterPort -Name $portName -PrinterHostAddress $printerIp -ErrorAction Stop
-            Write-Host "Port created successfully"
+            Write-Host "  Port created successfully"
         } else {
-            Write-Host "Port already exists : $portName"
+            Write-Host "  Port already exists : $portName"
         }
 
         # Check if printer already exists
         $existingPrinter = Get-Printer -Name $printerName -ErrorAction SilentlyContinue
         if (-not $existingPrinter) {
-            Write-Host "Adding printer queue : $printerName"
+            Write-Host "  Adding printer queue : $printerName"
 
             # Find the installed Canon driver
             $installedDriver = Get-PrinterDriver -ErrorAction SilentlyContinue |
@@ -453,70 +459,70 @@ if (-not [string]::IsNullOrWhiteSpace($printerIp)) {
 
             if ($installedDriver) {
                 $driverName = $installedDriver.Name
-                Write-Host "Using driver : $driverName"
+                Write-Host "  Using driver : $driverName"
 
                 Add-Printer -Name $printerName -DriverName $driverName -PortName $portName -ErrorAction Stop
-                Write-Host "Printer added successfully"
+                Write-Host "  Printer added successfully"
             } else {
-                Write-Host "Warning: Could not find Canon driver - printer queue not created"
-                Write-Host "You may need to add the printer manually from Settings"
+                Write-Host "  Warning: Could not find Canon driver - printer queue not created"
+                Write-Host "  You may need to add the printer manually from Settings"
             }
         } else {
-            Write-Host "Printer already exists : $printerName"
+            Write-Host "  Printer already exists : $printerName"
         }
     }
     catch {
-        Write-Host "Warning: Printer setup failed : $($_.Exception.Message)"
-        Write-Host "Driver was installed - you can add the printer manually"
+        Write-Host "  Warning: Printer setup failed : $($_.Exception.Message)"
+        Write-Host "  Driver was installed - you can add the printer manually"
     }
 }
 
-# ============================================================================
+# ==============================================================================
 # CLEANUP
-# ============================================================================
+# ==============================================================================
 Write-Host ""
-Write-Host "[ CLEANUP ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[RUN] CLEANUP"
+Write-Host "=============================================================="
 
 try {
     if (Test-Path $tempDir) {
         Remove-Item -Path $tempDir -Recurse -Force -ErrorAction SilentlyContinue
-        Write-Host "Removed temporary files"
+        Write-Host "  Removed temporary files"
     }
-    Write-Host "Cleanup complete"
+    Write-Host "  Cleanup complete"
 }
 catch {
-    Write-Host "Warning: Cleanup failed : $($_.Exception.Message)"
+    Write-Host "  Warning: Cleanup failed : $($_.Exception.Message)"
 }
 
-# ============================================================================
+# ==============================================================================
 # FINAL STATUS
-# ============================================================================
+# ==============================================================================
 Write-Host ""
-Write-Host "[ FINAL STATUS ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[OK] FINAL STATUS"
+Write-Host "=============================================================="
 
 # Verify driver is installed
 $verifyDriver = Get-PrinterDriver -ErrorAction SilentlyContinue |
                 Where-Object { $_.Name -match 'Canon' -and ($_.Name -match 'UFR|Generic|MF455|MF450') }
 
 if ($verifyDriver) {
-    Write-Host "Result : SUCCESS"
-    Write-Host "Driver : $($verifyDriver.Name)"
+    Write-Host "  Result : SUCCESS"
+    Write-Host "  Driver : $($verifyDriver.Name)"
 
     if (-not [string]::IsNullOrWhiteSpace($printerIp)) {
         $verifyPrinter = Get-Printer -Name $printerName -ErrorAction SilentlyContinue
         if ($verifyPrinter) {
-            Write-Host "Printer : $printerName (ready)"
+            Write-Host "  Printer : $printerName (ready)"
         }
     }
 } else {
-    Write-Host "Result : WARNING - Driver may not have installed correctly"
-    Write-Host "Check Device Manager or try manual installation"
+    Write-Host "  Result : WARNING - Driver may not have installed correctly"
+    Write-Host "  Check Device Manager or try manual installation"
 }
 
 Write-Host ""
-Write-Host "[ SCRIPT COMPLETE ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[OK] SCRIPT COMPLETED"
+Write-Host "=============================================================="
 
 exit 0

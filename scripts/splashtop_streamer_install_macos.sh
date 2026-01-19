@@ -7,9 +7,9 @@
 # ███████╗██║██║ ╚═╝ ██║███████╗██║  ██║██║  ██║╚███╔███╔╝██║  ██╗
 # ╚══════╝╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚══╝╚══╝ ╚═╝  ╚═╝
 # ================================================================================
-#  SCRIPT   : Splashtop Streamer Install (macOS)                           v1.1.0
+#  SCRIPT   : Splashtop Streamer Install (macOS)                           v1.1.1
 #  AUTHOR   : Limehawk.io
-#  DATE     : December 2025
+#  DATE     : January 2026
 #  USAGE    : sudo ./splashtop_streamer_install_macos.sh
 # ================================================================================
 #  FILE     : splashtop_streamer_install_macos.sh
@@ -70,23 +70,30 @@
 #
 #  EXAMPLE RUN
 #
-#    [ SPLASHTOP STREAMER INSTALL - macOS ]
-#    --------------------------------------------------------------
+#    [RUN] DOWNLOADING INSTALLER
+#    ==============================================================
 #    Downloading Splashtop Streamer...
+#
+#    [RUN] MOUNTING DMG
+#    ==============================================================
 #    Mounting installer...
+#
+#    [RUN] INSTALLING
+#    ==============================================================
 #    Installing Splashtop Streamer...
+#
+#    [RUN] CLEANUP
+#    ==============================================================
 #    Cleaning up...
 #
-#    [ FINAL STATUS ]
-#    --------------------------------------------------------------
+#    [OK] SCRIPT COMPLETED
+#    ==============================================================
 #    Splashtop Streamer installed successfully
-#
-#    [ SCRIPT COMPLETE ]
-#    --------------------------------------------------------------
 #
 # --------------------------------------------------------------------------------
 #  CHANGELOG
 # --------------------------------------------------------------------------------
+#  2026-01-19 v1.1.1 Updated to two-line ASCII console output style
 #  2025-12-23 v1.1.0 Updated to Limehawk Script Framework
 #  2024-01-01 v1.0.0 Initial release
 # ================================================================================
@@ -106,42 +113,54 @@ MOUNT_DIR="/Volumes/SplashtopStreamer"
 # ============================================================================
 
 echo ""
-echo "[ SPLASHTOP STREAMER INSTALL - macOS ]"
-echo "--------------------------------------------------------------"
+echo "[RUN] DOWNLOADING INSTALLER"
+echo "=============================================================="
 
 # Download installer
 echo "Downloading Splashtop Streamer..."
 curl -L -o "$TEMP_DMG" "$SPLASHTOP_URL" || {
     echo ""
-    echo "[ ERROR OCCURRED ]"
-    echo "--------------------------------------------------------------"
+    echo "[ERROR] ERROR OCCURRED"
+    echo "=============================================================="
     echo "Failed to download installer"
     echo ""
     exit 1
 }
 
+echo ""
+echo "[RUN] MOUNTING DMG"
+echo "=============================================================="
+
 # Mount DMG
 echo "Mounting installer..."
 hdiutil attach "$TEMP_DMG" -nobrowse -quiet || {
     echo ""
-    echo "[ ERROR OCCURRED ]"
-    echo "--------------------------------------------------------------"
+    echo "[ERROR] ERROR OCCURRED"
+    echo "=============================================================="
     echo "Failed to mount DMG"
     echo ""
     exit 1
 }
+
+echo ""
+echo "[RUN] INSTALLING"
+echo "=============================================================="
 
 # Install package
 echo "Installing Splashtop Streamer..."
 sudo installer -pkg "$MOUNT_DIR/.Splashtop Streamer.pkg" -target / || {
     hdiutil detach "$MOUNT_DIR" -quiet 2>/dev/null
     echo ""
-    echo "[ ERROR OCCURRED ]"
-    echo "--------------------------------------------------------------"
+    echo "[ERROR] ERROR OCCURRED"
+    echo "=============================================================="
     echo "Installation failed"
     echo ""
     exit 1
 }
+
+echo ""
+echo "[RUN] CLEANUP"
+echo "=============================================================="
 
 # Cleanup
 echo "Cleaning up..."
@@ -149,11 +168,7 @@ hdiutil detach "$MOUNT_DIR" -quiet
 rm -f "$TEMP_DMG"
 
 echo ""
-echo "[ FINAL STATUS ]"
-echo "--------------------------------------------------------------"
+echo "[OK] SCRIPT COMPLETED"
+echo "=============================================================="
 echo "Splashtop Streamer installed successfully"
-
-echo ""
-echo "[ SCRIPT COMPLETE ]"
-echo "--------------------------------------------------------------"
 exit 0

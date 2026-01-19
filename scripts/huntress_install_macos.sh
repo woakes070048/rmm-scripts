@@ -7,7 +7,7 @@
 # ███████╗██║██║ ╚═╝ ██║███████╗██║  ██║██║  ██║╚███╔███╔╝██║  ██╗
 # ╚══════╝╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚══╝╚══╝ ╚═╝  ╚═╝
 # ================================================================================
-#  SCRIPT   : Huntress Agent Install (macOS)                               v2.0.0
+#  SCRIPT   : Huntress Agent Install (macOS)                               v2.0.1
 #  AUTHOR   : Limehawk.io (based on Huntress Labs installer)
 #  DATE     : January 2026
 #  USAGE    : sudo ./huntress_install_macos.sh
@@ -78,26 +78,26 @@
 #
 #  EXAMPLE RUN
 #
-#    [ INPUT VALIDATION ]
-#    --------------------------------------------------------------
+#    [OK] INPUT VALIDATION
+#    ==============================================================
 #    All required inputs are valid
 #
-#    [ DOWNLOADING INSTALLER ]
-#    --------------------------------------------------------------
+#    [RUN] DOWNLOADING INSTALLER
+#    ==============================================================
 #    Downloading Huntress installer
-#    Download complete
+#    [OK] Download complete
 #
-#    [ INSTALLING HUNTRESS AGENT ]
-#    --------------------------------------------------------------
+#    [RUN] INSTALLING HUNTRESS AGENT
+#    ==============================================================
 #    Running Huntress installer
-#    Installation complete
+#    [OK] Installation complete
 #
-#    [ FINAL STATUS ]
-#    --------------------------------------------------------------
+#    [OK] FINAL STATUS
+#    ==============================================================
 #    Result : SUCCESS
 #
-#    [ SCRIPT COMPLETE ]
-#    --------------------------------------------------------------
+#    [INFO] SCRIPT COMPLETE
+#    ==============================================================
 #
 #  LICENSE
 #
@@ -107,6 +107,7 @@
 # --------------------------------------------------------------------------------
 #  CHANGELOG
 # --------------------------------------------------------------------------------
+#  2026-01-19 v2.0.1 Updated to two-line ASCII console output style
 #  2026-01-12 v2.0.0 Converted to Limehawk Script Framework format
 #  2024-01-01 v1.0.0 Original Huntress Labs installer
 # ================================================================================
@@ -126,7 +127,7 @@ LOG_FILE="/tmp/HuntressInstaller.log"
 INSTALL_SCRIPT="/tmp/HuntressMacInstall.sh"
 INVALID_KEY_MSG="Invalid account secret key"
 KEY_PATTERN="[a-f0-9]{32}"
-SCRIPT_VERSION="2.0.0"
+SCRIPT_VERSION="2.0.1"
 TIMESTAMP=$(date "+%Y%m%d-%H%M%S")
 
 # ============================================================================
@@ -146,10 +147,6 @@ mask_key() {
 # ============================================================================
 # INPUT VALIDATION
 # ============================================================================
-echo ""
-echo "[ INPUT VALIDATION ]"
-echo "--------------------------------------------------------------"
-
 ERROR_OCCURRED=false
 ERROR_TEXT=""
 
@@ -176,13 +173,16 @@ fi
 
 if [[ "$ERROR_OCCURRED" = true ]]; then
     echo ""
-    echo "[ ERROR OCCURRED ]"
-    echo "--------------------------------------------------------------"
+    echo "[ERROR] INPUT VALIDATION FAILED"
+    echo "=============================================================="
     echo -e "$ERROR_TEXT"
     echo ""
     exit 1
 fi
 
+echo ""
+echo "[OK] INPUT VALIDATION"
+echo "=============================================================="
 echo "All required inputs are valid"
 log_message "=========== INSTALL START AT $TIMESTAMP ==============="
 log_message "=========== $RMM_NAME Deployment Script | Version: $SCRIPT_VERSION ==============="
@@ -201,8 +201,8 @@ fi
 # DOWNLOAD INSTALLER
 # ============================================================================
 echo ""
-echo "[ DOWNLOADING INSTALLER ]"
-echo "--------------------------------------------------------------"
+echo "[RUN] DOWNLOADING INSTALLER"
+echo "=============================================================="
 echo "Downloading Huntress installer"
 
 DOWNLOAD_URL="https://huntress.io/script/darwin/$ACCOUNT_KEY"
@@ -210,8 +210,8 @@ HTTP_CODE=$(curl -w "%{http_code}" -sL "$DOWNLOAD_URL" -o "$INSTALL_SCRIPT" 2>/d
 
 if [ $? -ne 0 ]; then
     echo ""
-    echo "[ ERROR OCCURRED ]"
-    echo "--------------------------------------------------------------"
+    echo "[ERROR] DOWNLOAD FAILED"
+    echo "=============================================================="
     echo "Download failed"
     echo "HTTP Code : $HTTP_CODE"
     log_message "ERROR: Download failed with HTTP code: $HTTP_CODE"
@@ -222,8 +222,8 @@ fi
 # Validate downloaded script
 if grep -Fq "$INVALID_KEY_MSG" "$INSTALL_SCRIPT" 2>/dev/null; then
     echo ""
-    echo "[ ERROR OCCURRED ]"
-    echo "--------------------------------------------------------------"
+    echo "[ERROR] INVALID KEY"
+    echo "=============================================================="
     echo "Invalid account key"
     echo "The provided ACCOUNT_KEY was rejected by Huntress"
     log_message "ERROR: ACCOUNT_KEY is invalid"
@@ -232,15 +232,15 @@ if grep -Fq "$INVALID_KEY_MSG" "$INSTALL_SCRIPT" 2>/dev/null; then
     exit 1
 fi
 
-echo "Download complete"
+echo "[OK] Download complete"
 log_message "Installer downloaded successfully"
 
 # ============================================================================
 # INSTALL HUNTRESS AGENT
 # ============================================================================
 echo ""
-echo "[ INSTALLING HUNTRESS AGENT ]"
-echo "--------------------------------------------------------------"
+echo "[RUN] INSTALLING HUNTRESS AGENT"
+echo "=============================================================="
 echo "Running Huntress installer"
 
 INSTALL_CMD="/bin/zsh $INSTALL_SCRIPT -a $ACCOUNT_KEY -o $ORG_KEY -v"
@@ -257,8 +257,8 @@ log_message "$INSTALL_RESULT"
 
 if [ $INSTALL_STATUS -ne 0 ]; then
     echo ""
-    echo "[ ERROR OCCURRED ]"
-    echo "--------------------------------------------------------------"
+    echo "[ERROR] INSTALLATION FAILED"
+    echo "=============================================================="
     echo "Installation failed"
     echo "Check log file : $LOG_FILE"
     log_message "Installer Error: $INSTALL_RESULT"
@@ -266,7 +266,7 @@ if [ $INSTALL_STATUS -ne 0 ]; then
     exit 1
 fi
 
-echo "Installation complete"
+echo "[OK] Installation complete"
 log_message "=========== INSTALL FINISHED AT $TIMESTAMP ==============="
 
 # ============================================================================
@@ -278,14 +278,14 @@ rm -f "$INSTALL_SCRIPT"
 # FINAL STATUS
 # ============================================================================
 echo ""
-echo "[ FINAL STATUS ]"
-echo "--------------------------------------------------------------"
+echo "[OK] FINAL STATUS"
+echo "=============================================================="
 echo "Result : SUCCESS"
 echo "Log file : $LOG_FILE"
 
 echo ""
-echo "[ SCRIPT COMPLETE ]"
-echo "--------------------------------------------------------------"
+echo "[INFO] SCRIPT COMPLETE"
+echo "=============================================================="
 echo ""
 
 exit 0

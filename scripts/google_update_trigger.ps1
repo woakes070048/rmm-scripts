@@ -8,9 +8,9 @@ $ErrorActionPreference = 'Stop'
 ╚══════╝╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚══╝╚══╝ ╚═╝  ╚═╝
 
 ================================================================================
-SCRIPT  : Google Update Task Trigger v1.0.1
+SCRIPT  : Google Update Task Trigger v1.0.2
 AUTHOR  : Limehawk.io
-DATE      : December 2025
+DATE      : January 2026
 USAGE   : .\google_update_trigger.ps1
 FILE    : google_update_trigger.ps1
 DESCRIPTION : Triggers Google Update scheduled task to check for Chrome updates
@@ -43,23 +43,24 @@ EXIT CODES:
     1 = No matching tasks found or failure
 
 EXAMPLE RUN:
-    [ FINDING GOOGLE UPDATE TASKS ]
-    --------------------------------------------------------------
+    [RUN] FINDING GOOGLE UPDATE TASKS
+    ==============================================================
     Found                : GoogleUpdateTaskMachineUA
 
-    [ TRIGGERING TASKS ]
-    --------------------------------------------------------------
+    [RUN] TRIGGERING TASKS
+    ==============================================================
     GoogleUpdateTaskMachineUA : Started
 
-    [ FINAL STATUS ]
-    --------------------------------------------------------------
+    [INFO] FINAL STATUS
+    ==============================================================
     SCRIPT SUCCEEDED
 
-    [ SCRIPT COMPLETED ]
-    --------------------------------------------------------------
+    [OK] SCRIPT COMPLETED
+    ==============================================================
 
 CHANGELOG
 --------------------------------------------------------------------------------
+2026-01-19 v1.0.2 Updated to two-line ASCII console output style
 2025-12-23 v1.0.1 Updated to Limehawk Script Framework
 2024-12-01 v1.0.0 Initial release - migrated from SuperOps
 ================================================================================
@@ -70,10 +71,10 @@ Set-StrictMode -Version Latest
 # HELPER FUNCTIONS
 # ============================================================================
 function Write-Section {
-    param([string]$title)
+    param([string]$Title, [string]$Status = "INFO")
     Write-Host ""
-    Write-Host ("[ {0} ]" -f $title)
-    Write-Host ("-" * 62)
+    Write-Host ("[$Status] $Title")
+    Write-Host "=============================================================="
 }
 
 function PrintKV([string]$label, [string]$value) {
@@ -90,7 +91,7 @@ $taskNamePart = "GoogleUpdateTaskMachineUA"
 # MAIN SCRIPT
 # ============================================================================
 try {
-    Write-Section "FINDING GOOGLE UPDATE TASKS"
+    Write-Section "FINDING GOOGLE UPDATE TASKS" "RUN"
 
     $tasks = Get-ScheduledTask | Where-Object { $_.TaskName -like "*$taskNamePart*" }
 
@@ -99,7 +100,7 @@ try {
         Write-Host ""
         Write-Host " Google Update task not found. Chrome may not be installed"
         Write-Host " or the scheduled task has a different name."
-        Write-Section "SCRIPT COMPLETED"
+        Write-Section "SCRIPT FAILED" "ERROR"
         exit 1
     }
 
@@ -107,7 +108,7 @@ try {
         PrintKV "Found" $task.TaskName
     }
 
-    Write-Section "TRIGGERING TASKS"
+    Write-Section "TRIGGERING TASKS" "RUN"
 
     $successCount = 0
     foreach ($task in $tasks) {
@@ -137,13 +138,13 @@ try {
         Write-Host " SCRIPT FAILED - No tasks were started"
     }
 
-    Write-Section "SCRIPT COMPLETED"
+    Write-Section "SCRIPT COMPLETED" "OK"
     exit 0
 }
 catch {
-    Write-Section "ERROR OCCURRED"
+    Write-Section "ERROR OCCURRED" "ERROR"
     PrintKV "Error Message" $_.Exception.Message
     PrintKV "Error Type" $_.Exception.GetType().FullName
-    Write-Section "SCRIPT HALTED"
+    Write-Section "SCRIPT FAILED" "ERROR"
     exit 1
 }

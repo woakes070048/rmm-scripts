@@ -7,9 +7,9 @@
 # ███████╗██║██║ ╚═╝ ██║███████╗██║  ██║██║  ██║╚███╔███╔╝██║  ██╗
 # ╚══════╝╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚══╝╚══╝ ╚═╝  ╚═╝
 # ================================================================================
-#  SCRIPT   : Splashtop Streamer Install (Debian AMD64)                    v1.1.0
+#  SCRIPT   : Splashtop Streamer Install (Debian AMD64)                    v1.1.1
 #  AUTHOR   : Limehawk.io
-#  DATE     : December 2025
+#  DATE     : January 2026
 #  USAGE    : sudo ./splashtop_streamer_install_debian_amd64.sh
 # ================================================================================
 #  FILE     : splashtop_streamer_install_debian_amd64.sh
@@ -69,24 +69,34 @@
 #
 #  EXAMPLE RUN
 #
-#    [ SPLASHTOP STREAMER INSTALL - Debian AMD64 ]
-#    --------------------------------------------------------------
-#    [1/5] Updating package list...
-#    [2/5] Downloading Splashtop Streamer...
-#    [3/5] Extracting package to /opt/splashtop...
-#    [4/5] Installing Splashtop Streamer...
-#    [5/5] Cleaning up...
+#    [RUN] UPDATING PACKAGES
+#    ==============================================================
+#    Updating package list...
 #
-#    [ FINAL STATUS ]
-#    --------------------------------------------------------------
+#    [RUN] DOWNLOADING INSTALLER
+#    ==============================================================
+#    Downloading Splashtop Streamer...
+#
+#    [RUN] EXTRACTING PACKAGE
+#    ==============================================================
+#    Extracting package to /opt/splashtop...
+#
+#    [RUN] INSTALLING
+#    ==============================================================
+#    Installing Splashtop Streamer...
+#
+#    [RUN] CLEANUP
+#    ==============================================================
+#    Cleaning up...
+#
+#    [OK] SCRIPT COMPLETED
+#    ==============================================================
 #    Splashtop Streamer installed successfully
-#
-#    [ SCRIPT COMPLETE ]
-#    --------------------------------------------------------------
 #
 # --------------------------------------------------------------------------------
 #  CHANGELOG
 # --------------------------------------------------------------------------------
+#  2026-01-19 v1.1.1 Updated to two-line ASCII console output style
 #  2025-12-23 v1.1.0 Updated to Limehawk Script Framework
 #  2024-01-01 v1.0.0 Initial release
 # ================================================================================
@@ -107,44 +117,56 @@ DEB_PACKAGE="Splashtop_Streamer_Ubuntu_amd64.deb"
 # ============================================================================
 
 echo ""
-echo "[ SPLASHTOP STREAMER INSTALL - Debian AMD64 ]"
-echo "--------------------------------------------------------------"
+echo "[RUN] UPDATING PACKAGES"
+echo "=============================================================="
 
 # Update package list
-echo "[1/5] Updating package list..."
+echo "Updating package list..."
 sudo apt update
 
+echo ""
+echo "[RUN] DOWNLOADING INSTALLER"
+echo "=============================================================="
+
 # Download package
-echo "[2/5] Downloading Splashtop Streamer..."
+echo "Downloading Splashtop Streamer..."
 wget -O "$TAR_FILE" "$URL" || {
     echo ""
-    echo "[ ERROR OCCURRED ]"
-    echo "--------------------------------------------------------------"
+    echo "[ERROR] ERROR OCCURRED"
+    echo "=============================================================="
     echo "Failed to download package"
     echo ""
     exit 1
 }
 
+echo ""
+echo "[RUN] EXTRACTING PACKAGE"
+echo "=============================================================="
+
 # Create install directory and extract
-echo "[3/5] Extracting package to $INSTALL_DIR..."
+echo "Extracting package to $INSTALL_DIR..."
 sudo mkdir -p "$INSTALL_DIR"
 sudo tar -xzf "$TAR_FILE" -C "$INSTALL_DIR"
 
+echo ""
+echo "[RUN] INSTALLING"
+echo "=============================================================="
+
 # Install deb package
-echo "[4/5] Installing Splashtop Streamer..."
+echo "Installing Splashtop Streamer..."
 cd "$INSTALL_DIR"
 sudo dpkg -i "$DEB_PACKAGE" || sudo apt install -f -y
 
+echo ""
+echo "[RUN] CLEANUP"
+echo "=============================================================="
+
 # Cleanup
-echo "[5/5] Cleaning up..."
+echo "Cleaning up..."
 rm -f "$TAR_FILE"
 
 echo ""
-echo "[ FINAL STATUS ]"
-echo "--------------------------------------------------------------"
+echo "[OK] SCRIPT COMPLETED"
+echo "=============================================================="
 echo "Splashtop Streamer installed successfully"
-
-echo ""
-echo "[ SCRIPT COMPLETE ]"
-echo "--------------------------------------------------------------"
 exit 0

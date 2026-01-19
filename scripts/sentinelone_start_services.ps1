@@ -7,9 +7,9 @@
 ╚══════╝╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚══╝╚══╝ ╚═╝  ╚═╝
 
 ================================================================================
- SCRIPT    : SentinelOne Service Manager 1.1.0
+ SCRIPT    : SentinelOne Service Manager 1.1.1
  AUTHOR    : Limehawk.io
- DATE      : December 2025
+ DATE      : January 2026
  USAGE     : .\sentinelone_start_services.ps1
  FILE      : sentinelone_start_services.ps1
 DESCRIPTION : Ensures all SentinelOne services are running on Windows
@@ -78,13 +78,13 @@ EXAMPLE RUN
 
 PS> .\sentinelone_start_services.ps1
 
-[ SETUP ]
---------------------------------------------------------------
+[INFO] SETUP
+==============================================================
 Script started : 2025-11-02 10:45:30
 Administrator  : Yes
 
-[ SERVICE STATUS CHECK ]
---------------------------------------------------------------
+[RUN] SERVICE STATUS CHECK
+==============================================================
 
 Service : LogProcessorService
 Display : SentinelOne Log Processor Service
@@ -112,20 +112,21 @@ Status  : Running
 Startup : Automatic
 Action  : No action required
 
-[ FINAL STATUS ]
---------------------------------------------------------------
+[OK] FINAL STATUS
+==============================================================
 Total services checked : 4
 Services started       : 2
 Services already running : 2
 All services running   : Yes
 
-[ SCRIPT COMPLETED ]
---------------------------------------------------------------
+[OK] SCRIPT COMPLETED
+==============================================================
 Script completed successfully
 Exit code : 0
 --------------------------------------------------------------------------------
  CHANGELOG
 --------------------------------------------------------------------------------
+ 2026-01-19 v1.1.1 Updated to two-line ASCII console output style
  2025-12-23 v1.1.0 Updated to Limehawk Script Framework
  2025-11-02 v1.0.0 Initial migration from SuperOps
 #>
@@ -150,16 +151,16 @@ $servicesToCheck = @(
 # ============================================================================
 
 Write-Host ""
-Write-Host "[ SETUP ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[INFO] SETUP"
+Write-Host "=============================================================="
 
 # Check if running as Administrator
 $isAdmin = ([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)
 
 if (-not $isAdmin) {
     Write-Host ""
-    Write-Host "[ ERROR OCCURRED ]"
-    Write-Host "--------------------------------------------------------------"
+    Write-Host "[ERROR] ADMINISTRATOR REQUIRED"
+    Write-Host "=============================================================="
     Write-Host "This script requires Administrator privileges"
     Write-Host ""
     Write-Host "Troubleshooting:"
@@ -177,8 +178,8 @@ Write-Host "Administrator  : Yes"
 # ============================================================================
 
 Write-Host ""
-Write-Host "[ SERVICE STATUS CHECK ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[RUN] SERVICE STATUS CHECK"
+Write-Host "=============================================================="
 Write-Host ""
 
 $servicesChecked = 0
@@ -239,8 +240,8 @@ foreach ($serviceName in $servicesToCheck) {
 # Check if any services were found
 if ($servicesChecked -eq 0) {
     Write-Host ""
-    Write-Host "[ ERROR OCCURRED ]"
-    Write-Host "--------------------------------------------------------------"
+    Write-Host "[ERROR] NO SERVICES FOUND"
+    Write-Host "=============================================================="
     Write-Host "No SentinelOne services found"
     Write-Host ""
     Write-Host "Troubleshooting:"
@@ -256,8 +257,8 @@ if ($servicesChecked -eq 0) {
 # ============================================================================
 
 Write-Host ""
-Write-Host "[ FINAL STATUS ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[OK] FINAL STATUS"
+Write-Host "=============================================================="
 Write-Host "Total services checked   : $servicesChecked"
 Write-Host "Services started         : $servicesStarted"
 Write-Host "Services already running : $servicesAlreadyRunning"
@@ -274,8 +275,8 @@ if ($errorOccurred) {
 # ============================================================================
 
 Write-Host ""
-Write-Host "[ SCRIPT COMPLETED ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[OK] SCRIPT COMPLETED"
+Write-Host "=============================================================="
 
 if ($errorOccurred) {
     Write-Host "Script completed with warnings"

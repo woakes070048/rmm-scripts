@@ -6,7 +6,7 @@
 ███████╗██║██║ ╚═╝ ██║███████╗██║  ██║██║  ██║╚███╔███╔╝██║  ██╗
 ╚══════╝╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚══╝╚══╝ ╚═╝  ╚═╝
 ================================================================================
- SCRIPT   : Search Password Files (Tickets)                              v1.0.1
+ SCRIPT   : Search Password Files (Tickets)                              v1.0.2
  AUTHOR   : Limehawk.io
  DATE     : January 2026
  USAGE    : .\search_password_files_tickets.ps1
@@ -78,23 +78,23 @@
 
  EXAMPLE RUN
 
-   [ INPUT VALIDATION ]
-   --------------------------------------------------------------
+   [INFO] INPUT VALIDATION
+   ==============================================================
    All required inputs are valid
 
-   [ SEARCHING FILESYSTEM ]
-   --------------------------------------------------------------
+   [RUN] SEARCHING FILESYSTEM
+   ==============================================================
    Found 3 potential password files
 
-   [ SUPEROPS INTEGRATION ]
-   --------------------------------------------------------------
+   [RUN] SUPEROPS INTEGRATION
+   ==============================================================
    Asset lookup : SUCCESS
    Client : Acme Corp
    Requester : John Smith
    Ticket created : INC-2026-0042
 
-   [ FINAL STATUS ]
-   --------------------------------------------------------------
+   [OK] FINAL STATUS
+   ==============================================================
    Result : SUCCESS
    Files Found : 3
    Ticket : INC-2026-0042
@@ -102,6 +102,7 @@
 --------------------------------------------------------------------------------
  CHANGELOG
 --------------------------------------------------------------------------------
+ 2026-01-19 v1.0.2 Updated to two-line ASCII console output style
  2026-01-13 v1.0.1 Add required source field to createTicket API call
  2026-01-13 v1.0.0 Initial release with SuperOps ticket integration
 ================================================================================
@@ -551,8 +552,8 @@ $fileList
 # INPUT VALIDATION
 # ============================================================================
 Write-Host ""
-Write-Host "[ INPUT VALIDATION ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[INFO] INPUT VALIDATION"
+Write-Host "=============================================================="
 
 # Check if API key placeholder was replaced
 $apiKeyConfigured = -not [string]::IsNullOrWhiteSpace($apiKey) -and $apiKey -ne ('$' + 'SuperOpsApiKey')
@@ -576,8 +577,8 @@ if ($subDirectories.Count -eq 0) {
 
 if ($errorOccurred) {
     Write-Host ""
-    Write-Host "[ ERROR OCCURRED ]"
-    Write-Host "--------------------------------------------------------------"
+    Write-Host "[ERROR] VALIDATION FAILED"
+    Write-Host "=============================================================="
     Write-Host $errorText
     Write-Host ""
     exit 1
@@ -589,8 +590,8 @@ Write-Host "All required inputs are valid"
 # ENUMERATE USER PROFILES
 # ============================================================================
 Write-Host ""
-Write-Host "[ ENUMERATING USER PROFILES ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[INFO] ENUMERATING USER PROFILES"
+Write-Host "=============================================================="
 
 $usersPath = "C:\Users"
 $userProfiles = @()
@@ -607,8 +608,8 @@ try {
 }
 catch {
     Write-Host ""
-    Write-Host "[ ERROR OCCURRED ]"
-    Write-Host "--------------------------------------------------------------"
+    Write-Host "[ERROR] ENUMERATION FAILED"
+    Write-Host "=============================================================="
     Write-Host "Failed to enumerate user profiles"
     Write-Host "Error : $($_.Exception.Message)"
     Write-Host ""
@@ -618,8 +619,8 @@ catch {
 if ($userProfiles.Count -eq 0) {
     Write-Host "No user profiles found"
     Write-Host ""
-    Write-Host "[ FINAL STATUS ]"
-    Write-Host "--------------------------------------------------------------"
+    Write-Host "[OK] FINAL STATUS"
+    Write-Host "=============================================================="
     Write-Host "Result : SUCCESS"
     Write-Host "Files Found : 0"
     Write-Host ""
@@ -659,8 +660,8 @@ $indexUsed = $false
 
 if ($useIndex) {
     Write-Host ""
-    Write-Host "[ SEARCHING INDEX ]"
-    Write-Host "--------------------------------------------------------------"
+    Write-Host "[RUN] SEARCHING INDEX"
+    Write-Host "=============================================================="
     Write-Host "Attempting Windows Search Index query"
 
     $indexResults = Search-WithIndex -Patterns $searchPatterns -Paths $targetPaths
@@ -678,8 +679,8 @@ if ($useIndex) {
 
 if (-not $indexUsed) {
     Write-Host ""
-    Write-Host "[ SEARCHING FILESYSTEM ]"
-    Write-Host "--------------------------------------------------------------"
+    Write-Host "[RUN] SEARCHING FILESYSTEM"
+    Write-Host "=============================================================="
     Write-Host "Searching $($targetPaths.Count) directories across $($userProfiles.Count) profile(s)"
     Write-Host "Search patterns : $($searchPatterns -join ', ')"
     Write-Host "Max depth : $maxDepth"
@@ -691,8 +692,8 @@ if (-not $indexUsed) {
 # RESULTS
 # ============================================================================
 Write-Host ""
-Write-Host "[ RESULTS ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[INFO] RESULTS"
+Write-Host "=============================================================="
 
 $uniqueFiles = $foundFiles | Sort-Object -Property Path -Unique
 
@@ -748,8 +749,8 @@ else {
     # SUPEROPS TICKET CREATION
     # ============================================================================
     if ($apiKeyConfigured) {
-        Write-Host "[ SUPEROPS INTEGRATION ]"
-        Write-Host "--------------------------------------------------------------"
+        Write-Host "[RUN] SUPEROPS INTEGRATION"
+        Write-Host "=============================================================="
 
         $hostname = $env:COMPUTERNAME
         Write-Host "Looking up asset : $hostname"
@@ -803,8 +804,8 @@ else {
     # ============================================================================
     $webhookConfigured = -not [string]::IsNullOrWhiteSpace($googleChatWebhookUrl) -and $googleChatWebhookUrl -ne ('$' + 'GoogleChatWebhook')
     if ($webhookConfigured) {
-        Write-Host "[ WEBHOOK ALERT ]"
-        Write-Host "--------------------------------------------------------------"
+        Write-Host "[INFO] WEBHOOK ALERT"
+        Write-Host "=============================================================="
         $hostname = $env:COMPUTERNAME
         $sent = Send-GoogleChatAlert -WebhookUrl $googleChatWebhookUrl -Hostname $hostname -FileCount $uniqueFiles.Count -Files $uniqueFiles -CriticalFiles $criticalFiles -TicketId $ticketId
         if ($sent) {
@@ -817,8 +818,9 @@ else {
 # ============================================================================
 # FINAL STATUS
 # ============================================================================
-Write-Host "[ FINAL STATUS ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host ""
+Write-Host "[OK] FINAL STATUS"
+Write-Host "=============================================================="
 Write-Host "Result : SUCCESS"
 Write-Host "Files Found : $($uniqueFiles.Count)"
 Write-Host "Critical : $($criticalFiles.Count)"
@@ -828,8 +830,8 @@ if ($ticketId) {
 Write-Host "Search Method : $(if ($indexUsed) { 'Windows Search Index' } else { 'Filesystem' })"
 
 Write-Host ""
-Write-Host "[ SCRIPT COMPLETE ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[OK] SCRIPT COMPLETED"
+Write-Host "=============================================================="
 Write-Host ""
 
 exit 0

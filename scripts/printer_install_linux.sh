@@ -7,9 +7,9 @@
 # ███████╗██║██║ ╚═╝ ██║███████╗██║  ██║██║  ██║╚███╔███╔╝██║  ██╗
 # ╚══════╝╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚══╝╚══╝ ╚═╝  ╚═╝
 # ================================================================================
-#  SCRIPT   : Network Printer Install (Linux)                              v1.1.0
+#  SCRIPT   : Network Printer Install (Linux)                              v1.1.1
 #  AUTHOR   : Limehawk.io
-#  DATE     : December 2025
+#  DATE     : January 2026
 #  USAGE    : sudo ./printer_install_linux.sh
 # ================================================================================
 #  FILE     : printer_install_linux.sh
@@ -79,40 +79,45 @@
 #
 #  EXAMPLE RUN
 #
-#    [ NETWORK PRINTER INSTALL - Linux ]
-#    --------------------------------------------------------------
+#    [INFO] NETWORK PRINTER INSTALL - Linux
+#    ==============================================================
 #    Protocol : lpd
 #    PPD Path : /usr/share/cups/model/YourPrinter.ppd
 #    Printers : 2
 #
-#    [ CHECKING CUPS ]
-#    --------------------------------------------------------------
+#    [RUN] CHECKING CUPS
+#    ==============================================================
 #    CUPS is already installed
 #    CUPS service started
 #
-#    [ VERIFYING PPD ]
-#    --------------------------------------------------------------
+#    [RUN] VERIFYING PPD
+#    ==============================================================
 #    PPD file verified: /usr/share/cups/model/YourPrinter.ppd
 #
-#    [ INSTALLING PRINTERS ]
-#    --------------------------------------------------------------
+#    [RUN] INSTALLING PRINTERS
+#    ==============================================================
 #    Installing: Office Printer
 #      Hostname : printer1.example.com
 #      Location : Main Office
 #      Status   : SUCCESS
 #
-#    [ FINAL STATUS ]
-#    --------------------------------------------------------------
+#    [INFO] INSTALLED PRINTERS
+#    ==============================================================
+#    printer Office_Printer is idle.
+#
+#    [OK] FINAL STATUS
+#    ==============================================================
 #    Installed : 2 printer(s)
 #    Failed    : 0 printer(s)
 #    Result    : SUCCESS
 #
-#    [ SCRIPT COMPLETE ]
-#    --------------------------------------------------------------
+#    [OK] SCRIPT COMPLETED
+#    ==============================================================
 #
 # --------------------------------------------------------------------------------
 #  CHANGELOG
 # --------------------------------------------------------------------------------
+#  2026-01-19 v1.1.1 Updated to two-line ASCII console output style
 #  2025-12-23 v1.1.0 Updated to Limehawk Script Framework
 #  2024-01-01 v1.0.0 Initial release
 # ================================================================================
@@ -143,14 +148,14 @@ AUTO_INSTALL_CUPS="true"
 # ============================================================================
 
 echo ""
-echo "[ NETWORK PRINTER INSTALL - Linux ]"
-echo "--------------------------------------------------------------"
+echo "[INFO] NETWORK PRINTER INSTALL - Linux"
+echo "=============================================================="
 
 # Ensure script is run as root
 if [ "$(id -u)" -ne 0 ]; then
     echo ""
-    echo "[ ERROR OCCURRED ]"
-    echo "--------------------------------------------------------------"
+    echo "[ERROR] ERROR OCCURRED"
+    echo "=============================================================="
     echo "This script must be run as root (sudo)"
     echo ""
     exit 1
@@ -160,8 +165,8 @@ fi
 OS_TYPE=$(uname)
 if [ "$OS_TYPE" != "Linux" ]; then
     echo ""
-    echo "[ ERROR OCCURRED ]"
-    echo "--------------------------------------------------------------"
+    echo "[ERROR] ERROR OCCURRED"
+    echo "=============================================================="
     echo "This script is designed for Linux systems"
     echo ""
     exit 1
@@ -176,8 +181,8 @@ echo "Printers : ${#PRINTERS[@]}"
 # ============================================================================
 if [ "$AUTO_INSTALL_CUPS" = "true" ]; then
     echo ""
-    echo "[ CHECKING CUPS ]"
-    echo "--------------------------------------------------------------"
+    echo "[RUN] CHECKING CUPS"
+    echo "=============================================================="
 
     if ! command -v lpadmin > /dev/null 2>&1; then
         echo "CUPS not found, installing..."
@@ -191,8 +196,8 @@ if [ "$AUTO_INSTALL_CUPS" = "true" ]; then
             dnf install -y cups
         else
             echo ""
-            echo "[ ERROR OCCURRED ]"
-            echo "--------------------------------------------------------------"
+            echo "[ERROR] ERROR OCCURRED"
+            echo "=============================================================="
             echo "Unable to install CUPS - unsupported package manager"
             echo ""
             exit 1
@@ -215,8 +220,8 @@ fi
 # VERIFY PPD FILE
 # ============================================================================
 echo ""
-echo "[ VERIFYING PPD ]"
-echo "--------------------------------------------------------------"
+echo "[RUN] VERIFYING PPD"
+echo "=============================================================="
 
 if [ ! -f "$PPD_PATH" ]; then
     echo "PPD file not found: $PPD_PATH"
@@ -230,8 +235,8 @@ if [ ! -f "$PPD_PATH" ]; then
         echo "Using generic PPD: $PPD_PATH"
     else
         echo ""
-        echo "[ ERROR OCCURRED ]"
-        echo "--------------------------------------------------------------"
+        echo "[ERROR] ERROR OCCURRED"
+        echo "=============================================================="
         echo "No PPD files found. Please install printer drivers."
         echo "Try: apt-get install printer-driver-all"
         echo ""
@@ -245,8 +250,8 @@ fi
 # INSTALL PRINTERS
 # ============================================================================
 echo ""
-echo "[ INSTALLING PRINTERS ]"
-echo "--------------------------------------------------------------"
+echo "[RUN] INSTALLING PRINTERS"
+echo "=============================================================="
 
 INSTALLED=0
 FAILED=0
@@ -312,29 +317,34 @@ done
 # ============================================================================
 # SHOW INSTALLED PRINTERS
 # ============================================================================
-echo "[ INSTALLED PRINTERS ]"
-echo "--------------------------------------------------------------"
+echo ""
+echo "[INFO] INSTALLED PRINTERS"
+echo "=============================================================="
 lpstat -p 2>/dev/null || echo "No printers installed"
 
 # ============================================================================
 # FINAL STATUS
 # ============================================================================
-echo ""
-echo "[ FINAL STATUS ]"
-echo "--------------------------------------------------------------"
-echo "Installed : $INSTALLED printer(s)"
-echo "Failed    : $FAILED printer(s)"
-
 if [ "$FAILED" -eq 0 ]; then
+    echo ""
+    echo "[OK] FINAL STATUS"
+    echo "=============================================================="
+    echo "Installed : $INSTALLED printer(s)"
+    echo "Failed    : $FAILED printer(s)"
     echo "Result    : SUCCESS"
     echo ""
-    echo "[ SCRIPT COMPLETE ]"
-    echo "--------------------------------------------------------------"
+    echo "[OK] SCRIPT COMPLETED"
+    echo "=============================================================="
     exit 0
 else
+    echo ""
+    echo "[WARN] FINAL STATUS"
+    echo "=============================================================="
+    echo "Installed : $INSTALLED printer(s)"
+    echo "Failed    : $FAILED printer(s)"
     echo "Result    : PARTIAL (some printers failed)"
     echo ""
-    echo "[ SCRIPT COMPLETE ]"
-    echo "--------------------------------------------------------------"
+    echo "[WARN] SCRIPT COMPLETED"
+    echo "=============================================================="
     exit 1
 fi

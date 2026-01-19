@@ -7,7 +7,7 @@ $ErrorActionPreference = 'Stop'
 ███████╗██║██║ ╚═╝ ██║███████╗██║  ██║██║  ██║╚███╔███╔╝██║  ██╗
 ╚══════╝╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚══╝╚══╝ ╚═╝  ╚═╝
 ================================================================================
- SCRIPT   : Windows Linux Set UTC Time                                    v1.0.0
+ SCRIPT   : Windows Linux Set UTC Time                                    v1.0.1
  AUTHOR   : Limehawk.io
  DATE     : January 2026
  USAGE    : .\windows_linux_set_utc_time.ps1
@@ -64,21 +64,22 @@ $ErrorActionPreference = 'Stop'
 
  EXAMPLE RUN
 
-   [ UTC CLOCK FIX ]
-   --------------------------------------------------------------
-   Setting RealTimeIsUniversal registry value...
-   Enabled UTC hardware clock for dual-boot compatibility
+   [INFO] UTC CLOCK FIX
+   ==============================================================
+   [RUN] Setting RealTimeIsUniversal registry value...
+   [OK] Enabled UTC hardware clock for dual-boot compatibility
 
-   [ FINAL STATUS ]
-   --------------------------------------------------------------
+   [INFO] FINAL STATUS
+   ==============================================================
    Result : SUCCESS
 
-   [ SCRIPT COMPLETE ]
-   --------------------------------------------------------------
+   [INFO] SCRIPT COMPLETE
+   ==============================================================
 
 --------------------------------------------------------------------------------
  CHANGELOG
 --------------------------------------------------------------------------------
+ 2026-01-19 v1.0.1 Updated to two-line ASCII console output style
  2026-01-08 v1.0.0 Initial release
 ================================================================================
 #>
@@ -89,21 +90,21 @@ Set-StrictMode -Version Latest
 # ==============================================================================
 
 Write-Host ""
-Write-Host "[ UTC CLOCK FIX ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[INFO] UTC CLOCK FIX"
+Write-Host "=============================================================="
 
 try {
-    Write-Host "Setting RealTimeIsUniversal registry value..."
+    Write-Host "[RUN] Setting RealTimeIsUniversal registry value..."
 
     $tzPath = 'HKLM:\SYSTEM\CurrentControlSet\Control\TimeZoneInformation'
     Set-ItemProperty -Path $tzPath -Name 'RealTimeIsUniversal' -Value 1 -Type DWord -Force
 
-    Write-Host "Enabled UTC hardware clock for dual-boot compatibility"
+    Write-Host "[OK] Enabled UTC hardware clock for dual-boot compatibility"
 }
 catch {
     Write-Host ""
-    Write-Host "[ ERROR OCCURRED ]"
-    Write-Host "--------------------------------------------------------------"
+    Write-Host "[ERROR] ERROR OCCURRED"
+    Write-Host "=============================================================="
     Write-Host "Failed to set UTC clock registry key"
     Write-Host "This script requires administrator privileges"
     Write-Host "Error : $($_.Exception.Message)"
@@ -115,12 +116,12 @@ catch {
 # ==============================================================================
 
 Write-Host ""
-Write-Host "[ FINAL STATUS ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[INFO] FINAL STATUS"
+Write-Host "=============================================================="
 Write-Host "Result : SUCCESS"
 
 Write-Host ""
-Write-Host "[ SCRIPT COMPLETE ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[INFO] SCRIPT COMPLETE"
+Write-Host "=============================================================="
 
 exit 0

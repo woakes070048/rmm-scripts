@@ -7,9 +7,9 @@
 # ███████╗██║██║ ╚═╝ ██║███████╗██║  ██║██║  ██║╚███╔███╔╝██║  ██╗
 # ╚══════╝╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚══╝╚══╝ ╚═╝  ╚═╝
 # ================================================================================
-#  SCRIPT   : Reset NVRAM and Reboot (macOS)                               v1.1.0
+#  SCRIPT   : Reset NVRAM and Reboot (macOS)                               v1.1.1
 #  AUTHOR   : Limehawk.io
-#  DATE     : December 2025
+#  DATE     : January 2026
 #  USAGE    : sudo ./reset_nvram_reboot_macos.sh
 # ================================================================================
 #  FILE     : reset_nvram_reboot_macos.sh
@@ -81,31 +81,35 @@
 #
 #  EXAMPLE RUN
 #
-#    [ INPUT VALIDATION ]
-#    --------------------------------------------------------------
+#    [INFO] INPUT VALIDATION
+#    ==============================================================
 #     Running as root          : Yes
 #
-#    [ SYSTEM DETECTION ]
-#    --------------------------------------------------------------
+#    [INFO] SYSTEM DETECTION
+#    ==============================================================
 #     Architecture             : x86_64
 #     Mac Model                : MacBookPro15,1
 #
-#    [ CURRENT NVRAM ]
-#    --------------------------------------------------------------
+#    [INFO] CURRENT NVRAM
+#    ==============================================================
 #    Current NVRAM values (subset):
 #      SystemAudioVolume       50
 #
-#    [ OPERATION ]
-#    --------------------------------------------------------------
+#    [RUN] OPERATION
+#    ==============================================================
 #    Setting NVRAM reset flag...
 #     NVRAM Reset Flag         : Set
 #     Action                   : Initiating reboot
 #
 #    *** SYSTEM WILL REBOOT NOW ***
 #
+#    [RUN] REBOOTING
+#    ==============================================================
+#
 # --------------------------------------------------------------------------------
 #  CHANGELOG
 # --------------------------------------------------------------------------------
+#  2026-01-19 v1.1.1 Updated to two-line ASCII console output style
 #  2025-12-23 v1.1.0 Updated to Limehawk Script Framework
 #  2024-11-01 v1.0.0 Initial release
 # ================================================================================
@@ -117,9 +121,11 @@ set -e
 # ============================================================================
 
 print_section() {
+    local status="$1"
+    local title="$2"
     echo ""
-    echo "[ $1 ]"
-    echo "--------------------------------------------------------------"
+    echo "[$status] $title"
+    echo "=============================================================="
 }
 
 print_kv() {
@@ -130,20 +136,20 @@ print_kv() {
 # MAIN EXECUTION
 # ============================================================================
 
-print_section "INPUT VALIDATION"
+print_section "INFO" "INPUT VALIDATION"
 
 # Check for root privileges
 if [ "$(id -u)" != "0" ]; then
     echo ""
-    echo "[ ERROR OCCURRED ]"
-    echo "--------------------------------------------------------------"
+    echo "[ERROR] ERROR OCCURRED"
+    echo "=============================================================="
     echo "This script must be run with root privileges (sudo)"
     echo ""
     exit 1
 fi
 print_kv "Running as root" "Yes"
 
-print_section "SYSTEM DETECTION"
+print_section "INFO" "SYSTEM DETECTION"
 
 # Detect architecture
 ARCH=$(uname -m)
@@ -164,7 +170,7 @@ if [ "$ARCH" = "arm64" ]; then
     print_kv "Proceeding" "Yes (with warning)"
 fi
 
-print_section "CURRENT NVRAM"
+print_section "INFO" "CURRENT NVRAM"
 
 # Show some current NVRAM values (non-sensitive)
 echo "Current NVRAM values (subset):"
@@ -172,7 +178,7 @@ nvram -p 2>/dev/null | grep -E "^(SystemAudioVolume|boot-args|csr-active-config)
     echo "  $line"
 done || echo "  (unable to read NVRAM)"
 
-print_section "OPERATION"
+print_section "RUN" "OPERATION"
 
 echo "Setting NVRAM reset flag..."
 nvram ResetNVRam=1
@@ -182,9 +188,8 @@ print_kv "Action" "Initiating reboot"
 
 echo ""
 echo "*** SYSTEM WILL REBOOT NOW ***"
-echo ""
 
-print_section "REBOOTING"
+print_section "RUN" "REBOOTING"
 
 # Initiate reboot
 reboot

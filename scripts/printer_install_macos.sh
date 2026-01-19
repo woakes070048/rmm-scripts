@@ -7,9 +7,9 @@
 # ███████╗██║██║ ╚═╝ ██║███████╗██║  ██║██║  ██║╚███╔███╔╝██║  ██╗
 # ╚══════╝╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚══╝╚══╝ ╚═╝  ╚═╝
 # ================================================================================
-#  SCRIPT   : Network Printer Install (macOS)                              v1.1.0
+#  SCRIPT   : Network Printer Install (macOS)                              v1.1.1
 #  AUTHOR   : Limehawk.io
-#  DATE     : December 2025
+#  DATE     : January 2026
 #  USAGE    : sudo ./printer_install_macos.sh
 # ================================================================================
 #  FILE     : printer_install_macos.sh
@@ -83,35 +83,36 @@
 #
 #  EXAMPLE RUN
 #
-#    [ NETWORK PRINTER INSTALL - macOS ]
-#    --------------------------------------------------------------
+#    [INFO] NETWORK PRINTER INSTALL - macOS
+#    ==============================================================
 #    Protocol   : lpd
 #    PPD Source : local
 #    Printers   : 2
 #
-#    [ SETTING UP PPD ]
-#    --------------------------------------------------------------
+#    [RUN] SETTING UP PPD
+#    ==============================================================
 #    Using local PPD: /Library/Printers/PPDs/Contents/Resources/YourPrinter.ppd.gz
 #
-#    [ INSTALLING PRINTERS ]
-#    --------------------------------------------------------------
+#    [RUN] INSTALLING PRINTERS
+#    ==============================================================
 #    Installing: Office Printer
 #      Hostname : printer1.example.com
 #      Location : Main Office
 #      Status   : SUCCESS
 #
-#    [ FINAL STATUS ]
-#    --------------------------------------------------------------
+#    [OK] FINAL STATUS
+#    ==============================================================
 #    Installed : 2 printer(s)
 #    Failed    : 0 printer(s)
 #    Result    : SUCCESS
 #
-#    [ SCRIPT COMPLETE ]
-#    --------------------------------------------------------------
+#    [OK] SCRIPT COMPLETED
+#    ==============================================================
 #
 # --------------------------------------------------------------------------------
 #  CHANGELOG
 # --------------------------------------------------------------------------------
+#  2026-01-19 v1.1.1 Updated to two-line ASCII console output style
 #  2025-12-23 v1.1.0 Updated to Limehawk Script Framework
 #  2024-01-01 v1.0.0 Initial release
 # ================================================================================
@@ -148,14 +149,14 @@ DRIVER_URL=""
 # ============================================================================
 
 echo ""
-echo "[ NETWORK PRINTER INSTALL - macOS ]"
-echo "--------------------------------------------------------------"
+echo "[INFO] NETWORK PRINTER INSTALL - macOS"
+echo "=============================================================="
 
 # Ensure script is run as root
 if [ "$(id -u)" -ne 0 ]; then
     echo ""
-    echo "[ ERROR OCCURRED ]"
-    echo "--------------------------------------------------------------"
+    echo "[ERROR] ERROR OCCURRED"
+    echo "=============================================================="
     echo "This script must be run as root (sudo)"
     echo ""
     exit 1
@@ -170,16 +171,16 @@ echo "Printers   : ${#PRINTERS[@]}"
 # ============================================================================
 if [ -n "$DRIVER_URL" ]; then
     echo ""
-    echo "[ DOWNLOADING DRIVER ]"
-    echo "--------------------------------------------------------------"
+    echo "[RUN] DOWNLOADING DRIVER"
+    echo "=============================================================="
 
     DRIVER_FILE="/tmp/printer_driver.zip"
     echo "Downloading from: $DRIVER_URL"
 
     if ! curl -sL -o "$DRIVER_FILE" "$DRIVER_URL"; then
         echo ""
-        echo "[ ERROR OCCURRED ]"
-        echo "--------------------------------------------------------------"
+        echo "[ERROR] ERROR OCCURRED"
+        echo "=============================================================="
         echo "Failed to download driver package"
         echo ""
         exit 1
@@ -195,8 +196,8 @@ fi
 # SETUP PPD FILE
 # ============================================================================
 echo ""
-echo "[ SETTING UP PPD ]"
-echo "--------------------------------------------------------------"
+echo "[RUN] SETTING UP PPD"
+echo "=============================================================="
 
 PPD_DEST="/Library/Printers/PPDs/Contents/Resources/"
 ACTIVE_PPD=""
@@ -209,8 +210,8 @@ if [ "$PPD_SOURCE" = "url" ] && [ -n "$PPD_URL" ]; then
     echo "Downloading PPD from: $PPD_URL"
     if ! curl -sL -o "$DOWNLOADED_PPD" "$PPD_URL"; then
         echo ""
-        echo "[ ERROR OCCURRED ]"
-        echo "--------------------------------------------------------------"
+        echo "[ERROR] ERROR OCCURRED"
+        echo "=============================================================="
         echo "Failed to download PPD file"
         echo ""
         exit 1
@@ -230,8 +231,8 @@ if [ "$PPD_SOURCE" = "url" ] && [ -n "$PPD_URL" ]; then
 elif [ "$PPD_SOURCE" = "local" ]; then
     if [ ! -f "$PPD_PATH" ]; then
         echo ""
-        echo "[ ERROR OCCURRED ]"
-        echo "--------------------------------------------------------------"
+        echo "[ERROR] ERROR OCCURRED"
+        echo "=============================================================="
         echo "PPD file not found: $PPD_PATH"
         echo ""
         exit 1
@@ -240,8 +241,8 @@ elif [ "$PPD_SOURCE" = "local" ]; then
     echo "Using local PPD: $ACTIVE_PPD"
 else
     echo ""
-    echo "[ ERROR OCCURRED ]"
-    echo "--------------------------------------------------------------"
+    echo "[ERROR] ERROR OCCURRED"
+    echo "=============================================================="
     echo "Invalid PPD_SOURCE: $PPD_SOURCE (must be 'local' or 'url')"
     echo ""
     exit 1
@@ -251,8 +252,8 @@ fi
 # INSTALL PRINTERS
 # ============================================================================
 echo ""
-echo "[ INSTALLING PRINTERS ]"
-echo "--------------------------------------------------------------"
+echo "[RUN] INSTALLING PRINTERS"
+echo "=============================================================="
 
 INSTALLED=0
 FAILED=0
@@ -316,21 +317,26 @@ done
 # ============================================================================
 # FINAL STATUS
 # ============================================================================
-echo "[ FINAL STATUS ]"
-echo "--------------------------------------------------------------"
-echo "Installed : $INSTALLED printer(s)"
-echo "Failed    : $FAILED printer(s)"
-
 if [ "$FAILED" -eq 0 ]; then
+    echo ""
+    echo "[OK] FINAL STATUS"
+    echo "=============================================================="
+    echo "Installed : $INSTALLED printer(s)"
+    echo "Failed    : $FAILED printer(s)"
     echo "Result    : SUCCESS"
     echo ""
-    echo "[ SCRIPT COMPLETE ]"
-    echo "--------------------------------------------------------------"
+    echo "[OK] SCRIPT COMPLETED"
+    echo "=============================================================="
     exit 0
 else
+    echo ""
+    echo "[WARN] FINAL STATUS"
+    echo "=============================================================="
+    echo "Installed : $INSTALLED printer(s)"
+    echo "Failed    : $FAILED printer(s)"
     echo "Result    : PARTIAL (some printers failed)"
     echo ""
-    echo "[ SCRIPT COMPLETE ]"
-    echo "--------------------------------------------------------------"
+    echo "[WARN] SCRIPT COMPLETED"
+    echo "=============================================================="
     exit 1
 fi

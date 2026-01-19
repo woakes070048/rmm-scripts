@@ -8,9 +8,9 @@ $ErrorActionPreference = 'Stop'
 ╚══════╝╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚══╝╚══╝ ╚═╝  ╚═╝
 
 ================================================================================
-SCRIPT  : Shutdown Toggle with Warning v1.1.0
+SCRIPT  : Shutdown Toggle with Warning v1.1.1
 AUTHOR  : Limehawk.io
-DATE      : December 2025
+DATE      : January 2026
 USAGE   : .\shutdown_toggle.ps1
 FILE    : shutdown_toggle.ps1
 DESCRIPTION : Toggles scheduled shutdown with warning message
@@ -45,51 +45,52 @@ EXIT CODES:
     1 = Failure
 
 EXAMPLE RUN (Scheduling):
-    [ INPUT VALIDATION ]
-    --------------------------------------------------------------
+    [INFO] INPUT VALIDATION
+    ==============================================================
     Shutdown Time : 60 seconds
 
-    [ CHECKING SHUTDOWN STATUS ]
-    --------------------------------------------------------------
+    [INFO] CHECKING SHUTDOWN STATUS
+    ==============================================================
     Pending Shutdown : None detected
 
-    [ SCHEDULING SHUTDOWN ]
-    --------------------------------------------------------------
+    [RUN] SCHEDULING SHUTDOWN
+    ==============================================================
     Command : shutdown /s /t 60
     Warning message displayed to user
     Shutdown scheduled in 60 seconds
 
-    [ FINAL STATUS ]
-    --------------------------------------------------------------
+    [OK] FINAL STATUS
+    ==============================================================
     Result : SHUTDOWN SCHEDULED
     Run this script again to cancel
 
-    [ SCRIPT COMPLETED ]
-    --------------------------------------------------------------
+    [INFO] SCRIPT COMPLETED
+    ==============================================================
 
 EXAMPLE RUN (Canceling):
-    [ INPUT VALIDATION ]
-    --------------------------------------------------------------
+    [INFO] INPUT VALIDATION
+    ==============================================================
     Shutdown Time : 60 seconds
 
-    [ CHECKING SHUTDOWN STATUS ]
-    --------------------------------------------------------------
+    [INFO] CHECKING SHUTDOWN STATUS
+    ==============================================================
     Pending Shutdown : DETECTED
 
-    [ CANCELING SHUTDOWN ]
-    --------------------------------------------------------------
+    [OK] SHUTDOWN CANCELED
+    ==============================================================
     Executing : shutdown /a
     Shutdown canceled successfully
 
-    [ FINAL STATUS ]
-    --------------------------------------------------------------
+    [OK] FINAL STATUS
+    ==============================================================
     Result : SHUTDOWN CANCELED
 
-    [ SCRIPT COMPLETED ]
-    --------------------------------------------------------------
+    [INFO] SCRIPT COMPLETED
+    ==============================================================
 
 CHANGELOG
 --------------------------------------------------------------------------------
+2026-01-19 v1.1.1 Updated to two-line ASCII console output style
 2025-12-23 v1.1.0 Updated to Limehawk Script Framework
 2024-12-01 v1.0.0 Initial release - migrated from SuperOps
 ================================================================================
@@ -105,8 +106,8 @@ $shutdownTime = 60  # Time in seconds before shutdown
 # INPUT VALIDATION
 # ============================================================================
 Write-Host ""
-Write-Host "[ INPUT VALIDATION ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[INFO] INPUT VALIDATION"
+Write-Host "=============================================================="
 
 $errorOccurred = $false
 $errorText = ""
@@ -119,13 +120,13 @@ if ($shutdownTime -lt 0 -or $shutdownTime -gt 315360000) {
 
 if ($errorOccurred) {
     Write-Host ""
-    Write-Host "[ ERROR OCCURRED ]"
-    Write-Host "--------------------------------------------------------------"
+    Write-Host "[ERROR] ERROR OCCURRED"
+    Write-Host "=============================================================="
     Write-Host "Input validation failed:"
     Write-Host $errorText
     Write-Host ""
-    Write-Host "[ SCRIPT COMPLETED ]"
-    Write-Host "--------------------------------------------------------------"
+    Write-Host "[INFO] SCRIPT COMPLETED"
+    Write-Host "=============================================================="
     exit 1
 }
 
@@ -135,8 +136,8 @@ Write-Host "Shutdown Time : $shutdownTime seconds"
 # CHECK FOR EXISTING SHUTDOWN
 # ============================================================================
 Write-Host ""
-Write-Host "[ CHECKING SHUTDOWN STATUS ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[INFO] CHECKING SHUTDOWN STATUS"
+Write-Host "=============================================================="
 
 $existingShutdown = $false
 
@@ -165,20 +166,20 @@ catch {
 if ($existingShutdown) {
     # Shutdown was already canceled by the check above
     Write-Host ""
-    Write-Host "[ SHUTDOWN CANCELED ]"
-    Write-Host "--------------------------------------------------------------"
+    Write-Host "[OK] SHUTDOWN CANCELED"
+    Write-Host "=============================================================="
     Write-Host "Previous scheduled shutdown has been canceled"
 
     Write-Host ""
-    Write-Host "[ FINAL STATUS ]"
-    Write-Host "--------------------------------------------------------------"
+    Write-Host "[OK] FINAL STATUS"
+    Write-Host "=============================================================="
     Write-Host "Result : SHUTDOWN CANCELED"
 }
 else {
     # Schedule a new shutdown
     Write-Host ""
-    Write-Host "[ SCHEDULING SHUTDOWN ]"
-    Write-Host "--------------------------------------------------------------"
+    Write-Host "[RUN] SCHEDULING SHUTDOWN"
+    Write-Host "=============================================================="
 
     try {
         $warningMessage = "System shutdown in $shutdownTime seconds. Run this script again to cancel."
@@ -196,23 +197,23 @@ else {
     }
     catch {
         Write-Host ""
-        Write-Host "[ ERROR OCCURRED ]"
-        Write-Host "--------------------------------------------------------------"
+        Write-Host "[ERROR] ERROR OCCURRED"
+        Write-Host "=============================================================="
         Write-Host "Failed to schedule shutdown"
         Write-Host "Error : $($_.Exception.Message)"
         exit 1
     }
 
     Write-Host ""
-    Write-Host "[ FINAL STATUS ]"
-    Write-Host "--------------------------------------------------------------"
+    Write-Host "[OK] FINAL STATUS"
+    Write-Host "=============================================================="
     Write-Host "Result : SHUTDOWN SCHEDULED"
     Write-Host "System will shutdown in $shutdownTime seconds"
     Write-Host "Run this script again to cancel"
 }
 
 Write-Host ""
-Write-Host "[ SCRIPT COMPLETED ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[INFO] SCRIPT COMPLETED"
+Write-Host "=============================================================="
 
 exit 0

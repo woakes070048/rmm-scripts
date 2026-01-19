@@ -8,9 +8,9 @@ $ErrorActionPreference = 'Stop'
 ███████╗██║██║ ╚═╝ ██║███████╗██║  ██║██║  ██║╚███╔███╔╝██║  ██╗
 ╚══════╝╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚══╝╚══╝ ╚═╝  ╚═╝
 ================================================================================
- SCRIPT   : SuperOps Agent Install                                        v1.1.0
+ SCRIPT   : SuperOps Agent Install                                        v1.1.1
  AUTHOR   : Limehawk.io
- DATE      : December 2025
+ DATE      : January 2026
  USAGE    : .\superops_agent_install.ps1
 ================================================================================
  FILE     : superops_agent_install.ps1
@@ -66,32 +66,33 @@ DESCRIPTION : Downloads and installs SuperOps RMM agent on Windows
  - 0 success
  - 1 failure
 
- EXAMPLE RUN (Style A)
- [ INPUT VALIDATION ]
- --------------------------------------------------------------
+ EXAMPLE RUN
+ [INFO] INPUT VALIDATION
+ ==============================================================
  Agent URL : https://app.superops.com/downloads/agent.msi
 
- [ OPERATION ]
- --------------------------------------------------------------
+ [RUN] OPERATION
+ ==============================================================
  Downloading agent from URL...
  Download completed: agent.msi (Size: 15.2 MB)
  Starting silent installation...
  Installation completed successfully
  Cleaning up installer file...
 
- [ RESULT ]
- --------------------------------------------------------------
+ [OK] RESULT
+ ==============================================================
  Status : Success
 
- [ FINAL STATUS ]
- --------------------------------------------------------------
+ [OK] FINAL STATUS
+ ==============================================================
  SuperOps agent installed successfully
 
- [ SCRIPT COMPLETED ]
- --------------------------------------------------------------
+ [INFO] SCRIPT COMPLETED
+ ==============================================================
 --------------------------------------------------------------------------------
  CHANGELOG
 --------------------------------------------------------------------------------
+ 2026-01-19 v1.1.1 Updated to two-line ASCII console output style
  2025-12-23 v1.1.0 Updated to Limehawk Script Framework
  2025-11-02 v1.0.0 Initial release
 ================================================================================
@@ -119,35 +120,35 @@ if ([string]::IsNullOrWhiteSpace($env:AGENT_URL)) {
 
 if ($errorOccurred) {
     Write-Host ""
-    Write-Host "[ ERROR OCCURRED ]"
-    Write-Host "--------------------------------------------------------------"
+    Write-Host "[ERROR] ERROR OCCURRED"
+    Write-Host "=============================================================="
     Write-Host $errorText
 
     Write-Host ""
-    Write-Host "[ RESULT ]"
-    Write-Host "--------------------------------------------------------------"
+    Write-Host "[ERROR] RESULT"
+    Write-Host "=============================================================="
     Write-Host "Status : Failure"
 
     Write-Host ""
-    Write-Host "[ FINAL STATUS ]"
-    Write-Host "--------------------------------------------------------------"
+    Write-Host "[ERROR] FINAL STATUS"
+    Write-Host "=============================================================="
     Write-Host "Script cannot proceed. AGENT_URL environment variable is missing."
 
     Write-Host ""
-    Write-Host "[ SCRIPT COMPLETED ]"
-    Write-Host "--------------------------------------------------------------"
+    Write-Host "[INFO] SCRIPT COMPLETED"
+    Write-Host "=============================================================="
     exit 1
 }
 
-# ==== RUNTIME OUTPUT (Style A) ====
+# ==== RUNTIME OUTPUT ====
 Write-Host ""
-Write-Host "[ INPUT VALIDATION ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[INFO] INPUT VALIDATION"
+Write-Host "=============================================================="
 Write-Host "Agent URL : $env:AGENT_URL"
 
 Write-Host ""
-Write-Host "[ OPERATION ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[RUN] OPERATION"
+Write-Host "=============================================================="
 
 try {
     # Extract filename from URL
@@ -211,14 +212,18 @@ try {
 
 if ($errorOccurred) {
     Write-Host ""
-    Write-Host "[ ERROR OCCURRED ]"
-    Write-Host "--------------------------------------------------------------"
+    Write-Host "[ERROR] ERROR OCCURRED"
+    Write-Host "=============================================================="
     Write-Host $errorText
 }
 
 Write-Host ""
-Write-Host "[ RESULT ]"
-Write-Host "--------------------------------------------------------------"
+if ($errorOccurred) {
+    Write-Host "[ERROR] RESULT"
+} else {
+    Write-Host "[OK] RESULT"
+}
+Write-Host "=============================================================="
 if ($errorOccurred) {
     Write-Host "Status : Failure"
 } else {
@@ -226,8 +231,12 @@ if ($errorOccurred) {
 }
 
 Write-Host ""
-Write-Host "[ FINAL STATUS ]"
-Write-Host "--------------------------------------------------------------"
+if ($errorOccurred) {
+    Write-Host "[ERROR] FINAL STATUS"
+} else {
+    Write-Host "[OK] FINAL STATUS"
+}
+Write-Host "=============================================================="
 if ($errorOccurred) {
     Write-Host "SuperOps agent installation failed. See error details above."
 } else {
@@ -235,8 +244,8 @@ if ($errorOccurred) {
 }
 
 Write-Host ""
-Write-Host "[ SCRIPT COMPLETED ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[INFO] SCRIPT COMPLETED"
+Write-Host "=============================================================="
 
 if ($errorOccurred) {
     exit 1

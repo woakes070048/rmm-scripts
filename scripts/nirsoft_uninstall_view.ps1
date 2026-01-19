@@ -8,9 +8,9 @@ $ErrorActionPreference = 'Stop'
 ╚══════╝╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚══╝╚══╝ ╚═╝  ╚═╝
 
 ================================================================================
-SCRIPT  : NirSoft UninstallView v1.0.1
+SCRIPT  : NirSoft UninstallView v1.0.3
 AUTHOR  : Limehawk.io
-DATE      : December 2025
+DATE      : January 2026
 USAGE   : .\nirsoft_uninstall_view.ps1
 FILE    : nirsoft_uninstall_view.ps1
 DESCRIPTION : Uses NirSoft UninstallView to uninstall software matching patterns
@@ -46,38 +46,40 @@ EXIT CODES:
     1 = Failure
 
 EXAMPLE RUN:
-    [ INPUT VALIDATION ]
-    --------------------------------------------------------------
+    [INFO] INPUT VALIDATION
+    ==============================================================
     Application Pattern : Adobe*
     System : 64-bit
     Inputs validated successfully
 
-    [ DOWNLOAD ]
-    --------------------------------------------------------------
+    [RUN] DOWNLOAD
+    ==============================================================
     Downloading UninstallView (64-bit)...
     Extracting to C:\limehawk\nirsoft...
     Download completed
 
-    [ UNINSTALL ]
-    --------------------------------------------------------------
+    [RUN] UNINSTALL
+    ==============================================================
     Attempting to uninstall: Adobe*
     Uninstall command executed
 
-    [ CLEANUP ]
-    --------------------------------------------------------------
+    [RUN] CLEANUP
+    ==============================================================
     Removing downloaded zip file...
     Cleanup completed
 
-    [ FINAL STATUS ]
-    --------------------------------------------------------------
+    [OK] FINAL STATUS
+    ==============================================================
     Result : SUCCESS
     Check manually to confirm uninstallation
 
-    [ SCRIPT COMPLETED ]
-    --------------------------------------------------------------
+    [OK] SCRIPT COMPLETED
+    ==============================================================
 
 CHANGELOG
 --------------------------------------------------------------------------------
+2026-01-19 v1.0.3 Fixed EXAMPLE RUN section formatting
+2026-01-19 v1.0.2 Updated to two-line ASCII console output style
 2025-12-23 v1.0.1 Updated to Limehawk Script Framework
 2024-12-01 v1.0.0 Initial release - migrated from SuperOps
 ================================================================================
@@ -94,8 +96,8 @@ $appName = 'CHANGE_ME'
 # INPUT VALIDATION
 # ============================================================================
 Write-Host ""
-Write-Host "[ INPUT VALIDATION ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[INFO] INPUT VALIDATION"
+Write-Host "=============================================================="
 
 $errorOccurred = $false
 $errorText = ""
@@ -108,8 +110,8 @@ if ([string]::IsNullOrWhiteSpace($appName) -or $appName -eq 'CHANGE_ME') {
 
 if ($errorOccurred) {
     Write-Host ""
-    Write-Host "[ ERROR OCCURRED ]"
-    Write-Host "--------------------------------------------------------------"
+    Write-Host "[ERROR] VALIDATION FAILED"
+    Write-Host "=============================================================="
     Write-Host $errorText
     exit 1
 }
@@ -117,14 +119,14 @@ if ($errorOccurred) {
 $systemArch = if ([Environment]::Is64BitOperatingSystem) { "64-bit" } else { "32-bit" }
 Write-Host "Application Pattern : $appName"
 Write-Host "System : $systemArch"
-Write-Host "Inputs validated successfully"
+Write-Host "[OK] Inputs validated successfully"
 
 # ============================================================================
 # DOWNLOAD
 # ============================================================================
 Write-Host ""
-Write-Host "[ DOWNLOAD ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[INFO] DOWNLOAD"
+Write-Host "=============================================================="
 
 $downloadUrl = if ([Environment]::Is64BitOperatingSystem) {
     "https://www.nirsoft.net/utils/uninstallview-x64.zip"
@@ -141,18 +143,18 @@ try {
 
     $zipFilePath = Join-Path $destinationFolder "UninstallView.zip"
 
-    Write-Host "Downloading UninstallView ($systemArch)..."
+    Write-Host "[RUN] Downloading UninstallView ($systemArch)..."
     Invoke-WebRequest -Uri $downloadUrl -OutFile $zipFilePath -UseBasicParsing
 
-    Write-Host "Extracting to $destinationFolder..."
+    Write-Host "[RUN] Extracting to $destinationFolder..."
     Expand-Archive -Path $zipFilePath -DestinationPath $destinationFolder -Force
 
-    Write-Host "Download completed"
+    Write-Host "[OK] Download completed"
 }
 catch {
     Write-Host ""
-    Write-Host "[ ERROR OCCURRED ]"
-    Write-Host "--------------------------------------------------------------"
+    Write-Host "[ERROR] DOWNLOAD FAILED"
+    Write-Host "=============================================================="
     Write-Host "Failed to download UninstallView"
     Write-Host "Error : $($_.Exception.Message)"
     exit 1
@@ -162,37 +164,37 @@ catch {
 # UNINSTALL
 # ============================================================================
 Write-Host ""
-Write-Host "[ UNINSTALL ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[INFO] UNINSTALL"
+Write-Host "=============================================================="
 
 $uninstallViewPath = Join-Path $destinationFolder "UninstallView.exe"
 
-Write-Host "Attempting to uninstall: $appName"
+Write-Host "[RUN] Attempting to uninstall: $appName"
 Start-Process -FilePath $uninstallViewPath -ArgumentList "/quninstallwildcard `"$appName`" 5" -Wait -PassThru | Out-Null
-Write-Host "Uninstall command executed"
+Write-Host "[OK] Uninstall command executed"
 
 # ============================================================================
 # CLEANUP
 # ============================================================================
 Write-Host ""
-Write-Host "[ CLEANUP ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[INFO] CLEANUP"
+Write-Host "=============================================================="
 
-Write-Host "Removing downloaded zip file..."
+Write-Host "[RUN] Removing downloaded zip file..."
 Remove-Item $zipFilePath -Force -ErrorAction SilentlyContinue
-Write-Host "Cleanup completed"
+Write-Host "[OK] Cleanup completed"
 
 # ============================================================================
 # FINAL STATUS
 # ============================================================================
 Write-Host ""
-Write-Host "[ FINAL STATUS ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[INFO] FINAL STATUS"
+Write-Host "=============================================================="
 Write-Host "Result : SUCCESS"
 Write-Host "Check manually to confirm uninstallation"
 
 Write-Host ""
-Write-Host "[ SCRIPT COMPLETED ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[INFO] SCRIPT COMPLETED"
+Write-Host "=============================================================="
 
 exit 0

@@ -7,7 +7,7 @@ $ErrorActionPreference = 'Stop'
 ███████╗██║██║ ╚═╝ ██║███████╗██║  ██║██║  ██║╚███╔███╔╝██║  ██╗
 ╚══════╝╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚══╝╚══╝ ╚═╝  ╚═╝
 ================================================================================
- SCRIPT   : Re-enable OneDrive v1.1.0
+ SCRIPT   : Re-enable OneDrive v1.1.2
  AUTHOR   : Limehawk.io
  DATE     : January 2026
  USAGE    : .\onedrive_reenable.ps1
@@ -72,47 +72,49 @@ $ErrorActionPreference = 'Stop'
 
  EXAMPLE RUN
 
-   [ INPUT VALIDATION ]
-   --------------------------------------------------------------
+   [INFO] INPUT VALIDATION
+   ==============================================================
    Computer Name      : WKSTN-FIN-01
    Username           : SYSTEM
    Admin Privileges   : Confirmed
    Install OneDrive   : True
    Clean Default User : True
 
-   [ REMOVE BLOCKING POLICIES ]
-   --------------------------------------------------------------
+   [RUN] REMOVING BLOCKING POLICIES
+   ==============================================================
    Removing HKLM GPO DisableFileSyncNGSC...
    GPO policy removed
 
    Removing Explorer DisableOneDriveFileSync...
    Explorer policy removed
 
-   [ DEFAULT USER PROFILE ]
-   --------------------------------------------------------------
+   [RUN] CLEANING DEFAULT USER PROFILE
+   ==============================================================
    Loading Default User registry hive...
    Hive loaded successfully
    Default User profile cleaned
    Hive unloaded successfully
 
-   [ INSTALL ONEDRIVE ]
-   --------------------------------------------------------------
+   [RUN] INSTALLING ONEDRIVE
+   ==============================================================
    Downloading OneDrive installer...
    Download complete : 45.2 MB
    Installing OneDrive...
    OneDrive installed successfully
 
-   [ FINAL STATUS ]
-   --------------------------------------------------------------
+   [INFO] FINAL STATUS
+   ==============================================================
    Result : SUCCESS
    OneDrive re-enabled and installed
 
-   [ SCRIPT COMPLETED ]
-   --------------------------------------------------------------
+   [OK] SCRIPT COMPLETED
+   ==============================================================
 
 --------------------------------------------------------------------------------
  CHANGELOG
 --------------------------------------------------------------------------------
+ 2026-01-19 v1.1.2 Fixed EXAMPLE RUN section formatting
+ 2026-01-19 v1.1.1 Updated to two-line ASCII console output style
  2026-01-05 v1.1.0 Added automatic OneDrive installation from Microsoft CDN
  2026-01-05 v1.0.0 Initial release - reverses onedrive_remove_complete.ps1
 ================================================================================
@@ -149,8 +151,8 @@ $explorerPath = "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Explorer"
 # ============================================================================
 
 Write-Host ""
-Write-Host "[ INPUT VALIDATION ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[INFO] INPUT VALIDATION"
+Write-Host "=============================================================="
 
 # Validate admin privileges
 $isAdmin = ([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)
@@ -162,8 +164,8 @@ if (-not $isAdmin) {
 
 if ($errorOccurred) {
     Write-Host ""
-    Write-Host "[ ERROR OCCURRED ]"
-    Write-Host "--------------------------------------------------------------"
+    Write-Host "[ERROR] VALIDATION FAILED"
+    Write-Host "=============================================================="
     Write-Host "Input validation failed:"
     Write-Host $errorText
     Write-Host ""
@@ -184,17 +186,17 @@ Write-Host "Clean Default User : $cleanDefaultProfile"
 # ============================================================================
 
 Write-Host ""
-Write-Host "[ REMOVE BLOCKING POLICIES ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[INFO] REMOVE BLOCKING POLICIES"
+Write-Host "=============================================================="
 
 # Remove HKLM GPO - DisableFileSyncNGSC
-Write-Host "Removing HKLM GPO DisableFileSyncNGSC..."
+Write-Host "[RUN] Removing HKLM GPO DisableFileSyncNGSC..."
 try {
     if (Test-Path $gpoPath) {
         $prop = Get-ItemProperty -Path $gpoPath -Name "DisableFileSyncNGSC" -ErrorAction SilentlyContinue
         if ($prop) {
             Remove-ItemProperty -Path $gpoPath -Name "DisableFileSyncNGSC" -Force -ErrorAction Stop
-            Write-Host "GPO policy removed"
+            Write-Host "[OK] GPO policy removed"
         } else {
             Write-Host "GPO policy not present - skipping"
         }
@@ -204,25 +206,25 @@ try {
         $propCount = ($remaining.PSObject.Properties | Where-Object { $_.Name -notlike 'PS*' }).Count
         if ($propCount -eq 0) {
             Remove-Item -Path $gpoPath -Force -ErrorAction SilentlyContinue
-            Write-Host "Empty GPO key removed"
+            Write-Host "[OK] Empty GPO key removed"
         }
     } else {
         Write-Host "GPO key not present - skipping"
     }
 } catch {
-    Write-Host "GPO removal failed : $($_.Exception.Message)"
+    Write-Host "[ERROR] GPO removal failed : $($_.Exception.Message)"
 }
 
 Write-Host ""
 
 # Remove Explorer Policy - DisableOneDriveFileSync
-Write-Host "Removing Explorer DisableOneDriveFileSync..."
+Write-Host "[RUN] Removing Explorer DisableOneDriveFileSync..."
 try {
     if (Test-Path $explorerPath) {
         $prop = Get-ItemProperty -Path $explorerPath -Name "DisableOneDriveFileSync" -ErrorAction SilentlyContinue
         if ($prop) {
             Remove-ItemProperty -Path $explorerPath -Name "DisableOneDriveFileSync" -Force -ErrorAction Stop
-            Write-Host "Explorer policy removed"
+            Write-Host "[OK] Explorer policy removed"
         } else {
             Write-Host "Explorer policy not present - skipping"
         }
@@ -230,7 +232,7 @@ try {
         Write-Host "Explorer key not present - skipping"
     }
 } catch {
-    Write-Host "Explorer policy removal failed : $($_.Exception.Message)"
+    Write-Host "[ERROR] Explorer policy removal failed : $($_.Exception.Message)"
 }
 
 # ============================================================================
@@ -239,14 +241,14 @@ try {
 
 if ($cleanDefaultProfile) {
     Write-Host ""
-    Write-Host "[ DEFAULT USER PROFILE ]"
-    Write-Host "--------------------------------------------------------------"
+    Write-Host "[INFO] DEFAULT USER PROFILE"
+    Write-Host "=============================================================="
 
     $defaultUserHive = "$env:SystemDrive\Users\Default\NTUSER.DAT"
     $tempHiveKey = "HKU\DefaultUserTemp"
 
     if (Test-Path $defaultUserHive) {
-        Write-Host "Loading Default User registry hive..."
+        Write-Host "[RUN] Loading Default User registry hive..."
 
         try {
             # Load the Default User hive
@@ -254,34 +256,34 @@ if ($cleanDefaultProfile) {
             if ($LASTEXITCODE -ne 0) {
                 throw "Failed to load hive: $loadResult"
             }
-            Write-Host "Hive loaded successfully"
+            Write-Host "[OK] Hive loaded successfully"
 
             # Remove any OneDrive blocking policies from Default User
             # (There typically aren't any, but clean up just in case)
-            Write-Host "Checking for OneDrive policies in Default User..."
+            Write-Host "[RUN] Checking for OneDrive policies in Default User..."
             $defaultOneDrivePath = "$tempHiveKey\Software\Policies\Microsoft\OneDrive"
             & reg.exe delete $defaultOneDrivePath /f 2>&1 | Out-Null
             if ($LASTEXITCODE -eq 0) {
-                Write-Host "OneDrive policies removed from Default User"
+                Write-Host "[OK] OneDrive policies removed from Default User"
             } else {
                 Write-Host "No OneDrive policies in Default User"
             }
 
-            Write-Host "Default User profile cleaned"
+            Write-Host "[OK] Default User profile cleaned"
 
             # Unload the hive
-            Write-Host "Unloading Default User registry hive..."
+            Write-Host "[RUN] Unloading Default User registry hive..."
             [gc]::Collect()
             Start-Sleep -Milliseconds 500
             $unloadResult = & reg.exe unload $tempHiveKey 2>&1
             if ($LASTEXITCODE -ne 0) {
-                Write-Host "Warning: Hive unload delayed (will complete on reboot)"
+                Write-Host "[WARN] Hive unload delayed (will complete on reboot)"
             } else {
-                Write-Host "Hive unloaded successfully"
+                Write-Host "[OK] Hive unloaded successfully"
             }
         }
         catch {
-            Write-Host "Default User cleanup failed : $($_.Exception.Message)"
+            Write-Host "[ERROR] Default User cleanup failed : $($_.Exception.Message)"
             # Attempt to unload hive if it was loaded
             & reg.exe unload $tempHiveKey 2>&1 | Out-Null
         }
@@ -290,8 +292,8 @@ if ($cleanDefaultProfile) {
     }
 } else {
     Write-Host ""
-    Write-Host "[ DEFAULT USER PROFILE ]"
-    Write-Host "--------------------------------------------------------------"
+    Write-Host "[INFO] DEFAULT USER PROFILE"
+    Write-Host "=============================================================="
     Write-Host "Skipped (cleanDefaultProfile = false)"
 }
 
@@ -303,8 +305,8 @@ $installSuccess = $false
 
 if ($installOneDrive) {
     Write-Host ""
-    Write-Host "[ INSTALL ONEDRIVE ]"
-    Write-Host "--------------------------------------------------------------"
+    Write-Host "[INFO] INSTALL ONEDRIVE"
+    Write-Host "=============================================================="
 
     $tempDir = Join-Path $env:TEMP 'OneDriveInstall'
     $installerPath = Join-Path $tempDir 'OneDriveSetup.exe'
@@ -316,7 +318,7 @@ if ($installOneDrive) {
         }
 
         # Download OneDrive installer
-        Write-Host "Downloading OneDrive installer..."
+        Write-Host "[RUN] Downloading OneDrive installer..."
 
         $curlArgs = @(
             '-L',
@@ -341,25 +343,25 @@ if ($installOneDrive) {
 
         $fileSize = (Get-Item $installerPath).Length
         $fileSizeMB = [math]::Round($fileSize / 1MB, 2)
-        Write-Host "Download complete : $fileSizeMB MB"
+        Write-Host "[OK] Download complete : $fileSizeMB MB"
 
         # Install OneDrive
-        Write-Host "Installing OneDrive..."
+        Write-Host "[RUN] Installing OneDrive..."
 
         # /silent runs silent install, /allusers installs for all users
         $installProcess = Start-Process -FilePath $installerPath -ArgumentList '/silent' -Wait -NoNewWindow -PassThru
 
         if ($installProcess.ExitCode -eq 0) {
-            Write-Host "OneDrive installed successfully"
+            Write-Host "[OK] OneDrive installed successfully"
             $installSuccess = $true
         } else {
-            Write-Host "OneDrive installer exited with code : $($installProcess.ExitCode)"
+            Write-Host "[WARN] OneDrive installer exited with code : $($installProcess.ExitCode)"
             # Exit code may be non-zero but installation could still succeed
             # Check if OneDrive is now present
             $oneDriveExe = "$env:LOCALAPPDATA\Microsoft\OneDrive\OneDrive.exe"
             $oneDriveExeAlt = "$env:ProgramFiles\Microsoft OneDrive\OneDrive.exe"
             if ((Test-Path $oneDriveExe) -or (Test-Path $oneDriveExeAlt)) {
-                Write-Host "OneDrive detected - installation successful"
+                Write-Host "[OK] OneDrive detected - installation successful"
                 $installSuccess = $true
             }
         }
@@ -370,7 +372,7 @@ if ($installOneDrive) {
         }
     }
     catch {
-        Write-Host "Installation failed : $($_.Exception.Message)"
+        Write-Host "[ERROR] Installation failed : $($_.Exception.Message)"
         # Cleanup on failure
         if (Test-Path $tempDir) {
             Remove-Item -Path $tempDir -Recurse -Force -ErrorAction SilentlyContinue
@@ -378,8 +380,8 @@ if ($installOneDrive) {
     }
 } else {
     Write-Host ""
-    Write-Host "[ INSTALL ONEDRIVE ]"
-    Write-Host "--------------------------------------------------------------"
+    Write-Host "[INFO] INSTALL ONEDRIVE"
+    Write-Host "=============================================================="
     Write-Host "Skipped (installOneDrive = false)"
 }
 
@@ -388,8 +390,8 @@ if ($installOneDrive) {
 # ============================================================================
 
 Write-Host ""
-Write-Host "[ FINAL STATUS ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[INFO] FINAL STATUS"
+Write-Host "=============================================================="
 
 if ($installOneDrive -and $installSuccess) {
     Write-Host "Result : SUCCESS"
@@ -411,7 +413,7 @@ if ($installOneDrive -and $installSuccess) {
 }
 
 Write-Host ""
-Write-Host "[ SCRIPT COMPLETED ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[INFO] SCRIPT COMPLETED"
+Write-Host "=============================================================="
 
 exit 0

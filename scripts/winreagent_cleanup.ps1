@@ -8,9 +8,9 @@ $ErrorActionPreference = 'Stop'
 ███████╗██║██║ ╚═╝ ██║███████╗██║  ██║██║  ██║╚███╔███╔╝██║  ██╗
 ╚══════╝╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚══╝╚══╝ ╚═╝  ╚═╝
 ================================================================================
- SCRIPT   : WinREAgent Cleanup                                           v1.0.1
+ SCRIPT   : WinREAgent Cleanup                                           v1.0.3
  AUTHOR   : Limehawk.io
- DATE      : December 2025
+ DATE     : January 2026
  USAGE    : .\winreagent_cleanup.ps1
 ================================================================================
  FILE     : winreagent_cleanup.ps1
@@ -60,25 +60,27 @@ DESCRIPTION : Cleans up WinREAgent folder to free disk space
 
  EXAMPLE RUN
 
- [ INPUT VALIDATION ]
- --------------------------------------------------------------
+ [INFO] INPUT VALIDATION
+ ==============================================================
  Folder Path : C:\$WinREAgent
 
- [ OPERATION ]
- --------------------------------------------------------------
+ [RUN] OPERATION
+ ==============================================================
  Checking for WinREAgent folder...
  Folder found, deleting...
 
- [ RESULT ]
- --------------------------------------------------------------
+ [INFO] RESULT
+ ==============================================================
  Status : Success
  Action : Folder deleted
 
- [ SCRIPT COMPLETED ]
- --------------------------------------------------------------
+ [INFO] SCRIPT COMPLETE
+ ==============================================================
 --------------------------------------------------------------------------------
  CHANGELOG
 --------------------------------------------------------------------------------
+ 2026-01-19 v1.0.3 Fixed EXAMPLE RUN section formatting
+ 2026-01-19 v1.0.2 Updated to two-line ASCII console output style
  2025-12-23 v1.0.1 Updated to Limehawk Script Framework
  2025-11-29 v1.0.0 Initial Style A implementation
 ================================================================================
@@ -96,25 +98,25 @@ $FolderPath = "C:\`$WinREAgent"
 
 # ==== RUNTIME OUTPUT ====
 Write-Host ""
-Write-Host "[ INPUT VALIDATION ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[INFO] INPUT VALIDATION"
+Write-Host "=============================================================="
 Write-Host "Folder Path : $FolderPath"
 
 Write-Host ""
-Write-Host "[ OPERATION ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[INFO] OPERATION"
+Write-Host "=============================================================="
 
 try {
-    Write-Host "Checking for WinREAgent folder..."
+    Write-Host "[RUN] Checking for WinREAgent folder..."
 
     if (Test-Path $FolderPath) {
-        Write-Host "Folder found, deleting..."
+        Write-Host "[RUN] Folder found, deleting..."
         Remove-Item -Path $FolderPath -Recurse -Force -ErrorAction Stop
         $actionTaken = "Folder deleted"
-        Write-Host "  Deleted successfully"
+        Write-Host "[OK] Deleted successfully"
     } else {
         $actionTaken = "Folder not found (nothing to delete)"
-        Write-Host "  Folder does not exist"
+        Write-Host "[OK] Folder does not exist"
     }
 
 } catch {
@@ -124,14 +126,14 @@ try {
 
 if ($errorOccurred) {
     Write-Host ""
-    Write-Host "[ ERROR OCCURRED ]"
-    Write-Host "--------------------------------------------------------------"
+    Write-Host "[ERROR] ERROR OCCURRED"
+    Write-Host "=============================================================="
     Write-Host $errorText
 }
 
 Write-Host ""
-Write-Host "[ RESULT ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[INFO] RESULT"
+Write-Host "=============================================================="
 if ($errorOccurred) {
     Write-Host "Status : Failure"
 } else {
@@ -140,17 +142,17 @@ if ($errorOccurred) {
 }
 
 Write-Host ""
-Write-Host "[ FINAL STATUS ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[INFO] FINAL STATUS"
+Write-Host "=============================================================="
 if ($errorOccurred) {
-    Write-Host "WinREAgent cleanup failed. See error above."
+    Write-Host "[ERROR] WinREAgent cleanup failed. See error above."
 } else {
-    Write-Host "WinREAgent cleanup completed."
+    Write-Host "[OK] WinREAgent cleanup completed."
 }
 
 Write-Host ""
-Write-Host "[ SCRIPT COMPLETED ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[INFO] SCRIPT COMPLETE"
+Write-Host "=============================================================="
 
 if ($errorOccurred) {
     exit 1

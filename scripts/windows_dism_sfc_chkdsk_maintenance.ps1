@@ -8,9 +8,9 @@ $ErrorActionPreference = 'Stop'
 ███████╗██║██║ ╚═╝ ██║███████╗██║  ██║██║  ██║╚███╔███╔╝██║  ██╗
 ╚══════╝╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚══╝╚══╝ ╚═╝  ╚═╝
 ================================================================================
- SCRIPT   : Windows DISM SFC Chkdsk Maintenance                          v2.0.0
+ SCRIPT   : Windows DISM SFC Chkdsk Maintenance                          v2.0.1
  AUTHOR   : Limehawk.io
- DATE     : December 2025
+ DATE     : January 2026
  USAGE    : .\windows_dism_sfc_chkdsk_maintenance.ps1
 ================================================================================
  FILE     : windows_dism_sfc_chkdsk_maintenance.ps1
@@ -76,42 +76,43 @@ DESCRIPTION : Runs DISM, SFC, and chkdsk for Windows system file repair
 
  EXAMPLE RUN
 
- [ INPUT VALIDATION ]
- --------------------------------------------------------------
+ [INFO] INPUT VALIDATION
+ ==============================================================
  RunDismScan      : True
  RunDismRestore   : True
  RunChkdsk        : False
  RunSfc           : True
  ChkdskParameters : /scan
 
- [ DISM SCAN HEALTH ]
- --------------------------------------------------------------
+ [RUN] DISM SCAN HEALTH
+ ==============================================================
  Starting DISM image scan...
  No component store corruption detected.
  Result : Success (no corruption)
 
- [ DISM RESTORE HEALTH ]
- --------------------------------------------------------------
+ [INFO] DISM RESTORE HEALTH
+ ==============================================================
  Skipped - no corruption detected by ScanHealth
 
- [ SYSTEM FILE CHECK ]
- --------------------------------------------------------------
+ [RUN] SYSTEM FILE CHECK
+ ==============================================================
  Starting system file verification...
  Windows Resource Protection did not find any integrity violations.
  Result : Success (no integrity violations)
 
- [ FINAL STATUS ]
- --------------------------------------------------------------
+ [OK] FINAL STATUS
+ ==============================================================
  Operations Run    : 2
  Operations Passed : 2
  Operations Failed : 0
  Overall Result    : Success
 
- [ SCRIPT COMPLETED ]
- --------------------------------------------------------------
+ [OK] SCRIPT COMPLETED
+ ==============================================================
 --------------------------------------------------------------------------------
  CHANGELOG
 --------------------------------------------------------------------------------
+ 2026-01-19 v2.0.1 Updated to two-line ASCII console output style
  2025-12-28 v2.0.0 Smart logic: RestoreHealth only runs if ScanHealth finds corruption; removed ComponentCleanup
  2025-12-28 v1.2.0 Use exit codes instead of string parsing for DISM/SFC result detection
  2025-12-23 v1.1.0 Updated to Limehawk Script Framework
@@ -179,31 +180,25 @@ if ($RebootAfterMaintenance -isnot [bool]) {
 
 if ($errorOccurred) {
     Write-Host ""
-    Write-Host "[ ERROR OCCURRED ]"
-    Write-Host "--------------------------------------------------------------"
-    Write-Host "Input validation failed:"
+    Write-Host "[ERROR] INPUT VALIDATION FAILED"
+    Write-Host "=============================================================="
     Write-Host $errorText
 
     Write-Host ""
-    Write-Host "[ RESULT ]"
-    Write-Host "--------------------------------------------------------------"
-    Write-Host "Status : Failure"
-
-    Write-Host ""
-    Write-Host "[ FINAL STATUS ]"
-    Write-Host "--------------------------------------------------------------"
+    Write-Host "[ERROR] FINAL STATUS"
+    Write-Host "=============================================================="
     Write-Host "Script cannot proceed due to invalid hardcoded inputs."
 
     Write-Host ""
-    Write-Host "[ SCRIPT COMPLETED ]"
-    Write-Host "--------------------------------------------------------------"
+    Write-Host "[ERROR] SCRIPT COMPLETED"
+    Write-Host "=============================================================="
     exit 1
 }
 
 # ==== RUNTIME OUTPUT (Style A) ====
 Write-Host ""
-Write-Host "[ INPUT VALIDATION ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[INFO] INPUT VALIDATION"
+Write-Host "=============================================================="
 Write-Host "RunDismScan      : $RunDismScan"
 Write-Host "RunDismRestore   : $RunDismRestore"
 Write-Host "RunChkdsk        : $RunChkdsk"
@@ -213,8 +208,8 @@ Write-Host "ChkdskParameters : $ChkdskParameters"
 # ==== DISM SCAN HEALTH ====
 if ($RunDismScan) {
     Write-Host ""
-    Write-Host "[ DISM SCAN HEALTH ]"
-    Write-Host "--------------------------------------------------------------"
+    Write-Host "[RUN] DISM SCAN HEALTH"
+    Write-Host "=============================================================="
 
     $operationsRun++
     $opSuccess = $false
@@ -265,8 +260,8 @@ $shouldRunRestore = $RunDismRestore -and ($corruptionDetected -or -not $RunDismS
 
 if ($shouldRunRestore) {
     Write-Host ""
-    Write-Host "[ DISM RESTORE HEALTH ]"
-    Write-Host "--------------------------------------------------------------"
+    Write-Host "[RUN] DISM RESTORE HEALTH"
+    Write-Host "=============================================================="
 
     $operationsRun++
     $opSuccess = $false
@@ -306,16 +301,16 @@ if ($shouldRunRestore) {
 }
 elseif ($RunDismRestore -and -not $corruptionDetected) {
     Write-Host ""
-    Write-Host "[ DISM RESTORE HEALTH ]"
-    Write-Host "--------------------------------------------------------------"
+    Write-Host "[INFO] DISM RESTORE HEALTH"
+    Write-Host "=============================================================="
     Write-Host "Skipped - no corruption detected by ScanHealth"
 }
 
 # ==== DISK CHECK ====
 if ($RunChkdsk) {
     Write-Host ""
-    Write-Host "[ DISK CHECK ]"
-    Write-Host "--------------------------------------------------------------"
+    Write-Host "[RUN] DISK CHECK"
+    Write-Host "=============================================================="
 
     try {
         $drives = Get-CimInstance -ClassName Win32_LogicalDisk -Filter "DriveType = 3" -ErrorAction Stop
@@ -362,8 +357,8 @@ if ($RunChkdsk) {
 # ==== SYSTEM FILE CHECK ====
 if ($RunSfc) {
     Write-Host ""
-    Write-Host "[ SYSTEM FILE CHECK ]"
-    Write-Host "--------------------------------------------------------------"
+    Write-Host "[RUN] SYSTEM FILE CHECK"
+    Write-Host "=============================================================="
 
     $operationsRun++
     $opSuccess = $false
@@ -409,22 +404,29 @@ if ($RunSfc) {
 }
 
 # ==== FINAL STATUS ====
-Write-Host ""
-Write-Host "[ FINAL STATUS ]"
-Write-Host "--------------------------------------------------------------"
-Write-Host "Operations Run    : $operationsRun"
-Write-Host "Operations Passed : $operationsPassed"
-Write-Host "Operations Failed : $operationsFailed"
-
 if ($operationsFailed -eq 0) {
+    Write-Host ""
+    Write-Host "[OK] FINAL STATUS"
+    Write-Host "=============================================================="
+    Write-Host "Operations Run    : $operationsRun"
+    Write-Host "Operations Passed : $operationsPassed"
+    Write-Host "Operations Failed : $operationsFailed"
     Write-Host "Overall Result    : Success"
+    Write-Host ""
+    Write-Host "[OK] SCRIPT COMPLETED"
+    Write-Host "=============================================================="
 } else {
+    Write-Host ""
+    Write-Host "[WARN] FINAL STATUS"
+    Write-Host "=============================================================="
+    Write-Host "Operations Run    : $operationsRun"
+    Write-Host "Operations Passed : $operationsPassed"
+    Write-Host "Operations Failed : $operationsFailed"
     Write-Host "Overall Result    : Some operations failed"
+    Write-Host ""
+    Write-Host "[WARN] SCRIPT COMPLETED"
+    Write-Host "=============================================================="
 }
-
-Write-Host ""
-Write-Host "[ SCRIPT COMPLETED ]"
-Write-Host "--------------------------------------------------------------"
 
 if ($operationsFailed -gt 0) {
     exit 1
@@ -432,8 +434,8 @@ if ($operationsFailed -gt 0) {
     # Schedule reboot if enabled
     if ($RebootAfterMaintenance) {
         Write-Host ""
-        Write-Host "[ REBOOT SCHEDULE ]"
-        Write-Host "--------------------------------------------------------------"
+        Write-Host "[RUN] REBOOT SCHEDULE"
+        Write-Host "=============================================================="
         Write-Host "Scheduling system reboot in 5 minutes..."
         Write-Host "Please save any open work."
         & shutdown.exe /r /t 300 /c "Windows system maintenance is complete. Your computer will reboot in 5 minutes. Please save your work."

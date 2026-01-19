@@ -8,9 +8,9 @@ $ErrorActionPreference = 'Stop'
 ╚══════╝╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚══╝╚══╝ ╚═╝  ╚═╝
 
 ================================================================================
- SCRIPT  : GCPW Install v1.1.0
+ SCRIPT  : GCPW Install v1.1.2
  AUTHOR  : Limehawk.io
- DATE      : January 2026
+ DATE    : January 2026
  FILE    : gcpw_install.ps1
  DESCRIPTION : Downloads, installs, and configures Google Credential Provider for Windows
  USAGE   : .\gcpw_install.ps1
@@ -49,36 +49,39 @@ EXIT CODES:
     5 = Configuration error (missing domains or not admin)
 
 EXAMPLE RUN:
-    [ INPUT VALIDATION ]
-    --------------------------------------------------------------
+
+    [INFO] INPUT VALIDATION
+    ==============================================================
     Allowed Domains      : example.com,corp.example.com
     Enrollment Token     : ********-****-****-****-************
 
-    [ DOWNLOADING GCPW ]
-    --------------------------------------------------------------
+    [RUN] DOWNLOADING GCPW
+    ==============================================================
     Architecture         : 64-bit
     Filename             : gcpwstandaloneenterprise64.msi
     Download             : SUCCESS
 
-    [ INSTALLING GCPW ]
-    --------------------------------------------------------------
+    [RUN] INSTALLING GCPW
+    ==============================================================
     Installation         : SUCCESS
 
-    [ CONFIGURING REGISTRY ]
-    --------------------------------------------------------------
+    [RUN] CONFIGURING REGISTRY
+    ==============================================================
     Domains              : Configured
     Enrollment Token     : Configured
 
-    [ FINAL STATUS ]
-    --------------------------------------------------------------
+    [OK] FINAL STATUS
+    ==============================================================
     SCRIPT SUCCEEDED
 
-    [ SCRIPT COMPLETED ]
-    --------------------------------------------------------------
+    [OK] SCRIPT COMPLETED
+    ==============================================================
 
 --------------------------------------------------------------------------------
  CHANGELOG
 --------------------------------------------------------------------------------
+ 2026-01-19 v1.1.2 Fixed EXAMPLE RUN section formatting
+ 2026-01-19 v1.1.1 Updated to two-line ASCII console output style
  2026-01-16 v1.1.0 Converted to SuperOps runtime variables for domains and token
  2025-12-23 v1.0.1 Updated to Limehawk Script Framework
  2024-12-01 v1.0.0 Initial release - migrated from SuperOps (sanitized)
@@ -100,10 +103,10 @@ $enrollmentToken = "$YourEnrollmentTokenHere"
 # HELPER FUNCTIONS
 # ============================================================================
 function Write-Section {
-    param([string]$title)
+    param([string]$title, [string]$status = "INFO")
     Write-Host ""
-    Write-Host ("[ {0} ]" -f $title)
-    Write-Host ("-" * 62)
+    Write-Host ("[$status] $title")
+    Write-Host ("=" * 62)
 }
 
 function PrintKV([string]$label, [string]$value) {
@@ -123,9 +126,9 @@ function Get-MaskedToken {
 # PRIVILEGE CHECK
 # ============================================================================
 if (-not ([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)) {
-    Write-Section "ERROR OCCURRED"
+    Write-Section "ERROR OCCURRED" "ERROR"
     Write-Host " This script requires administrative privileges to run."
-    Write-Section "SCRIPT HALTED"
+    Write-Section "SCRIPT HALTED" "ERROR"
     exit 5
 }
 
@@ -139,7 +142,7 @@ if ([string]::IsNullOrWhiteSpace($domainsAllowedToLogin) -or $domainsAllowedToLo
     Write-Host ""
     Write-Host " SuperOps runtime variable `$YourDomainsHere was not replaced."
     Write-Host " Configure the variable in SuperOps before running this script."
-    Write-Section "SCRIPT HALTED"
+    Write-Section "SCRIPT HALTED" "ERROR"
     exit 5
 }
 
@@ -148,7 +151,7 @@ if ([string]::IsNullOrWhiteSpace($enrollmentToken) -or $enrollmentToken -eq '$' 
     Write-Host ""
     Write-Host " SuperOps runtime variable `$YourEnrollmentTokenHere was not replaced."
     Write-Host " Configure the variable in SuperOps before running this script."
-    Write-Section "SCRIPT HALTED"
+    Write-Section "SCRIPT HALTED" "ERROR"
     exit 5
 }
 
@@ -160,7 +163,7 @@ PrintKV "Enrollment Token" (Get-MaskedToken $enrollmentToken)
 # ============================================================================
 try {
     # Determine architecture and download
-    Write-Section "DOWNLOADING GCPW"
+    Write-Section "DOWNLOADING GCPW" "RUN"
 
     $gcpwFileName = if ([Environment]::Is64BitOperatingSystem) {
         "gcpwstandaloneenterprise64.msi"
@@ -180,7 +183,7 @@ try {
     PrintKV "Download" "SUCCESS"
 
     # Install GCPW
-    Write-Section "INSTALLING GCPW"
+    Write-Section "INSTALLING GCPW" "RUN"
 
     $arguments = "/i `"$downloadPath`" /q"
     $installProcess = Start-Process msiexec.exe -ArgumentList $arguments -PassThru -Wait -ErrorAction Stop
@@ -193,7 +196,7 @@ try {
     PrintKV "Installation" "SUCCESS"
 
     # Configure Registry
-    Write-Section "CONFIGURING REGISTRY"
+    Write-Section "CONFIGURING REGISTRY" "RUN"
 
     # Set allowed domains
     $gcpwPath = 'HKLM:\Software\Google\GCPW'
@@ -217,19 +220,19 @@ try {
     }
 
     # Final Status
-    Write-Section "FINAL STATUS"
+    Write-Section "FINAL STATUS" "OK"
     Write-Host " SCRIPT SUCCEEDED"
     Write-Host ""
     Write-Host " GCPW has been installed and configured."
     Write-Host " Users can now sign in with their Google Workspace credentials."
 
-    Write-Section "SCRIPT COMPLETED"
+    Write-Section "SCRIPT COMPLETED" "OK"
     exit 0
 }
 catch {
-    Write-Section "ERROR OCCURRED"
+    Write-Section "ERROR OCCURRED" "ERROR"
     PrintKV "Error Message" $_.Exception.Message
     PrintKV "Error Type" $_.Exception.GetType().FullName
-    Write-Section "SCRIPT HALTED"
+    Write-Section "SCRIPT HALTED" "ERROR"
     exit 1
 }

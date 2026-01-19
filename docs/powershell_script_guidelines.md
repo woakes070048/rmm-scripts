@@ -131,20 +131,25 @@ $ErrorActionPreference = 'Stop'
 
  EXAMPLE RUN
 
-   ╔═[i]═ INPUT VALIDATION ═══════════════════════════════════════
+[INFO] INPUT VALIDATION
+   ==============================================================
      All required inputs are valid
 
-   ╔═[>]═ OPERATION ════════════════════════════════════════════════
+   [RUN] OPERATION
+   ==============================================================
      Step 1 complete
      Step 2 complete
 
-   ╔═[i]═ RESULT ═══════════════════════════════════════════════════
+   [INFO] RESULT
+   ==============================================================
      Status : Success
 
-   ╔═[✓]═ FINAL STATUS ═════════════════════════════════════════════
+   [OK] FINAL STATUS
+   ==============================================================
      Operation completed successfully
 
-   ╔═[✓]═ SCRIPT COMPLETED ═════════════════════════════════════════
+   [OK] SCRIPT COMPLETED
+   ==============================================================
 
 --------------------------------------------------------------------------------
  CHANGELOG
@@ -302,7 +307,7 @@ The error message should:
 - Use scalar variables only: `$errorOccurred = $false` and `$errorText = ""`
 - NO arrays or lists for error tracking
 - Build error messages with newline concatenation
-- If INPUT validation fails, print `╔═[✗]═ ERROR OCCURRED` section and exit 1
+- If INPUT validation fails, print `[ERROR] ERROR OCCURRED` section and exit 1
 - DO NOT pre-validate operations (file existence, module availability, network connectivity)
 - Let `$ErrorActionPreference = 'Stop'` catch operational failures naturally
 
@@ -331,30 +336,31 @@ if (-not (Get-Module $moduleName)) { ... }
 
 ## Console Output
 
-**Section header format (Corner Bracket Style with Status Indicators):**
+**Section header format (Two-Line ASCII Style):**
 ```powershell
 Write-Host ""
-Write-Host "╔═[i]═ SECTION NAME ═══════════════════════════════════════════"
+Write-Host "[INFO] SECTION NAME"
+Write-Host "=============================================================="
 ```
 
-**Status indicators:**
-- `[i]` = Info (INPUT VALIDATION, ENVIRONMENT DETECTION, RESULT, DEBUG sections)
-- `[>]` = Action (DOWNLOAD, INSTALLATION, RESTART SERVICES, operations in progress)
-- `[✓]` = Success (FINAL STATUS on success, SCRIPT COMPLETED on success)
-- `[!]` = Warning (non-fatal issues)
-- `[✗]` = Error/Failure (ERROR OCCURRED, FINAL STATUS on failure)
+**Status indicators (word-based, ASCII only):**
+- `[INFO]` = Information (INPUT VALIDATION, ENVIRONMENT DETECTION, RESULT, DEBUG sections)
+- `[RUN]` = Action in progress (DOWNLOAD, INSTALLATION, RESTART SERVICES, operations)
+- `[OK]` = Success (FINAL STATUS on success, SCRIPT COMPLETED on success)
+- `[WARN]` = Warning (non-fatal issues)
+- `[ERROR]` = Error/Failure (ERROR OCCURRED, FINAL STATUS on failure)
 
 **Section names are DYNAMIC** - choose names that describe the operation
 
 **Common patterns:**
-- Always start with: `╔═[i]═ INPUT VALIDATION` or `╔═[i]═ SETUP`
-- Operation sections: `╔═[>]═ DOWNLOAD`, `╔═[>]═ INSTALLATION`, `╔═[>]═ CONFIGURATION`, etc.
-- On success end with: `╔═[✓]═ FINAL STATUS` and `╔═[✓]═ SCRIPT COMPLETED`
-- On error: `╔═[✗]═ ERROR OCCURRED` and `╔═[✗]═ FINAL STATUS`
+- Always start with: `[INFO] INPUT VALIDATION` or `[INFO] SETUP`
+- Operation sections: `[RUN] DOWNLOAD`, `[RUN] INSTALLATION`, `[RUN] CONFIGURATION`, etc.
+- On success end with: `[OK] FINAL STATUS` and `[OK] SCRIPT COMPLETED`
+- On error: `[ERROR] ERROR OCCURRED` and `[ERROR] FINAL STATUS`
 
 **Within sections:** write clean, readable output
-- NO additional status prefixes inside sections
-- Just plain descriptive text: "Downloaded file successfully"
+- Inline status prefixes like `[RUN]`, `[OK]` are allowed for progress indicators
+- Example: "[RUN] Downloading file...", "[OK] Download complete"
 - Use KV format for data: `Label : Value` (one space each side of colon)
 - Natural language for actions: "Created directory", "Installed package"
 
@@ -362,13 +368,11 @@ Write-Host "╔═[i]═ SECTION NAME ══════════════
 ```powershell
 function Write-Section {
     param([string]$Type, [string]$Name)
-    $indicators = @{ 'i'='i'; 'action'='>'; 'success'='✓'; 'warn'='!'; 'error'='✗' }
-    $symbol = $indicators[$Type]
-    $header = "╔═[$symbol]═ $Name "
-    $padding = 62 - $header.Length
-    if ($padding -gt 0) { $header += "═" * $padding }
+    $indicators = @{ 'info'='INFO'; 'run'='RUN'; 'ok'='OK'; 'warn'='WARN'; 'error'='ERROR' }
+    $label = $indicators[$Type]
     Write-Host ""
-    Write-Host $header
+    Write-Host "[$label] $Name"
+    Write-Host "=============================================================="
 }
 ```
 
@@ -381,7 +385,7 @@ function Write-Section {
   - Add helpful context to the error
   - Attempt recovery or cleanup
   - Continue script execution after non-critical failure
-- On error, print `┌─[✗] ERROR OCCURRED` section with:
+- On error, print `[ERROR] ERROR OCCURRED` section with:
   - What failed (clear description)
   - The actual error message
   - Context (what operation, what parameters)
@@ -433,13 +437,13 @@ Provide sensible defaults for optional fields (0 for numbers, 'Unknown' for stri
 The number and names of console sections should match the script's actual operations:
 
 **Simple scripts** (1-2 operations):
-- `╔═[i]═ INPUT VALIDATION` → `╔═[>]═ OPERATION` → `╔═[i]═ RESULT` → `╔═[✓]═ FINAL STATUS` → `╔═[✓]═ SCRIPT COMPLETED`
+- `[INFO] INPUT VALIDATION` → `[RUN] OPERATION` → `[INFO] RESULT` → `[OK] FINAL STATUS` → `[OK] SCRIPT COMPLETED`
 
 **Moderate scripts** (3-5 operations):
-- `╔═[i]═ INPUT VALIDATION` → `╔═[>]═ DOWNLOAD` → `╔═[>]═ EXTRACTION` → `╔═[i]═ RESULT` → `╔═[✓]═ FINAL STATUS` → `╔═[✓]═ SCRIPT COMPLETED`
+- `[INFO] INPUT VALIDATION` → `[RUN] DOWNLOAD` → `[RUN] EXTRACTION` → `[INFO] RESULT` → `[OK] FINAL STATUS` → `[OK] SCRIPT COMPLETED`
 
 **Complex scripts** (6+ operations):
-- `╔═[i]═ INPUT VALIDATION` → `╔═[>]═ DOWNLOAD` → `╔═[>]═ EXTRACTION` → `╔═[>]═ INSTALLATION` → `╔═[>]═ CONFIGURATION` → `╔═[>]═ TESTING` → `╔═[i]═ RESULT` → `╔═[✓]═ FINAL STATUS` → `╔═[✓]═ SCRIPT COMPLETED`
+- `[INFO] INPUT VALIDATION` → `[RUN] DOWNLOAD` → `[RUN] EXTRACTION` → `[RUN] INSTALLATION` → `[RUN] CONFIGURATION` → `[RUN] TESTING` → `[INFO] RESULT` → `[OK] FINAL STATUS` → `[OK] SCRIPT COMPLETED`
 
 Choose section names that clearly describe what's happening. Be descriptive but concise.
 

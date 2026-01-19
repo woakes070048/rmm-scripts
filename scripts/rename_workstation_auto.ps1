@@ -9,7 +9,7 @@ $ErrorActionPreference = 'Stop'
 ███████╗██║██║ ╚═╝ ██║███████╗██║  ██║██║  ██║╚███╔███╔╝██║  ██╗
 ╚══════╝╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚══╝╚══╝ ╚═╝  ╚═╝
 ================================================================================
- SCRIPT   : Rename Workstation Auto                                     v8.2.3
+ SCRIPT   : Rename Workstation Auto                                     v8.2.4
  AUTHOR   : Limehawk.io
  DATE     : January 2026
  USAGE    : .\rename_workstation_auto.ps1
@@ -89,50 +89,51 @@ $ErrorActionPreference = 'Stop'
 
  EXAMPLE RUN
 
-   [ SUPEROPS VARIABLES ]
-   --------------------------------------------------------------
+   [INFO] SUPEROPS VARIABLES
+   ==============================================================
    AssetId (placeholder)    : 12345
    AssetName (placeholder)  : DESKTOP-ABC123
    ClientName (placeholder) : Acme Corp
    Subdomain (hardcoded)    : limehawk
    MaxUserSegmentLen        : 8
 
-   [ RAW SYSTEM VALUES ]
-   --------------------------------------------------------------
+   [INFO] RAW SYSTEM VALUES
+   ==============================================================
    ENV USERNAME             : jsmith
    CIM UserName             : ACME\jsmith
    Current HostName (CIM)   : DESKTOP-ABC123
    SMBIOS UUID              : 12345678-1234-1234-1234-123456789ABC
 
-   [ DERIVED SEGMENTS ]
-   --------------------------------------------------------------
+   [INFO] DERIVED SEGMENTS
+   ==============================================================
    CLIENT SEGMENT           : ACM
    USER SEGMENT             : JSMITH
    DESIRED/OS NAME          : ACM-JSMITH89ABC
    Name Length              : 15
 
-   [ RENAME ACTION ]
-   --------------------------------------------------------------
+   [RUN] RENAME ACTION
+   ==============================================================
    CURRENT NAME(S)          : DESKTOP-ABC123
    STATUS                   : RENAMING TO ACM-JSMITH89ABC
    NOTE                     : CHANGE TAKES EFFECT AFTER REBOOT
    RESULT                   : RENAME COMMAND ISSUED
 
-   [ SUPEROPS SYNC ]
-   --------------------------------------------------------------
+   [RUN] SUPEROPS SYNC
+   ==============================================================
    RESULT                   : SUPEROPS ASSET NAME UPDATED
 
-   [ FINAL STATUS ]
-   --------------------------------------------------------------
+   [OK] FINAL STATUS
+   ==============================================================
    RENAME SCHEDULED IF NEEDED. REBOOT TO APPLY NEW HOSTNAME
    SUPEROPS ASSET NAME SYNCED
 
-   [ SCRIPT COMPLETED ]
-   --------------------------------------------------------------
+   [OK] SCRIPT COMPLETED
+   ==============================================================
 
 --------------------------------------------------------------------------------
  CHANGELOG
 --------------------------------------------------------------------------------
+ 2026-01-19 v8.2.4 Updated to two-line ASCII console output style
  2026-01-14 v8.2.3 Added complete README sections for framework compliance
  2025-12-23 v8.2.2 Updated to Limehawk Script Framework
  2024-12-01 v8.2.1 Fixed StrictMode error checking GraphQL response for errors
@@ -204,7 +205,7 @@ function Build-ClientUserUuidHyphenName {
     return $name
 }
 function Is-BenignRenameError { param([string]$msg) if (-not $msg) { return $false } $m=$msg.ToUpper(); return ($m -like "*THE NEW NAME IS THE SAME AS THE CURRENT NAME*") -or ($m -like "*SKIP COMPUTER*" -and $m -like "*SAME AS THE CURRENT NAME*") }
-function Write-Section { param([string]$title); Write-Host ""; Write-Host ("[ {0} ]" -f $title); Write-Host ("-" * 62) }
+function Write-Section { param([string]$title, [string]$status = "INFO"); Write-Host ""; Write-Host ("[$status] $title"); Write-Host ("=" * 62) }
 function PrintKV([string]$label,[string]$value){$lbl=$label.PadRight(24);Write-Host (" {0} : {1}" -f $lbl,$value)}
 # ============================================================================
 
@@ -241,19 +242,19 @@ try {
     $uuidClean=$UUID_RAW.Replace('-','').ToUpper()
     $DESIRED_NAME=Build-ClientUserUuidHyphenName -Client3 $CLIENT_SEG -User $USER_SEG -UuidClean $uuidClean -MaxLen $MaxHostLen -MinUuid $MinUuidSuffixLen
 
-    Write-Section "DERIVED SEGMENTS"
+    Write-Section "DERIVED SEGMENTS" "INFO"
     PrintKV "CLIENT SEGMENT" $CLIENT_SEG
     PrintKV "USER SEGMENT" ($(if ($USER_SEG){$USER_SEG}else{"<none>"}))
     PrintKV "DESIRED/OS NAME" $DESIRED_NAME
     PrintKV "Name Length" ($DESIRED_NAME.Length.ToString())
 
     $CanonicalNow=Get-CanonicalHostNames
-    Write-Section "RENAME ACTION"
+    Write-Section "RENAME ACTION" "RUN"
     PrintKV "CURRENT NAME(S)" ($CanonicalNow -join ", ")
     if ($CanonicalNow -contains $DESIRED_NAME){PrintKV "STATUS" "CURRENT HOSTNAME ALREADY MATCHES"}
     else{PrintKV "STATUS" ("RENAMING TO "+$DESIRED_NAME);PrintKV "NOTE" "CHANGE TAKES EFFECT AFTER REBOOT";try{Rename-Computer -NewName $DESIRED_NAME -Force -PassThru|Out-Null;PrintKV "RESULT" "RENAME COMMAND ISSUED"}catch{$em=$_.Exception.Message;if(Is-BenignRenameError $em){PrintKV "RESULT" "RENAME SKIPPED: ALREADY SET"}else{PrintKV "RESULT" ("RENAME WARNING: "+$em)}}}
 
-    Write-Section "SUPEROPS SYNC"
+    Write-Section "SUPEROPS SYNC" "RUN"
     $headers=@{"Content-Type"="application/json";"CustomerSubDomain"=$SUPEROPS_SUBDOMAIN;"Authorization"="Bearer $SUPEROPS_API_KEY"}
     $mutation=@'
 mutation updateAsset($input: UpdateAssetInput!){updateAsset(input:$input){assetId name}}
@@ -264,8 +265,8 @@ mutation updateAsset($input: UpdateAssetInput!){updateAsset(input:$input){assetI
     if($resp.PSObject.Properties['errors'] -and $resp.errors){throw ("SUPEROPS ERROR: "+($resp.errors|ConvertTo-Json -Compress))}
     PrintKV "RESULT" "SUPEROPS ASSET NAME UPDATED"
 
-    Write-Section "FINAL STATUS"
+    Write-Section "FINAL STATUS" "OK"
     Write-Host " RENAME SCHEDULED IF NEEDED. REBOOT TO APPLY NEW HOSTNAME"
     Write-Host " SUPEROPS ASSET NAME SYNCED"
-    Write-Section "SCRIPT COMPLETED";exit 0
-}catch{Write-Host "";Write-Section "ERROR OCCURRED";PrintKV "ERROR MESSAGE" ($_.Exception.Message.ToUpper());exit 1}
+    Write-Section "SCRIPT COMPLETED" "OK";exit 0
+}catch{Write-Host "";Write-Section "ERROR OCCURRED" "ERROR";PrintKV "ERROR MESSAGE" ($_.Exception.Message.ToUpper());exit 1}

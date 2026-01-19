@@ -8,9 +8,9 @@ $ErrorActionPreference = 'Stop'
 ███████╗██║██║ ╚═╝ ██║███████╗██║  ██║██║  ██║╚███╔███╔╝██║  ██╗
 ╚══════╝╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚══╝╚══╝ ╚═╝  ╚═╝
 ================================================================================
- SCRIPT   : WinRE Restore                                                v1.0.1
+ SCRIPT   : WinRE Restore                                                v1.0.3
  AUTHOR   : Limehawk.io
- DATE      : December 2025
+ DATE     : January 2026
  USAGE    : .\winre_restore.ps1
 ================================================================================
  FILE     : winre_restore.ps1
@@ -69,29 +69,31 @@ DESCRIPTION : Restores Windows Recovery Environment from system image
 
  EXAMPLE RUN
 
- [ INPUT VALIDATION ]
- --------------------------------------------------------------
+ [INFO] INPUT VALIDATION
+ ==============================================================
  WinRE WIM URL   : https://your-server.com/Winre.wim
  ReAgent XML URL : https://your-server.com/ReAgent.xml
  Recovery Path   : C:\Windows\System32\Recovery
 
- [ OPERATION ]
- --------------------------------------------------------------
+ [RUN] OPERATION
+ ==============================================================
  Disabling WinRE...
  Downloading Winre.wim...
  Downloading ReAgent.xml...
  Moving files to Recovery folder...
  Enabling WinRE...
 
- [ RESULT ]
- --------------------------------------------------------------
+ [INFO] RESULT
+ ==============================================================
  Status : Success
 
- [ SCRIPT COMPLETED ]
- --------------------------------------------------------------
+ [INFO] SCRIPT COMPLETE
+ ==============================================================
 --------------------------------------------------------------------------------
  CHANGELOG
 --------------------------------------------------------------------------------
+ 2026-01-19 v1.0.3 Fixed EXAMPLE RUN section formatting
+ 2026-01-19 v1.0.2 Updated to two-line ASCII console output style
  2025-12-23 v1.0.1 Updated to Limehawk Script Framework
  2025-11-29 v1.0.0 Initial Style A implementation
 ================================================================================
@@ -123,8 +125,8 @@ if ([string]::IsNullOrWhiteSpace($ReAgentXmlUrl)) {
 
 if ($errorOccurred) {
     Write-Host ""
-    Write-Host "[ ERROR OCCURRED ]"
-    Write-Host "--------------------------------------------------------------"
+    Write-Host "[ERROR] ERROR OCCURRED"
+    Write-Host "=============================================================="
     Write-Host $errorText
     exit 1
 }
@@ -133,8 +135,8 @@ if ($errorOccurred) {
 $isAdmin = ([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole] "Administrator")
 if (-not $isAdmin) {
     Write-Host ""
-    Write-Host "[ ERROR OCCURRED ]"
-    Write-Host "--------------------------------------------------------------"
+    Write-Host "[ERROR] ERROR OCCURRED"
+    Write-Host "=============================================================="
     Write-Host "Script requires admin privileges."
     Write-Host "Please relaunch as Administrator."
     exit 1
@@ -142,25 +144,25 @@ if (-not $isAdmin) {
 
 # ==== RUNTIME OUTPUT ====
 Write-Host ""
-Write-Host "[ INPUT VALIDATION ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[INFO] INPUT VALIDATION"
+Write-Host "=============================================================="
 Write-Host "WinRE WIM URL   : $WinreWimUrl"
 Write-Host "ReAgent XML URL : $ReAgentXmlUrl"
 Write-Host "Recovery Path   : $RecoveryPath"
 
 Write-Host ""
-Write-Host "[ OPERATION ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[INFO] OPERATION"
+Write-Host "=============================================================="
 
 try {
     # Disable WinRE
-    Write-Host "Disabling WinRE..."
+    Write-Host "[RUN] Disabling WinRE..."
     $result = reagentc /disable 2>&1
     Write-Host "  $result"
 
     # Ensure recovery directory exists
     if (-not (Test-Path $RecoveryPath)) {
-        Write-Host "Creating Recovery directory..."
+        Write-Host "[RUN] Creating Recovery directory..."
         New-Item -Path $RecoveryPath -ItemType Directory -Force | Out-Null
     }
 
@@ -168,7 +170,7 @@ try {
     $wimTempPath = Join-Path $env:TEMP "Winre.wim"
     $wimFinalPath = Join-Path $RecoveryPath "Winre.wim"
 
-    Write-Host "Downloading Winre.wim..."
+    Write-Host "[RUN] Downloading Winre.wim..."
     if (Test-Path $wimTempPath) { Remove-Item $wimTempPath -Force }
 
     $webClient = New-Object System.Net.WebClient
@@ -181,13 +183,13 @@ try {
     if (-not (Test-Path $wimTempPath)) {
         throw "Failed to download Winre.wim"
     }
-    Write-Host "  Downloaded successfully"
+    Write-Host "[OK] Downloaded successfully"
 
     # Download ReAgent.xml
     $xmlTempPath = Join-Path $env:TEMP "ReAgent.xml"
     $xmlFinalPath = Join-Path $RecoveryPath "ReAgent.xml"
 
-    Write-Host "Downloading ReAgent.xml..."
+    Write-Host "[RUN] Downloading ReAgent.xml..."
     if (Test-Path $xmlTempPath) { Remove-Item $xmlTempPath -Force }
 
     $webClient = New-Object System.Net.WebClient
@@ -200,16 +202,16 @@ try {
     if (-not (Test-Path $xmlTempPath)) {
         throw "Failed to download ReAgent.xml"
     }
-    Write-Host "  Downloaded successfully"
+    Write-Host "[OK] Downloaded successfully"
 
     # Move files to Recovery folder
-    Write-Host "Moving files to Recovery folder..."
+    Write-Host "[RUN] Moving files to Recovery folder..."
     Move-Item -Path $wimTempPath -Destination $wimFinalPath -Force
     Move-Item -Path $xmlTempPath -Destination $xmlFinalPath -Force
-    Write-Host "  Files moved successfully"
+    Write-Host "[OK] Files moved successfully"
 
     # Enable WinRE
-    Write-Host "Enabling WinRE..."
+    Write-Host "[RUN] Enabling WinRE..."
     $result = reagentc /enable 2>&1
     Write-Host "  $result"
 
@@ -220,14 +222,14 @@ try {
 
 if ($errorOccurred) {
     Write-Host ""
-    Write-Host "[ ERROR OCCURRED ]"
-    Write-Host "--------------------------------------------------------------"
+    Write-Host "[ERROR] ERROR OCCURRED"
+    Write-Host "=============================================================="
     Write-Host $errorText
 }
 
 Write-Host ""
-Write-Host "[ RESULT ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[INFO] RESULT"
+Write-Host "=============================================================="
 if ($errorOccurred) {
     Write-Host "Status : Failure"
 } else {
@@ -235,20 +237,20 @@ if ($errorOccurred) {
 }
 
 Write-Host ""
-Write-Host "[ FINAL STATUS ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[INFO] FINAL STATUS"
+Write-Host "=============================================================="
 if ($errorOccurred) {
-    Write-Host "WinRE restore failed. See error above."
+    Write-Host "[ERROR] WinRE restore failed. See error above."
 } else {
-    Write-Host "Windows Recovery Environment has been restored."
+    Write-Host "[OK] Windows Recovery Environment has been restored."
     # Check WinRE status
     $status = reagentc /info 2>&1
     Write-Host $status
 }
 
 Write-Host ""
-Write-Host "[ SCRIPT COMPLETED ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[INFO] SCRIPT COMPLETE"
+Write-Host "=============================================================="
 
 if ($errorOccurred) {
     exit 1

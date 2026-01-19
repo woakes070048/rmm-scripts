@@ -7,7 +7,7 @@
 # ███████╗██║██║ ╚═╝ ██║███████╗██║  ██║██║  ██║╚███╔███╔╝██║  ██╗
 # ╚══════╝╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚══╝╚══╝ ╚═╝  ╚═╝
 # ================================================================================
-#  SCRIPT   : Splashtop Service Restart (macOS)                          v2.1.1
+#  SCRIPT   : Splashtop Service Restart (macOS)                          v2.1.2
 #  AUTHOR   : Limehawk.io
 #  DATE     : January 2026
 #  USAGE    : sudo ./splashtop_service_restart_macos.sh
@@ -72,30 +72,31 @@
 #
 #  EXAMPLE RUN
 #
-#    [ INPUT VALIDATION ]
-#    --------------------------------------------------------------
+#    [OK] INPUT VALIDATION
+#    ==============================================================
 #    All required inputs are valid
 #
-#    [ SPLASHTOP SERVICE RESTART ]
-#    --------------------------------------------------------------
+#    [INFO] SPLASHTOP SERVICE RESTART
+#    ==============================================================
 #    Plist Path : /Library/LaunchDaemons/com.splashtop.streamer-for-admin.plist
 #
-#    [ RESTARTING SERVICE ]
-#    --------------------------------------------------------------
+#    [RUN] RESTARTING SERVICE
+#    ==============================================================
 #    Stopping Splashtop service...
 #    Starting Splashtop service...
 #
-#    [ FINAL STATUS ]
-#    --------------------------------------------------------------
+#    [OK] FINAL STATUS
+#    ==============================================================
 #    Result : SUCCESS
 #    Splashtop service restarted successfully
 #
-#    [ SCRIPT COMPLETE ]
-#    --------------------------------------------------------------
+#    [INFO] SCRIPT COMPLETE
+#    ==============================================================
 #
 # --------------------------------------------------------------------------------
 #  CHANGELOG
 # --------------------------------------------------------------------------------
+#  2026-01-19 v2.1.2 Updated to two-line ASCII console output style
 #  2026-01-14 v2.1.1 Moved ASCII art to top of comment block for compliance
 #  2025-12-23 v2.1.0 Updated to match PowerShell README structure
 #  2025-12-23 v2.0.0 Updated to Limehawk Script Framework
@@ -121,16 +122,16 @@ fi
 
 if [[ "$ERROR_OCCURRED" = true ]]; then
     echo ""
-    echo "[ ERROR OCCURRED ]"
-    echo "--------------------------------------------------------------"
+    echo "[ERROR] INPUT VALIDATION FAILED"
+    echo "=============================================================="
     echo -e "$ERROR_TEXT"
     echo ""
     exit 1
 fi
 
 echo ""
-echo "[ INPUT VALIDATION ]"
-echo "--------------------------------------------------------------"
+echo "[OK] INPUT VALIDATION"
+echo "=============================================================="
 echo "All required inputs are valid"
 
 # ============================================================================
@@ -138,15 +139,15 @@ echo "All required inputs are valid"
 # ============================================================================
 
 echo ""
-echo "[ SPLASHTOP SERVICE RESTART ]"
-echo "--------------------------------------------------------------"
+echo "[INFO] SPLASHTOP SERVICE RESTART"
+echo "=============================================================="
 echo "Plist Path : $PLIST_PATH"
 
 # Check if plist exists
 if [[ ! -f "$PLIST_PATH" ]]; then
     echo ""
-    echo "[ ERROR OCCURRED ]"
-    echo "--------------------------------------------------------------"
+    echo "[ERROR] ERROR OCCURRED"
+    echo "=============================================================="
     echo "Splashtop launch daemon not found"
     echo "Expected : $PLIST_PATH"
     echo "Is Splashtop Streamer installed?"
@@ -155,8 +156,8 @@ if [[ ! -f "$PLIST_PATH" ]]; then
 fi
 
 echo ""
-echo "[ RESTARTING SERVICE ]"
-echo "--------------------------------------------------------------"
+echo "[RUN] RESTARTING SERVICE"
+echo "=============================================================="
 
 # Stop service
 echo "Stopping Splashtop service..."
@@ -166,8 +167,8 @@ launchctl unload "$PLIST_PATH" 2>/dev/null || true
 echo "Starting Splashtop service..."
 if ! launchctl load "$PLIST_PATH"; then
     echo ""
-    echo "[ ERROR OCCURRED ]"
-    echo "--------------------------------------------------------------"
+    echo "[ERROR] ERROR OCCURRED"
+    echo "=============================================================="
     echo "Failed to start Splashtop service"
     echo "The launch daemon could not be loaded"
     echo ""
@@ -175,12 +176,12 @@ if ! launchctl load "$PLIST_PATH"; then
 fi
 
 echo ""
-echo "[ FINAL STATUS ]"
-echo "--------------------------------------------------------------"
+echo "[OK] FINAL STATUS"
+echo "=============================================================="
 echo "Result : SUCCESS"
 echo "Splashtop service restarted successfully"
 
 echo ""
-echo "[ SCRIPT COMPLETE ]"
-echo "--------------------------------------------------------------"
+echo "[INFO] SCRIPT COMPLETE"
+echo "=============================================================="
 exit 0

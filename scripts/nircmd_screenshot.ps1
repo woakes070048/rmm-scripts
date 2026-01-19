@@ -8,9 +8,9 @@ $ErrorActionPreference = 'Stop'
 ╚══════╝╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚══╝╚══╝ ╚═╝  ╚═╝
 
 ================================================================================
-SCRIPT  : Screenshot Capture using NirCmd v1.1.0
+SCRIPT  : Screenshot Capture using NirCmd v1.1.2
 AUTHOR  : Limehawk.io
-DATE      : December 2025
+DATE      : January 2026
 USAGE   : .\nircmd_screenshot.ps1
 FILE    : nircmd_screenshot.ps1
 DESCRIPTION : Captures screenshot using NirSoft NirCmd utility
@@ -47,31 +47,34 @@ EXIT CODES:
     1 = Failure
 
 EXAMPLE RUN:
-    [ INPUT VALIDATION ]
-    --------------------------------------------------------------
+    [INFO] INPUT VALIDATION
+    ==============================================================
     Destination : C:\limehawk\nirsoft
     Screenshot Dir : C:\limehawk\nirsoft\screenshots
 
-    [ DOWNLOADING NIRCMD ]
-    --------------------------------------------------------------
+    [RUN] DOWNLOADING NIRCMD
+    ==============================================================
     Architecture : x64
     Download URL : https://www.nirsoft.net/utils/nircmd-x64.zip
+    Downloading NirCmd...
     Download complete
 
-    [ CAPTURING SCREENSHOT ]
-    --------------------------------------------------------------
+    [RUN] CAPTURING SCREENSHOT
+    ==============================================================
     Filename : screenshot_20241201-143022.png
     Saved to : C:\limehawk\nirsoft\screenshots\screenshot_20241201-143022.png
 
-    [ FINAL STATUS ]
-    --------------------------------------------------------------
+    [OK] FINAL STATUS
+    ==============================================================
     Result : SUCCESS
 
-    [ SCRIPT COMPLETED ]
-    --------------------------------------------------------------
+    [OK] SCRIPT COMPLETED
+    ==============================================================
 
 CHANGELOG
 --------------------------------------------------------------------------------
+2026-01-19 v1.1.2 Fixed EXAMPLE RUN section formatting
+2026-01-19 v1.1.1 Updated to two-line ASCII console output style
 2025-12-23 v1.1.0 Updated to Limehawk Script Framework
 2024-12-01 v1.0.0 Initial release - migrated from SuperOps
 ================================================================================
@@ -88,8 +91,8 @@ $screenshotFolder = "$destinationFolder\screenshots"
 # INPUT VALIDATION
 # ============================================================================
 Write-Host ""
-Write-Host "[ INPUT VALIDATION ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[INFO] INPUT VALIDATION"
+Write-Host "=============================================================="
 Write-Host "Destination    : $destinationFolder"
 Write-Host "Screenshot Dir : $screenshotFolder"
 
@@ -97,8 +100,8 @@ Write-Host "Screenshot Dir : $screenshotFolder"
 # DETERMINE DOWNLOAD URL
 # ============================================================================
 Write-Host ""
-Write-Host "[ DOWNLOADING NIRCMD ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[INFO] DOWNLOADING NIRCMD"
+Write-Host "=============================================================="
 
 if ([Environment]::Is64BitOperatingSystem) {
     $downloadUrl = "https://www.nirsoft.net/utils/nircmd-x64.zip"
@@ -130,17 +133,17 @@ try {
 
     # Download NirCmd if not present
     if (-not (Test-Path -Path $exePath)) {
-        Write-Host "Downloading NirCmd..."
+        Write-Host "[RUN] Downloading NirCmd..."
         Invoke-WebRequest -Uri $downloadUrl -OutFile $zipPath -UseBasicParsing
-        Write-Host "Download complete"
+        Write-Host "[OK] Download complete"
 
-        Write-Host "Extracting..."
+        Write-Host "[RUN] Extracting..."
         Expand-Archive -Path $zipPath -DestinationPath $destinationFolder -Force
-        Write-Host "Extraction complete"
+        Write-Host "[OK] Extraction complete"
 
         # Clean up zip file
         Remove-Item -Path $zipPath -Force
-        Write-Host "Cleaned up zip file"
+        Write-Host "[OK] Cleaned up zip file"
     }
     else {
         Write-Host "NirCmd already installed"
@@ -148,8 +151,8 @@ try {
 }
 catch {
     Write-Host ""
-    Write-Host "[ ERROR OCCURRED ]"
-    Write-Host "--------------------------------------------------------------"
+    Write-Host "[ERROR] DOWNLOAD FAILED"
+    Write-Host "=============================================================="
     Write-Host "Failed to download/install NirCmd"
     Write-Host "Error : $($_.Exception.Message)"
     exit 1
@@ -159,8 +162,8 @@ catch {
 # CAPTURE SCREENSHOT
 # ============================================================================
 Write-Host ""
-Write-Host "[ CAPTURING SCREENSHOT ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[INFO] CAPTURING SCREENSHOT"
+Write-Host "=============================================================="
 
 try {
     $timestamp = Get-Date -Format "yyyyMMdd-HHmmss"
@@ -171,7 +174,7 @@ try {
     Start-Process -FilePath $exePath -ArgumentList "savescreenshot `"$screenshotPath`"" -Wait -NoNewWindow
 
     if (Test-Path -Path $screenshotPath) {
-        Write-Host "Saved to       : $screenshotPath"
+        Write-Host "[OK] Saved to       : $screenshotPath"
     }
     else {
         throw "Screenshot file was not created"
@@ -179,8 +182,8 @@ try {
 }
 catch {
     Write-Host ""
-    Write-Host "[ ERROR OCCURRED ]"
-    Write-Host "--------------------------------------------------------------"
+    Write-Host "[ERROR] CAPTURE FAILED"
+    Write-Host "=============================================================="
     Write-Host "Failed to capture screenshot"
     Write-Host "Error : $($_.Exception.Message)"
     exit 1
@@ -190,13 +193,13 @@ catch {
 # FINAL STATUS
 # ============================================================================
 Write-Host ""
-Write-Host "[ FINAL STATUS ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[INFO] FINAL STATUS"
+Write-Host "=============================================================="
 Write-Host "Result : SUCCESS"
 Write-Host "Screenshot saved to: $screenshotPath"
 
 Write-Host ""
-Write-Host "[ SCRIPT COMPLETED ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[INFO] SCRIPT COMPLETED"
+Write-Host "=============================================================="
 
 exit 0

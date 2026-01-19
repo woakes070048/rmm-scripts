@@ -9,7 +9,7 @@ $ErrorActionPreference = 'Stop'
 ███████╗██║██║ ╚═╝ ██║███████╗██║  ██║██║  ██║╚███╔███╔╝██║  ██╗
 ╚══════╝╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚══╝╚══╝ ╚═╝  ╚═╝
 ================================================================================
- SCRIPT   : Rename to Snake Case                                        v1.1.1
+ SCRIPT   : Rename to Snake Case                                        v1.1.2
  AUTHOR   : Limehawk.io
  DATE     : January 2026
  USAGE    : .\rename_to_snake_case.ps1
@@ -66,28 +66,29 @@ $ErrorActionPreference = 'Stop'
 
  EXAMPLE RUN
 
- [ INPUT VALIDATION ]
- --------------------------------------------------------------
+ [INFO] INPUT VALIDATION
+ ==============================================================
  Target Path : C:\Users\Example\Documents\MyFolder
 
- [ OPERATION ]
- --------------------------------------------------------------
+ [RUN] OPERATION
+ ==============================================================
  Processing 15 items...
  Renamed "My File.txt" to "my_file.txt"
  Renamed "Another-File.pdf" to "another_file.pdf"
  Renamed "Sub Folder" to "sub_folder"
 
- [ RESULT ]
- --------------------------------------------------------------
+ [OK] RESULT
+ ==============================================================
  Status  : Success
  Renamed : 12 items
  Skipped : 3 items (already snake_case)
 
- [ SCRIPT COMPLETED ]
- --------------------------------------------------------------
+ [OK] SCRIPT COMPLETED
+ ==============================================================
 --------------------------------------------------------------------------------
  CHANGELOG
 --------------------------------------------------------------------------------
+ 2026-01-19 v1.1.2 Updated to two-line ASCII console output style
  2026-01-14 v1.1.1 Added Import-Module for SuperOps placeholder support
  2025-12-23 v1.1.0 Updated to Limehawk Script Framework
  2025-11-29 v1.0.0 Initial Style A implementation
@@ -134,21 +135,21 @@ if (-not $errorOccurred -and -not (Test-Path -Path $TargetPath -PathType Contain
 
 if ($errorOccurred) {
     Write-Host ""
-    Write-Host "[ ERROR OCCURRED ]"
-    Write-Host "--------------------------------------------------------------"
+    Write-Host "[ERROR] VALIDATION FAILED"
+    Write-Host "=============================================================="
     Write-Host $errorText
     exit 1
 }
 
 # ==== RUNTIME OUTPUT ====
 Write-Host ""
-Write-Host "[ INPUT VALIDATION ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[INFO] INPUT VALIDATION"
+Write-Host "=============================================================="
 Write-Host "Target Path : $TargetPath"
 
 Write-Host ""
-Write-Host "[ OPERATION ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[RUN] OPERATION"
+Write-Host "=============================================================="
 
 try {
     # Get all items in the directory recursively
@@ -184,14 +185,18 @@ try {
 
 if ($errorOccurred) {
     Write-Host ""
-    Write-Host "[ ERROR OCCURRED ]"
-    Write-Host "--------------------------------------------------------------"
+    Write-Host "[ERROR] OPERATION FAILED"
+    Write-Host "=============================================================="
     Write-Host $errorText
 }
 
 Write-Host ""
-Write-Host "[ RESULT ]"
-Write-Host "--------------------------------------------------------------"
+if ($errorOccurred) {
+    Write-Host "[ERROR] RESULT"
+} else {
+    Write-Host "[OK] RESULT"
+}
+Write-Host "=============================================================="
 if ($errorOccurred) {
     Write-Host "Status : Failure"
 } else {
@@ -201,8 +206,12 @@ if ($errorOccurred) {
 }
 
 Write-Host ""
-Write-Host "[ FINAL STATUS ]"
-Write-Host "--------------------------------------------------------------"
+if ($errorOccurred) {
+    Write-Host "[ERROR] FINAL STATUS"
+} else {
+    Write-Host "[OK] FINAL STATUS"
+}
+Write-Host "=============================================================="
 if ($errorOccurred) {
     Write-Host "Snake case rename failed. See error above."
 } else {
@@ -210,8 +219,12 @@ if ($errorOccurred) {
 }
 
 Write-Host ""
-Write-Host "[ SCRIPT COMPLETED ]"
-Write-Host "--------------------------------------------------------------"
+if ($errorOccurred) {
+    Write-Host "[ERROR] SCRIPT COMPLETED"
+} else {
+    Write-Host "[OK] SCRIPT COMPLETED"
+}
+Write-Host "=============================================================="
 
 if ($errorOccurred) {
     exit 1

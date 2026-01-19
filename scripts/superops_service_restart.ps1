@@ -7,7 +7,7 @@ $ErrorActionPreference = 'Stop'
 ███████╗██║██║ ╚═╝ ██║███████╗██║  ██║██║  ██║╚███╔███╔╝██║  ██╗
 ╚══════╝╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚══╝╚══╝ ╚═╝  ╚═╝
 ================================================================================
- SCRIPT   : Restart SuperOps Services                                    v2.2.0
+ SCRIPT   : Restart SuperOps Services                                    v2.2.1
  AUTHOR   : Limehawk.io
  DATE     : January 2026
  USAGE    : .\superops_service_restart.ps1
@@ -85,16 +85,19 @@ EXIT CODES
 --------------------------------------------------------------------------------
 EXAMPLE RUN (Manual Execution)
 
-╔═[i]═ INPUT VALIDATION ═══════════════════════════════════════
+[INFO] INPUT VALIDATION
+==============================================================
   Service Filter   : limehawk
   Wildcard Pattern : *limehawk*
 
-╔═[i]═ ENVIRONMENT DETECTION ══════════════════════════════════
+[INFO] ENVIRONMENT DETECTION
+==============================================================
   Running as Administrator : True
   Running from RMM Agent   : False
   Restart Mode             : Direct (synchronous)
 
-╔═[>]═ RESTART SERVICES ═══════════════════════════════════════
+[RUN] RESTART SERVICES
+==============================================================
   Finding services matching: *limehawk*
   Found 2 service(s)
     - LimehawkAgent (Running)
@@ -104,29 +107,35 @@ EXAMPLE RUN (Manual Execution)
     - LimehawkAgent : Restarted (Running)
     - LimehawkUpdater : Restarted (Running)
 
-╔═[i]═ RESULT ──────═══════════════════════════════════════════
+[INFO] RESULT
+==============================================================
   Status             : Success
   Services Found     : 2
   Services Restarted : 2
 
-╔═[✓]═ FINAL STATUS ═══════════════════════════════════════════
+[OK] FINAL STATUS
+==============================================================
   All services restarted successfully
 
-╔═[✓]═ SCRIPT COMPLETED ═══════════════════════════════════════
+[OK] SCRIPT COMPLETED
+==============================================================
 
 --------------------------------------------------------------------------------
 EXAMPLE RUN (RMM Execution)
 
-╔═[i]═ INPUT VALIDATION ═══════════════════════════════════════
+[INFO] INPUT VALIDATION
+==============================================================
   Service Filter   : limehawk
   Wildcard Pattern : *limehawk*
 
-╔═[i]═ ENVIRONMENT DETECTION ══════════════════════════════════
+[INFO] ENVIRONMENT DETECTION
+==============================================================
   Running as Administrator : True
   Running from RMM Agent   : True
   Restart Mode             : Background (scheduled)
 
-╔═[>]═ RESTART SERVICES ═══════════════════════════════════════
+[RUN] RESTART SERVICES
+==============================================================
   Finding services matching: *limehawk*
   Found 2 service(s)
     - LimehawkAgent (Running)
@@ -135,19 +144,23 @@ EXAMPLE RUN (RMM Execution)
   Scheduling background restart in 30 seconds...
   Restart command issued successfully
 
-╔═[i]═ RESULT ──────═══════════════════════════════════════════
+[INFO] RESULT
+==============================================================
   Status         : Success
   Services Found : 2
   Restart Mode   : Scheduled (background)
 
-╔═[✓]═ FINAL STATUS ═══════════════════════════════════════════
+[OK] FINAL STATUS
+==============================================================
   Service restart scheduled - will execute after script exits
 
-╔═[✓]═ SCRIPT COMPLETED ═══════════════════════════════════════
+[OK] SCRIPT COMPLETED
+==============================================================
 
 --------------------------------------------------------------------------------
  CHANGELOG
 --------------------------------------------------------------------------------
+ 2026-01-19 v2.2.1 Updated to two-line ASCII console output style
  2026-01-19 v2.2.0 Updated to corner bracket style section headers
  2026-01-18 v2.1.2 Increased background restart delay to 30 seconds
  2026-01-18 v2.1.1 DEBUG: Re-enabled restart, added command output
@@ -207,7 +220,8 @@ function Test-RunningFromRMM {
 # ==============================================================================
 
 Write-Host ""
-Write-Host "╔═[i]═ INPUT VALIDATION ═══════════════════════════════════════"
+Write-Host "[INFO] INPUT VALIDATION"
+Write-Host "=============================================================="
 
 if ([string]::IsNullOrWhiteSpace($serviceFilter) -or $serviceFilter -eq '$' + 'YourServiceFilterHere') {
     $errorOccurred = $true
@@ -217,13 +231,16 @@ if ([string]::IsNullOrWhiteSpace($serviceFilter) -or $serviceFilter -eq '$' + 'Y
 if ($errorOccurred) {
     Write-Host "Service Filter : (not set)"
     Write-Host ""
-    Write-Host "╔═[✗]═ ERROR OCCURRED ──═══════════════════════════════════════"
+    Write-Host "[ERROR] ERROR OCCURRED"
+    Write-Host "=============================================================="
     Write-Host $errorText
     Write-Host ""
-    Write-Host "╔═[✗]═ FINAL STATUS ═══════════════════════════════════════════"
+    Write-Host "[ERROR] FINAL STATUS"
+    Write-Host "=============================================================="
     Write-Host "Script cannot proceed. Configure the runtime variable in SuperOps."
     Write-Host ""
-    Write-Host "╔═[✗]═ SCRIPT COMPLETED ═══════════════════════════════════════"
+    Write-Host "[ERROR] SCRIPT COMPLETED"
+    Write-Host "=============================================================="
     exit 1
 }
 
@@ -236,21 +253,25 @@ Write-Host "Wildcard Pattern : $wildcardPattern"
 # ==============================================================================
 
 Write-Host ""
-Write-Host "╔═[i]═ ENVIRONMENT DETECTION ══════════════════════════════════"
+Write-Host "[INFO] ENVIRONMENT DETECTION"
+Write-Host "=============================================================="
 
 $isAdmin = ([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)
 Write-Host "Running as Administrator : $isAdmin"
 
 if (-not $isAdmin) {
     Write-Host ""
-    Write-Host "╔═[✗]═ ERROR OCCURRED ──═══════════════════════════════════════"
+    Write-Host "[ERROR] ERROR OCCURRED"
+    Write-Host "=============================================================="
     Write-Host "This script requires administrator privileges."
     Write-Host "Please run PowerShell as Administrator and try again."
     Write-Host ""
-    Write-Host "╔═[✗]═ FINAL STATUS ═══════════════════════════════════════════"
+    Write-Host "[ERROR] FINAL STATUS"
+    Write-Host "=============================================================="
     Write-Host "Script cannot proceed without admin privileges."
     Write-Host ""
-    Write-Host "╔═[✗]═ SCRIPT COMPLETED ═══════════════════════════════════════"
+    Write-Host "[ERROR] SCRIPT COMPLETED"
+    Write-Host "=============================================================="
     exit 1
 }
 
@@ -268,7 +289,8 @@ if ($runningFromRMM) {
 # ==============================================================================
 
 Write-Host ""
-Write-Host "╔═[i]═ DEBUG: PROCESS TREE ════════════════════════════════════"
+Write-Host "[INFO] DEBUG: PROCESS TREE"
+Write-Host "=============================================================="
 Write-Host "Current Process:"
 Write-Host "  PID          : $PID"
 Write-Host "  Process Name : $((Get-Process -Id $PID).ProcessName)"
@@ -316,7 +338,8 @@ Write-Host "  Would detect    : $runningFromRMM"
 # ==============================================================================
 
 Write-Host ""
-Write-Host "╔═[>]═ RESTART SERVICES ═══════════════════════════════════════"
+Write-Host "[RUN] RESTART SERVICES"
+Write-Host "=============================================================="
 
 Write-Host "Finding services matching: $wildcardPattern"
 
@@ -325,17 +348,20 @@ try {
 
     if ($null -eq $services) {
         Write-Host ""
-        Write-Host "╔═[✗]═ ERROR OCCURRED ──═══════════════════════════════════════"
+        Write-Host "[ERROR] ERROR OCCURRED"
+        Write-Host "=============================================================="
         Write-Host "No services found matching pattern: $wildcardPattern"
         Write-Host "Possible causes:"
         Write-Host "  - RMM agent is not installed"
         Write-Host "  - Service filter '$serviceFilter' does not match any services"
         Write-Host "  - Services have been uninstalled"
         Write-Host ""
-        Write-Host "╔═[✗]═ FINAL STATUS ═══════════════════════════════════════════"
+        Write-Host "[ERROR] FINAL STATUS"
+        Write-Host "=============================================================="
         Write-Host "No services to restart."
         Write-Host ""
-        Write-Host "╔═[✗]═ SCRIPT COMPLETED ═══════════════════════════════════════"
+        Write-Host "[ERROR] SCRIPT COMPLETED"
+        Write-Host "=============================================================="
         exit 1
     }
 
@@ -396,7 +422,8 @@ try {
 
 if ($errorOccurred) {
     Write-Host ""
-    Write-Host "╔═[✗]═ ERROR OCCURRED ──═══════════════════════════════════════"
+    Write-Host "[ERROR] ERROR OCCURRED"
+    Write-Host "=============================================================="
     Write-Host $errorText
 }
 
@@ -405,7 +432,8 @@ if ($errorOccurred) {
 # ==============================================================================
 
 Write-Host ""
-Write-Host "╔═[i]═ RESULT ──────═══════════════════════════════════════════"
+Write-Host "[INFO] RESULT"
+Write-Host "=============================================================="
 
 if ($errorOccurred) {
     Write-Host "Status             : Failure"
@@ -425,21 +453,27 @@ if ($runningFromRMM) {
 # ==============================================================================
 
 Write-Host ""
-Write-Host "╔═[✓]═ FINAL STATUS ═══════════════════════════════════════════"
-
 if ($errorOccurred) {
+    Write-Host "[ERROR] FINAL STATUS"
+    Write-Host "=============================================================="
     Write-Host "Some services failed to restart. See error details above."
-} elseif ($runningFromRMM) {
-    Write-Host "Service restart scheduled - will execute after script exits"
 } else {
-    Write-Host "All services restarted successfully"
+    Write-Host "[OK] FINAL STATUS"
+    Write-Host "=============================================================="
+    if ($runningFromRMM) {
+        Write-Host "Service restart scheduled - will execute after script exits"
+    } else {
+        Write-Host "All services restarted successfully"
+    }
 }
 
 Write-Host ""
-Write-Host "╔═[✓]═ SCRIPT COMPLETED ═══════════════════════════════════════"
-
 if ($errorOccurred) {
+    Write-Host "[ERROR] SCRIPT COMPLETED"
+    Write-Host "=============================================================="
     exit 1
 } else {
+    Write-Host "[OK] SCRIPT COMPLETED"
+    Write-Host "=============================================================="
     exit 0
 }

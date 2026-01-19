@@ -7,9 +7,9 @@ $ErrorActionPreference = 'Stop'
 ███████╗██║██║ ╚═╝ ██║███████╗██║  ██║██║  ██║╚███╔███╔╝██║  ██╗
 ╚══════╝╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚══╝╚══╝ ╚═╝  ╚═╝
 ================================================================================
- SCRIPT   : Secure Delete with Certificate v1.0.1
+ SCRIPT   : Secure Delete with Certificate v1.0.2
  AUTHOR   : Limehawk.io
- DATE      : December 2025
+ DATE      : January 2026
  USAGE    : .\secure_delete_with_certificate.ps1
 ================================================================================
  FILE     : secure_delete_with_certificate.ps1
@@ -71,9 +71,9 @@ EXIT CODES:
     1 - Validation failed or deletion errors occurred
 
 EXAMPLE RUN (DRY RUN MODE):
-    --------------------------------------------------------------
-    [ INPUT VALIDATION ]
-    --------------------------------------------------------------
+
+    [INFO] INPUT VALIDATION
+    ==============================================================
     Target Path      : C:\Sensitive\Documents
     Operator         : John Smith
     Case Reference   : CASE-2025-001
@@ -86,13 +86,13 @@ EXAMPLE RUN (DRY RUN MODE):
 
     Validation passed
 
-    [ SESSION INITIALIZATION ]
-    --------------------------------------------------------------
+    [RUN] SESSION INITIALIZATION
+    ==============================================================
     Session ID : 20251208-143022-A7B3C9D1
     Started    : 2025-12-08 14:30:22.123 -05:00
 
-    [ SYSTEM INFORMATION ]
-    --------------------------------------------------------------
+    [RUN] SYSTEM INFORMATION
+    ==============================================================
     Collecting system information...
     Computer   : WORKSTATION-01
     User       : CONTOSO\jsmith
@@ -100,13 +100,13 @@ EXAMPLE RUN (DRY RUN MODE):
     SDelete    : v2.05
     Drive      : C: (NTFS)
 
-    [ FILE ENUMERATION ]
-    --------------------------------------------------------------
+    [RUN] FILE ENUMERATION
+    ==============================================================
     Target is a directory (recursive: True)
     Files found : 3
 
-    [ PRE-DELETION HASHING ]
-    --------------------------------------------------------------
+    [RUN] PRE-DELETION HASHING
+    ==============================================================
     Calculating hashes for all files...
     This may take a while for large files.
 
@@ -124,8 +124,8 @@ EXAMPLE RUN (DRY RUN MODE):
 
     Hashing complete for 3 files
 
-    [ CONFIRMATION ]
-    --------------------------------------------------------------
+    [WARN] CONFIRMATION
+    ==============================================================
     *** DRY RUN MODE ***
 
     The following files WOULD be destroyed (but won't be in dry run):
@@ -136,8 +136,8 @@ EXAMPLE RUN (DRY RUN MODE):
 
     Proceeding with dry run - no files will be modified.
 
-    [ SECURE DELETION ]
-    --------------------------------------------------------------
+    [RUN] SECURE DELETION
+    ==============================================================
     *** DRY RUN MODE - SKIPPING ACTUAL DELETION ***
 
     Would execute: sdelete -accepteula -p 3 -nobanner <file>
@@ -147,8 +147,8 @@ EXAMPLE RUN (DRY RUN MODE):
       [WOULD DELETE] spreadsheet.xlsx
       [WOULD DELETE] notes.txt
 
-    [ POST-DELETION VERIFICATION ]
-    --------------------------------------------------------------
+    [RUN] POST-DELETION VERIFICATION
+    ==============================================================
     *** DRY RUN MODE - FILES STILL EXIST ***
 
     EXISTS   : document1.pdf (dry run - not deleted)
@@ -158,13 +158,13 @@ EXAMPLE RUN (DRY RUN MODE):
     Dry run verification complete
     All files remain intact
 
-    [ CERTIFICATE GENERATION ]
-    --------------------------------------------------------------
+    [OK] CERTIFICATE GENERATION
+    ==============================================================
     Text certificate : C:\Users\john\Desktop\SecureDeletion_DRYRUN_20251208-143022.txt
     HTML certificate : C:\Users\john\Desktop\SecureDeletion_DRYRUN_20251208-143022.html
 
-    [ FINAL STATUS ]
-    --------------------------------------------------------------
+    [OK] FINAL STATUS
+    ==============================================================
     *** DRY RUN COMPLETE - NO FILES WERE DELETED ***
 
     Session ID          : 20251208-143022-A7B3C9D1
@@ -176,12 +176,13 @@ EXAMPLE RUN (DRY RUN MODE):
 
     To perform actual deletion, set $dryRun = $false and run again.
 
-    [ SCRIPT COMPLETED ]
-    --------------------------------------------------------------
+    [OK] SCRIPT COMPLETED
+    ==============================================================
 
 --------------------------------------------------------------------------------
  CHANGELOG
 --------------------------------------------------------------------------------
+ 2026-01-19 v1.0.2 Updated to two-line ASCII console output style
  2025-12-23 v1.0.1 Updated to Limehawk Script Framework
  2025-12-08 v1.0.0 Initial release - comprehensive secure deletion with certificate generation for legal documentation
 ================================================================================
@@ -250,10 +251,10 @@ $script:errorMessages = @()
 # ==============================================================================
 
 function Write-Section {
-    param([string]$Name)
+    param([string]$Name, [string]$Status = "INFO")
     Write-Host ""
-    Write-Host "[ $Name ]"
-    Write-Host "--------------------------------------------------------------"
+    Write-Host "[$Status] $Name"
+    Write-Host "=============================================================="
 }
 
 function Get-FormattedTimestamp {
@@ -1012,7 +1013,7 @@ function New-HtmlCertificate {
 # INPUT VALIDATION
 # ==============================================================================
 
-Write-Section "INPUT VALIDATION"
+Write-Section "INPUT VALIDATION" "INFO"
 
 $errorOccurred = $false
 $errorText = ""
@@ -1037,8 +1038,8 @@ if ($overwritePasses -lt 1 -or $overwritePasses -gt 35) {
 
 if ($errorOccurred) {
     Write-Host ""
-    Write-Host "[ ERROR OCCURRED ]"
-    Write-Host "--------------------------------------------------------------"
+    Write-Host "[ERROR] VALIDATION FAILED"
+    Write-Host "=============================================================="
     Write-Host $errorText
     exit 1
 }
@@ -1046,8 +1047,8 @@ if ($errorOccurred) {
 # Check if target exists
 if (-not (Test-Path -LiteralPath $targetPath)) {
     Write-Host ""
-    Write-Host "[ ERROR OCCURRED ]"
-    Write-Host "--------------------------------------------------------------"
+    Write-Host "[ERROR] PATH NOT FOUND"
+    Write-Host "=============================================================="
     Write-Host "Target path does not exist: $targetPath"
     Write-Host ""
     Write-Host "Please verify the path and try again."
@@ -1088,8 +1089,8 @@ if (-not $sdeleteAvailable) {
         $wingetAvailable = $null -ne (Get-Command winget -ErrorAction SilentlyContinue)
         if (-not $wingetAvailable) {
             Write-Host ""
-            Write-Host "[ ERROR OCCURRED ]"
-            Write-Host "--------------------------------------------------------------"
+            Write-Host "[ERROR] WINGET NOT AVAILABLE"
+            Write-Host "=============================================================="
             Write-Host "Winget is not available on this system."
             Write-Host "Please install SDelete manually from:"
             Write-Host "https://learn.microsoft.com/en-us/sysinternals/downloads/sdelete"
@@ -1129,8 +1130,8 @@ if (-not $sdeleteAvailable) {
 
             if (-not $sdeleteAvailable) {
                 Write-Host ""
-                Write-Host "[ ERROR OCCURRED ]"
-                Write-Host "--------------------------------------------------------------"
+                Write-Host "[ERROR] SDELETE NOT FOUND"
+                Write-Host "=============================================================="
                 Write-Host "SDelete installation completed but sdelete.exe not found."
                 Write-Host "Please install manually or add SDelete location to PATH."
                 exit 1
@@ -1140,15 +1141,15 @@ if (-not $sdeleteAvailable) {
             Write-Host ""
         } catch {
             Write-Host ""
-            Write-Host "[ ERROR OCCURRED ]"
-            Write-Host "--------------------------------------------------------------"
+            Write-Host "[ERROR] INSTALL FAILED"
+            Write-Host "=============================================================="
             Write-Host "Failed to install SDelete: $_"
             exit 1
         }
     } else {
         Write-Host ""
-        Write-Host "[ ERROR OCCURRED ]"
-        Write-Host "--------------------------------------------------------------"
+        Write-Host "[ERROR] SDELETE REQUIRED"
+        Write-Host "=============================================================="
         Write-Host "Microsoft SDelete is not installed or not in PATH."
         Write-Host ""
         Write-Host "Install with: winget install Microsoft.Sysinternals.SDelete"
@@ -1182,7 +1183,7 @@ Write-Host "Validation passed"
 # INITIALIZE SESSION
 # ==============================================================================
 
-Write-Section "SESSION INITIALIZATION"
+Write-Section "SESSION INITIALIZATION" "RUN"
 
 $script:sessionId = Get-SessionId
 $script:startTime = Get-FormattedTimestamp
@@ -1194,7 +1195,7 @@ Write-Host "Started    : $script:startTime"
 # SYSTEM INFORMATION
 # ==============================================================================
 
-Write-Section "SYSTEM INFORMATION"
+Write-Section "SYSTEM INFORMATION" "RUN"
 
 Write-Host "Collecting system information..."
 $script:systemInfo = Get-SystemInformation
@@ -1209,7 +1210,7 @@ Write-Host "Drive      : $($script:systemInfo['TargetDrive']) ($($script:systemI
 # FILE ENUMERATION
 # ==============================================================================
 
-Write-Section "FILE ENUMERATION"
+Write-Section "FILE ENUMERATION" "RUN"
 
 $filesToProcess = @()
 
@@ -1233,8 +1234,8 @@ Write-Host "Files found : $($filesToProcess.Count)"
 
 if ($filesToProcess.Count -eq 0) {
     Write-Host ""
-    Write-Host "[ ERROR OCCURRED ]"
-    Write-Host "--------------------------------------------------------------"
+    Write-Host "[ERROR] NO FILES FOUND"
+    Write-Host "=============================================================="
     Write-Host "No files found at target path."
     exit 1
 }
@@ -1243,7 +1244,7 @@ if ($filesToProcess.Count -eq 0) {
 # PRE-DELETION HASHING
 # ==============================================================================
 
-Write-Section "PRE-DELETION HASHING"
+Write-Section "PRE-DELETION HASHING" "RUN"
 
 Write-Host "Calculating hashes for all files..."
 Write-Host "This may take a while for large files."
@@ -1267,7 +1268,7 @@ Write-Host "Hashing complete for $($script:fileInventory.Count) files"
 # CONFIRMATION PROMPT
 # ==============================================================================
 
-Write-Section "CONFIRMATION"
+Write-Section "CONFIRMATION" "WARN"
 
 if ($dryRun) {
     Write-Host "*** DRY RUN MODE ***"
@@ -1296,8 +1297,8 @@ if ($dryRun) {
 
     if ($confirmation -ne 'DELETE') {
         Write-Host ""
-        Write-Host "[ ABORTED ]"
-        Write-Host "--------------------------------------------------------------"
+        Write-Host "[WARN] ABORTED"
+        Write-Host "=============================================================="
         Write-Host "Deletion cancelled by user."
         Write-Host "No files were modified."
         exit 0
@@ -1308,7 +1309,7 @@ if ($dryRun) {
 # SECURE DELETION
 # ==============================================================================
 
-Write-Section "SECURE DELETION"
+Write-Section "SECURE DELETION" "RUN"
 
 if ($dryRun) {
     Write-Host "*** DRY RUN MODE - SKIPPING ACTUAL DELETION ***"
@@ -1347,7 +1348,7 @@ if ($dryRun) {
 # POST-DELETION VERIFICATION
 # ==============================================================================
 
-Write-Section "POST-DELETION VERIFICATION"
+Write-Section "POST-DELETION VERIFICATION" "RUN"
 
 if ($dryRun) {
     Write-Host "*** DRY RUN MODE - FILES STILL EXIST ***"
@@ -1406,7 +1407,7 @@ if ($dryRun) {
 # CERTIFICATE GENERATION
 # ==============================================================================
 
-Write-Section "CERTIFICATE GENERATION"
+Write-Section "CERTIFICATE GENERATION" "OK"
 
 $script:endTime = Get-FormattedTimestamp
 
@@ -1445,7 +1446,7 @@ if ($generateHtml) {
 # FINAL STATUS
 # ==============================================================================
 
-Write-Section "FINAL STATUS"
+Write-Section "FINAL STATUS" "OK"
 
 if ($dryRun) {
     Write-Host "*** DRY RUN COMPLETE - NO FILES WERE DELETED ***"
@@ -1474,7 +1475,7 @@ if ($dryRun) {
     Write-Host "Review the certificate for details."
 }
 
-Write-Section "SCRIPT COMPLETED"
+Write-Section "SCRIPT COMPLETED" "OK"
 
 if (-not $dryRun -and ($script:errorOccurred -or $failCount -gt 0)) {
     exit 1

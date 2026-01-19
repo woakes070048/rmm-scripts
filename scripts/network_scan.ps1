@@ -8,9 +8,9 @@ $ErrorActionPreference = 'Stop'
 ╚══════╝╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚══╝╚══╝ ╚═╝  ╚═╝
 
 ================================================================================
- SCRIPT  : Network IP Scanner v1.0.1
+ SCRIPT  : Network IP Scanner v1.0.2
  AUTHOR  : Limehawk.io
- DATE      : December 2025
+ DATE      : January 2026
  FILE    : network_scan.ps1
  DESCRIPTION : Scans IP address range using multi-threaded ping to discover active hosts
  USAGE   : .\network_scan.ps1
@@ -48,34 +48,35 @@ EXIT CODES:
     1 = Failure (invalid IP range)
 
 EXAMPLE RUN:
-    [ INPUT VALIDATION ]
-    --------------------------------------------------------------
+    [INFO] INPUT VALIDATION
+    ==============================================================
     Start IP : 192.168.1.1
     End IP   : 192.168.1.254
     Threads  : 32
 
-    [ SCANNING NETWORK ]
-    --------------------------------------------------------------
+    [RUN] SCANNING NETWORK
+    ==============================================================
     Scanning 254 IP addresses...
 
-    [ RESULTS ]
-    --------------------------------------------------------------
+    [INFO] RESULTS
+    ==============================================================
     IPv4Address    Status Hostname
     -----------    ------ --------
     192.168.1.1    Up     router.local
     192.168.1.10   Up     desktop-pc.local
     192.168.1.25   Up
 
-    [ FINAL STATUS ]
-    --------------------------------------------------------------
+    [OK] FINAL STATUS
+    ==============================================================
     Result : 3 hosts found
 
-    [ SCRIPT COMPLETED ]
-    --------------------------------------------------------------
+    [OK] SCRIPT COMPLETED
+    ==============================================================
 
 --------------------------------------------------------------------------------
  CHANGELOG
 --------------------------------------------------------------------------------
+ 2026-01-19 v1.0.2 Updated to two-line ASCII console output style
  2025-12-23 v1.0.1 Updated to Limehawk Script Framework
  2024-12-01 v1.0.0 Initial release - migrated from SuperOps
 ================================================================================
@@ -109,8 +110,8 @@ function Convert-IntToIPv4 {
 # INPUT VALIDATION
 # ============================================================================
 Write-Host ""
-Write-Host "[ INPUT VALIDATION ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[INFO] INPUT VALIDATION"
+Write-Host "=============================================================="
 
 $errorOccurred = $false
 $errorText = ""
@@ -142,8 +143,8 @@ if (-not $errorOccurred) {
 
 if ($errorOccurred) {
     Write-Host ""
-    Write-Host "[ ERROR OCCURRED ]"
-    Write-Host "--------------------------------------------------------------"
+    Write-Host "[ERROR] INPUT VALIDATION FAILED"
+    Write-Host "=============================================================="
     Write-Host "Input validation failed:"
     Write-Host $errorText
     exit 1
@@ -161,8 +162,8 @@ Write-Host "IPs to Scan : $totalIPs"
 # SCAN NETWORK
 # ============================================================================
 Write-Host ""
-Write-Host "[ SCANNING NETWORK ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[RUN] SCANNING NETWORK"
+Write-Host "=============================================================="
 Write-Host "Scanning $totalIPs IP addresses..."
 
 $scriptBlock = {
@@ -235,8 +236,8 @@ $runspacePool.Dispose()
 # RESULTS
 # ============================================================================
 Write-Host ""
-Write-Host "[ RESULTS ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[INFO] RESULTS"
+Write-Host "=============================================================="
 
 if ($results.Count -gt 0) {
     $results | Sort-Object { [version]$_.IPv4Address } | Format-Table -AutoSize
@@ -249,12 +250,12 @@ else {
 # FINAL STATUS
 # ============================================================================
 Write-Host ""
-Write-Host "[ FINAL STATUS ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[OK] FINAL STATUS"
+Write-Host "=============================================================="
 Write-Host "Result : $($results.Count) host(s) found"
 
 Write-Host ""
-Write-Host "[ SCRIPT COMPLETED ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[OK] SCRIPT COMPLETED"
+Write-Host "=============================================================="
 
 exit 0

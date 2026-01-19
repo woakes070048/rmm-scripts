@@ -8,9 +8,9 @@ $ErrorActionPreference = 'Stop'
 ╚══════╝╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚══╝╚══╝ ╚═╝  ╚═╝
 
 ================================================================================
-SCRIPT  : Add Default Power Plans v1.1.0
+SCRIPT  : Add Default Power Plans v1.1.1
 AUTHOR  : Limehawk.io
-DATE      : December 2025
+DATE      : January 2026
 USAGE   : .\power_plans_add_default.ps1
 FILE    : power_plans_add_default.ps1
 DESCRIPTION : Restores missing default Windows power plans
@@ -47,27 +47,29 @@ EXIT CODES:
     1 = Failure
 
 EXAMPLE RUN:
-    [ INPUT VALIDATION ]
-    --------------------------------------------------------------
+
+    [INFO] INPUT VALIDATION
+    ==============================================================
     No inputs required
 
-    [ ADDING POWER PLANS ]
-    --------------------------------------------------------------
+    [RUN] ADDING POWER PLANS
+    ==============================================================
     High Performance     : Added successfully
     Ultimate Performance : Added successfully
     Power Saver          : Added successfully
     Balanced             : Added successfully
 
-    [ FINAL STATUS ]
-    --------------------------------------------------------------
+    [OK] FINAL STATUS
+    ==============================================================
     Result : SUCCESS
     All power plans added successfully
 
-    [ SCRIPT COMPLETED ]
-    --------------------------------------------------------------
+    [OK] SCRIPT COMPLETED
+    ==============================================================
 
 CHANGELOG
 --------------------------------------------------------------------------------
+2026-01-19 v1.1.1 Updated to two-line ASCII console output style
 2025-12-23 v1.1.0 Updated to Limehawk Script Framework
 2024-12-01 v1.0.0 Initial release - converted from batch script
 ================================================================================
@@ -89,16 +91,16 @@ $powerPlans = @{
 # INPUT VALIDATION
 # ============================================================================
 Write-Host ""
-Write-Host "[ INPUT VALIDATION ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[INFO] INPUT VALIDATION"
+Write-Host "=============================================================="
 Write-Host "No inputs required"
 
 # ============================================================================
 # ADD POWER PLANS
 # ============================================================================
 Write-Host ""
-Write-Host "[ ADDING POWER PLANS ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[RUN] ADDING POWER PLANS"
+Write-Host "=============================================================="
 
 $errorOccurred = $false
 $errorText = ""
@@ -136,8 +138,8 @@ foreach ($planName in $powerPlans.Keys) {
 # ============================================================================
 if ($errorOccurred) {
     Write-Host ""
-    Write-Host "[ ERROR OCCURRED ]"
-    Write-Host "--------------------------------------------------------------"
+    Write-Host "[WARN] ERRORS ENCOUNTERED"
+    Write-Host "=============================================================="
     Write-Host $errorText
 }
 
@@ -145,12 +147,15 @@ if ($errorOccurred) {
 # FINAL STATUS
 # ============================================================================
 Write-Host ""
-Write-Host "[ FINAL STATUS ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[OK] FINAL STATUS"
+Write-Host "=============================================================="
 
 if ($errorOccurred) {
     Write-Host "Result : FAILURE"
     Write-Host "Some power plans could not be added"
+    Write-Host ""
+    Write-Host "[ERROR] SCRIPT COMPLETED"
+    Write-Host "=============================================================="
     exit 1
 }
 else {
@@ -159,7 +164,7 @@ else {
 }
 
 Write-Host ""
-Write-Host "[ SCRIPT COMPLETED ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[OK] SCRIPT COMPLETED"
+Write-Host "=============================================================="
 
 exit 0

@@ -6,9 +6,9 @@
 ███████╗██║██║ ╚═╝ ██║███████╗██║  ██║██║  ██║╚███╔███╔╝██║  ██╗
 ╚══════╝╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚══╝╚══╝ ╚═╝  ╚═╝
 ================================================================================
- SCRIPT    : SuperOps Agent Uninstall (Legacy Windows) 1.1.0
+ SCRIPT    : SuperOps Agent Uninstall (Legacy Windows) 1.1.2
  AUTHOR    : Limehawk.io
- DATE      : December 2025
+ DATE      : January 2026
  USAGE     : .\superops_agent_uninstall_windows_legacy.ps1
  FILE      : superops_agent_uninstall_windows_legacy.ps1
 DESCRIPTION : Uninstalls legacy SuperOps agent via WMI IdentifyingNumber
@@ -51,14 +51,20 @@ DESCRIPTION : Uninstalls legacy SuperOps agent via WMI IdentifyingNumber
    - 0: Success (product uninstalled or not found).
    - 1: Failure (e.g., insufficient permissions, WMI error).
 
- EXAMPLE OUTPUT
-   [ OPERATION ]
-   Attempting to uninstall SuperOps agent with IdentifyingNumber '{3BB93941-0FBF-4E6E-CFC2-01C0FA4F9301}'...
-   [ FINAL STATUS ]
+ EXAMPLE RUN
+   [RUN] OPERATION
+   ==============================================================
+   Attempting to uninstall SuperOps agent with IdentifyingNumber...
+   SuperOps agent uninstallation command executed.
+
+   [OK] FINAL STATUS
+   ==============================================================
    SuperOps agent uninstallation completed.
 --------------------------------------------------------------------------------
  CHANGELOG
 --------------------------------------------------------------------------------
+ 2026-01-19 v1.1.2 Fixed EXAMPLE RUN section formatting
+ 2026-01-19 v1.1.1 Updated to two-line ASCII console output style
  2025-12-23 v1.1.0 Updated to Limehawk Script Framework
  2025-11-02 v1.0.0 Initial version, extracted from SuperOps.
 #>
@@ -67,49 +73,54 @@ $ErrorActionPreference = 'Stop'
 Set-StrictMode -Version Latest
 
 # --- Helper Functions ---
-function Write-Section([string]$title) {
-    $bar = "=" * 62
-    $padTitle = " [ $title ] "
-    $left = [math]::Floor(($bar.Length - $padTitle.Length) / 2)
-    $right = $bar.Length - $padTitle.Length - $left
-    Write-Host ("{0}{1}{2}" -f ("=" * $left), $padTitle, ("=" * $right))
+function Write-Section([string]$prefix, [string]$title) {
+    Write-Host ""
+    Write-Host "[$prefix] $title"
+    Write-Host ("=" * 62)
 }
 
 function Write-Log([string]$message, [string]$level = "INFO") {
-    $timestamp = Get-Date -Format "yyyy-MM-dd HH:mm:ss"
-    Write-Host "$timestamp [$level] $message"
+    $prefix = switch ($level) {
+        "INFO" { "[INFO]" }
+        "RUN" { "[RUN]" }
+        "OK" { "[OK]" }
+        "WARN" { "[WARN]" }
+        "ERROR" { "[ERROR]" }
+        default { "[$level]" }
+    }
+    Write-Host "$prefix $message"
 }
 
 # --- Main Script Body ---
 
-Write-Section "INPUT VALIDATION"
+Write-Section "INFO" "INPUT VALIDATION"
 # No inputs to validate for this script
-Write-Log "No specific inputs to validate."
+Write-Log "No specific inputs to validate." "OK"
 
-Write-Section "OPERATION"
-Write-Log "Attempting to uninstall SuperOps agent with IdentifyingNumber '{3BB93941-0FBF-4E6E-CFC2-01C0FA4F9301}'..."
+Write-Section "RUN" "OPERATION"
+Write-Log "Attempting to uninstall SuperOps agent with IdentifyingNumber '{3BB93941-0FBF-4E6E-CFC2-01C0FA4F9301}'..." "RUN"
 try {
     Get-WmiObject -Class Win32_Product -Filter "IdentifyingNumber='{3BB93941-0FBF-4E6E-CFC2-01C0FA4F9301}'" | ForEach-Object { $_.Uninstall() }
-    Write-Log "SuperOps agent uninstallation command executed."
+    Write-Log "SuperOps agent uninstallation command executed." "OK"
     $script:exitCode = 0
 } catch {
     Write-Log "Error during uninstallation: $($_.Exception.Message)" "ERROR"
     $script:exitCode = 1
 }
 
-Write-Section "RESULT"
+Write-Section "INFO" "RESULT"
 if ($script:exitCode -eq 0) {
-    Write-Log "Uninstallation process completed without critical errors."
+    Write-Log "Uninstallation process completed without critical errors." "OK"
 } else {
     Write-Log "Uninstallation process encountered errors." "ERROR"
 }
 
-Write-Section "FINAL STATUS"
+Write-Section "INFO" "FINAL STATUS"
 if ($script:exitCode -eq 0) {
-    Write-Log "SuperOps agent uninstallation completed."
+    Write-Log "SuperOps agent uninstallation completed." "OK"
 } else {
     Write-Log "SuperOps agent uninstallation failed." "ERROR"
 }
 
-Write-Section "SCRIPT COMPLETED"
+Write-Section "INFO" "SCRIPT COMPLETED"
 exit $script:exitCode

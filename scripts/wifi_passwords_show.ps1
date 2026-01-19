@@ -8,9 +8,9 @@ $ErrorActionPreference = 'Stop'
 ╚══════╝╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚══╝╚══╝ ╚═╝  ╚═╝
 
 ================================================================================
- SCRIPT  : Show Saved Wi-Fi Passwords v1.0.1
+ SCRIPT  : Show Saved Wi-Fi Passwords v1.0.2
  AUTHOR  : Limehawk.io
- DATE      : December 2025
+ DATE      : January 2026
  FILE    : wifi_passwords_show.ps1
  DESCRIPTION : Retrieves and displays all saved Wi-Fi network passwords
  USAGE   : .\wifi_passwords_show.ps1
@@ -45,8 +45,8 @@ EXIT CODES:
     1 = Failure
 
 EXAMPLE RUN:
-    [ RETRIEVING WI-FI PROFILES ]
-    --------------------------------------------------------------
+    [RUN] RETRIEVING WI-FI PROFILES
+    ==============================================================
 
     SSID_NAME          WIFI_PASSWORD
     ---------          -------------
@@ -54,16 +54,17 @@ EXAMPLE RUN:
     OfficeWiFi         Corp0r@teKey!
     GuestNetwork       guest2024
 
-    [ FINAL STATUS ]
-    --------------------------------------------------------------
+    [OK] FINAL STATUS
+    ==============================================================
     Result : 3 network(s) found
 
-    [ SCRIPT COMPLETED ]
-    --------------------------------------------------------------
+    [OK] SCRIPT COMPLETED
+    ==============================================================
 
 --------------------------------------------------------------------------------
  CHANGELOG
 --------------------------------------------------------------------------------
+ 2026-01-19 v1.0.2 Updated to two-line ASCII console output style
  2025-12-23 v1.0.1 Updated to Limehawk Script Framework
  2024-12-01 v1.0.0 Initial release - migrated from SuperOps
 ================================================================================
@@ -74,8 +75,8 @@ Set-StrictMode -Version Latest
 # RETRIEVE WI-FI PROFILES
 # ============================================================================
 Write-Host ""
-Write-Host "[ RETRIEVING WI-FI PROFILES ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[RUN] RETRIEVING WI-FI PROFILES"
+Write-Host "=============================================================="
 
 try {
     $profiles = (netsh wlan show profiles) | Select-String "\:(.+)$" | ForEach-Object {
@@ -85,8 +86,8 @@ try {
     if (-not $profiles -or $profiles.Count -eq 0) {
         Write-Host "No saved Wi-Fi profiles found"
         Write-Host ""
-        Write-Host "[ FINAL STATUS ]"
-        Write-Host "--------------------------------------------------------------"
+        Write-Host "[OK] FINAL STATUS"
+        Write-Host "=============================================================="
         Write-Host "Result : No networks found"
         exit 0
     }
@@ -119,8 +120,8 @@ try {
 }
 catch {
     Write-Host ""
-    Write-Host "[ ERROR OCCURRED ]"
-    Write-Host "--------------------------------------------------------------"
+    Write-Host "[ERROR] RETRIEVAL FAILED"
+    Write-Host "=============================================================="
     Write-Host "Failed to retrieve Wi-Fi profiles"
     Write-Host "Error : $($_.Exception.Message)"
     exit 1
@@ -129,12 +130,13 @@ catch {
 # ============================================================================
 # FINAL STATUS
 # ============================================================================
-Write-Host "[ FINAL STATUS ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host ""
+Write-Host "[OK] FINAL STATUS"
+Write-Host "=============================================================="
 Write-Host "Result : $($results.Count) network(s) found"
 
 Write-Host ""
-Write-Host "[ SCRIPT COMPLETED ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[OK] SCRIPT COMPLETED"
+Write-Host "=============================================================="
 
 exit 0

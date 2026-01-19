@@ -8,9 +8,9 @@ $ErrorActionPreference = 'Stop'
 ╚══════╝╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚══╝╚══╝ ╚═╝  ╚═╝
 
 ================================================================================
-SCRIPT  : Winget Upgrade All v1.0.1
+SCRIPT  : Winget Upgrade All v1.0.3
 AUTHOR  : Limehawk.io
-DATE      : December 2025
+DATE    : January 2026
 USAGE   : .\winget_upgrade_all.ps1
 FILE    : winget_upgrade_all.ps1
 DESCRIPTION : Upgrades all winget-managed packages to latest versions
@@ -45,34 +45,36 @@ EXIT CODES:
     1 = Failure (system requirements not met)
 
 EXAMPLE RUN:
-    [ SYSTEM CHECK ]
-    --------------------------------------------------------------
+    [INFO] SYSTEM CHECK
+    ==============================================================
     Windows Version : 10.0.22631
-    Product Type : Workstation
+    Product Type    : Workstation
     Requirements met
 
-    [ UPGRADE ]
-    --------------------------------------------------------------
+    [RUN] UPGRADE
+    ==============================================================
     Locating winget executable...
     Running winget upgrade --all...
     [Upgrade output...]
     Upgrade completed
 
-    [ LOG CLEANUP ]
-    --------------------------------------------------------------
+    [RUN] LOG CLEANUP
+    ==============================================================
     Cleaning up logs older than 14 days...
     Cleanup completed
 
-    [ FINAL STATUS ]
-    --------------------------------------------------------------
-    Result : SUCCESS
+    [OK] FINAL STATUS
+    ==============================================================
+    Result   : SUCCESS
     Log file : C:\Windows\temp\winget-upgrade-log_2024-12-01.txt
 
-    [ SCRIPT COMPLETED ]
-    --------------------------------------------------------------
+    [OK] SCRIPT COMPLETE
+    ==============================================================
 
 CHANGELOG
 --------------------------------------------------------------------------------
+2026-01-19 v1.0.3 Fixed EXAMPLE RUN section formatting
+2026-01-19 v1.0.2 Updated to two-line ASCII console output style
 2025-12-23 v1.0.1 Updated to Limehawk Script Framework
 2024-12-01 v1.0.0 Initial release - migrated from SuperOps
 ================================================================================
@@ -83,8 +85,8 @@ Set-StrictMode -Version Latest
 # SYSTEM CHECK
 # ============================================================================
 Write-Host ""
-Write-Host "[ SYSTEM CHECK ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[INFO] SYSTEM CHECK"
+Write-Host "=============================================================="
 
 $osInfo = Get-WmiObject -Class Win32_OperatingSystem
 $version = [Version]$osInfo.Version
@@ -98,24 +100,24 @@ $meetsRequirements = ($productType -eq 1 -and $version -ge [Version]"10.0.17763"
 
 if (-not $meetsRequirements) {
     Write-Host ""
-    Write-Host "[ ERROR OCCURRED ]"
-    Write-Host "--------------------------------------------------------------"
+    Write-Host "[ERROR] ERROR OCCURRED"
+    Write-Host "=============================================================="
     Write-Host "System does not meet minimum requirements"
     Write-Host "Requires: Windows 10 1809+, Windows 11, or Server 2022"
     exit 1
 }
 
-Write-Host "Requirements met"
+Write-Host "[OK] Requirements met"
 
 # ============================================================================
 # UPGRADE
 # ============================================================================
 Write-Host ""
-Write-Host "[ UPGRADE ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[INFO] UPGRADE"
+Write-Host "=============================================================="
 
 try {
-    Write-Host "Locating winget executable..."
+    Write-Host "[RUN] Locating winget executable..."
     Set-Location "C:\Program Files\WindowsApps\"
 
     $installer = "Microsoft.DesktopAppInstaller_*_x64__8wekyb3d8bbwe"
@@ -132,7 +134,7 @@ try {
     $logFile = "winget-upgrade-log_" + (Get-Date -Format "yyyy-MM-dd_HH-mm-ss") + ".txt"
     $fullLogPath = Join-Path -Path $logPath -ChildPath $logFile
 
-    Write-Host "Running winget upgrade --all..."
+    Write-Host "[RUN] Running winget upgrade --all..."
     .\winget.exe upgrade --all --silent --include-unknown --include-pinned --accept-package-agreements --accept-source-agreements --disable-interactivity | Out-File -FilePath $fullLogPath -Append
 
     Get-Content -Path $fullLogPath | Where-Object {
@@ -142,12 +144,12 @@ try {
         $_.Trim() -ne ""
     } | ForEach-Object { Write-Host $_ }
 
-    Write-Host "Upgrade completed"
+    Write-Host "[OK] Upgrade completed"
 }
 catch {
     Write-Host ""
-    Write-Host "[ ERROR OCCURRED ]"
-    Write-Host "--------------------------------------------------------------"
+    Write-Host "[ERROR] ERROR OCCURRED"
+    Write-Host "=============================================================="
     Write-Host "Failed to run winget upgrade"
     Write-Host "Error : $($_.Exception.Message)"
     exit 1
@@ -157,26 +159,26 @@ catch {
 # LOG CLEANUP
 # ============================================================================
 Write-Host ""
-Write-Host "[ LOG CLEANUP ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[INFO] LOG CLEANUP"
+Write-Host "=============================================================="
 
-Write-Host "Cleaning up logs older than 14 days..."
+Write-Host "[RUN] Cleaning up logs older than 14 days..."
 Get-ChildItem -Path $logPath -Filter "winget-upgrade-log_*.txt" -ErrorAction SilentlyContinue |
     Where-Object { $_.LastWriteTime -lt (Get-Date).AddDays(-14) } |
     Remove-Item -Force -ErrorAction SilentlyContinue
-Write-Host "Cleanup completed"
+Write-Host "[OK] Cleanup completed"
 
 # ============================================================================
 # FINAL STATUS
 # ============================================================================
 Write-Host ""
-Write-Host "[ FINAL STATUS ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[INFO] FINAL STATUS"
+Write-Host "=============================================================="
 Write-Host "Result : SUCCESS"
 Write-Host "Log file : $fullLogPath"
 
 Write-Host ""
-Write-Host "[ SCRIPT COMPLETED ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[INFO] SCRIPT COMPLETE"
+Write-Host "=============================================================="
 
 exit 0

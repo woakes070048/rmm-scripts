@@ -7,9 +7,9 @@
 # ███████╗██║██║ ╚═╝ ██║███████╗██║  ██║██║  ██║╚███╔███╔╝██║  ██╗
 # ╚══════╝╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚══╝╚══╝ ╚═╝  ╚═╝
 # ================================================================================
-#  SCRIPT   : SuperOps Agent Uninstall - Alt Path (macOS)                  v1.1.0
+#  SCRIPT   : SuperOps Agent Uninstall - Alt Path (macOS)                  v1.1.1
 #  AUTHOR   : Limehawk.io
-#  DATE     : December 2025
+#  DATE     : January 2026
 #  USAGE    : sudo ./superops_agent_uninstall_macos_alt_path.sh
 # ================================================================================
 #  FILE     : superops_agent_uninstall_macos_alt_path.sh
@@ -62,20 +62,21 @@
 #
 #  EXAMPLE RUN
 #
-#    [ OPERATION ]
-#    --------------------------------------------------------------
+#    [RUN] UNINSTALLING AGENT
+#    ==============================================================
 #    Attempting to uninstall SuperOps agent from alternate path...
 #
-#    [ FINAL STATUS ]
-#    --------------------------------------------------------------
+#    [OK] FINAL STATUS
+#    ==============================================================
 #    SuperOps agent uninstallation from alternate path completed.
 #
-#    [ SCRIPT COMPLETE ]
-#    --------------------------------------------------------------
+#    [OK] SCRIPT COMPLETE
+#    ==============================================================
 #
 # --------------------------------------------------------------------------------
 #  CHANGELOG
 # --------------------------------------------------------------------------------
+#  2026-01-19 v1.1.1 Updated to two-line ASCII console output style
 #  2025-12-23 v1.1.0 Updated to Limehawk Script Framework
 #  2024-11-02 v1.0.0 Initial version, extracted from SuperOps
 # ================================================================================
@@ -87,19 +88,19 @@ set -e
 # ============================================================================
 
 echo ""
-echo "[ OPERATION ]"
-echo "--------------------------------------------------------------"
+echo "[RUN] UNINSTALLING AGENT"
+echo "=============================================================="
 echo "Attempting to uninstall SuperOps agent from alternate path..."
 
 sudo bash /Library/limehawk/uninstall.sh
 
 echo ""
-echo "[ FINAL STATUS ]"
-echo "--------------------------------------------------------------"
+echo "[OK] FINAL STATUS"
+echo "=============================================================="
 echo "SuperOps agent uninstallation from alternate path completed."
 
 echo ""
-echo "[ SCRIPT COMPLETE ]"
-echo "--------------------------------------------------------------"
+echo "[OK] SCRIPT COMPLETE"
+echo "=============================================================="
 
 exit 0

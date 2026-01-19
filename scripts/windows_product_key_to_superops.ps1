@@ -9,9 +9,9 @@ $ErrorActionPreference = 'Stop'
 ███████╗██║██║ ╚═╝ ██║███████╗██║  ██║██║  ██║╚███╔███╔╝██║  ██╗
 ╚══════╝╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚══╝╚══╝ ╚═╝  ╚═╝
 ================================================================================
- SCRIPT   : Windows Product Key to SuperOps                               v1.1.0
+ SCRIPT   : Windows Product Key to SuperOps                               v1.1.1
  AUTHOR   : Limehawk.io
- DATE      : December 2025
+ DATE      : January 2026
  USAGE    : .\windows_product_key_to_superops.ps1
 ================================================================================
  FILE     : windows_product_key_to_superops.ps1
@@ -69,31 +69,32 @@ DESCRIPTION : Retrieves Windows product key and syncs to SuperOps custom field
 
  EXAMPLE RUN
 
- [ INPUT VALIDATION ]
- --------------------------------------------------------------
+ [INFO] INPUT VALIDATION
+ ==============================================================
  CustomFieldName : Windows Product Key
  RegistryKeyPath : HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion
 
- [ RETRIEVE PRODUCT KEY ]
- --------------------------------------------------------------
+ [RUN] RETRIEVE PRODUCT KEY
+ ==============================================================
  Reading DigitalProductId from registry...
  Decoding product key...
  Product Key     : XXXXX-XXXXX-XXXXX-XXXXX-XXXXX
 
- [ SEND TO SUPEROPS ]
- --------------------------------------------------------------
+ [RUN] SEND TO SUPEROPS
+ ==============================================================
  Sending to custom field: Windows Product Key
  SuperOps update successful
 
- [ FINAL STATUS ]
- --------------------------------------------------------------
+ [OK] FINAL STATUS
+ ==============================================================
  Product key retrieved and sent to SuperOps successfully.
 
- [ SCRIPT COMPLETED ]
- --------------------------------------------------------------
+ [OK] SCRIPT COMPLETED
+ ==============================================================
 --------------------------------------------------------------------------------
  CHANGELOG
 --------------------------------------------------------------------------------
+ 2026-01-19 v1.1.1 Updated to two-line ASCII console output style
  2025-12-23 v1.1.0 Updated to Limehawk Script Framework
  2025-10-31 v1.0.0 Initial release
 ================================================================================
@@ -124,31 +125,25 @@ if ([string]::IsNullOrWhiteSpace($RegistryKeyPath)) {
 
 if ($errorOccurred) {
     Write-Host ""
-    Write-Host "[ ERROR OCCURRED ]"
-    Write-Host "--------------------------------------------------------------"
-    Write-Host "Input validation failed:"
+    Write-Host "[ERROR] INPUT VALIDATION FAILED"
+    Write-Host "=============================================================="
     Write-Host $errorText
 
     Write-Host ""
-    Write-Host "[ RESULT ]"
-    Write-Host "--------------------------------------------------------------"
-    Write-Host "Status : Failure"
-
-    Write-Host ""
-    Write-Host "[ FINAL STATUS ]"
-    Write-Host "--------------------------------------------------------------"
+    Write-Host "[ERROR] FINAL STATUS"
+    Write-Host "=============================================================="
     Write-Host "Script cannot proceed due to invalid hardcoded inputs."
 
     Write-Host ""
-    Write-Host "[ SCRIPT COMPLETED ]"
-    Write-Host "--------------------------------------------------------------"
+    Write-Host "[ERROR] SCRIPT COMPLETED"
+    Write-Host "=============================================================="
     exit 1
 }
 
 # ==== RUNTIME OUTPUT (Style A) ====
 Write-Host ""
-Write-Host "[ INPUT VALIDATION ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[INFO] INPUT VALIDATION"
+Write-Host "=============================================================="
 Write-Host "CustomFieldName : $CustomFieldName"
 Write-Host "RegistryKeyPath : $RegistryKeyPath"
 
@@ -190,8 +185,8 @@ function Convert-DigitalProductIdToKey {
 
 # ==== RETRIEVE PRODUCT KEY ====
 Write-Host ""
-Write-Host "[ RETRIEVE PRODUCT KEY ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[RUN] RETRIEVE PRODUCT KEY"
+Write-Host "=============================================================="
 
 try {
     Write-Host "Reading DigitalProductId from registry..."
@@ -233,8 +228,8 @@ try {
 # ==== SEND TO SUPEROPS ====
 if (-not $errorOccurred) {
     Write-Host ""
-    Write-Host "[ SEND TO SUPEROPS ]"
-    Write-Host "--------------------------------------------------------------"
+    Write-Host "[RUN] SEND TO SUPEROPS"
+    Write-Host "=============================================================="
 
     try {
         Write-Host "Sending to custom field: $CustomFieldName"
@@ -253,29 +248,29 @@ if (-not $errorOccurred) {
 # ==== ERROR REPORTING ====
 if ($errorOccurred) {
     Write-Host ""
-    Write-Host "[ ERROR OCCURRED ]"
-    Write-Host "--------------------------------------------------------------"
+    Write-Host "[ERROR] ERROR OCCURRED"
+    Write-Host "=============================================================="
     Write-Host $errorText
-
-    Write-Host ""
-    Write-Host "[ RESULT ]"
-    Write-Host "--------------------------------------------------------------"
-    Write-Host "Status : Failure"
 }
 
 # ==== FINAL STATUS ====
-Write-Host ""
-Write-Host "[ FINAL STATUS ]"
-Write-Host "--------------------------------------------------------------"
 if ($errorOccurred) {
+    Write-Host ""
+    Write-Host "[ERROR] FINAL STATUS"
+    Write-Host "=============================================================="
     Write-Host "Product key operation failed. See error details above."
+    Write-Host ""
+    Write-Host "[ERROR] SCRIPT COMPLETED"
+    Write-Host "=============================================================="
 } else {
+    Write-Host ""
+    Write-Host "[OK] FINAL STATUS"
+    Write-Host "=============================================================="
     Write-Host "Product key retrieved and sent to SuperOps successfully."
+    Write-Host ""
+    Write-Host "[OK] SCRIPT COMPLETED"
+    Write-Host "=============================================================="
 }
-
-Write-Host ""
-Write-Host "[ SCRIPT COMPLETED ]"
-Write-Host "--------------------------------------------------------------"
 
 if ($errorOccurred) {
     exit 1

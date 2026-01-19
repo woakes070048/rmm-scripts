@@ -8,9 +8,9 @@ $ErrorActionPreference = 'Stop'
 ╚══════╝╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚══╝╚══╝ ╚═╝  ╚═╝
 
 ================================================================================
-SCRIPT  : WiFiman Install v1.0.1
+SCRIPT  : WiFiman Install v1.0.2
 AUTHOR  : Limehawk.io
-DATE      : December 2025
+DATE    : January 2026
 USAGE   : .\wifiman_install.ps1
 FILE    : wifiman_install.ps1
 DESCRIPTION : Installs Ubiquiti WiFiman Desktop via winget
@@ -45,31 +45,32 @@ EXIT CODES:
     1 = Failure
 
 EXAMPLE RUN:
-    [ INPUT VALIDATION ]
-    --------------------------------------------------------------
+    [INFO] INPUT VALIDATION
+    ==============================================================
     Package ID : UbiquitiInc.WiFimanDesktop
-    Inputs validated successfully
+    [OK] Inputs validated successfully
 
-    [ WINGET CHECK ]
-    --------------------------------------------------------------
-    Checking for winget...
-    winget is already installed
+    [INFO] WINGET CHECK
+    ==============================================================
+    [RUN] Checking for winget...
+    [OK] winget is already installed
 
-    [ INSTALLATION ]
-    --------------------------------------------------------------
-    Installing WiFiman via winget...
-    Installation completed successfully
+    [INFO] INSTALLATION
+    ==============================================================
+    [RUN] Installing WiFiman via winget...
+    [OK] Installation completed successfully
 
-    [ FINAL STATUS ]
-    --------------------------------------------------------------
+    [INFO] FINAL STATUS
+    ==============================================================
     Result : SUCCESS
     WiFiman installed successfully
 
-    [ SCRIPT COMPLETED ]
-    --------------------------------------------------------------
+    [INFO] SCRIPT COMPLETED
+    ==============================================================
 
 CHANGELOG
 --------------------------------------------------------------------------------
+2026-01-19 v1.0.2 Updated to two-line ASCII console output style
 2025-12-23 v1.0.1 Updated to Limehawk Script Framework
 2024-12-01 v1.0.0 Initial release - migrated from SuperOps
 ================================================================================
@@ -85,8 +86,8 @@ $packageId = 'UbiquitiInc.WiFimanDesktop'
 # INPUT VALIDATION
 # ============================================================================
 Write-Host ""
-Write-Host "[ INPUT VALIDATION ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[INFO] INPUT VALIDATION"
+Write-Host "=============================================================="
 
 $errorOccurred = $false
 $errorText = ""
@@ -99,74 +100,74 @@ if ([string]::IsNullOrWhiteSpace($packageId)) {
 
 if ($errorOccurred) {
     Write-Host ""
-    Write-Host "[ ERROR OCCURRED ]"
-    Write-Host "--------------------------------------------------------------"
+    Write-Host "[ERROR] VALIDATION FAILED"
+    Write-Host "=============================================================="
     Write-Host $errorText
     exit 1
 }
 
 Write-Host "Package ID : $packageId"
-Write-Host "Inputs validated successfully"
+Write-Host "[OK] Inputs validated successfully"
 
 # ============================================================================
 # WINGET CHECK
 # ============================================================================
 Write-Host ""
-Write-Host "[ WINGET CHECK ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[INFO] WINGET CHECK"
+Write-Host "=============================================================="
 
-Write-Host "Checking for winget..."
+Write-Host "[RUN] Checking for winget..."
 
 if (-not (Get-Command winget -ErrorAction SilentlyContinue)) {
-    Write-Host "winget not detected, installing via PowerShell Gallery..."
+    Write-Host "[WARN] winget not detected, installing via PowerShell Gallery..."
 
     try {
         if (-not (Get-PackageProvider -Name NuGet -ErrorAction SilentlyContinue)) {
-            Write-Host "Installing NuGet provider..."
+            Write-Host "[RUN] Installing NuGet provider..."
             Install-PackageProvider -Name NuGet -Force -ErrorAction Stop | Out-Null
         }
 
-        Write-Host "Installing winget-install script..."
+        Write-Host "[RUN] Installing winget-install script..."
         Install-Script winget-install -Force -ErrorAction Stop
 
-        Write-Host "Running winget-install..."
+        Write-Host "[RUN] Running winget-install..."
         & winget-install -Force 2>&1 | Out-Null
 
         if (-not (Get-Command winget -ErrorAction SilentlyContinue)) {
             throw "winget is still not available after installation"
         }
 
-        Write-Host "winget installed successfully"
+        Write-Host "[OK] winget installed successfully"
     }
     catch {
         Write-Host ""
-        Write-Host "[ ERROR OCCURRED ]"
-        Write-Host "--------------------------------------------------------------"
+        Write-Host "[ERROR] WINGET INSTALLATION FAILED"
+        Write-Host "=============================================================="
         Write-Host "Failed to install winget"
         Write-Host "Error : $($_.Exception.Message)"
         exit 1
     }
 } else {
-    Write-Host "winget is already installed"
+    Write-Host "[OK] winget is already installed"
 }
 
 # ============================================================================
 # INSTALLATION
 # ============================================================================
 Write-Host ""
-Write-Host "[ INSTALLATION ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[INFO] INSTALLATION"
+Write-Host "=============================================================="
 
 try {
-    Write-Host "Installing WiFiman via winget..."
+    Write-Host "[RUN] Installing WiFiman via winget..."
     $result = winget install --id=$packageId -e --accept-package-agreements --accept-source-agreements 2>&1
     Write-Host $result
-    Write-Host "Installation completed successfully"
+    Write-Host "[OK] Installation completed successfully"
 }
 catch {
     Write-Host ""
-    Write-Host "[ ERROR OCCURRED ]"
-    Write-Host "--------------------------------------------------------------"
+    Write-Host "[ERROR] INSTALLATION FAILED"
+    Write-Host "=============================================================="
     Write-Host "Failed to install WiFiman"
     Write-Host "Error : $($_.Exception.Message)"
     exit 1
@@ -176,13 +177,13 @@ catch {
 # FINAL STATUS
 # ============================================================================
 Write-Host ""
-Write-Host "[ FINAL STATUS ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[INFO] FINAL STATUS"
+Write-Host "=============================================================="
 Write-Host "Result : SUCCESS"
 Write-Host "WiFiman installed successfully"
 
 Write-Host ""
-Write-Host "[ SCRIPT COMPLETED ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[INFO] SCRIPT COMPLETED"
+Write-Host "=============================================================="
 
 exit 0

@@ -9,9 +9,9 @@ $ErrorActionPreference = 'Stop'
 ███████╗██║██║ ╚═╝ ██║███████╗██║  ██║██║  ██║╚███╔███╔╝██║  ██╗
 ╚══════╝╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚══╝╚══╝ ╚═╝  ╚═╝
 ================================================================================
-SCRIPT  : Windows Malicious Software Removal Tool (MRT) Scanner v1.1.1
+SCRIPT  : Windows Malicious Software Removal Tool (MRT) Scanner v1.1.2
 AUTHOR  : Limehawk.io
-DATE      : December 2025
+DATE      : January 2026
 USAGE   : .\mrt_scan.ps1
 FILE    : mrt_scan.ps1
 DESCRIPTION : Executes Windows Malicious Software Removal Tool with configurable scan mode
@@ -76,32 +76,32 @@ README
 
  EXAMPLE RUN
 
- [ INPUT VALIDATION ]
- --------------------------------------------------------------
+ [INFO] INPUT VALIDATION
+ ==============================================================
  SuperOpsModule   : C:\Program Files\SuperOps\Modules\SuperOps.psm1
  ScanMode         : Quick
  Admin Privileges : Confirmed
 
- [ SYSTEM INFO ]
- --------------------------------------------------------------
+ [INFO] SYSTEM INFO
+ ==============================================================
  Computer Name    : WKSTN-FIN-01
  MRT Path         : C:\WINDOWS\system32\MRT.exe
  MRT Version      : 5.129.22621.4602
 
- [ SCAN EXECUTION ]
- --------------------------------------------------------------
+ [RUN] SCAN EXECUTION
+ ==============================================================
  Scan Type        : Quick
  Arguments        : /Q
  Status           : Running silent scan...
  Note             : This may take several minutes
 
- [ SCAN COMPLETE ]
- --------------------------------------------------------------
+ [OK] SCAN COMPLETE
+ ==============================================================
  Duration         : Scan process completed
  Exit Code        : 0
 
- [ LOG PREVIEW ]
- --------------------------------------------------------------
+ [INFO] LOG PREVIEW
+ ==============================================================
  Log Path         : C:\WINDOWS\debug\mrt.log
  Showing          : Last 50 lines
  -------------------------------------------------->
@@ -114,16 +114,17 @@ README
  Finished On Fri Sep 12 10:28:45 2025
  <--------------------------------------------------
 
- [ FINAL STATUS ]
- --------------------------------------------------------------
+ [OK] FINAL STATUS
+ ==============================================================
  Result           : SUCCESS
  MRT scan completed successfully
 
- [ SCRIPT COMPLETED ]
- --------------------------------------------------------------
+ [OK] SCRIPT COMPLETED
+ ==============================================================
 
 CHANGELOG
 --------------------------------------------------------------------------------
+2026-01-19 v1.1.2 Updated to two-line ASCII console output style
 2025-12-23 v1.1.1 Updated to Limehawk Script Framework
 2025-11-29 v1.1.0 Refactored to Limehawk Style A with improved validation, MRT version detection, process exit code capture, and enhanced error handling
 2025-09-12 v1.0.0 Initial release with Quick/Full scan modes
@@ -151,8 +152,8 @@ $ScanMode = $QuickOrFull
 # ============================================================================
 
 Write-Host ""
-Write-Host "[ INPUT VALIDATION ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[INFO] INPUT VALIDATION"
+Write-Host "=============================================================="
 
 # Validate SuperOps module
 if ([string]::IsNullOrWhiteSpace($SuperOpsModule)) {
@@ -182,8 +183,8 @@ if (-not $isAdmin) {
 
 if ($errorOccurred) {
     Write-Host ""
-    Write-Host "[ ERROR OCCURRED ]"
-    Write-Host "--------------------------------------------------------------"
+    Write-Host "[ERROR] INPUT VALIDATION FAILED"
+    Write-Host "=============================================================="
     Write-Host "Input validation failed:"
     Write-Host $errorText
     Write-Host ""
@@ -203,8 +204,8 @@ Write-Host "Admin Privileges : Confirmed"
 # ============================================================================
 
 Write-Host ""
-Write-Host "[ SYSTEM INFO ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[INFO] SYSTEM INFO"
+Write-Host "=============================================================="
 
 Write-Host "Computer Name    : $env:COMPUTERNAME"
 
@@ -215,8 +216,8 @@ try {
     Write-Host "MRT Path         : $mrtPath"
 } catch {
     Write-Host ""
-    Write-Host "[ ERROR OCCURRED ]"
-    Write-Host "--------------------------------------------------------------"
+    Write-Host "[ERROR] MRT NOT FOUND"
+    Write-Host "=============================================================="
     Write-Host "Failed to locate MRT.exe"
     Write-Host ""
     Write-Host "Error Message:"
@@ -244,8 +245,8 @@ try {
 # ============================================================================
 
 Write-Host ""
-Write-Host "[ SCAN EXECUTION ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[RUN] SCAN EXECUTION"
+Write-Host "=============================================================="
 
 # Build arguments based on scan mode
 if ($ScanMode -eq 'Full') {
@@ -266,8 +267,8 @@ try {
     $mrtExitCode = $mrtProcess.ExitCode
 } catch {
     Write-Host ""
-    Write-Host "[ ERROR OCCURRED ]"
-    Write-Host "--------------------------------------------------------------"
+    Write-Host "[ERROR] SCAN EXECUTION FAILED"
+    Write-Host "=============================================================="
     Write-Host "Failed to execute MRT.exe"
     Write-Host ""
     Write-Host "Error Message:"
@@ -291,8 +292,8 @@ try {
 # ============================================================================
 
 Write-Host ""
-Write-Host "[ SCAN COMPLETE ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[OK] SCAN COMPLETE"
+Write-Host "=============================================================="
 
 Write-Host "Duration         : Scan process completed"
 Write-Host "Exit Code        : $mrtExitCode"
@@ -307,8 +308,8 @@ if ($mrtExitCode -ne 0) {
 # ============================================================================
 
 Write-Host ""
-Write-Host "[ LOG PREVIEW ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[INFO] LOG PREVIEW"
+Write-Host "=============================================================="
 
 $logFilePath = "$env:windir\debug\mrt.log"
 Write-Host "Log Path         : $logFilePath"
@@ -337,14 +338,14 @@ if (Test-Path $logFilePath) {
 # ============================================================================
 
 Write-Host ""
-Write-Host "[ FINAL STATUS ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[OK] FINAL STATUS"
+Write-Host "=============================================================="
 
 Write-Host "Result           : SUCCESS"
 Write-Host "MRT $ScanMode scan completed successfully"
 
 Write-Host ""
-Write-Host "[ SCRIPT COMPLETED ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[OK] SCRIPT COMPLETED"
+Write-Host "=============================================================="
 
 exit 0

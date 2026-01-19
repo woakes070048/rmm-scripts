@@ -8,7 +8,7 @@ $ErrorActionPreference = 'Stop'
 ███████╗██║██║ ╚═╝ ██║███████╗██║  ██║██║  ██║╚███╔███╔╝██║  ██╗
 ╚══════╝╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚══╝╚══╝ ╚═╝  ╚═╝
 ================================================================================
- SCRIPT   : Maintenance Reboot                                            v8.1.1
+ SCRIPT   : Maintenance Reboot                                            v8.1.2
  AUTHOR   : Limehawk.io
  DATE     : January 2026
  USAGE    : .\maintenance_reboot.ps1
@@ -85,61 +85,64 @@ $ErrorActionPreference = 'Stop'
  - 1 failure (input validation failed or command failed)
 
  EXAMPLE RUN - Graceful mode with critical app detected
- [ INPUT VALIDATION ]
- --------------------------------------------------------------
+
+ [INFO] INPUT VALIDATION
+ ==============================================================
  Reboot Mode              : Graceful
  Warning Minutes          : 5
  Check Critical Apps      : Yes
  Max Uptime Days          : 7
 
- [ CRITICAL APP CHECK ]
- --------------------------------------------------------------
+ [INFO] CRITICAL APP CHECK
+ ==============================================================
  Checking for critical processes...
  Critical Apps Running    : QBW32
  SKIPPING REBOOT - Critical applications are running
 
- [ FINAL STATUS ]
- --------------------------------------------------------------
+ [WARN] FINAL STATUS
+ ==============================================================
  REBOOT SKIPPED (Critical applications running)
 
- [ SCRIPT COMPLETED ]
- --------------------------------------------------------------
+ [OK] SCRIPT COMPLETED
+ ==============================================================
 
  EXAMPLE RUN - Force mode reboot triggered
- [ INPUT VALIDATION ]
- --------------------------------------------------------------
+
+ [INFO] INPUT VALIDATION
+ ==============================================================
  Reboot Mode              : Force
  Max Uptime Days          : 7
 
- [ REBOOT FLAG CHECK ]
- --------------------------------------------------------------
+ [INFO] REBOOT FLAG CHECK
+ ==============================================================
  CBS RebootPending        : Yes
  WU RebootRequired        : No
  PendingFileRename        : No
  Reboot Flags Detected    : Yes
 
- [ UPTIME CHECK ]
- --------------------------------------------------------------
+ [INFO] UPTIME CHECK
+ ==============================================================
  Last Boot Time           : 2025-12-20T03:00:00
  Current Uptime (Days)    : 8
  Threshold (Days)         : 7
  Uptime Exceeded          : Yes
 
- [ REBOOT ACTION ]
- --------------------------------------------------------------
+ [RUN] REBOOT ACTION
+ ==============================================================
  Trigger                  : Both: Reboot flags AND uptime exceeded
  Method                   : Force (immediate)
  Result                   : INITIATING REBOOT
 
- [ FINAL STATUS ]
- --------------------------------------------------------------
+ [OK] FINAL STATUS
+ ==============================================================
  OPERATION COMPLETED SUCCESSFULLY (REBOOT INITIATED)
 
- [ SCRIPT COMPLETED ]
- --------------------------------------------------------------
+ [OK] SCRIPT COMPLETED
+ ==============================================================
 --------------------------------------------------------------------------------
  CHANGELOG
 --------------------------------------------------------------------------------
+ 2026-01-19 v8.1.2 Updated to two-line ASCII console output style
  2026-01-16 v8.1.1 Restored runtime variables to YAML metadata
  2025-12-28 v8.1.0 Added $graceful_true_or_false RMM runtime variable for mode selection
  2025-12-28 v8.0.0 Added graceful/force mode toggle, critical app checks, warning delay
@@ -184,10 +187,10 @@ $RMMValue               = "`$maxuptimedays"
 
 # ==== HELPER FUNCTIONS ====
 function Write-Section {
-    param([string]$title)
+    param([string]$title, [string]$status = "INFO")
     Write-Host ""
-    Write-Host ("[ {0} ]" -f $title)
-    Write-Host ("-" * 62)
+    Write-Host ("[$status] $title")
+    Write-Host ("=" * 62)
 }
 
 function PrintKV([string]$label, [string]$value) {
@@ -229,11 +232,11 @@ if (-not ([int]::TryParse($ResolvedInput, [ref]$null) -and [int]$ResolvedInput -
 $MaxUptimeDays = [int]$ResolvedInput
 
 if ($errors.Count -gt 0) {
-    Write-Section "ERROR OCCURRED"
+    Write-Section "ERROR OCCURRED" "ERROR"
     foreach ($e in $errors) { PrintKV "Message" $e }
-    Write-Section "FINAL STATUS"
+    Write-Section "FINAL STATUS" "ERROR"
     Write-Host " INPUT VALIDATION FAILED"
-    Write-Section "SCRIPT COMPLETED"
+    Write-Section "SCRIPT COMPLETED" "ERROR"
     exit 1
 }
 
@@ -253,7 +256,7 @@ PrintKV "Check File Rename" $(if ($CheckPendingFileRename) { "Yes" } else { "No"
 try {
     # --- Critical Application Check (Graceful Mode Only) ---
     if ($GracefulReboot -and $CheckCriticalApps) {
-        Write-Section "CRITICAL APP CHECK"
+        Write-Section "CRITICAL APP CHECK" "INFO"
         Write-Host " Checking for critical processes..."
 
         $runningCritical = @()
@@ -276,10 +279,10 @@ try {
             Write-Host " These applications may have unsaved data or open databases."
             Write-Host " Reboot will be attempted on next scheduled run."
 
-            Write-Section "FINAL STATUS"
+            Write-Section "FINAL STATUS" "WARN"
             Write-Host " REBOOT SKIPPED (Critical applications running)"
 
-            Write-Section "SCRIPT COMPLETED"
+            Write-Section "SCRIPT COMPLETED" "OK"
             exit 0
         }
 
@@ -287,7 +290,7 @@ try {
     }
 
     # --- Reboot Flag Detection ---
-    Write-Section "REBOOT FLAG CHECK"
+    Write-Section "REBOOT FLAG CHECK" "INFO"
 
     $cbsRebootPending = $false
     if ($CheckCBSRebootPending) {
@@ -318,7 +321,7 @@ try {
     PrintKV "Reboot Flags Detected" $(if ($rebootFlagsDetected) { "Yes" } else { "No" })
 
     # --- Uptime Check ---
-    Write-Section "UPTIME CHECK"
+    Write-Section "UPTIME CHECK" "INFO"
 
     $os = Get-CimInstance Win32_OperatingSystem
     $bootTime = $os.LastBootUpTime
@@ -334,7 +337,7 @@ try {
 
     # --- Reboot Decision ---
     if ($rebootFlagsDetected -or $uptimeExceeded) {
-        Write-Section "REBOOT ACTION"
+        Write-Section "REBOOT ACTION" "RUN"
 
         # Determine trigger reason
         if ($rebootFlagsDetected -and $uptimeExceeded) {
@@ -358,7 +361,7 @@ try {
             $shutdownArgs = "/r /t $warningSeconds /c `"$shutdownMessage`" /d p:0:0"
             Start-Process -FilePath "shutdown.exe" -ArgumentList $shutdownArgs -NoNewWindow -Wait
 
-            Write-Section "FINAL STATUS"
+            Write-Section "FINAL STATUS" "OK"
             Write-Host " OPERATION COMPLETED SUCCESSFULLY (REBOOT SCHEDULED IN $WarningMinutes MINUTES)"
         }
         else {
@@ -368,27 +371,27 @@ try {
 
             Restart-Computer -Force -ErrorAction Stop
 
-            Write-Section "FINAL STATUS"
+            Write-Section "FINAL STATUS" "OK"
             Write-Host " OPERATION COMPLETED SUCCESSFULLY (REBOOT INITIATED)"
         }
     }
     else {
-        Write-Section "FINAL STATUS"
+        Write-Section "FINAL STATUS" "OK"
         Write-Host " NO REBOOT REQUIRED. Uptime within threshold and no pending flags."
     }
 
-    Write-Section "SCRIPT COMPLETED"
+    Write-Section "SCRIPT COMPLETED" "OK"
     exit 0
 }
 catch {
-    Write-Section "ERROR OCCURRED"
+    Write-Section "ERROR OCCURRED" "ERROR"
     PrintKV "Step" "Main Operation"
     PrintKV "Error Type" $_.Exception.GetType().Name
     PrintKV "Error Message" $_.Exception.Message
 
-    Write-Section "FINAL STATUS"
+    Write-Section "FINAL STATUS" "ERROR"
     Write-Host " OPERATION FAILED"
 
-    Write-Section "SCRIPT COMPLETED"
+    Write-Section "SCRIPT COMPLETED" "ERROR"
     exit 1
 }

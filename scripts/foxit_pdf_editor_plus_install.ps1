@@ -8,9 +8,9 @@ $ErrorActionPreference = 'Stop'
 ╚══════╝╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚══╝╚══╝ ╚═╝  ╚═╝
 
 ================================================================================
- SCRIPT   : Foxit PDF Editor+ Install (MS Store) v1.0.1
+ SCRIPT   : Foxit PDF Editor+ Install (MS Store) v1.0.2
  AUTHOR   : Limehawk.io
- DATE      : December 2025
+ DATE      : January 2026
  USAGE    : .\foxit_pdf_editor_plus_install.ps1
 ================================================================================
  FILE     : foxit_pdf_editor_plus_install.ps1
@@ -60,30 +60,31 @@ EXIT CODES
 
 --------------------------------------------------------------------------------
 EXAMPLE RUN
-[ SETUP ]
---------------------------------------------------------------
+[INFO] SETUP
+==============================================================
 Winget found at C:\Users\admin\AppData\Local\Microsoft\WindowsApps\winget.exe
 
-[ INSTALLATION ]
---------------------------------------------------------------
+[RUN] INSTALLATION
+==============================================================
 Package ID : XPDNZD76FP5JR7
 Source : msstore
 Installing Foxit PDF Editor from Microsoft Store...
 Installation completed successfully
 Exit Code : 0
 
-[ FINAL STATUS ]
---------------------------------------------------------------
+[INFO] FINAL STATUS
+==============================================================
 Result : SUCCESS
 Foxit PDF Editor installed successfully
 User must sign into Foxit account to activate license
 
-[ SCRIPT COMPLETED ]
---------------------------------------------------------------
+[OK] SCRIPT COMPLETED
+==============================================================
 
 --------------------------------------------------------------------------------
  CHANGELOG
 --------------------------------------------------------------------------------
+ 2026-01-19 v1.0.2 Updated to two-line ASCII console output style
  2025-12-23 v1.0.1 Updated to Limehawk Script Framework
  2025-06-15 v1.0.0 Initial release - MS Store installation method
 ================================================================================
@@ -102,8 +103,8 @@ $Source    = 'msstore'
 # ==============================================================================
 
 Write-Host ""
-Write-Host "[ SETUP ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[INFO] SETUP"
+Write-Host "=============================================================="
 
 $wingetPath = $null
 
@@ -113,8 +114,8 @@ try {
 }
 catch {
     Write-Host ""
-    Write-Host "[ ERROR OCCURRED ]"
-    Write-Host "--------------------------------------------------------------"
+    Write-Host "[ERROR] WINGET NOT FOUND"
+    Write-Host "=============================================================="
     Write-Host "Winget not found on this system"
     Write-Host ""
     Write-Host "Troubleshooting:"
@@ -129,8 +130,8 @@ catch {
 # ==============================================================================
 
 Write-Host ""
-Write-Host "[ INSTALLATION ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[RUN] INSTALLATION"
+Write-Host "=============================================================="
 
 Write-Host "Package ID : $PackageId"
 Write-Host "Source : $Source"
@@ -166,8 +167,8 @@ try {
 }
 catch {
     Write-Host ""
-    Write-Host "[ ERROR OCCURRED ]"
-    Write-Host "--------------------------------------------------------------"
+    Write-Host "[ERROR] INSTALLATION FAILED"
+    Write-Host "=============================================================="
     Write-Host "Installation failed"
     Write-Host "Error : $($_.Exception.Message)"
     Write-Host ""
@@ -184,14 +185,14 @@ catch {
 # ==============================================================================
 
 Write-Host ""
-Write-Host "[ FINAL STATUS ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[INFO] FINAL STATUS"
+Write-Host "=============================================================="
 Write-Host "Result : SUCCESS"
 Write-Host "Foxit PDF Editor installed successfully"
 Write-Host "User must sign into Foxit account to activate license"
 
 Write-Host ""
-Write-Host "[ SCRIPT COMPLETED ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[OK] SCRIPT COMPLETED"
+Write-Host "=============================================================="
 
 exit 0

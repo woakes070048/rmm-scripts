@@ -7,9 +7,9 @@
 # ███████╗██║██║ ╚═╝ ██║███████╗██║  ██║██║  ██║╚███╔███╔╝██║  ██╗
 # ╚══════╝╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚══╝╚══╝ ╚═╝  ╚═╝
 # ================================================================================
-#  SCRIPT   : Synology Active Backup Agent Install (Linux)                 v1.1.0
+#  SCRIPT   : Synology Active Backup Agent Install (Linux)                 v1.1.1
 #  AUTHOR   : Limehawk.io
-#  DATE     : December 2025
+#  DATE     : January 2026
 #  USAGE    : sudo ./synology_backup_agent_install_linux.sh
 # ================================================================================
 #  FILE     : synology_backup_agent_install_linux.sh
@@ -73,41 +73,42 @@
 #
 #  EXAMPLE RUN
 #
-#    [ SYNOLOGY ACTIVE BACKUP AGENT INSTALL - Linux ]
-#    --------------------------------------------------------------
+#    [INFO] SYNOLOGY ACTIVE BACKUP AGENT INSTALL
+#    ==============================================================
 #
-#    [ SYSTEM CHECKS ]
-#    --------------------------------------------------------------
+#    [INFO] SYSTEM CHECKS
+#    ==============================================================
 #    Architecture : x86_64
 #    Kernel : 5.15.0-91-generic
 #    Headers : Found
 #    Tools : make, dkms, gcc, unzip - OK
 #
-#    [ DOWNLOAD ]
-#    --------------------------------------------------------------
+#    [RUN] DOWNLOADING
+#    ==============================================================
 #    Downloading Synology Active Backup Agent...
 #    Download completed
 #
-#    [ EXTRACT ]
-#    --------------------------------------------------------------
+#    [RUN] EXTRACTING
+#    ==============================================================
 #    Extracting installer...
 #    Extraction completed
 #
-#    [ INSTALL ]
-#    --------------------------------------------------------------
+#    [RUN] INSTALLING
+#    ==============================================================
 #    Running installer...
 #
-#    [ FINAL STATUS ]
-#    --------------------------------------------------------------
+#    [OK] FINAL STATUS
+#    ==============================================================
 #    Result : SUCCESS
 #    Synology Active Backup Agent installed successfully
 #
-#    [ SCRIPT COMPLETE ]
-#    --------------------------------------------------------------
+#    [OK] SCRIPT COMPLETE
+#    ==============================================================
 #
 # --------------------------------------------------------------------------------
 #  CHANGELOG
 # --------------------------------------------------------------------------------
+#  2026-01-19 v1.1.1 Updated to two-line ASCII console output style
 #  2025-12-23 v1.1.0 Updated to Limehawk Script Framework
 #  2024-01-01 v1.0.0 Initial release
 # ================================================================================
@@ -119,14 +120,14 @@ set -euo pipefail
 # ============================================================================
 
 echo ""
-echo "[ SYNOLOGY ACTIVE BACKUP AGENT INSTALL - Linux ]"
-echo "--------------------------------------------------------------"
+echo "[INFO] SYNOLOGY ACTIVE BACKUP AGENT INSTALL"
+echo "=============================================================="
 
 # Ensure script is run as root
 if [ "$(id -u)" -ne 0 ]; then
     echo ""
-    echo "[ ERROR OCCURRED ]"
-    echo "--------------------------------------------------------------"
+    echo "[ERROR] ERROR OCCURRED"
+    echo "=============================================================="
     echo "This script must be run as root."
     echo ""
     exit 1
@@ -136,16 +137,16 @@ fi
 # SYSTEM REQUIREMENT CHECKS
 # ============================================================================
 echo ""
-echo "[ SYSTEM CHECKS ]"
-echo "--------------------------------------------------------------"
+echo "[INFO] SYSTEM CHECKS"
+echo "=============================================================="
 
 # Check architecture
 ARCH=$(uname -m)
 echo "Architecture : $ARCH"
 if [ "$ARCH" != "x86_64" ]; then
     echo ""
-    echo "[ ERROR OCCURRED ]"
-    echo "--------------------------------------------------------------"
+    echo "[ERROR] ERROR OCCURRED"
+    echo "=============================================================="
     echo "Unsupported architecture. Only x86_64 is supported."
     echo ""
     exit 1
@@ -156,8 +157,8 @@ KERNEL_HEADERS_DIR="/usr/src/linux-headers-$(uname -r)"
 echo "Kernel : $(uname -r)"
 if [ ! -d "${KERNEL_HEADERS_DIR}" ]; then
     echo ""
-    echo "[ ERROR OCCURRED ]"
-    echo "--------------------------------------------------------------"
+    echo "[ERROR] ERROR OCCURRED"
+    echo "=============================================================="
     echo "Linux headers not found at ${KERNEL_HEADERS_DIR}"
     echo "Install with: apt install linux-headers-$(uname -r)"
     echo ""
@@ -169,8 +170,8 @@ echo "Headers : Found"
 for cmd in make dkms gcc unzip; do
     if ! command -v $cmd >/dev/null 2>&1; then
         echo ""
-        echo "[ ERROR OCCURRED ]"
-        echo "--------------------------------------------------------------"
+        echo "[ERROR] ERROR OCCURRED"
+        echo "=============================================================="
         echo "$cmd is not installed. Please install it."
         echo ""
         exit 1
@@ -185,8 +186,8 @@ elif command -v wget >/dev/null 2>&1; then
     DOWNLOADER="wget -O"
 else
     echo ""
-    echo "[ ERROR OCCURRED ]"
-    echo "--------------------------------------------------------------"
+    echo "[ERROR] ERROR OCCURRED"
+    echo "=============================================================="
     echo "Neither curl nor wget is installed."
     echo ""
     exit 1
@@ -200,13 +201,13 @@ check_version() {
 
     current_version=$($prog_name --version 2>&1 | head -n1 | grep -oE '[0-9]+\.[0-9]+(\.[0-9]+)?')
     if [ -z "$current_version" ]; then
-        echo "[WARNING] Could not determine version for $prog_name"
+        echo "[WARN] Could not determine version for $prog_name"
         return
     fi
     if dpkg --compare-versions "$current_version" "lt" "$required_version"; then
         echo ""
-        echo "[ ERROR OCCURRED ]"
-        echo "--------------------------------------------------------------"
+        echo "[ERROR] ERROR OCCURRED"
+        echo "=============================================================="
         echo "$prog_name version $current_version < required $required_version"
         echo ""
         exit 1
@@ -222,8 +223,8 @@ check_version gcc 4.8.2
 # DOWNLOAD
 # ============================================================================
 echo ""
-echo "[ DOWNLOAD ]"
-echo "--------------------------------------------------------------"
+echo "[RUN] DOWNLOADING"
+echo "=============================================================="
 
 FILE_URL="https://global.download.synology.com/download/Utility/ActiveBackupBusinessAgent/2.7.1-3235/Linux/x86_64/Synology%20Active%20Backup%20for%20Business%20Agent-2.7.1-3235-x64-deb.zip"
 TEMP_DIR=$(mktemp -d -t synology_installer_XXXXXX)
@@ -232,8 +233,8 @@ ZIP_FILE="${TEMP_DIR}/agent.zip"
 echo "Downloading Synology Active Backup Agent..."
 if ! ${DOWNLOADER} "${ZIP_FILE}" "${FILE_URL}"; then
     echo ""
-    echo "[ ERROR OCCURRED ]"
-    echo "--------------------------------------------------------------"
+    echo "[ERROR] ERROR OCCURRED"
+    echo "=============================================================="
     echo "Failed to download the file."
     echo ""
     exit 1
@@ -244,14 +245,14 @@ echo "Download completed"
 # EXTRACT
 # ============================================================================
 echo ""
-echo "[ EXTRACT ]"
-echo "--------------------------------------------------------------"
+echo "[RUN] EXTRACTING"
+echo "=============================================================="
 
 echo "Extracting installer..."
 if ! unzip "${ZIP_FILE}" -d "${TEMP_DIR}"; then
     echo ""
-    echo "[ ERROR OCCURRED ]"
-    echo "--------------------------------------------------------------"
+    echo "[ERROR] ERROR OCCURRED"
+    echo "=============================================================="
     echo "Failed to unzip the file."
     echo ""
     exit 1
@@ -262,14 +263,14 @@ echo "Extraction completed"
 # INSTALL
 # ============================================================================
 echo ""
-echo "[ INSTALL ]"
-echo "--------------------------------------------------------------"
+echo "[RUN] INSTALLING"
+echo "=============================================================="
 
 INSTALL_RUN=$(find "${TEMP_DIR}" -type f -name "install.run" | head -n 1)
 if [ -z "${INSTALL_RUN}" ]; then
     echo ""
-    echo "[ ERROR OCCURRED ]"
-    echo "--------------------------------------------------------------"
+    echo "[ERROR] ERROR OCCURRED"
+    echo "=============================================================="
     echo "install.run not found in the archive."
     echo ""
     exit 1
@@ -279,8 +280,8 @@ echo "Running installer..."
 chmod +x "${INSTALL_RUN}"
 if ! "${INSTALL_RUN}"; then
     echo ""
-    echo "[ ERROR OCCURRED ]"
-    echo "--------------------------------------------------------------"
+    echo "[ERROR] ERROR OCCURRED"
+    echo "=============================================================="
     echo "Installation failed."
     echo ""
     exit 1
@@ -290,8 +291,8 @@ fi
 # CLEANUP
 # ============================================================================
 echo ""
-echo "[ CLEANUP ]"
-echo "--------------------------------------------------------------"
+echo "[RUN] CLEANUP"
+echo "=============================================================="
 
 echo "Removing temporary files..."
 rm -rf "${TEMP_DIR}"
@@ -301,8 +302,8 @@ echo "Cleanup completed"
 # FINAL STATUS
 # ============================================================================
 echo ""
-echo "[ FINAL STATUS ]"
-echo "--------------------------------------------------------------"
+echo "[OK] FINAL STATUS"
+echo "=============================================================="
 echo "Result : SUCCESS"
 echo "Synology Active Backup Agent installed successfully"
 echo ""
@@ -310,7 +311,7 @@ echo "To connect to your NAS: abb-cli -c"
 echo "For help: abb-cli -h"
 
 echo ""
-echo "[ SCRIPT COMPLETE ]"
-echo "--------------------------------------------------------------"
+echo "[OK] SCRIPT COMPLETE"
+echo "=============================================================="
 
 exit 0

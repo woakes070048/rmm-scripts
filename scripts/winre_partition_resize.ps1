@@ -8,9 +8,9 @@ $ErrorActionPreference = 'Stop'
 ╚══════╝╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚══╝╚══╝ ╚═╝  ╚═╝
 
 ================================================================================
-SCRIPT  : WinRE Partition Resize v1.0.1
+SCRIPT  : WinRE Partition Resize v1.0.3
 AUTHOR  : Limehawk.io
-DATE      : December 2025
+DATE    : January 2026
 USAGE   : .\winre_partition_resize.ps1
 FILE    : winre_partition_resize.ps1
 DESCRIPTION : Extends WinRE partition by 250MB for Windows updates
@@ -51,41 +51,43 @@ EXIT CODES:
     1 = Failure
 
 EXAMPLE RUN:
-    [ EXAMINING SYSTEM ]
-    --------------------------------------------------------------
+    [INFO] EXAMINING SYSTEM
+    ==============================================================
     OS Disk              : 0
     OS Partition         : 3
     WinRE Partition      : 4
     Disk Type            : GPT
 
-    [ CURRENT STATUS ]
-    --------------------------------------------------------------
+    [INFO] CURRENT STATUS
+    ==============================================================
     WinRE Status         : Enabled
     WinRE Partition Size : 523190272
     WinRE Free Space     : 52428800
 
-    [ PROPOSED CHANGES ]
-    --------------------------------------------------------------
+    [INFO] PROPOSED CHANGES
+    ==============================================================
     Action               : Extend WinRE by 250MB
     Shrink OS By         : 250MB
     New WinRE Size       : 785285120
 
-    [ EXECUTING CHANGES ]
-    --------------------------------------------------------------
-    Disabling WinRE...   : Done
-    Shrinking OS...      : Done
-    Extending WinRE...   : Done
-    Enabling WinRE...    : Done
+    [RUN] EXECUTING CHANGES
+    ==============================================================
+    Disabling WinRE...         : Done
+    Shrinking OS...            : Done
+    Extending WinRE...         : Done
+    Enabling WinRE...          : Done
 
-    [ FINAL STATUS ]
-    --------------------------------------------------------------
+    [INFO] FINAL STATUS
+    ==============================================================
     SCRIPT SUCCEEDED
 
-    [ SCRIPT COMPLETED ]
-    --------------------------------------------------------------
+    [OK] SCRIPT COMPLETE
+    ==============================================================
 
 CHANGELOG
 --------------------------------------------------------------------------------
+2026-01-19 v1.0.3 Fixed EXAMPLE RUN section formatting
+2026-01-19 v1.0.2 Updated to two-line ASCII console output style
 2025-12-23 v1.0.1 Updated to Limehawk Script Framework
 2024-12-01 v1.0.0 Initial release - migrated from SuperOps
 ================================================================================
@@ -102,10 +104,10 @@ $SkipConfirmation = $true
 # HELPER FUNCTIONS
 # ============================================================================
 function Write-Section {
-    param([string]$title)
+    param([string]$title, [string]$prefix = "INFO")
     Write-Host ""
-    Write-Host ("[ {0} ]" -f $title)
-    Write-Host ("-" * 62)
+    Write-Host ("[{0}] {1}" -f $prefix, $title)
+    Write-Host ("=" * 62)
 }
 
 function PrintKV([string]$label, [string]$value) {
@@ -147,9 +149,9 @@ function DisplayWinREStatus {
 # PRIVILEGE CHECK
 # ============================================================================
 if (-not ([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)) {
-    Write-Section "ERROR OCCURRED"
+    Write-Section "ERROR OCCURRED" "ERROR"
     Write-Host " This script requires administrative privileges to run."
-    Write-Section "SCRIPT HALTED"
+    Write-Section "SCRIPT HALTED" "ERROR"
     exit 1
 }
 
@@ -177,8 +179,8 @@ try {
     if (-not $WinREStatus) {
         PrintKV "WinRE Status" "Disabled"
         Write-Host ""
-        Write-Host " ERROR: WinRE is disabled. Cannot proceed."
-        Write-Section "SCRIPT HALTED"
+        Write-Host "[ERROR] WinRE is disabled. Cannot proceed."
+        Write-Section "SCRIPT HALTED" "ERROR"
         exit 1
     }
 
@@ -187,8 +189,8 @@ try {
     $ReAgentXmlPath = Join-Path -Path $system32Path -ChildPath "\Recovery\ReAgent.xml"
 
     if (-not (Test-Path $ReAgentXmlPath)) {
-        Write-Host " ERROR: ReAgent.xml not found"
-        Write-Section "SCRIPT HALTED"
+        Write-Host "[ERROR] ReAgent.xml not found"
+        Write-Section "SCRIPT HALTED" "ERROR"
         exit 1
     }
 
@@ -228,9 +230,9 @@ try {
     # Check if extension is needed
     if ($WinREPartitionSizeInfo[1] -ge 250MB) {
         Write-Host ""
-        Write-Host " WinRE partition has sufficient free space (>= 250MB)."
-        Write-Host " No changes needed."
-        Write-Section "SCRIPT COMPLETED"
+        Write-Host "[OK] WinRE partition has sufficient free space (>= 250MB)."
+        Write-Host "No changes needed."
+        Write-Section "SCRIPT COMPLETE"
         exit 0
     }
 
@@ -267,8 +269,8 @@ try {
     # Validate shrink is possible
     $supportedSize = Get-PartitionSupportedSize -DriveLetter $OSDrive
     if ($NeedShrink -and $targetOSPartitionSize -lt $supportedSize.SizeMin) {
-        Write-Host " ERROR: Cannot shrink OS partition enough. Insufficient free space."
-        Write-Section "SCRIPT HALTED"
+        Write-Host "[ERROR] Cannot shrink OS partition enough. Insufficient free space."
+        Write-Section "SCRIPT HALTED" "ERROR"
         exit 1
     }
 
@@ -309,7 +311,7 @@ try {
     }
 
     # Disable WinRE
-    Write-Host " Disabling WinRE..."
+    Write-Host "[RUN] Disabling WinRE..."
     reagentc /disable | Out-Null
     if ($LASTEXITCODE -ne 0) {
         throw "Failed to disable WinRE"
@@ -325,7 +327,7 @@ try {
 
     # Shrink OS partition if needed
     if ($NeedShrink) {
-        Write-Host " Shrinking OS partition..."
+        Write-Host "[RUN] Shrinking OS partition..."
         Resize-Partition -DriveLetter $OSDrive -Size $targetOSPartitionSize
         PrintKV "OS Partition" "Shrunk"
     }
@@ -334,7 +336,7 @@ try {
     if (-not $WinREIsOnSystemPartition) {
         if ($NeedBackup) {
             $sourcePath = $WinREPartition.AccessPaths[0]
-            Write-Host " Backing up WinRE content..."
+            Write-Host "[RUN] Backing up WinRE content..."
             $items = Get-ChildItem -LiteralPath $sourcePath -Force -ErrorAction SilentlyContinue
             foreach ($item in $items) {
                 if ($item.Name -ieq "System Volume Information") { continue }
@@ -345,7 +347,7 @@ try {
             PrintKV "Backup" "Completed to $BackupFolder"
         }
 
-        Write-Host " Deleting old WinRE partition..."
+        Write-Host "[RUN] Deleting old WinRE partition..."
         Remove-Partition -DiskNumber $OSDiskIndex -PartitionNumber $WinREPartitionIndex -Confirm:$false
         PrintKV "Old WinRE Partition" "Deleted"
     }
@@ -353,7 +355,7 @@ try {
     Start-Sleep -Seconds 5
 
     # Create new WinRE partition
-    Write-Host " Creating new WinRE partition..."
+    Write-Host "[RUN] Creating new WinRE partition..."
 
     if ($diskType -ieq "GPT") {
         $partition = New-Partition -DiskNumber $OSDiskIndex -Size $targetWinREPartitionSize -GptType "{de94bba4-06d1-4d40-a16a-bfd50179d6ac}"
@@ -381,7 +383,7 @@ set id=27
     PrintKV "New WinRE Partition" "Created (Partition $newPartitionIndex)"
 
     # Re-enable WinRE
-    Write-Host " Enabling WinRE..."
+    Write-Host "[RUN] Enabling WinRE..."
     reagentc /enable | Out-Null
     if ($LASTEXITCODE -ne 0) {
         throw "Failed to re-enable WinRE"
@@ -400,26 +402,26 @@ set id=27
     PrintKV "New WinRE Free" ("{0:N0} MB" -f ($newWinREPartitionSizeInfo[1] / 1MB))
 
     Write-Section "FINAL STATUS"
-    Write-Host " SCRIPT SUCCEEDED"
+    Write-Host "[OK] SCRIPT SUCCEEDED"
     Write-Host ""
-    Write-Host " WinRE partition has been extended by 250MB."
+    Write-Host "[OK] WinRE partition has been extended by 250MB."
     if ($NeedBackup) {
-        Write-Host " Old content backed up to: $BackupFolder"
+        Write-Host "Old content backed up to: $BackupFolder"
     }
 
-    Write-Section "SCRIPT COMPLETED"
+    Write-Section "SCRIPT COMPLETE"
     exit 0
 }
 catch {
-    Write-Section "ERROR OCCURRED"
+    Write-Section "ERROR OCCURRED" "ERROR"
     PrintKV "Error Message" $_.Exception.Message
     PrintKV "Error Type" $_.Exception.GetType().FullName
 
     # Try to re-enable WinRE on error
     Write-Host ""
-    Write-Host " Attempting to re-enable WinRE..."
+    Write-Host "[RUN] Attempting to re-enable WinRE..."
     reagentc /enable 2>&1 | Out-Null
 
-    Write-Section "SCRIPT HALTED"
+    Write-Section "SCRIPT HALTED" "ERROR"
     exit 1
 }

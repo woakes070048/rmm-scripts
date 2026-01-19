@@ -7,7 +7,7 @@ $ErrorActionPreference = 'Stop'
 ███████╗██║██║ ╚═╝ ██║███████╗██║  ██║██║  ██║╚███╔███╔╝██║  ██╗
 ╚══════╝╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚══╝╚══╝ ╚═╝  ╚═╝
 ================================================================================
- SCRIPT   : Emsisoft Install via URL                                    v1.1.1
+ SCRIPT   : Emsisoft Install via URL                                    v1.1.2
  AUTHOR   : Limehawk.io
  DATE     : January 2026
  USAGE    : .\emsisoft_install_via_url.ps1
@@ -81,38 +81,39 @@ $ErrorActionPreference = 'Stop'
 
    PS> .\emsisoft_install_via_url.ps1
 
-   [ INPUT VALIDATION ]
-   --------------------------------------------------------------
+   [INFO] INPUT VALIDATION
+   ==============================================================
    Validating configuration...
    Download URL  : https://example.com/EmsisoftSetup.exe
    Download path : C:\Users\Admin\AppData\Local\Temp
    Input validation passed
 
-   [ DOWNLOAD ]
-   --------------------------------------------------------------
+   [RUN] DOWNLOAD
+   ==============================================================
    Downloading installer...
    Source URL   : https://example.com/EmsisoftSetup.exe
    Target file  : C:\Users\Admin\AppData\Local\Temp\EmsisoftSetup.exe
    Download completed successfully
 
-   [ INSTALLATION ]
-   --------------------------------------------------------------
+   [RUN] INSTALLATION
+   ==============================================================
    Launching installer...
    Installer started : EmsisoftSetup.exe
 
-   [ FINAL STATUS ]
-   --------------------------------------------------------------
+   [OK] FINAL STATUS
+   ==============================================================
    Download successful : Yes
    Installer launched  : Yes
 
-   [ SCRIPT COMPLETED ]
-   --------------------------------------------------------------
+   [OK] SCRIPT COMPLETED
+   ==============================================================
    Script completed successfully
    Exit code : 0
 
 --------------------------------------------------------------------------------
  CHANGELOG
 --------------------------------------------------------------------------------
+ 2026-01-19 v1.1.2 Updated to two-line ASCII console output style
  2026-01-14 v1.1.1 Fixed file structure - moved $ErrorActionPreference before <#
  2025-12-23 v1.1.0 Updated to Limehawk Script Framework
  2025-11-02 v1.0.0 Initial migration from SuperOps
@@ -137,8 +138,8 @@ $downloadPath = $env:TEMP
 # ============================================================================
 
 Write-Host ""
-Write-Host "[ INPUT VALIDATION ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[INFO] INPUT VALIDATION"
+Write-Host "=============================================================="
 Write-Host "Validating configuration..."
 
 $errorOccurred = $false
@@ -173,10 +174,8 @@ if ([string]::IsNullOrWhiteSpace($downloadPath)) {
 
 if ($errorOccurred) {
     Write-Host ""
-    Write-Host "[ ERROR OCCURRED ]"
-    Write-Host "--------------------------------------------------------------"
-    Write-Host "Input validation failed:"
-    Write-Host ""
+    Write-Host "[ERROR] INPUT VALIDATION FAILED"
+    Write-Host "=============================================================="
     Write-Host $errorText
     Write-Host "Troubleshooting:"
     Write-Host "- Ensure installerUrl is set to a valid HTTPS URL"
@@ -195,8 +194,8 @@ Write-Host "Input validation passed"
 # ============================================================================
 
 Write-Host ""
-Write-Host "[ DOWNLOAD ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[RUN] DOWNLOAD"
+Write-Host "=============================================================="
 Write-Host "Downloading installer..."
 
 try {
@@ -221,10 +220,8 @@ try {
 
 } catch {
     Write-Host ""
-    Write-Host "[ ERROR OCCURRED ]"
-    Write-Host "--------------------------------------------------------------"
-    Write-Host "Failed to download installer"
-    Write-Host ""
+    Write-Host "[ERROR] DOWNLOAD FAILED"
+    Write-Host "=============================================================="
     Write-Host "Error details:"
     Write-Host $_.Exception.Message
     Write-Host ""
@@ -242,8 +239,8 @@ try {
 # ============================================================================
 
 Write-Host ""
-Write-Host "[ INSTALLATION ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[RUN] INSTALLATION"
+Write-Host "=============================================================="
 Write-Host "Launching installer..."
 
 try {
@@ -257,10 +254,8 @@ try {
 
 } catch {
     Write-Host ""
-    Write-Host "[ ERROR OCCURRED ]"
-    Write-Host "--------------------------------------------------------------"
-    Write-Host "Failed to launch installer"
-    Write-Host ""
+    Write-Host "[ERROR] INSTALLATION FAILED"
+    Write-Host "=============================================================="
     Write-Host "Error details:"
     Write-Host $_.Exception.Message
     Write-Host ""
@@ -277,8 +272,8 @@ try {
 # ============================================================================
 
 Write-Host ""
-Write-Host "[ FINAL STATUS ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[OK] FINAL STATUS"
+Write-Host "=============================================================="
 Write-Host "Download successful : Yes"
 Write-Host "Installer launched  : Yes"
 Write-Host "Installer location  : $fullPath"
@@ -288,8 +283,8 @@ Write-Host "Installer location  : $fullPath"
 # ============================================================================
 
 Write-Host ""
-Write-Host "[ SCRIPT COMPLETED ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[OK] SCRIPT COMPLETED"
+Write-Host "=============================================================="
 Write-Host "Script completed successfully"
 Write-Host "Exit code : 0"
 Write-Host ""

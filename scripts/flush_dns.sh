@@ -7,7 +7,7 @@
 # ███████╗██║██║ ╚═╝ ██║███████╗██║  ██║██║  ██║╚███╔███╔╝██║  ██╗
 # ╚══════╝╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚══╝╚══╝ ╚═╝  ╚═╝
 # ================================================================================
-#  SCRIPT   : Flush DNS (macOS)                                          v2.0.0
+#  SCRIPT   : Flush DNS (macOS)                                          v2.0.1
 #  AUTHOR   : Limehawk.io
 #  DATE     : January 2026
 #  USAGE    : sudo ./flush_dns.sh
@@ -64,27 +64,28 @@
 #
 #  EXAMPLE RUN
 #
-#    [ SYSTEM INFO ]
-#    --------------------------------------------------------------
+#    [INFO] SYSTEM INFO
+#    ==============================================================
 #    macOS Version : 14.2.1
 #    Flush Method  : mDNSResponder (10.10.4+)
 #
-#    [ DNS FLUSH ]
-#    --------------------------------------------------------------
+#    [RUN] DNS FLUSH
+#    ==============================================================
 #    Flushing DNS cache...
-#    DNS cache flushed successfully
+#    [OK] DNS cache flushed successfully
 #
-#    [ FINAL STATUS ]
-#    --------------------------------------------------------------
+#    [OK] FINAL STATUS
+#    ==============================================================
 #    Result : SUCCESS
 #    DNS Flushed
 #
-#    [ SCRIPT COMPLETE ]
-#    --------------------------------------------------------------
+#    [INFO] SCRIPT COMPLETE
+#    ==============================================================
 #
 # --------------------------------------------------------------------------------
 #  CHANGELOG
 # --------------------------------------------------------------------------------
+#  2026-01-19 v2.0.1 Updated to two-line ASCII console output style
 #  2026-01-14 v2.0.0 Complete rewrite with Limehawk Script Framework
 #  2024-01-01 v1.0.0 Initial release
 # ================================================================================
@@ -119,8 +120,8 @@ flush_dns_snow_leopard() {
 # ============================================================================
 
 echo ""
-echo "[ SYSTEM INFO ]"
-echo "--------------------------------------------------------------"
+echo "[INFO] SYSTEM INFO"
+echo "=============================================================="
 
 # Get macOS version
 OS_VERSION=$(sw_vers -productVersion)
@@ -149,8 +150,8 @@ fi
 echo "Flush Method  : $FLUSH_METHOD"
 
 echo ""
-echo "[ DNS FLUSH ]"
-echo "--------------------------------------------------------------"
+echo "[RUN] DNS FLUSH"
+echo "=============================================================="
 echo "Flushing DNS cache..."
 
 # Execute appropriate flush
@@ -176,11 +177,11 @@ fi
 
 # Check result
 if [[ $FLUSH_RESULT -eq 0 ]]; then
-    echo "DNS cache flushed successfully"
+    echo "[OK] DNS cache flushed successfully"
 else
     echo ""
-    echo "[ ERROR OCCURRED ]"
-    echo "--------------------------------------------------------------"
+    echo "[ERROR] ERROR OCCURRED"
+    echo "=============================================================="
     echo "Error: Unable to flush DNS cache"
     echo "Exit code: $FLUSH_RESULT"
     echo ""
@@ -188,12 +189,12 @@ else
 fi
 
 echo ""
-echo "[ FINAL STATUS ]"
-echo "--------------------------------------------------------------"
+echo "[OK] FINAL STATUS"
+echo "=============================================================="
 echo "Result : SUCCESS"
 echo "DNS Flushed"
 
 echo ""
-echo "[ SCRIPT COMPLETE ]"
-echo "--------------------------------------------------------------"
+echo "[INFO] SCRIPT COMPLETE"
+echo "=============================================================="
 exit 0

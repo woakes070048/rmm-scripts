@@ -8,9 +8,9 @@ $ErrorActionPreference = 'Stop'
 ╚══════╝╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚══╝╚══╝ ╚═╝  ╚═╝
 
 ================================================================================
-SCRIPT  : Splashtop Streamer Install v1.0.1
+SCRIPT  : Splashtop Streamer Install v1.0.2
 AUTHOR  : Limehawk.io
-DATE      : December 2025
+DATE      : January 2026
 USAGE   : .\splashtop_streamer_install.ps1
 FILE    : splashtop_streamer_install.ps1
 DESCRIPTION : Silently installs Splashtop Streamer agent for remote access
@@ -49,13 +49,13 @@ EXIT CODES:
     1 = Failure
 
 EXAMPLE RUN:
-    [ INPUT VALIDATION ]
-    --------------------------------------------------------------
+    [INFO] INPUT VALIDATION
+    ==============================================================
     Installer Path : C:\temp\Splashtop_Streamer_DEPLOY.exe
     Inputs validated successfully
 
-    [ INSTALLATION ]
-    --------------------------------------------------------------
+    [RUN] INSTALLATION
+    ==============================================================
     Starting Splashtop Streamer installation...
     Installation parameters:
       Silent Mode : Yes
@@ -63,16 +63,17 @@ EXAMPLE RUN:
       Hide Tray : Yes
     Installation completed
 
-    [ FINAL STATUS ]
-    --------------------------------------------------------------
+    [OK] FINAL STATUS
+    ==============================================================
     Result : SUCCESS
     Splashtop Streamer installed successfully
 
-    [ SCRIPT COMPLETED ]
-    --------------------------------------------------------------
+    [INFO] SCRIPT COMPLETED
+    ==============================================================
 
 CHANGELOG
 --------------------------------------------------------------------------------
+2026-01-19 v1.0.2 Updated to two-line ASCII console output style
 2025-12-23 v1.0.1 Updated to Limehawk Script Framework
 2024-12-01 v1.0.0 Initial release - converted from batch script
 ================================================================================
@@ -89,8 +90,8 @@ $installerPath = 'C:\temp\Splashtop_Streamer_Windows_DEPLOY_INSTALLER.exe'
 # INPUT VALIDATION
 # ============================================================================
 Write-Host ""
-Write-Host "[ INPUT VALIDATION ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[INFO] INPUT VALIDATION"
+Write-Host "=============================================================="
 
 $errorOccurred = $false
 $errorText = ""
@@ -103,8 +104,8 @@ if ([string]::IsNullOrWhiteSpace($installerPath)) {
 
 if ($errorOccurred) {
     Write-Host ""
-    Write-Host "[ ERROR OCCURRED ]"
-    Write-Host "--------------------------------------------------------------"
+    Write-Host "[ERROR] ERROR OCCURRED"
+    Write-Host "=============================================================="
     Write-Host $errorText
     exit 1
 }
@@ -113,8 +114,8 @@ Write-Host "Installer Path : $installerPath"
 
 if (-not (Test-Path $installerPath)) {
     Write-Host ""
-    Write-Host "[ ERROR OCCURRED ]"
-    Write-Host "--------------------------------------------------------------"
+    Write-Host "[ERROR] ERROR OCCURRED"
+    Write-Host "=============================================================="
     Write-Host "Installer file not found at specified path"
     Write-Host "Please download the deploy installer from Splashtop"
     Write-Host "and place it at: $installerPath"
@@ -127,8 +128,8 @@ Write-Host "Inputs validated successfully"
 # INSTALLATION
 # ============================================================================
 Write-Host ""
-Write-Host "[ INSTALLATION ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[RUN] INSTALLATION"
+Write-Host "=============================================================="
 
 try {
     Write-Host "Starting Splashtop Streamer installation..."
@@ -142,8 +143,8 @@ try {
 
     if ($process.ExitCode -ne 0) {
         Write-Host ""
-        Write-Host "[ ERROR OCCURRED ]"
-        Write-Host "--------------------------------------------------------------"
+        Write-Host "[ERROR] ERROR OCCURRED"
+        Write-Host "=============================================================="
         Write-Host "Installation may have failed"
         Write-Host "Exit Code : $($process.ExitCode)"
         exit 1
@@ -153,8 +154,8 @@ try {
 }
 catch {
     Write-Host ""
-    Write-Host "[ ERROR OCCURRED ]"
-    Write-Host "--------------------------------------------------------------"
+    Write-Host "[ERROR] ERROR OCCURRED"
+    Write-Host "=============================================================="
     Write-Host "Failed to execute installer"
     Write-Host "Error : $($_.Exception.Message)"
     exit 1
@@ -164,13 +165,13 @@ catch {
 # FINAL STATUS
 # ============================================================================
 Write-Host ""
-Write-Host "[ FINAL STATUS ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[OK] FINAL STATUS"
+Write-Host "=============================================================="
 Write-Host "Result : SUCCESS"
 Write-Host "Splashtop Streamer installed successfully"
 
 Write-Host ""
-Write-Host "[ SCRIPT COMPLETED ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[INFO] SCRIPT COMPLETED"
+Write-Host "=============================================================="
 
 exit 0

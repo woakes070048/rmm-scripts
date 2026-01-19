@@ -7,9 +7,9 @@
 # ███████╗██║██║ ╚═╝ ██║███████╗██║  ██║██║  ██║╚███╔███╔╝██║  ██╗
 # ╚══════╝╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚══╝╚══╝ ╚═╝  ╚═╝
 # ================================================================================
-#  SCRIPT   : Workstation Auto-Rename (macOS)                              v1.1.0
+#  SCRIPT   : Workstation Auto-Rename (macOS)                              v1.1.1
 #  AUTHOR   : Limehawk.io
-#  DATE     : December 2025
+#  DATE     : January 2026
 #  USAGE    : sudo ./rename_workstation_auto_macos.sh
 # ================================================================================
 #  FILE     : rename_workstation_auto_macos.sh
@@ -80,33 +80,39 @@
 #
 #  EXAMPLE RUN
 #
-#    [ INPUT VALIDATION ]
-#    --------------------------------------------------------------
+#    [INFO] INPUT VALIDATION
+#    ==============================================================
 #     Client Name              : Acme Corp
 #     Client Segment (3-char)  : ACM
 #
-#    [ SYSTEM VALUES ]
-#    --------------------------------------------------------------
+#    [INFO] SYSTEM VALUES
+#    ==============================================================
 #     Console User             : jsmith
 #     User Segment             : JSMITH
 #     Hardware UUID            : 12345678-90AB-CDEF-1234-567890ABCDEF
 #
-#    [ BUILD HOSTNAME ]
-#    --------------------------------------------------------------
+#    [INFO] BUILD HOSTNAME
+#    ==============================================================
 #     Desired Name             : ACM-JSMITH-CDEF
 #     Name Length              : 15
 #
-#    [ RENAME ACTION ]
-#    --------------------------------------------------------------
+#    [RUN] RENAME ACTION
+#    ==============================================================
 #     Status                   : RENAMING TO ACM-JSMITH-CDEF
 #     Result                   : RENAME SUCCESSFUL
 #
-#    [ SCRIPT COMPLETE ]
-#    --------------------------------------------------------------
+#    [INFO] RESULT
+#    ==============================================================
+#     Hostname set to: ACM-JSMITH-CDEF
+#     HostName, ComputerName, and LocalHostName updated
+#
+#    [OK] SCRIPT COMPLETED
+#    ==============================================================
 #
 # --------------------------------------------------------------------------------
 #  CHANGELOG
 # --------------------------------------------------------------------------------
+#  2026-01-19 v1.1.1 Updated to two-line ASCII console output style
 #  2025-12-23 v1.1.0 Updated to Limehawk Script Framework
 #  2024-11-01 v1.0.0 Initial release
 # ================================================================================
@@ -140,9 +146,11 @@ abbr3() {
 
 # Print section header
 print_section() {
+    local status="$1"
+    local title="$2"
     echo ""
-    echo "[ $1 ]"
-    echo "--------------------------------------------------------------"
+    echo "[$status] $title"
+    echo "=============================================================="
 }
 
 # Print key-value
@@ -154,13 +162,13 @@ print_kv() {
 # MAIN EXECUTION
 # ============================================================================
 
-print_section "INPUT VALIDATION"
+print_section "INFO" "INPUT VALIDATION"
 
 # Validate client name
 if [ -z "$CLIENT_NAME" ]; then
     echo ""
-    echo "[ ERROR OCCURRED ]"
-    echo "--------------------------------------------------------------"
+    echo "[ERROR] ERROR OCCURRED"
+    echo "=============================================================="
     echo "CLIENT_NAME is required (set \$YourClientNameHere in RMM)"
     echo ""
     exit 1
@@ -170,7 +178,7 @@ CLIENT_SEG=$(abbr3 "$CLIENT_NAME")
 print_kv "Client Name" "$CLIENT_NAME"
 print_kv "Client Segment (3-char)" "$CLIENT_SEG"
 
-print_section "SYSTEM VALUES"
+print_section "INFO" "SYSTEM VALUES"
 
 # Get current user (console user, not root)
 CURRENT_USER=$(stat -f "%Su" /dev/console 2>/dev/null || echo "")
@@ -187,8 +195,8 @@ print_kv "User Segment" "$USER_SEG"
 HARDWARE_UUID=$(ioreg -rd1 -c IOPlatformExpertDevice | awk -F'"' '/IOPlatformUUID/{print $4}')
 if [ -z "$HARDWARE_UUID" ]; then
     echo ""
-    echo "[ ERROR OCCURRED ]"
-    echo "--------------------------------------------------------------"
+    echo "[ERROR] ERROR OCCURRED"
+    echo "=============================================================="
     echo "Could not retrieve hardware UUID"
     echo ""
     exit 1
@@ -202,7 +210,7 @@ print_kv "UUID (clean)" "$UUID_CLEAN"
 CURRENT_HOST=$(scutil --get ComputerName 2>/dev/null || hostname -s)
 print_kv "Current Hostname" "$CURRENT_HOST"
 
-print_section "BUILD HOSTNAME"
+print_section "INFO" "BUILD HOSTNAME"
 
 # Build the hostname: CLIENT3-USER-UUID (exactly 15 chars)
 PREFIX="${CLIENT_SEG}-"
@@ -243,7 +251,7 @@ print_kv "UUID Suffix" "$UUID_SUFFIX"
 print_kv "Desired Name" "$DESIRED_NAME"
 print_kv "Name Length" "${#DESIRED_NAME}"
 
-print_section "RENAME ACTION"
+print_section "RUN" "RENAME ACTION"
 
 # Check if already named correctly
 CURRENT_UPPER=$(echo "$CURRENT_HOST" | tr '[:lower:]' '[:upper:]')
@@ -260,8 +268,8 @@ else
         print_kv "Result" "RENAME SUCCESSFUL"
     else
         echo ""
-        echo "[ ERROR OCCURRED ]"
-        echo "--------------------------------------------------------------"
+        echo "[ERROR] ERROR OCCURRED"
+        echo "=============================================================="
         echo "Failed to set hostname"
         echo ""
         exit 1
@@ -272,11 +280,11 @@ else
     sudo killall -HUP mDNSResponder 2>/dev/null || true
 fi
 
-print_section "FINAL STATUS"
+print_section "INFO" "RESULT"
 echo " Hostname set to: $DESIRED_NAME"
 echo " HostName, ComputerName, and LocalHostName updated"
 
 echo ""
-echo "[ SCRIPT COMPLETE ]"
-echo "--------------------------------------------------------------"
+echo "[OK] SCRIPT COMPLETED"
+echo "=============================================================="
 exit 0

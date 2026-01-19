@@ -8,9 +8,9 @@ $ErrorActionPreference = 'Stop'
 ╚══════╝╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚══╝╚══╝ ╚═╝  ╚═╝
 
 ================================================================================
-SCRIPT  : Set Display Resolution using NirCmd v1.1.0
+SCRIPT  : Set Display Resolution using NirCmd v1.1.2
 AUTHOR  : Limehawk.io
-DATE      : December 2025
+DATE      : January 2026
 USAGE   : .\nircmd_set_resolution.ps1
 FILE    : nircmd_set_resolution.ps1
 DESCRIPTION : Changes display resolution using NirSoft NirCmd utility
@@ -48,31 +48,34 @@ EXIT CODES:
     1 = Failure
 
 EXAMPLE RUN:
-    [ INPUT VALIDATION ]
-    --------------------------------------------------------------
+    [INFO] INPUT VALIDATION
+    ==============================================================
     Resolution : 1920 x 1080
     Color Depth : 32-bit
     Destination : C:\limehawk\nircmd
 
-    [ DOWNLOADING NIRCMD ]
-    --------------------------------------------------------------
+    [RUN] DOWNLOADING NIRCMD
+    ==============================================================
     Download URL : https://www.nirsoft.net/utils/nircmd.zip
+    Downloading NirCmd...
     Download complete
 
-    [ CHANGING RESOLUTION ]
-    --------------------------------------------------------------
+    [RUN] CHANGING RESOLUTION
+    ==============================================================
     Executing : nircmd.exe setdisplay 1920 1080 32
     Resolution changed successfully
 
-    [ FINAL STATUS ]
-    --------------------------------------------------------------
+    [OK] FINAL STATUS
+    ==============================================================
     Result : SUCCESS
 
-    [ SCRIPT COMPLETED ]
-    --------------------------------------------------------------
+    [OK] SCRIPT COMPLETED
+    ==============================================================
 
 CHANGELOG
 --------------------------------------------------------------------------------
+2026-01-19 v1.1.2 Fixed EXAMPLE RUN section formatting
+2026-01-19 v1.1.1 Updated to two-line ASCII console output style
 2025-12-23 v1.1.0 Updated to Limehawk Script Framework
 2024-12-01 v1.0.0 Initial release - migrated from SuperOps
 ================================================================================
@@ -91,8 +94,8 @@ $destinationFolder = "$env:SystemDrive\limehawk\nircmd"
 # INPUT VALIDATION
 # ============================================================================
 Write-Host ""
-Write-Host "[ INPUT VALIDATION ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[INFO] INPUT VALIDATION"
+Write-Host "=============================================================="
 
 $errorOccurred = $false
 $errorText = ""
@@ -117,13 +120,13 @@ if ($colorDepth -notin @(8, 16, 24, 32)) {
 
 if ($errorOccurred) {
     Write-Host ""
-    Write-Host "[ ERROR OCCURRED ]"
-    Write-Host "--------------------------------------------------------------"
+    Write-Host "[ERROR] VALIDATION FAILED"
+    Write-Host "=============================================================="
     Write-Host "Input validation failed:"
     Write-Host $errorText
     Write-Host ""
-    Write-Host "[ SCRIPT COMPLETED ]"
-    Write-Host "--------------------------------------------------------------"
+    Write-Host "[INFO] SCRIPT COMPLETED"
+    Write-Host "=============================================================="
     exit 1
 }
 
@@ -135,8 +138,8 @@ Write-Host "Destination  : $destinationFolder"
 # DOWNLOAD NIRCMD
 # ============================================================================
 Write-Host ""
-Write-Host "[ DOWNLOADING NIRCMD ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[INFO] DOWNLOADING NIRCMD"
+Write-Host "=============================================================="
 
 $downloadUrl = "https://www.nirsoft.net/utils/nircmd.zip"
 $zipPath = Join-Path -Path $destinationFolder -ChildPath "nircmd.zip"
@@ -153,17 +156,17 @@ try {
 
     # Download NirCmd if not present
     if (-not (Test-Path -Path $exePath)) {
-        Write-Host "Downloading NirCmd..."
+        Write-Host "[RUN] Downloading NirCmd..."
         Invoke-WebRequest -Uri $downloadUrl -OutFile $zipPath -UseBasicParsing
-        Write-Host "Download complete"
+        Write-Host "[OK] Download complete"
 
-        Write-Host "Extracting..."
+        Write-Host "[RUN] Extracting..."
         Expand-Archive -Path $zipPath -DestinationPath $destinationFolder -Force
-        Write-Host "Extraction complete"
+        Write-Host "[OK] Extraction complete"
 
         # Clean up zip file
         Remove-Item -Path $zipPath -Force
-        Write-Host "Cleaned up zip file"
+        Write-Host "[OK] Cleaned up zip file"
     }
     else {
         Write-Host "NirCmd already installed"
@@ -171,8 +174,8 @@ try {
 }
 catch {
     Write-Host ""
-    Write-Host "[ ERROR OCCURRED ]"
-    Write-Host "--------------------------------------------------------------"
+    Write-Host "[ERROR] DOWNLOAD FAILED"
+    Write-Host "=============================================================="
     Write-Host "Failed to download/install NirCmd"
     Write-Host "Error : $($_.Exception.Message)"
     exit 1
@@ -182,21 +185,21 @@ catch {
 # CHANGE RESOLUTION
 # ============================================================================
 Write-Host ""
-Write-Host "[ CHANGING RESOLUTION ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[INFO] CHANGING RESOLUTION"
+Write-Host "=============================================================="
 
 try {
     $arguments = "setdisplay $resolutionWidth $resolutionHeight $colorDepth"
-    Write-Host "Executing    : nircmd.exe $arguments"
+    Write-Host "[RUN] Executing    : nircmd.exe $arguments"
 
     Start-Process -FilePath $exePath -ArgumentList $arguments -Wait -NoNewWindow
 
-    Write-Host "Resolution changed successfully"
+    Write-Host "[OK] Resolution changed successfully"
 }
 catch {
     Write-Host ""
-    Write-Host "[ ERROR OCCURRED ]"
-    Write-Host "--------------------------------------------------------------"
+    Write-Host "[ERROR] RESOLUTION CHANGE FAILED"
+    Write-Host "=============================================================="
     Write-Host "Failed to change resolution"
     Write-Host "Error : $($_.Exception.Message)"
     exit 1
@@ -206,13 +209,13 @@ catch {
 # FINAL STATUS
 # ============================================================================
 Write-Host ""
-Write-Host "[ FINAL STATUS ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[INFO] FINAL STATUS"
+Write-Host "=============================================================="
 Write-Host "Result : SUCCESS"
 Write-Host "Display resolution set to $resolutionWidth x $resolutionHeight @ $colorDepth-bit"
 
 Write-Host ""
-Write-Host "[ SCRIPT COMPLETED ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[INFO] SCRIPT COMPLETED"
+Write-Host "=============================================================="
 
 exit 0

@@ -7,7 +7,7 @@ $ErrorActionPreference = 'Stop'
 ███████╗██║██║ ╚═╝ ██║███████╗██║  ██║██║  ██║╚███╔███╔╝██║  ██╗
 ╚══════╝╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚══╝╚══╝ ╚═╝  ╚═╝
 ================================================================================
- SCRIPT   : USMT Profile Migration Tool                                  v1.1.0
+ SCRIPT   : USMT Profile Migration Tool                                  v1.1.1
  AUTHOR   : Limehawk.io
  DATE     : January 2026
  USAGE    : .\usmt_migrate_profile.ps1
@@ -17,6 +17,7 @@ $ErrorActionPreference = 'Stop'
 --------------------------------------------------------------------------------
  CHANGELOG
 --------------------------------------------------------------------------------
+ 2026-01-19 v1.1.1 Updated to two-line ASCII console output style
  2026-01-08 v1.1.0 Added full USMT options, new account creation on restore
  2026-01-08 v1.0.0 Initial release
 ================================================================================
@@ -39,25 +40,23 @@ $DefaultStorePath = 'C:\MigrationStore'
 function Write-Header {
     param([string]$Title)
     Write-Host ""
-    Write-Host "===============================================================" -ForegroundColor Cyan
-    Write-Host " $Title" -ForegroundColor Cyan
-    Write-Host "===============================================================" -ForegroundColor Cyan
-    Write-Host ""
+    Write-Host "[INFO] $Title" -ForegroundColor Cyan
+    Write-Host "==============================================================" -ForegroundColor Cyan
 }
 
 function Write-Step {
     param([string]$Message)
-    Write-Host "[*] $Message" -ForegroundColor Yellow
+    Write-Host "[RUN] $Message" -ForegroundColor Yellow
 }
 
 function Write-Success {
     param([string]$Message)
-    Write-Host "[+] $Message" -ForegroundColor Green
+    Write-Host "[OK] $Message" -ForegroundColor Green
 }
 
 function Write-Failure {
     param([string]$Message)
-    Write-Host "[-] $Message" -ForegroundColor Red
+    Write-Host "[ERROR] $Message" -ForegroundColor Red
 }
 
 function Write-Info {
@@ -244,9 +243,8 @@ function New-LocalUser {
 
 function Show-BackupOptions {
     Write-Host ""
-    Write-Host "  ┌─────────────────────────────────────────────────────────┐" -ForegroundColor Cyan
-    Write-Host "  │  BACKUP OPTIONS                                         │" -ForegroundColor Cyan
-    Write-Host "  └─────────────────────────────────────────────────────────┘" -ForegroundColor Cyan
+    Write-Host "[INFO] BACKUP OPTIONS" -ForegroundColor Cyan
+    Write-Host "==============================================================" -ForegroundColor Cyan
     Write-Host ""
 
     $options = @{
@@ -419,9 +417,8 @@ function Start-ProfileBackup {
 
 function Show-RestoreOptions {
     Write-Host ""
-    Write-Host "  ┌─────────────────────────────────────────────────────────┐" -ForegroundColor Cyan
-    Write-Host "  │  RESTORE OPTIONS                                        │" -ForegroundColor Cyan
-    Write-Host "  └─────────────────────────────────────────────────────────┘" -ForegroundColor Cyan
+    Write-Host "[INFO] RESTORE OPTIONS" -ForegroundColor Cyan
+    Write-Host "==============================================================" -ForegroundColor Cyan
     Write-Host ""
 
     $options = @{
@@ -513,21 +510,19 @@ function Start-ProfileRestore {
 function Show-MainMenu {
     Clear-Host
     Write-Host ""
-    Write-Host "  ╔═══════════════════════════════════════════════════════════╗" -ForegroundColor Cyan
-    Write-Host "  ║       LIMEHAWK USMT PROFILE MIGRATION TOOL                ║" -ForegroundColor Cyan
-    Write-Host "  ╠═══════════════════════════════════════════════════════════╣" -ForegroundColor Cyan
-    Write-Host "  ║  Computer: $($env:COMPUTERNAME.PadRight(46))║" -ForegroundColor Gray
-    Write-Host "  ║  User:     $($env:USERNAME.PadRight(46))║" -ForegroundColor Gray
-    Write-Host "  ║  Admin:    $( if ($script:IsAdmin) { 'Yes'.PadRight(46) } else { 'No (limited features)'.PadRight(46) } )║" -ForegroundColor $(if ($script:IsAdmin) { 'Green' } else { 'Yellow' })
-    Write-Host "  ╚═══════════════════════════════════════════════════════════╝" -ForegroundColor Cyan
+    Write-Host "[INFO] LIMEHAWK USMT PROFILE MIGRATION TOOL" -ForegroundColor Cyan
+    Write-Host "==============================================================" -ForegroundColor Cyan
+    Write-Host "  Computer: $($env:COMPUTERNAME)" -ForegroundColor Gray
+    Write-Host "  User:     $($env:USERNAME)" -ForegroundColor Gray
+    Write-Host "  Admin:    $( if ($script:IsAdmin) { 'Yes' } else { 'No (limited features)' } )" -ForegroundColor $(if ($script:IsAdmin) { 'Green' } else { 'Yellow' })
     Write-Host ""
-    Write-Host "  ┌─────────────────────────────────────────────────────────┐"
-    Write-Host "  │  1. Backup a user profile                               │"
-    Write-Host "  │  2. Restore profile to EXISTING account (merge)        │"
-    Write-Host "  │  3. Restore profile to NEW account (create user)       │"
-    Write-Host "  │  4. View available backups                              │"
-    Write-Host "  │  5. Exit                                                │"
-    Write-Host "  └─────────────────────────────────────────────────────────┘"
+    Write-Host "[INFO] MAIN MENU" -ForegroundColor Cyan
+    Write-Host "==============================================================" -ForegroundColor Cyan
+    Write-Host "  1. Backup a user profile"
+    Write-Host "  2. Restore profile to EXISTING account (merge)"
+    Write-Host "  3. Restore profile to NEW account (create user)"
+    Write-Host "  4. View available backups"
+    Write-Host "  5. Exit"
     Write-Host ""
 }
 
@@ -628,15 +623,12 @@ function Start-BackupWizard {
     Write-Host ""
     if ($exitCode -le 1) {
         $storeSize = Get-FolderSize -Path $backupPath
-        Write-Success "Backup completed successfully!"
         Write-Host ""
-        Write-Host "  ┌─────────────────────────────────────────────────────────┐" -ForegroundColor Green
-        Write-Host "  │  BACKUP COMPLETE                                        │" -ForegroundColor Green
-        Write-Host "  ├─────────────────────────────────────────────────────────┤" -ForegroundColor Green
-        Write-Host "  │  Location: $($backupPath.Substring(0, [Math]::Min(44, $backupPath.Length)).PadRight(44))│" -ForegroundColor White
-        Write-Host "  │  Size:     $(($storeSize | ForEach-Object { Format-FileSize $_ }).PadRight(44))│" -ForegroundColor White
-        Write-Host "  │  Source:   $($selectedProfile.Account.PadRight(44))│" -ForegroundColor White
-        Write-Host "  └─────────────────────────────────────────────────────────┘" -ForegroundColor Green
+        Write-Host "[OK] BACKUP COMPLETE" -ForegroundColor Green
+        Write-Host "==============================================================" -ForegroundColor Green
+        Write-Host "  Location: $backupPath" -ForegroundColor White
+        Write-Host "  Size:     $(Format-FileSize $storeSize)" -ForegroundColor White
+        Write-Host "  Source:   $($selectedProfile.Account)" -ForegroundColor White
     } else {
         Write-Failure "Backup completed with errors (exit code: $exitCode)"
         Write-Host "  Check logs: $backupPath\scan.log" -ForegroundColor Yellow
@@ -732,9 +724,8 @@ function Start-RestoreWizard {
     if ($CreateNewAccount) {
         # Create new account flow
         Write-Host ""
-        Write-Host "  ┌─────────────────────────────────────────────────────────┐" -ForegroundColor Cyan
-        Write-Host "  │  CREATE NEW LOCAL ACCOUNT                               │" -ForegroundColor Cyan
-        Write-Host "  └─────────────────────────────────────────────────────────┘" -ForegroundColor Cyan
+        Write-Host "[INFO] CREATE NEW LOCAL ACCOUNT" -ForegroundColor Cyan
+        Write-Host "==============================================================" -ForegroundColor Cyan
         Write-Host ""
 
         $newUsername = Read-Host "  Enter username for new account"
@@ -823,12 +814,10 @@ function Start-RestoreWizard {
 
     # Confirmation
     Write-Host ""
-    Write-Host "  ┌─────────────────────────────────────────────────────────┐" -ForegroundColor Yellow
-    Write-Host "  │  RESTORE SUMMARY                                        │" -ForegroundColor Yellow
-    Write-Host "  ├─────────────────────────────────────────────────────────┤" -ForegroundColor Yellow
-    Write-Host "  │  From: $($selectedStore.SourceAccount.PadRight(48))│" -ForegroundColor White
-    Write-Host "  │  To:   $($targetAccount.PadRight(48))│" -ForegroundColor White
-    Write-Host "  └─────────────────────────────────────────────────────────┘" -ForegroundColor Yellow
+    Write-Host "[WARN] RESTORE SUMMARY" -ForegroundColor Yellow
+    Write-Host "==============================================================" -ForegroundColor Yellow
+    Write-Host "  From: $($selectedStore.SourceAccount)" -ForegroundColor White
+    Write-Host "  To:   $targetAccount" -ForegroundColor White
 
     if ($selectedStore.SourceAccount -ne $targetAccount) {
         Write-Host ""

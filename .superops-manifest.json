@@ -5,9 +5,9 @@
       "scriptId": "1365998311448080384",
       "filename": "gcpw_cleanup",
       "language": "PowerShell",
-      "checksum": "sha256:7d8af78f85dcd066",
+      "checksum": "sha256:7c4b484087b6fe55",
       "metaChecksum": "meta:d9bb8df090b96217",
-      "lastModified": "2026-01-19T01:01:32.734769+00:00"
+      "lastModified": "2026-01-19T09:52:41.307519+00:00"
     },
     {
       "scriptId": "259059269958754304",
@@ -21,9 +21,9 @@
       "scriptId": "259059268004208640",
       "filename": "workstation_info_display",
       "language": "PowerShell",
-      "checksum": "sha256:4b6ea365928aac13",
+      "checksum": "sha256:4ba865b5d3626ec9",
       "metaChecksum": "meta:4ef31839ed97cb87",
-      "lastModified": "2026-01-19T01:01:54.322431+00:00"
+      "lastModified": "2026-01-19T09:41:48.734597+00:00"
     },
     {
       "scriptId": "259059265290493952",
@@ -37,73 +37,73 @@
       "scriptId": "259059262794883072",
       "filename": "wol_status_check",
       "language": "PowerShell",
-      "checksum": "sha256:a88ef78cb1e854bf",
+      "checksum": "sha256:42d6cfdaf8b8672e",
       "metaChecksum": "meta:c780e62838d9d21f",
-      "lastModified": "2026-01-19T01:01:54.207579+00:00"
+      "lastModified": "2026-01-19T09:52:31.455524+00:00"
     },
     {
       "scriptId": "259059260295077888",
       "filename": "wol_enable",
       "language": "PowerShell",
-      "checksum": "sha256:ce361782b4257816",
+      "checksum": "sha256:a597c2b093b1be79",
       "metaChecksum": "meta:4565fcf3c75e6747",
-      "lastModified": "2026-01-19T01:01:54.093772+00:00"
+      "lastModified": "2026-01-19T09:52:26.312068+00:00"
     },
     {
       "scriptId": "259059257623306240",
       "filename": "winreagent_cleanup",
       "language": "PowerShell",
-      "checksum": "sha256:f387eb082c9f6da8",
+      "checksum": "sha256:3c76053312c3081b",
       "metaChecksum": "meta:4ec95e8ece1f33a5",
-      "lastModified": "2026-01-19T01:01:53.943691+00:00"
+      "lastModified": "2026-01-19T09:52:04.638281+00:00"
     },
     {
       "scriptId": "259059250698510336",
       "filename": "winre_restore",
       "language": "PowerShell",
-      "checksum": "sha256:556001a6c1d83c62",
+      "checksum": "sha256:d88f22dc7ad51a72",
       "metaChecksum": "meta:4589bb2b6650550e",
-      "lastModified": "2026-01-19T01:01:53.797632+00:00"
+      "lastModified": "2026-01-19T09:51:57.995150+00:00"
     },
     {
       "scriptId": "259059249217921024",
       "filename": "winre_partition_resize",
       "language": "PowerShell",
-      "checksum": "sha256:a7b41f791138e135",
+      "checksum": "sha256:58b8697b0db0139a",
       "metaChecksum": "meta:4f9b776138509164",
-      "lastModified": "2026-01-19T01:01:53.674986+00:00"
+      "lastModified": "2026-01-19T09:51:48.976466+00:00"
     },
     {
       "scriptId": "259059247913492480",
       "filename": "winget_upgrade_all",
       "language": "PowerShell",
-      "checksum": "sha256:becb2712c1f72999",
+      "checksum": "sha256:d62850fda6aed6fa",
       "metaChecksum": "meta:ee32aa5b0ba0ca39",
-      "lastModified": "2026-01-19T01:01:53.528515+00:00"
+      "lastModified": "2026-01-19T09:51:23.713186+00:00"
     },
     {
       "scriptId": "259059246441291776",
       "filename": "windows_update_reset",
       "language": "PowerShell",
-      "checksum": "sha256:ac0591affa565b4e",
+      "checksum": "sha256:ef58c55ceb0df14e",
       "metaChecksum": "meta:2b466c512460b630",
-      "lastModified": "2026-01-19T01:01:52.992414+00:00"
+      "lastModified": "2026-01-19T09:41:48.975481+00:00"
     },
     {
       "scriptId": "259059245052977152",
       "filename": "windows_update_access_toggle",
       "language": "PowerShell",
-      "checksum": "sha256:0e1c83e70c693202",
+      "checksum": "sha256:13e51c2cd451afd8",
       "metaChecksum": "meta:163ec821e42c18ca",
-      "lastModified": "2026-01-19T01:01:52.858438+00:00"
+      "lastModified": "2026-01-19T09:42:51.651617+00:00"
     },
     {
       "scriptId": "259059243740160000",
       "filename": "windows_update_access_restore",
       "language": "PowerShell",
-      "checksum": "sha256:67b3e6d6f12bc8f2",
+      "checksum": "sha256:f8ab95cd7971fb91",
       "metaChecksum": "meta:bc91c7adc137e47c",
-      "lastModified": "2026-01-19T01:01:52.709957+00:00"
+      "lastModified": "2026-01-19T09:43:40.080064+00:00"
     },
     {
       "scriptId": "259059241932414976",
@@ -117,137 +117,137 @@
       "scriptId": "259059240497963008",
       "filename": "windows_linux_set_utc_time",
       "language": "PowerShell",
-      "checksum": "sha256:60fcf83b99da7c8f",
+      "checksum": "sha256:d81f5af54a2d914c",
       "metaChecksum": "meta:a30bd9d45bdf3107",
-      "lastModified": "2026-01-19T01:01:54.814357+00:00"
+      "lastModified": "2026-01-19T09:39:42.177315+00:00"
     },
     {
       "scriptId": "259059237931048960",
       "filename": "windows11_compatibility_checker",
       "language": "PowerShell",
-      "checksum": "sha256:1e4bd9f27648c822",
+      "checksum": "sha256:dbd81ddbe1fe8410",
       "metaChecksum": "meta:18e3d49ea2e3063d",
-      "lastModified": "2026-01-19T01:01:51.367056+00:00"
+      "lastModified": "2026-01-19T09:47:33.883014+00:00"
     },
     {
       "scriptId": "259059236475625472",
       "filename": "win11_compatibility_check",
       "language": "PowerShell",
-      "checksum": "sha256:4bef33fedd7dd4f1",
+      "checksum": "sha256:e786c4bde2af2ff2",
       "metaChecksum": "meta:5ec494550718c52a",
-      "lastModified": "2026-01-19T01:01:51.222998+00:00"
+      "lastModified": "2026-01-19T09:49:28.368357+00:00"
     },
     {
       "scriptId": "259059235116670976",
       "filename": "wifiman_install",
       "language": "PowerShell",
-      "checksum": "sha256:a4487effac0da11f",
+      "checksum": "sha256:5d1824c663da0b8f",
       "metaChecksum": "meta:4181a3410f932072",
-      "lastModified": "2026-01-19T01:01:51.088750+00:00"
+      "lastModified": "2026-01-19T09:40:33.222048+00:00"
     },
     {
       "scriptId": "259059232625254400",
       "filename": "wifi_passwords_show",
       "language": "PowerShell",
-      "checksum": "sha256:cd336d7e6e2d298e",
+      "checksum": "sha256:9931cc8ec967a7e2",
       "metaChecksum": "meta:edadec10dce9c1b1",
-      "lastModified": "2026-01-19T01:01:55.030335+00:00"
+      "lastModified": "2026-01-19T09:50:38.666558+00:00"
     },
     {
       "scriptId": "259059226895835136",
       "filename": "wifi_adapters_disable",
       "language": "PowerShell",
-      "checksum": "sha256:4fb34f60c300cd30",
+      "checksum": "sha256:354c19894adec5cd",
       "metaChecksum": "meta:b1c7d972de91db62",
-      "lastModified": "2026-01-19T01:01:50.657305+00:00"
+      "lastModified": "2026-01-19T09:52:37.674877+00:00"
     },
     {
       "scriptId": "259059222848331776",
       "filename": "usmt_migrate_profile",
       "language": "PowerShell",
-      "checksum": "sha256:09742751f3b0e48d",
+      "checksum": "sha256:482acfccee3b6926",
       "metaChecksum": "meta:50bece05c8eaeb88",
-      "lastModified": "2026-01-19T01:01:54.924306+00:00"
+      "lastModified": "2026-01-19T09:40:49.505831+00:00"
     },
     {
       "scriptId": "259059221279662080",
       "filename": "user_accounts_report",
       "language": "PowerShell",
-      "checksum": "sha256:dc21bad3b7d6e431",
+      "checksum": "sha256:138a0d00669445ee",
       "metaChecksum": "meta:a030a7eb4a182e2f",
-      "lastModified": "2026-01-19T01:01:50.519597+00:00"
+      "lastModified": "2026-01-19T09:43:33.535781+00:00"
     },
     {
       "scriptId": "259059219677437952",
       "filename": "ubuntu_debian_update_verbose",
       "language": "Bash",
-      "checksum": "sha256:a7273ad48bfc2914",
+      "checksum": "sha256:e0dca9a371ba0af2",
       "metaChecksum": "meta:09d52936fb3924a4",
-      "lastModified": "2026-01-19T01:02:09.718594+00:00"
+      "lastModified": "2026-01-19T09:43:35.629597+00:00"
     },
     {
       "scriptId": "259059218180071424",
       "filename": "synology_backup_agent_install_linux",
       "language": "Bash",
-      "checksum": "sha256:9f89fb1ae06fb59c",
+      "checksum": "sha256:d25da66ea53f3a05",
       "metaChecksum": "meta:397faaf6ed4a9324",
-      "lastModified": "2026-01-19T01:02:09.371997+00:00"
+      "lastModified": "2026-01-19T09:42:51.930615+00:00"
     },
     {
       "scriptId": "259059216389103616",
       "filename": "synology_backup_agent_install",
       "language": "PowerShell",
-      "checksum": "sha256:020157344a156faf",
+      "checksum": "sha256:cc66fa8639b3af83",
       "metaChecksum": "meta:924b51c243926ce9",
-      "lastModified": "2026-01-19T01:01:49.886432+00:00"
+      "lastModified": "2026-01-19T09:51:27.966522+00:00"
     },
     {
       "scriptId": "259059215009177600",
       "filename": "superops_service_restart",
       "language": "PowerShell",
-      "checksum": "sha256:51931815d81718ad",
+      "checksum": "sha256:6847d67c14156ac1",
       "metaChecksum": "meta:34f9b905c1756e94",
-      "lastModified": "2026-01-19T08:47:30.162023+00:00"
+      "lastModified": "2026-01-19T09:51:28.231774+00:00"
     },
     {
       "scriptId": "259059213503422464",
       "filename": "superops_agent_uninstaller",
       "language": "PowerShell",
-      "checksum": "sha256:4cd6bc1e83c626ab",
+      "checksum": "sha256:475db5f06008ce30",
       "metaChecksum": "meta:ae546af7921293b9",
-      "lastModified": "2026-01-19T01:01:49.307649+00:00"
+      "lastModified": "2026-01-19T09:48:41.230399+00:00"
     },
     {
       "scriptId": "259059208889688064",
       "filename": "superops_agent_uninstall_windows_legacy",
       "language": "PowerShell",
-      "checksum": "sha256:01b7df21b9d84067",
+      "checksum": "sha256:f097f7c716017a85",
       "metaChecksum": "meta:20abfa1d6b8a5a62",
-      "lastModified": "2026-01-19T01:01:48.856246+00:00"
+      "lastModified": "2026-01-19T09:52:31.686161+00:00"
     },
     {
       "scriptId": "259059206855450624",
       "filename": "superops_agent_uninstall_windows",
       "language": "PowerShell",
-      "checksum": "sha256:dd9271ce6b45e11d",
+      "checksum": "sha256:3d8b6e06b6cfb6ba",
       "metaChecksum": "meta:44c7feb278ca076e",
-      "lastModified": "2026-01-19T01:01:48.705585+00:00"
+      "lastModified": "2026-01-19T09:41:01.386907+00:00"
     },
     {
       "scriptId": "259059204263370752",
       "filename": "superops_agent_uninstall_macos_alt_path",
       "language": "Bash",
-      "checksum": "sha256:a20956bf11555afb",
+      "checksum": "sha256:a8e900b1e21cfd34",
       "metaChecksum": "meta:6fe8bf03a4ed4423",
-      "lastModified": "2026-01-19T01:02:09.262792+00:00"
+      "lastModified": "2026-01-19T09:41:22.031553+00:00"
     },
     {
       "scriptId": "259059202858278912",
       "filename": "superops_agent_uninstall_macos",
       "language": "Bash",
-      "checksum": "sha256:9b6e5ad12b6f383d",
+      "checksum": "sha256:1f2ddeee28510922",
       "metaChecksum": "meta:346383ee906aa89a",
-      "lastModified": "2026-01-19T01:02:09.152252+00:00"
+      "lastModified": "2026-01-19T09:44:13.325218+00:00"
     },
     {
       "scriptId": "259059199326674944",
@@ -269,25 +269,25 @@
       "scriptId": "259059196407439360",
       "filename": "superops_agent_install_macos",
       "language": "Bash",
-      "checksum": "sha256:d611310632e5f132",
+      "checksum": "sha256:6fc3490acf5c28f8",
       "metaChecksum": "meta:604020195ee22549",
-      "lastModified": "2026-01-19T01:02:08.575521+00:00"
+      "lastModified": "2026-01-19T09:44:07.470782+00:00"
     },
     {
       "scriptId": "259059194989764608",
       "filename": "superops_agent_install",
       "language": "PowerShell",
-      "checksum": "sha256:17f29e65d414a1e9",
+      "checksum": "sha256:8cb05c6bb35432d6",
       "metaChecksum": "meta:ac0925b887810a00",
-      "lastModified": "2026-01-19T01:01:48.536215+00:00"
+      "lastModified": "2026-01-19T09:42:06.708844+00:00"
     },
     {
       "scriptId": "259059193635004416",
       "filename": "start_menu_clear_tiles",
       "language": "PowerShell",
-      "checksum": "sha256:da3e96e9b01f6b51",
+      "checksum": "sha256:f8df9abbc4275030",
       "metaChecksum": "meta:dfdfaa2af11c90f0",
-      "lastModified": "2026-01-19T01:01:47.462030+00:00"
+      "lastModified": "2026-01-19T09:44:28.800907+00:00"
     },
     {
       "scriptId": "259059192137637888",
@@ -301,17 +301,17 @@
       "scriptId": "259059190602522624",
       "filename": "splashtop_uninstall",
       "language": "PowerShell",
-      "checksum": "sha256:176f2d8f4232c386",
+      "checksum": "sha256:bc1a49eef9c80621",
       "metaChecksum": "meta:5a23997ba467a1c2",
-      "lastModified": "2026-01-19T01:01:47.098040+00:00"
+      "lastModified": "2026-01-19T09:45:45.914198+00:00"
     },
     {
       "scriptId": "259059189193236480",
       "filename": "splashtop_streamer_install_macos",
       "language": "Bash",
-      "checksum": "sha256:243a4dc36bf28faf",
+      "checksum": "sha256:7962109ca8b9e885",
       "metaChecksum": "meta:0d6e747ca93cbdf9",
-      "lastModified": "2026-01-19T01:02:08.117830+00:00"
+      "lastModified": "2026-01-19T09:44:04.705280+00:00"
     },
     {
       "scriptId": "259059187649732608",
@@ -325,297 +325,297 @@
       "scriptId": "259059185107984384",
       "filename": "splashtop_streamer_install_debian_amd64",
       "language": "Bash",
-      "checksum": "sha256:6702652b63ee8f72",
+      "checksum": "sha256:0d1eb15b627f4539",
       "metaChecksum": "meta:7f90e92441d3e4de",
-      "lastModified": "2026-01-19T01:02:07.630661+00:00"
+      "lastModified": "2026-01-19T09:43:59.259813+00:00"
     },
     {
       "scriptId": "259059183686115328",
       "filename": "splashtop_streamer_install",
       "language": "PowerShell",
-      "checksum": "sha256:e492854195bf8d39",
+      "checksum": "sha256:21dc09d2ec977fe6",
       "metaChecksum": "meta:ac6e03c5465600b0",
-      "lastModified": "2026-01-19T01:01:46.987122+00:00"
+      "lastModified": "2026-01-19T09:46:17.187676+00:00"
     },
     {
       "scriptId": "259059182331355136",
       "filename": "splashtop_business_install",
       "language": "PowerShell",
-      "checksum": "sha256:7ca54b0b7b5c0f50",
+      "checksum": "sha256:e5948ac76cabd685",
       "metaChecksum": "meta:0801fd150a91d7b4",
-      "lastModified": "2026-01-19T01:01:46.874950+00:00"
+      "lastModified": "2026-01-19T09:47:54.429195+00:00"
     },
     {
       "scriptId": "259059179743469568",
       "filename": "shutdown_toggle",
       "language": "PowerShell",
-      "checksum": "sha256:b7330bf13a49065f",
+      "checksum": "sha256:8abc869e13cc4ba3",
       "metaChecksum": "meta:5fc252b0beaaf3b7",
-      "lastModified": "2026-01-19T01:01:46.467008+00:00"
+      "lastModified": "2026-01-19T09:50:05.193879+00:00"
     },
     {
       "scriptId": "259059178191577088",
       "filename": "sentinelone_uninstall_linux",
       "language": "Bash",
-      "checksum": "sha256:6c2803091b474737",
+      "checksum": "sha256:14d539a27befd82d",
       "metaChecksum": "meta:ebeaeab5088c685a",
-      "lastModified": "2026-01-19T01:02:07.175456+00:00"
+      "lastModified": "2026-01-19T09:50:46.932294+00:00"
     },
     {
       "scriptId": "259059176723570688",
       "filename": "sentinelone_start_services",
       "language": "PowerShell",
-      "checksum": "sha256:72e08cf828959c56",
+      "checksum": "sha256:0b95244cb05b4797",
       "metaChecksum": "meta:b3e197d549712f81",
-      "lastModified": "2026-01-19T01:01:46.350482+00:00"
+      "lastModified": "2026-01-19T09:40:08.150046+00:00"
     },
     {
       "scriptId": "259059170738298880",
       "filename": "secure_delete_with_certificate",
       "language": "PowerShell",
-      "checksum": "sha256:127ec7ecccd82d23",
+      "checksum": "sha256:5866863ad76bb7a0",
       "metaChecksum": "meta:749fa37e2e3054ae",
-      "lastModified": "2026-01-19T01:01:45.708595+00:00"
+      "lastModified": "2026-01-19T09:43:36.138129+00:00"
     },
     {
       "scriptId": "259059169136074752",
       "filename": "search_password_files_tickets",
       "language": "PowerShell",
-      "checksum": "sha256:107a99fffc9c92fa",
+      "checksum": "sha256:85f114314af105e1",
       "metaChecksum": "meta:2e0c0b75a39b3074",
-      "lastModified": "2026-01-19T01:01:55.250183+00:00"
+      "lastModified": "2026-01-19T09:48:03.842251+00:00"
     },
     {
       "scriptId": "259059167751954432",
       "filename": "screenshot_macos",
       "language": "Bash",
-      "checksum": "sha256:9f42d28cf8681453",
+      "checksum": "sha256:280df0bae5ceebc6",
       "metaChecksum": "meta:d6fe429b2efe6910",
-      "lastModified": "2026-01-19T01:02:06.794012+00:00"
+      "lastModified": "2026-01-19T09:50:00.200177+00:00"
     },
     {
       "scriptId": "259059166317502464",
       "filename": "reset_nvram_reboot_macos",
       "language": "Bash",
-      "checksum": "sha256:965e56c3c1d0e7a2",
+      "checksum": "sha256:86cce573a4c2c35d",
       "metaChecksum": "meta:810a50dddd9560c7",
-      "lastModified": "2026-01-19T01:02:06.636275+00:00"
+      "lastModified": "2026-01-19T09:49:19.288274+00:00"
     },
     {
       "scriptId": "259059164883050496",
       "filename": "rename_workstation_manual_macos",
       "language": "Bash",
-      "checksum": "sha256:3eb2213a9e523d7e",
+      "checksum": "sha256:a4b1ad604394b878",
       "metaChecksum": "meta:deef9e4ba19502b0",
-      "lastModified": "2026-01-19T01:02:06.516885+00:00"
+      "lastModified": "2026-01-19T09:48:08.979935+00:00"
     },
     {
       "scriptId": "259059160919433216",
       "filename": "rename_workstation_auto_macos",
       "language": "Bash",
-      "checksum": "sha256:cf9e9745d36100f4",
+      "checksum": "sha256:6f80ffa845d204c0",
       "metaChecksum": "meta:284da6bbe578fa34",
-      "lastModified": "2026-01-19T01:02:06.368803+00:00"
+      "lastModified": "2026-01-19T09:46:58.022298+00:00"
     },
     {
       "scriptId": "259059159342374912",
       "filename": "remote_wipe",
       "language": "PowerShell",
-      "checksum": "sha256:c214f54a3c617853",
+      "checksum": "sha256:2c7c04cd6996798f",
       "metaChecksum": "meta:8fc177ea09f45281",
-      "lastModified": "2026-01-19T01:02:02.231868+00:00"
+      "lastModified": "2026-01-19T09:44:26.407499+00:00"
     },
     {
       "scriptId": "259059156825792512",
       "filename": "reboot_on_uptime_macos",
       "language": "Bash",
-      "checksum": "sha256:3c4cabd5f306c758",
+      "checksum": "sha256:730f5db251089ed9",
       "metaChecksum": "meta:aad9df3ba5d3b520",
-      "lastModified": "2026-01-19T01:02:05.777091+00:00"
+      "lastModified": "2026-01-19T09:45:27.875881+00:00"
     },
     {
       "scriptId": "259059155206791168",
       "filename": "printers_remove_all",
       "language": "PowerShell",
-      "checksum": "sha256:0a890472834dde83",
+      "checksum": "sha256:0f5d36ece2687945",
       "metaChecksum": "meta:6402d6266c6c64ab",
-      "lastModified": "2026-01-19T01:01:45.545242+00:00"
+      "lastModified": "2026-01-19T09:44:16.065320+00:00"
     },
     {
       "scriptId": "259059148156166144",
       "filename": "printer_test_connection",
       "language": "Bash",
-      "checksum": "sha256:cc4c54a6cca65309",
+      "checksum": "sha256:bce38418f5996c93",
       "metaChecksum": "meta:737677ab82a0c494",
-      "lastModified": "2026-01-19T01:02:05.665771+00:00"
+      "lastModified": "2026-01-19T09:44:45.012061+00:00"
     },
     {
       "scriptId": "259059146683965440",
       "filename": "printer_install_macos",
       "language": "Bash",
-      "checksum": "sha256:d169240cb14ef3ee",
+      "checksum": "sha256:f7ca7e47b3f19c8c",
       "metaChecksum": "meta:5674f624d477ca34",
-      "lastModified": "2026-01-19T01:02:05.554348+00:00"
+      "lastModified": "2026-01-19T09:43:47.293218+00:00"
     },
     {
       "scriptId": "259059136814768128",
       "filename": "printer_install_linux",
       "language": "Bash",
-      "checksum": "sha256:f70c15423eaafc9b",
+      "checksum": "sha256:7c9242737048c0dd",
       "metaChecksum": "meta:69792f8a8fd93724",
-      "lastModified": "2026-01-19T01:02:05.111817+00:00"
+      "lastModified": "2026-01-19T09:42:10.299418+00:00"
     },
     {
       "scriptId": "259059135199961088",
       "filename": "print_queue_clear",
       "language": "PowerShell",
-      "checksum": "sha256:39ad6ce5df543568",
+      "checksum": "sha256:ddac0dbb6f3d0ae6",
       "metaChecksum": "meta:e9c628a9ec15a709",
-      "lastModified": "2026-01-19T01:01:45.292618+00:00"
+      "lastModified": "2026-01-19T09:46:13.675848+00:00"
     },
     {
       "scriptId": "259059133677428736",
       "filename": "power_profile_macos",
       "language": "Bash",
-      "checksum": "sha256:5676ed067a12d36e",
+      "checksum": "sha256:0d2bf511f6cda9f6",
       "metaChecksum": "meta:ae5843502515b947",
-      "lastModified": "2026-01-19T01:02:04.722145+00:00"
+      "lastModified": "2026-01-19T09:48:56.141114+00:00"
     },
     {
       "scriptId": "259059132276531200",
       "filename": "power_profile_always_on",
       "language": "PowerShell",
-      "checksum": "sha256:2f05398c4a7ebd49",
+      "checksum": "sha256:6abeb932a83bb493",
       "metaChecksum": "meta:3e09a42fc9abae2d",
-      "lastModified": "2026-01-19T01:01:45.161369+00:00"
+      "lastModified": "2026-01-19T09:47:01.212970+00:00"
     },
     {
       "scriptId": "259059122973564928",
       "filename": "power_plans_add_default",
       "language": "PowerShell",
-      "checksum": "sha256:eed4613a034c9882",
+      "checksum": "sha256:edcbe6a93c2d92e9",
       "metaChecksum": "meta:ccc0ef4c12f79e7e",
-      "lastModified": "2026-01-19T01:01:45.032283+00:00"
+      "lastModified": "2026-01-19T09:47:45.480915+00:00"
     },
     {
       "scriptId": "259059121564278784",
       "filename": "potplayer_install",
       "language": "PowerShell",
-      "checksum": "sha256:6f7549baf668f855",
+      "checksum": "sha256:e317bfdae2c42393",
       "metaChecksum": "meta:e9528a38fcfc63e4",
-      "lastModified": "2026-01-19T01:01:43.906489+00:00"
+      "lastModified": "2026-01-19T09:42:20.823183+00:00"
     },
     {
       "scriptId": "259059120024969216",
       "filename": "onlyoffice_install",
       "language": "PowerShell",
-      "checksum": "sha256:7d6df6d6ee833bad",
+      "checksum": "sha256:23aa265c1afc89cd",
       "metaChecksum": "meta:e34c4e5fb39d3f5e",
-      "lastModified": "2026-01-19T01:01:43.739321+00:00"
+      "lastModified": "2026-01-19T09:42:52.541839+00:00"
     },
     {
       "scriptId": "259059118645043200",
       "filename": "nirsoft_uninstall_view",
       "language": "PowerShell",
-      "checksum": "sha256:d7d0f5e2805dd3c9",
+      "checksum": "sha256:e9aed33a235da465",
       "metaChecksum": "meta:1e7c1200fc64bc58",
-      "lastModified": "2026-01-19T01:01:42.279124+00:00"
+      "lastModified": "2026-01-19T09:52:11.425042+00:00"
     },
     {
       "scriptId": "259059112915623936",
       "filename": "nircmd_set_resolution",
       "language": "PowerShell",
-      "checksum": "sha256:64deff06c62faff4",
+      "checksum": "sha256:a255bf330beacbd1",
       "metaChecksum": "meta:c099e430a9867ec8",
-      "lastModified": "2026-01-19T01:01:41.408473+00:00"
+      "lastModified": "2026-01-19T09:52:08.289885+00:00"
     },
     {
       "scriptId": "259059111493754880",
       "filename": "nircmd_screenshot",
       "language": "PowerShell",
-      "checksum": "sha256:156dd7124c903330",
+      "checksum": "sha256:ccd18ea25eb218c7",
       "metaChecksum": "meta:e69bf34e11c03448",
-      "lastModified": "2026-01-19T01:01:41.250513+00:00"
+      "lastModified": "2026-01-19T09:52:04.875225+00:00"
     },
     {
       "scriptId": "259059110013165568",
       "filename": "ninjaone_uninstall",
       "language": "PowerShell",
-      "checksum": "sha256:572c243d1621d68d",
+      "checksum": "sha256:45fc5dab9a5219e5",
       "metaChecksum": "meta:91540353eb4ed07a",
-      "lastModified": "2026-01-19T01:01:41.115330+00:00"
+      "lastModified": "2026-01-19T09:40:43.912636+00:00"
     },
     {
       "scriptId": "259059108515799040",
       "filename": "network_service_refresh_macos",
       "language": "Bash",
-      "checksum": "sha256:3ac36c7d69143fbd",
+      "checksum": "sha256:5c518394b55357ae",
       "metaChecksum": "meta:ce047d990f188ca6",
-      "lastModified": "2026-01-19T01:02:04.595584+00:00"
+      "lastModified": "2026-01-19T09:48:12.298610+00:00"
     },
     {
       "scriptId": "259059107093929984",
       "filename": "network_scan",
       "language": "PowerShell",
-      "checksum": "sha256:aabfb241b156d978",
+      "checksum": "sha256:1cd029640f52c45c",
       "metaChecksum": "meta:02c717f7b3fe62d0",
-      "lastModified": "2026-01-19T01:01:40.680856+00:00"
+      "lastModified": "2026-01-19T09:41:25.684130+00:00"
     },
     {
       "scriptId": "259059105630117888",
       "filename": "network_dhcp_set_macos",
       "language": "Bash",
-      "checksum": "sha256:d250d8d638ef8e3d",
+      "checksum": "sha256:5c3fb0e9ef3f3b8c",
       "metaChecksum": "meta:98263c79b527c792",
-      "lastModified": "2026-01-19T01:02:04.463226+00:00"
+      "lastModified": "2026-01-19T09:46:56.285206+00:00"
     },
     {
       "scriptId": "259059103193227264",
       "filename": "msi_install_from_url",
       "language": "PowerShell",
-      "checksum": "sha256:65a76c8067824fde",
+      "checksum": "sha256:6cce18af44b8ea31",
       "metaChecksum": "meta:a21c63f27ebf582d",
-      "lastModified": "2026-01-19T01:01:40.518677+00:00"
+      "lastModified": "2026-01-19T09:42:07.208956+00:00"
     },
     {
       "scriptId": "259059101830078464",
       "filename": "macos_auto_updates_enable",
       "language": "Bash",
-      "checksum": "sha256:10217efed27d2b07",
+      "checksum": "sha256:25ead792bd41f224",
       "metaChecksum": "meta:89449e58cdae3e98",
-      "lastModified": "2026-01-19T01:02:03.797260+00:00"
+      "lastModified": "2026-01-19T09:45:49.515739+00:00"
     },
     {
       "scriptId": "259059100479512576",
       "filename": "ipconfig_release_renew",
       "language": "PowerShell",
-      "checksum": "sha256:f084592a9372a581",
+      "checksum": "sha256:cf4bc3de90f2df38",
       "metaChecksum": "meta:15bb80b8c45183bd",
-      "lastModified": "2026-01-19T01:01:36.012407+00:00"
+      "lastModified": "2026-01-19T09:41:09.440879+00:00"
     },
     {
       "scriptId": "259059099158306816",
       "filename": "huntress_install_macos",
       "language": "Bash",
-      "checksum": "sha256:2c618548af18cc17",
+      "checksum": "sha256:aaee43342dfc8d2e",
       "metaChecksum": "meta:ee3a537e1ea18f40",
-      "lastModified": "2026-01-19T01:02:10.179535+00:00"
+      "lastModified": "2026-01-19T09:43:29.040924+00:00"
     },
     {
       "scriptId": "259059097769992192",
       "filename": "google_update_trigger",
       "language": "PowerShell",
-      "checksum": "sha256:7378a9edb379fcad",
+      "checksum": "sha256:8b0829bbfee0f445",
       "metaChecksum": "meta:3417162bc3de0e0d",
-      "lastModified": "2026-01-19T01:01:33.393774+00:00"
+      "lastModified": "2026-01-19T09:43:50.061591+00:00"
     },
     {
       "scriptId": "259059096159379456",
       "filename": "gcpw_install",
       "language": "PowerShell",
-      "checksum": "sha256:e55d62c0a3141898",
+      "checksum": "sha256:b6e6ccdcec60b7ee",
       "metaChecksum": "meta:945175ed6ab17db4",
-      "lastModified": "2026-01-19T01:02:00.809648+00:00"
+      "lastModified": "2026-01-19T09:52:26.555008+00:00"
     },
     {
       "scriptId": "259059094657818624",
@@ -629,25 +629,25 @@
       "scriptId": "259059088395722752",
       "filename": "ds_store_disable_macos",
       "language": "Bash",
-      "checksum": "sha256:96caccafe159db8a",
+      "checksum": "sha256:6a32e8ee9e2fd422",
       "metaChecksum": "meta:67cc62cf4c6e6de6",
-      "lastModified": "2026-01-19T01:02:03.685593+00:00"
+      "lastModified": "2026-01-19T09:44:56.851693+00:00"
     },
     {
       "scriptId": "259059085669425152",
       "filename": "dokploy_orphaned_volumes_cleanup",
       "language": "Bash",
-      "checksum": "sha256:2b0fef201bc62d52",
+      "checksum": "sha256:59100642dba49aa6",
       "metaChecksum": "meta:9258bfc1f1128066",
-      "lastModified": "2026-01-19T01:02:03.579673+00:00"
+      "lastModified": "2026-01-19T09:43:57.285176+00:00"
     },
     {
       "scriptId": "259059084121726976",
       "filename": "dokploy_deploy_running_apps",
       "language": "Bash",
-      "checksum": "sha256:b421aea340d97ac8",
+      "checksum": "sha256:37f468fe39c05262",
       "metaChecksum": "meta:03f895af5dcc86dc",
-      "lastModified": "2026-01-19T01:02:03.467681+00:00"
+      "lastModified": "2026-01-19T09:42:40.525060+00:00"
     },
     {
       "scriptId": "259059081412206592",
@@ -677,9 +677,9 @@
       "scriptId": "259059076156743680",
       "filename": "dietpi_proxmox_install",
       "language": "Bash",
-      "checksum": "sha256:b8690b413db4d445",
+      "checksum": "sha256:27b9c5f4e87ead67",
       "metaChecksum": "meta:85aa7aa4d5d1def2",
-      "lastModified": "2026-01-19T01:02:03.335737+00:00"
+      "lastModified": "2026-01-19T09:41:51.514604+00:00"
     },
     {
       "scriptId": "259059074357387264",
@@ -709,81 +709,81 @@
       "scriptId": "259059066321100800",
       "filename": "cups_toggle_macos",
       "language": "Bash",
-      "checksum": "sha256:6e5145f2ed0559e2",
+      "checksum": "sha256:62b2d1c223f68620",
       "metaChecksum": "meta:2847aa81e89fefab",
-      "lastModified": "2026-01-19T01:02:03.222001+00:00"
+      "lastModified": "2026-01-19T09:41:20.921662+00:00"
     },
     {
       "scriptId": "259059058993651712",
       "filename": "choco_upgrade_all",
       "language": "PowerShell",
-      "checksum": "sha256:bf6ee7bed33f4d92",
+      "checksum": "sha256:c09c4caa6180f5dd",
       "metaChecksum": "meta:48a26ed66354d99c",
-      "lastModified": "2026-01-19T01:01:27.799556+00:00"
+      "lastModified": "2026-01-19T09:47:59.289911+00:00"
     },
     {
       "scriptId": "259059056091193344",
       "filename": "canon_mf455dw_driver_install",
       "language": "PowerShell",
-      "checksum": "sha256:1163374ebae89a00",
+      "checksum": "sha256:1acbaea2adc222a0",
       "metaChecksum": "meta:db8a83d556836440",
-      "lastModified": "2026-01-19T01:01:27.679497+00:00"
+      "lastModified": "2026-01-19T09:47:09.364534+00:00"
     },
     {
       "scriptId": "259059054442831872",
       "filename": "antivirus_uninstall",
       "language": "PowerShell",
-      "checksum": "sha256:73369f8a813ae51a",
+      "checksum": "sha256:601cfe15e77ef4e2",
       "metaChecksum": "meta:378201304b132487",
-      "lastModified": "2026-01-19T08:47:31.010333+00:00"
+      "lastModified": "2026-01-19T09:43:19.971777+00:00"
     },
     {
       "scriptId": "259059052882550784",
       "filename": "1password_install",
       "language": "PowerShell",
-      "checksum": "sha256:9b5bb62baef4e360",
+      "checksum": "sha256:f8d1a599731e0bb3",
       "metaChecksum": "meta:0b9244804765e7a2",
-      "lastModified": "2026-01-19T01:01:27.120385+00:00"
+      "lastModified": "2026-01-19T09:40:12.686362+00:00"
     },
     {
       "scriptId": "436712787778891776",
       "filename": "search_password_files",
       "language": "PowerShell",
-      "checksum": "sha256:3dc143ec6e1dfa4c",
+      "checksum": "sha256:8105804805562e77",
       "metaChecksum": "meta:09c910f193661b56",
-      "lastModified": "2026-01-19T01:01:55.141328+00:00"
+      "lastModified": "2026-01-19T09:49:43.809643+00:00"
     },
     {
       "scriptId": "2689507915451260928",
       "filename": "onedrive_reenable",
       "language": "PowerShell",
-      "checksum": "sha256:bde362a7edefec52",
+      "checksum": "sha256:3c66cd9446d7b84f",
       "metaChecksum": "meta:05c69f787825ca3d",
-      "lastModified": "2026-01-19T01:01:42.411374+00:00"
+      "lastModified": "2026-01-19T09:51:46.290168+00:00"
     },
     {
       "scriptId": "7562225567458115584",
       "filename": "sentinelone_install",
       "language": "PowerShell",
-      "checksum": "sha256:ba79a75c82ce6cf5",
+      "checksum": "sha256:1c301e5f9e8bee4c",
       "metaChecksum": "meta:17b0d21206854160",
-      "lastModified": "2026-01-19T01:01:45.872425+00:00"
+      "lastModified": "2026-01-19T09:41:21.174388+00:00"
     },
     {
       "scriptId": "7562208783506063360",
       "filename": "superops_tray_icon_always_show",
       "language": "PowerShell",
-      "checksum": "sha256:56e6fc655baf55b9",
+      "checksum": "sha256:e63e9c3575e6d997",
       "metaChecksum": "meta:48e47a35b504fe1f",
-      "lastModified": "2026-01-19T01:01:49.721277+00:00"
+      "lastModified": "2026-01-19T09:47:18.670090+00:00"
     },
     {
       "scriptId": "7562203720498790400",
       "filename": "edge_suppress_policies_system",
       "language": "PowerShell",
-      "checksum": "sha256:2d87c28b7655a1e7",
+      "checksum": "sha256:8edde8e3cc9be860",
       "metaChecksum": "meta:15cb239e11ae90b7",
-      "lastModified": "2026-01-19T01:01:32.352389+00:00"
+      "lastModified": "2026-01-19T09:53:07.890155+00:00"
     },
     {
       "scriptId": "7562203575531061248",
@@ -797,153 +797,153 @@
       "scriptId": "8969905695147712512",
       "filename": "foxit_pdf_editor_plus_install",
       "language": "PowerShell",
-      "checksum": "sha256:91b821286a0e4e86",
+      "checksum": "sha256:fd3831e2fde391aa",
       "metaChecksum": "meta:2c413e12b16d53c5",
-      "lastModified": "2026-01-19T01:01:32.578216+00:00"
+      "lastModified": "2026-01-19T09:45:38.168239+00:00"
     },
     {
       "scriptId": "1015917390952198144",
       "filename": "local_user_admin_toggle",
       "language": "PowerShell",
-      "checksum": "sha256:18327220f76296ce",
+      "checksum": "sha256:b2274bc61dec3631",
       "metaChecksum": "meta:fb871fb62aa44200",
-      "lastModified": "2026-01-19T01:01:37.012900+00:00"
+      "lastModified": "2026-01-19T09:46:08.686779+00:00"
     },
     {
       "scriptId": "1015907075732598784",
       "filename": "local_user_admin_create",
       "language": "PowerShell",
-      "checksum": "sha256:3990138cf9781c8e",
+      "checksum": "sha256:10595a05ed05be4d",
       "metaChecksum": "meta:a81e353ad76c0524",
-      "lastModified": "2026-01-19T01:01:36.293506+00:00"
+      "lastModified": "2026-01-19T09:46:48.837542+00:00"
     },
     {
       "scriptId": "1015906830558752768",
       "filename": "local_user_create",
       "language": "PowerShell",
-      "checksum": "sha256:2aba59ace1abb90b",
+      "checksum": "sha256:ce9ca0b1a3b7d6ae",
       "metaChecksum": "meta:0e91650dca53d142",
-      "lastModified": "2026-01-19T01:01:37.555896+00:00"
+      "lastModified": "2026-01-19T09:45:18.631288+00:00"
     },
     {
       "scriptId": "1015904364706459648",
       "filename": "local_user_delete",
       "language": "PowerShell",
-      "checksum": "sha256:df87e1621fa48bbe",
+      "checksum": "sha256:e22a25fd190023e0",
       "metaChecksum": "meta:0a160d494c262303",
-      "lastModified": "2026-01-19T01:01:38.518094+00:00"
+      "lastModified": "2026-01-19T09:44:35.721453+00:00"
     },
     {
       "scriptId": "1015783170502094848",
       "filename": "winget_install_package",
       "language": "PowerShell",
-      "checksum": "sha256:e9ee074c7f6c220f",
+      "checksum": "sha256:96efc86523d695c7",
       "metaChecksum": "meta:799806a8e79b3d59",
-      "lastModified": "2026-01-19T01:01:53.144050+00:00"
+      "lastModified": "2026-01-19T09:40:20.689984+00:00"
     },
     {
       "scriptId": "6295817723329372160",
       "filename": "onestart_complete_removal",
       "language": "PowerShell",
-      "checksum": "sha256:32faa52491c8b666",
+      "checksum": "sha256:32b5de679bd3ccd9",
       "metaChecksum": "meta:668f16a7cd82c3a5",
-      "lastModified": "2026-01-19T01:01:43.600422+00:00"
+      "lastModified": "2026-01-19T09:52:14.751368+00:00"
     },
     {
       "scriptId": "2059305194998857728",
       "filename": "antivirus_status",
       "language": "PowerShell",
-      "checksum": "sha256:155f8c8a78aac830",
+      "checksum": "sha256:c7636723a21e6314",
       "metaChecksum": "meta:8c4e4c91a56683c0",
-      "lastModified": "2026-01-19T01:01:27.272318+00:00"
+      "lastModified": "2026-01-19T09:41:32.593809+00:00"
     },
     {
       "scriptId": "2059287687210598400",
       "filename": "hardware_report",
       "language": "PowerShell",
-      "checksum": "sha256:31f6f7353969cb0c",
+      "checksum": "sha256:95cee5a490d733af",
       "metaChecksum": "meta:a5bdc71e687acbfa",
-      "lastModified": "2026-01-19T01:01:33.508486+00:00"
+      "lastModified": "2026-01-19T09:43:04.125839+00:00"
     },
     {
       "scriptId": "6668060130075115520",
       "filename": "onedrive_remove_complete",
       "language": "PowerShell",
-      "checksum": "sha256:50bf2fe1fc8d0837",
+      "checksum": "sha256:390a25e5b1393598",
       "metaChecksum": "meta:78096cd8f042dd1e",
-      "lastModified": "2026-01-19T01:01:42.896000+00:00"
+      "lastModified": "2026-01-19T09:51:22.070332+00:00"
     },
     {
       "scriptId": "5428837218762698752",
       "filename": "mrt_scan",
       "language": "PowerShell",
-      "checksum": "sha256:e8160ad00c098fc4",
+      "checksum": "sha256:eb990731938c9b20",
       "metaChecksum": "meta:23876248bb630ea5",
-      "lastModified": "2026-01-19T01:01:39.896460+00:00"
+      "lastModified": "2026-01-19T09:43:29.326909+00:00"
     },
     {
       "scriptId": "6523706799125475328",
       "filename": "bitlocker_enable_superops",
       "language": "PowerShell",
-      "checksum": "sha256:0e45794ad97bc02e",
+      "checksum": "sha256:f3880a4b2a0e95c2",
       "metaChecksum": "meta:56f2349b7801a62b",
-      "lastModified": "2026-01-19T01:01:27.553305+00:00"
+      "lastModified": "2026-01-19T09:45:17.631710+00:00"
     },
     {
       "scriptId": "8083647452427669504",
       "filename": "rename_workstation_manual",
       "language": "PowerShell",
-      "checksum": "sha256:ba6a5c0ac0b04b58",
+      "checksum": "sha256:7399a75a4137780d",
       "metaChecksum": "meta:4136f85090a904b3",
-      "lastModified": "2026-01-19T01:01:59.993104+00:00"
+      "lastModified": "2026-01-19T09:48:51.214884+00:00"
     },
     {
       "scriptId": "8083616885623574528",
       "filename": "rename_workstation_auto",
       "language": "PowerShell",
-      "checksum": "sha256:61e4e02f16768599",
+      "checksum": "sha256:98adcc36fb489433",
       "metaChecksum": "meta:27c2361acd6b8c5c",
-      "lastModified": "2026-01-19T01:01:58.911510+00:00"
+      "lastModified": "2026-01-19T09:50:05.432804+00:00"
     },
     {
       "scriptId": "3077420686222594048",
       "filename": "limehawk_admin_profile_branding",
       "language": "PowerShell",
-      "checksum": "sha256:bc830038a9a47c84",
+      "checksum": "sha256:1da1b631b82c802b",
       "metaChecksum": "meta:db041ebb9940f31b",
-      "lastModified": "2026-01-19T01:01:36.126003+00:00"
+      "lastModified": "2026-01-19T09:40:15.702088+00:00"
     },
     {
       "scriptId": "6533495977667035136",
       "filename": "speedtest_to_superops",
       "language": "PowerShell",
-      "checksum": "sha256:cc9fa1771c6aedf4",
+      "checksum": "sha256:6114e64d0bd41c6b",
       "metaChecksum": "meta:029ec880421ce478",
-      "lastModified": "2026-01-19T01:02:01.653952+00:00"
+      "lastModified": "2026-01-19T09:43:13.048802+00:00"
     },
     {
       "scriptId": "7521762971991781376",
       "filename": "maintenance_reboot",
       "language": "PowerShell",
-      "checksum": "sha256:866353e95aa78ffd",
+      "checksum": "sha256:226c9e963465bc52",
       "metaChecksum": "meta:8275fb745ce0b4a6",
-      "lastModified": "2026-01-19T01:02:00.940527+00:00"
+      "lastModified": "2026-01-19T09:46:18.957204+00:00"
     },
     {
       "scriptId": "4253548481531990016",
       "filename": "winget_setup",
       "language": "PowerShell",
-      "checksum": "sha256:4f12bab862e0a99f",
+      "checksum": "sha256:8cbe9c87381bcbf6",
       "metaChecksum": "meta:8a603ec172d331c7",
-      "lastModified": "2026-01-19T01:01:57.266024+00:00"
+      "lastModified": "2026-01-19T09:43:23.554268+00:00"
     },
     {
       "scriptId": "317078575525470208",
       "filename": "eset_cleanup",
       "language": "PowerShell",
-      "checksum": "sha256:15d3cc9f59e00443",
+      "checksum": "sha256:a2251842f79f9ca3",
       "metaChecksum": "meta:e62f2c351b6be7e4",
-      "lastModified": "2026-01-19T01:01:32.467721+00:00"
+      "lastModified": "2026-01-19T09:52:55.932003+00:00"
     },
     {
       "scriptId": "6174064285322764288",
@@ -957,9 +957,9 @@
       "scriptId": "2890665459264626688",
       "filename": "splashtop_business_install_macos",
       "language": "Bash",
-      "checksum": "sha256:983dfc7baa9a92b4",
+      "checksum": "sha256:687707d59ce4a3d6",
       "metaChecksum": "meta:e0ef97d98d84d0ef",
-      "lastModified": "2026-01-19T01:02:07.527301+00:00"
+      "lastModified": "2026-01-19T09:43:57.514247+00:00"
     },
     {
       "scriptId": "6351689847169097728",
@@ -973,25 +973,25 @@
       "scriptId": "2703029945385623552",
       "filename": "stdrename_install_toggle",
       "language": "PowerShell",
-      "checksum": "sha256:f6aa4b699518039e",
+      "checksum": "sha256:5059050d3cf4b21f",
       "metaChecksum": "meta:95e8840f47c0a0b6",
-      "lastModified": "2026-01-19T01:01:47.631461+00:00"
+      "lastModified": "2026-01-19T09:43:16.718540+00:00"
     },
     {
       "scriptId": "6103852407269097472",
       "filename": "windows_firewall_toggle",
       "language": "PowerShell",
-      "checksum": "sha256:cbe7ded42ed92e81",
+      "checksum": "sha256:9d211f36affeab5e",
       "metaChecksum": "meta:dfb6516d06f9b89d",
-      "lastModified": "2026-01-19T01:01:56.777208+00:00"
+      "lastModified": "2026-01-19T09:44:36.270083+00:00"
     },
     {
       "scriptId": "5197034403851927552",
       "filename": "splashtop_service_restart_macos",
       "language": "Bash",
-      "checksum": "sha256:793e13a1ec36bfbe",
+      "checksum": "sha256:c1595be1d34992c1",
       "metaChecksum": "meta:3dfedada3d032f29",
-      "lastModified": "2026-01-19T01:02:10.341661+00:00"
+      "lastModified": "2026-01-19T09:42:00.073649+00:00"
     },
     {
       "scriptId": "5261212187550191616",
@@ -1005,33 +1005,33 @@
       "scriptId": "5830142789672906752",
       "filename": "disk_scan_and_fix",
       "language": "Bash",
-      "checksum": "sha256:45a6723a4c8a03cb",
+      "checksum": "sha256:1391750fc9b31938",
       "metaChecksum": "meta:56819add49b029c8",
-      "lastModified": "2026-01-19T01:02:11.569983+00:00"
+      "lastModified": "2026-01-19T09:41:13.451470+00:00"
     },
     {
       "scriptId": "8388334911230820352",
       "filename": "emsisoft_install_via_url",
       "language": "PowerShell",
-      "checksum": "sha256:22b0a554c0325377",
+      "checksum": "sha256:7368ec0eb5cfbf64",
       "metaChecksum": "meta:bbf555d4d62b2158",
-      "lastModified": "2026-01-19T01:01:58.411249+00:00"
+      "lastModified": "2026-01-19T09:51:32.824593+00:00"
     },
     {
       "scriptId": "654800809091403776",
       "filename": "dell_command_update",
       "language": "PowerShell",
-      "checksum": "sha256:57e9ad94a46f81a1",
+      "checksum": "sha256:a35d396c4bdea3b6",
       "metaChecksum": "meta:bd8bacee88ee4d22",
-      "lastModified": "2026-01-19T01:01:56.303749+00:00"
+      "lastModified": "2026-01-19T09:53:19.925694+00:00"
     },
     {
       "scriptId": "934483777516347392",
       "filename": "flush_dns",
       "language": "Bash",
-      "checksum": "sha256:77ae2d911104504a",
+      "checksum": "sha256:2c21b53c95c100d7",
       "metaChecksum": "meta:d1f9ea3be4708f27",
-      "lastModified": "2026-01-19T01:02:11.102128+00:00"
+      "lastModified": "2026-01-19T09:39:24.399711+00:00"
     },
     {
       "scriptId": "2363511650220425216",
@@ -1045,25 +1045,25 @@
       "scriptId": "1154509803255455744",
       "filename": "rename_to_snake_case",
       "language": "PowerShell",
-      "checksum": "sha256:926e1828ded57faf",
+      "checksum": "sha256:1f4c9330c616a682",
       "metaChecksum": "meta:e59078df07bea289",
-      "lastModified": "2026-01-19T01:01:57.959727+00:00"
+      "lastModified": "2026-01-19T09:40:03.581306+00:00"
     },
     {
       "scriptId": "6582476168459661312",
       "filename": "time_sync_fix",
       "language": "PowerShell",
-      "checksum": "sha256:bb4b8e9b36948749",
+      "checksum": "sha256:c452bc5a8ab4968b",
       "metaChecksum": "meta:b4c6ce1b4937cd65",
-      "lastModified": "2026-01-19T01:01:50.017680+00:00"
+      "lastModified": "2026-01-19T09:52:19.198628+00:00"
     },
     {
       "scriptId": "6403580733975965696",
       "filename": "print_queue_reset",
       "language": "PowerShell",
-      "checksum": "sha256:4c976d3d47fcefab",
+      "checksum": "sha256:5ba502585ee4d03a",
       "metaChecksum": "meta:260dd485a26e1f03",
-      "lastModified": "2026-01-19T01:01:45.422025+00:00"
+      "lastModified": "2026-01-19T09:45:14.536958+00:00"
     },
     {
       "scriptId": "3659744570500739072",
@@ -1077,34 +1077,42 @@
       "scriptId": "7029137174820597760",
       "filename": "delprof2_delete_all_profiles",
       "language": "PowerShell",
-      "checksum": "sha256:b7aee1c6f000d4c9",
+      "checksum": "sha256:5c7413876e5d2de5",
       "metaChecksum": "meta:51adda82e8d5adc8",
-      "lastModified": "2026-01-19T01:01:55.849980+00:00"
+      "lastModified": "2026-01-19T09:49:54.035577+00:00"
     },
     {
       "scriptId": "214958378614583296",
       "filename": "windows_product_key_to_superops",
       "language": "PowerShell",
-      "checksum": "sha256:3e1fdea1ed194ba4",
+      "checksum": "sha256:ce63d4a454cbbdfa",
       "metaChecksum": "meta:15002865ca3f0555",
-      "lastModified": "2026-01-19T01:01:52.208441+00:00"
+      "lastModified": "2026-01-19T09:44:43.279188+00:00"
     },
     {
       "scriptId": "3769539001587634176",
       "filename": "splashtop_service_restart",
       "language": "PowerShell",
-      "checksum": "sha256:071a2a786a1f045f",
+      "checksum": "sha256:4d22cdd9859ef911",
       "metaChecksum": "meta:733d3bd32ef5275f",
-      "lastModified": "2026-01-19T01:01:55.355645+00:00"
+      "lastModified": "2026-01-19T09:46:14.438350+00:00"
     },
     {
       "scriptId": "1907390810231676928",
       "filename": "windows_dism_sfc_chkdsk_maintenance",
       "language": "PowerShell",
-      "checksum": "sha256:0a6016f20750d1c9",
+      "checksum": "sha256:be40dbe7f855076f",
       "metaChecksum": "meta:272c360415f6478f",
-      "lastModified": "2026-01-19T01:01:51.492234+00:00"
+      "lastModified": "2026-01-19T09:46:22.750923+00:00"
+    },
+    {
+      "scriptId": "5286715339754479616",
+      "filename": "console_output_test",
+      "checksum": "sha256:3bbe20a4ea9f901e",
+      "metaChecksum": "meta:7ae10be09eabc629",
+      "language": "PowerShell",
+      "lastModified": "2026-01-19T09:36:22.856642+00:00"
     }
   ],
-  "lastSync": "2026-01-19T08:47:31.010791+00:00"
+  "lastSync": "2026-01-19T09:53:20.509841+00:00"
 }

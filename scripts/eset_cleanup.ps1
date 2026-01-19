@@ -7,9 +7,9 @@
 ╚══════╝╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚══╝╚══╝ ╚═╝  ╚═╝
 
 ================================================================================
- SCRIPT    : ESET Antivirus Complete Cleanup 1.1.0
+ SCRIPT    : ESET Antivirus Complete Cleanup 1.1.2
  AUTHOR    : Limehawk.io
- DATE      : December 2025
+ DATE      : January 2026
  USAGE     : .\eset_cleanup.ps1
  FILE      : eset_cleanup.ps1
  DESCRIPTION : Completely removes ESET antivirus remnants from Windows systems
@@ -82,13 +82,13 @@ EXAMPLE RUN
 
 PS> .\eset_cleanup.ps1
 
-[ SETUP ]
---------------------------------------------------------------
+[INFO] SETUP
+==============================================================
 Script started : 2025-11-02 09:15:42
 Administrator  : Yes
 
-[ SERVICE CLEANUP ]
---------------------------------------------------------------
+[RUN] SERVICE CLEANUP
+==============================================================
 Scanning for ESET services...
 Services found : 3
 Stopping ekrn...
@@ -97,39 +97,39 @@ Stopping ESET Service...
 Deleting ESET Service...
 Services removed : 3
 
-[ PROCESS CLEANUP ]
---------------------------------------------------------------
+[RUN] PROCESS CLEANUP
+==============================================================
 Scanning for ESET processes...
 Processes found : 2
 Terminating egui.exe...
 Terminating ekrn.exe...
 Processes terminated : 2
 
-[ FOLDER CLEANUP ]
---------------------------------------------------------------
+[RUN] FOLDER CLEANUP
+==============================================================
 Removing ESET directories...
 Removed : C:\Program Files\ESET
 Removed : C:\ProgramData\ESET
 Skipped : C:\Users\Admin\AppData\Roaming\ESET (not found)
 Folders removed : 2 of 4
 
-[ REGISTRY CLEANUP ]
---------------------------------------------------------------
+[RUN] REGISTRY CLEANUP
+==============================================================
 Removing ESET registry keys...
 Removed : HKLM:\SOFTWARE\ESET
 Removed : HKLM:\SOFTWARE\Wow6432Node\ESET
 Skipped : HKCU:\SOFTWARE\ESET (not found)
 Registry keys removed : 2 of 3
 
-[ SCHEDULED TASK CLEANUP ]
---------------------------------------------------------------
+[RUN] SCHEDULED TASK CLEANUP
+==============================================================
 Removing ESET scheduled tasks...
 Tasks found : 1
 Deleted : ESET NOD32 Update
 Tasks removed : 1
 
-[ FINAL STATUS ]
---------------------------------------------------------------
+[INFO] FINAL STATUS
+==============================================================
 Services removed         : 3
 Processes terminated     : 2
 Folders removed          : 2
@@ -137,13 +137,15 @@ Registry keys removed    : 2
 Scheduled tasks removed  : 1
 Cleanup status           : Complete
 
-[ SCRIPT COMPLETED ]
---------------------------------------------------------------
+[OK] SCRIPT COMPLETED
+==============================================================
 Script completed successfully
 Exit code : 0
 --------------------------------------------------------------------------------
  CHANGELOG
 --------------------------------------------------------------------------------
+ 2026-01-19 v1.1.2 Fixed EXAMPLE RUN section formatting
+ 2026-01-19 v1.1.1 Updated to two-line ASCII console output style
  2025-12-23 v1.1.0 Updated to Limehawk Script Framework
  2025-11-02 v1.0.0 Initial migration from SuperOps
 #>
@@ -175,16 +177,16 @@ $registryPaths = @(
 # ============================================================================
 
 Write-Host ""
-Write-Host "[ SETUP ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[INFO] SETUP"
+Write-Host "=============================================================="
 
 # Check if running as Administrator
 $isAdmin = ([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)
 
 if (-not $isAdmin) {
     Write-Host ""
-    Write-Host "[ ERROR OCCURRED ]"
-    Write-Host "--------------------------------------------------------------"
+    Write-Host "[ERROR] PRIVILEGE CHECK FAILED"
+    Write-Host "=============================================================="
     Write-Host "This script requires Administrator privileges"
     Write-Host ""
     Write-Host "Troubleshooting:"
@@ -202,8 +204,8 @@ Write-Host "Administrator  : Yes"
 # ============================================================================
 
 Write-Host ""
-Write-Host "[ SERVICE CLEANUP ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[RUN] SERVICE CLEANUP"
+Write-Host "=============================================================="
 Write-Host "Scanning for ESET services..."
 
 $servicesRemoved = 0
@@ -235,8 +237,8 @@ if ($esetServices) {
 # ============================================================================
 
 Write-Host ""
-Write-Host "[ PROCESS CLEANUP ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[RUN] PROCESS CLEANUP"
+Write-Host "=============================================================="
 Write-Host "Scanning for ESET processes..."
 
 $processesKilled = 0
@@ -267,8 +269,8 @@ if ($esetProcesses) {
 # ============================================================================
 
 Write-Host ""
-Write-Host "[ FOLDER CLEANUP ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[RUN] FOLDER CLEANUP"
+Write-Host "=============================================================="
 Write-Host "Removing ESET directories..."
 
 $foldersRemoved = 0
@@ -294,8 +296,8 @@ Write-Host "Folders removed : $foldersRemoved of $($foldersToRemove.Count)"
 # ============================================================================
 
 Write-Host ""
-Write-Host "[ REGISTRY CLEANUP ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[RUN] REGISTRY CLEANUP"
+Write-Host "=============================================================="
 Write-Host "Removing ESET registry keys..."
 
 $registryKeysRemoved = 0
@@ -321,8 +323,8 @@ Write-Host "Registry keys removed : $registryKeysRemoved of $($registryPaths.Cou
 # ============================================================================
 
 Write-Host ""
-Write-Host "[ SCHEDULED TASK CLEANUP ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[RUN] SCHEDULED TASK CLEANUP"
+Write-Host "=============================================================="
 Write-Host "Removing ESET scheduled tasks..."
 
 $tasksRemoved = 0
@@ -357,8 +359,8 @@ try {
 # ============================================================================
 
 Write-Host ""
-Write-Host "[ FINAL STATUS ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[INFO] FINAL STATUS"
+Write-Host "=============================================================="
 Write-Host "Services removed         : $servicesRemoved"
 Write-Host "Processes terminated     : $processesKilled"
 Write-Host "Folders removed          : $foldersRemoved"
@@ -381,8 +383,8 @@ Write-Host "Note: A system reboot is recommended to complete cleanup"
 # ============================================================================
 
 Write-Host ""
-Write-Host "[ SCRIPT COMPLETED ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[OK] SCRIPT COMPLETED"
+Write-Host "=============================================================="
 Write-Host "Script completed successfully"
 Write-Host "Exit code : 0"
 Write-Host ""

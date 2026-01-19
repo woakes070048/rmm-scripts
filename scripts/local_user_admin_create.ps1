@@ -8,9 +8,9 @@ $ErrorActionPreference = 'Stop'
 ███████╗██║██║ ╚═╝ ██║███████╗██║  ██║██║  ██║╚███╔███╔╝██║  ██╗
 ╚══════╝╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚══╝╚══╝ ╚═╝  ╚═╝
 ================================================================================
- SCRIPT   : Local Admin Create v1.3.1
+ SCRIPT   : Local Admin Create v1.3.2
  AUTHOR   : Limehawk.io
- DATE      : December 2025
+ DATE      : January 2026
  USAGE    : .\local_user_admin_create.ps1
 ================================================================================
  FILE     : local_user_admin_create.ps1
@@ -66,29 +66,30 @@ $ErrorActionPreference = 'Stop'
 
  EXAMPLE RUN
 
- [ INPUT VALIDATION ]
- --------------------------------------------------------------
+ [INFO] INPUT VALIDATION
+ ==============================================================
  Username         : sudohawk
  Password Length  : 16
 
- [ OPERATION ]
- --------------------------------------------------------------
+ [RUN] OPERATION
+ ==============================================================
  Checking for existing account...
  Account does not exist, creating...
  Account created successfully
  Adding to Administrators group...
 
- [ RESULT ]
- --------------------------------------------------------------
+ [OK] RESULT
+ ==============================================================
  Status   : Success
  Action   : Created
  Password : ****************
 
- [ SCRIPT COMPLETED ]
- --------------------------------------------------------------
+ [OK] SCRIPT COMPLETED
+ ==============================================================
 --------------------------------------------------------------------------------
  CHANGELOG
 --------------------------------------------------------------------------------
+ 2026-01-19 v1.3.2 Updated to two-line ASCII console output style
  2025-12-23 v1.3.1 Updated to Limehawk Script Framework
  2025-12-03 v1.3.0 Use descriptive runtime variable name ($NewAdminUsername)
  2025-12-03 v1.2.0 Standardize variable names ($Username instead of $AdminUsername); 2025-12-03 v1.1.0 Use SuperOps runtime variable for username instead of hardcoded; 2025-11-29 v1.0.0 Initial Style A implementation
@@ -140,22 +141,22 @@ if ($PasswordLength -lt 8) {
 
 if ($errorOccurred) {
     Write-Host ""
-    Write-Host "[ ERROR OCCURRED ]"
-    Write-Host "--------------------------------------------------------------"
+    Write-Host "[ERROR] INPUT VALIDATION FAILED"
+    Write-Host "=============================================================="
     Write-Host $errorText
     exit 1
 }
 
 # ==== RUNTIME OUTPUT ====
 Write-Host ""
-Write-Host "[ INPUT VALIDATION ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[INFO] INPUT VALIDATION"
+Write-Host "=============================================================="
 Write-Host "Username         : $Username"
 Write-Host "Password Length  : $PasswordLength"
 
 Write-Host ""
-Write-Host "[ OPERATION ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[RUN] OPERATION"
+Write-Host "=============================================================="
 
 try {
     # Generate secure password
@@ -188,14 +189,14 @@ try {
 
 if ($errorOccurred) {
     Write-Host ""
-    Write-Host "[ ERROR OCCURRED ]"
-    Write-Host "--------------------------------------------------------------"
+    Write-Host "[ERROR] OPERATION FAILED"
+    Write-Host "=============================================================="
     Write-Host $errorText
 }
 
 Write-Host ""
-Write-Host "[ RESULT ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[OK] RESULT"
+Write-Host "=============================================================="
 if ($errorOccurred) {
     Write-Host "Status   : Failure"
 } else {
@@ -206,8 +207,8 @@ if ($errorOccurred) {
 }
 
 Write-Host ""
-Write-Host "[ FINAL STATUS ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[OK] FINAL STATUS"
+Write-Host "=============================================================="
 if ($errorOccurred) {
     Write-Host "Local admin account operation failed. See error above."
 } else {
@@ -216,8 +217,8 @@ if ($errorOccurred) {
 }
 
 Write-Host ""
-Write-Host "[ SCRIPT COMPLETED ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[OK] SCRIPT COMPLETED"
+Write-Host "=============================================================="
 
 if ($errorOccurred) {
     exit 1

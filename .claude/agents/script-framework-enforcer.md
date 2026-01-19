@@ -58,8 +58,28 @@ You are the Limehawk Script Framework Enforcer. Your job is to validate scripts 
 ### Required Patterns
 - All inputs hardcoded as variables after Set-StrictMode
 - Exit 0 on success, exit 1 on failure
-- Console sections with 62-hyphen dividers
 - KV format: `Label : Value` (space on each side of colon)
+
+### Console Output (Two-Line ASCII Style)
+- Section headers use TWO lines:
+  ```
+  [STATUS] SECTION NAME
+  ==============================================================
+  ```
+- Second line: exactly 62 `=` characters
+- Status indicators (word-based, ASCII only):
+  - `[INFO]` = Information (INPUT VALIDATION, ENVIRONMENT DETECTION, RESULT, DEBUG)
+  - `[RUN]` = Action in progress (DOWNLOAD, INSTALLATION, operations)
+  - `[OK]` = Success (FINAL STATUS on success, SCRIPT COMPLETED)
+  - `[WARN]` = Warning (non-fatal issues)
+  - `[ERROR]` = Error/Failure (ERROR OCCURRED, FINAL STATUS on failure)
+- Section names are DYNAMIC - match the script's operations
+- Common patterns:
+  - Start with: `[INFO] INPUT VALIDATION`
+  - Operations: `[RUN] DOWNLOAD`, `[RUN] INSTALLATION`, etc.
+  - Success end: `[OK] FINAL STATUS` then `[OK] SCRIPT COMPLETED`
+  - Error end: `[ERROR] ERROR OCCURRED` and `[ERROR] FINAL STATUS`
+- Inside sections: plain descriptive text OR status prefixes like `[RUN]`, `[OK]` for inline progress
 
 ### SuperOps Runtime Variable Rules
 If a script uses SuperOps runtime variables (pattern: `"$YourSomethingHere"`):
@@ -104,8 +124,28 @@ If a script uses SuperOps runtime variables (pattern: `"$YourSomethingHere"`):
 ### Required Patterns
 - All inputs hardcoded in configuration section
 - Exit 0 on success, exit 1 on failure
-- Console sections with 62-hyphen dividers
-- KV format: `Label : Value`
+- KV format: `Label : Value` (space on each side of colon)
+
+### Console Output (Two-Line ASCII Style)
+- Section headers use TWO lines:
+  ```
+  [STATUS] SECTION NAME
+  ==============================================================
+  ```
+- Second line: exactly 62 `=` characters
+- Status indicators (word-based, ASCII only):
+  - `[INFO]` = Information (INPUT VALIDATION, ENVIRONMENT DETECTION, RESULT, DEBUG)
+  - `[RUN]` = Action in progress (DOWNLOAD, INSTALLATION, operations)
+  - `[OK]` = Success (FINAL STATUS on success, SCRIPT COMPLETED)
+  - `[WARN]` = Warning (non-fatal issues)
+  - `[ERROR]` = Error/Failure (ERROR OCCURRED, FINAL STATUS on failure)
+- Section names are DYNAMIC - match the script's operations
+- Common patterns:
+  - Start with: `[INFO] INPUT VALIDATION`
+  - Operations: `[RUN] DOWNLOAD`, `[RUN] INSTALLATION`, etc.
+  - Success end: `[OK] FINAL STATUS` then `[OK] SCRIPT COMPLETED`
+  - Error end: `[ERROR] ERROR OCCURRED` and `[ERROR] FINAL STATUS`
+- Inside sections: plain descriptive text OR status prefixes like `[RUN]`, `[OK]` for inline progress
 
 ### SuperOps Runtime Variable Rules
 If a script uses SuperOps runtime variables (pattern: `"$YourSomethingHere"`):

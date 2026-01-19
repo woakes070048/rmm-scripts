@@ -7,9 +7,9 @@
 # ███████╗██║██║ ╚═╝ ██║███████╗██║  ██║██║  ██║╚███╔███╔╝██║  ██╗
 # ╚══════╝╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚══╝╚══╝ ╚═╝  ╚═╝
 # ================================================================================
-#  SCRIPT   : Dokploy Deploy Running Apps                                  v1.1.0
+#  SCRIPT   : Dokploy Deploy Running Apps                                  v1.1.1
 #  AUTHOR   : Limehawk.io
-#  DATE     : December 2025
+#  DATE     : January 2026
 #  USAGE    : ./dokploy_deploy_running_apps.sh
 # ================================================================================
 #  FILE     : dokploy_deploy_running_apps.sh
@@ -61,21 +61,29 @@
 #
 #  EXAMPLE OUTPUT
 #  -----------------------------------------------------------------------
-#  ➡️  Fetching all application IDs...
-#  ✅ Found all applications. Starting status check...
-#  ------------------------------------------------
-#  Fetching info for app: abc123def456
-#  🟡 Skipping 'idle' app: Project: MyProject, App: MyApp (ID: abc123def456)
-#  ------------------------------------------------
-#  Fetching info for app: xyz789ghi012
-#  🚀 Triggering deployment for 'running' app (running): Project: WebApp, App: Frontend (ID: xyz789ghi012)
-#  ✔️  Deployment triggered for WebApp - Frontend.
-#  ------------------------------------------------
-#  🎉 All deployments have been processed!
+#
+#    [RUN] FETCHING APPLICATIONS
+#    ==============================================================
+#    Fetching all application IDs...
+#    Found all applications. Starting status check...
+#
+#    [RUN] PROCESSING APPLICATIONS
+#    ==============================================================
+#    Fetching info for app: abc123def456
+#    Skipping 'idle' app: Project: MyProject, App: MyApp (ID: abc123def456)
+#
+#    Fetching info for app: xyz789ghi012
+#    Triggering deployment for 'running' app: Project: WebApp, App: Frontend (ID: xyz789ghi012)
+#    Deployment triggered for WebApp - Frontend.
+#
+#    [OK] SCRIPT COMPLETED
+#    ==============================================================
+#    All deployments have been processed!
 #
 # --------------------------------------------------------------------------------
 #  CHANGELOG
 # --------------------------------------------------------------------------------
+#  2026-01-19 v1.1.1 Updated to two-line ASCII console output style
 #  2025-12-23 v1.1.0 Updated to Limehawk Script Framework
 #  2024-11-18 v1.0.0 Initial release
 # ================================================================================
@@ -92,7 +100,10 @@ API_TOKEN="API_TOKEN_HERE"
 # Set to exit immediately if a command exits with a non-zero status.
 set -e
 
-echo "➡️  Fetching all application IDs..."
+echo ""
+echo "[RUN] FETCHING APPLICATIONS"
+echo "=============================================================="
+echo "Fetching all application IDs..."
 
 # 1. Get ALL application IDs
 ALL_IDS=$(curl -s -X GET \
@@ -104,12 +115,18 @@ ALL_IDS=$(curl -s -X GET \
 
 # Check if we got any IDs at all
 if [ -z "$ALL_IDS" ]; then
-  echo "✅ No applications found."
+  echo "No applications found."
+  echo ""
+  echo "[OK] SCRIPT COMPLETED"
+  echo "=============================================================="
   exit 0
 fi
 
-echo "✅ Found all applications. Starting status check..."
-echo "------------------------------------------------"
+echo "Found all applications. Starting status check..."
+
+echo ""
+echo "[RUN] PROCESSING APPLICATIONS"
+echo "=============================================================="
 
 # 2. Loop through ALL IDs and check them one by one
 for ID in $ALL_IDS
@@ -140,9 +157,9 @@ do
 
   # 3. Check the status and decide to deploy or skip
   if [ "$APP_STATUS" == "idle" ]; then
-    echo "🟡 Skipping 'idle' app: Project: $PROJECT_NAME, App: $APP_NAME (ID: $ID)"
+    echo "Skipping 'idle' app: Project: $PROJECT_NAME, App: $APP_NAME (ID: $ID)"
   else
-    echo "🚀 Triggering deployment for 'running' app ($APP_STATUS): Project: $PROJECT_NAME, App: $APP_NAME (ID: $ID)"
+    echo "Triggering deployment for 'running' app ($APP_STATUS): Project: $PROJECT_NAME, App: $APP_NAME (ID: $ID)"
 
     curl --fail -s -X POST \
       "https://$DOKPLOY_DOMAIN/api/application.deploy" \
@@ -151,10 +168,13 @@ do
       -H "x-api-key: $API_TOKEN" \
       -d "{\"applicationId\": \"$ID\"}"
 
-    echo "✔️  Deployment triggered for $PROJECT_NAME - $APP_NAME."
+    echo "Deployment triggered for $PROJECT_NAME - $APP_NAME."
     sleep 2
   fi
-  echo "------------------------------------------------"
+  echo ""
 done
 
-echo "🎉 All deployments have been processed!"
+echo ""
+echo "[OK] SCRIPT COMPLETED"
+echo "=============================================================="
+echo "All deployments have been processed!"

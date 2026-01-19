@@ -8,9 +8,9 @@ $ErrorActionPreference = 'Stop'
 ███████╗██║██║ ╚═╝ ██║███████╗██║  ██║██║  ██║╚███╔███╔╝██║  ██╗
 ╚══════╝╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚══╝╚══╝ ╚═╝  ╚═╝
 ================================================================================
- SCRIPT    : MSI Install from URL 1.6.0
+ SCRIPT    : MSI Install from URL 1.6.1
  AUTHOR    : Limehawk.io
- DATE      : December 2025
+ DATE      : January 2026
  USAGE     : .\msi_install_from_url.ps1
  FILE      : msi_install_from_url.ps1
  DESCRIPTION : Downloads and silently installs an MSI package from a specified URL
@@ -27,6 +27,7 @@ $ErrorActionPreference = 'Stop'
 --------------------------------------------------------------------------------
  CHANGELOG
 --------------------------------------------------------------------------------
+ 2026-01-19 v1.6.1 Updated to two-line ASCII console output style
  2025-12-23 v1.6.0 Updated to Limehawk Script Framework
  2025-10-30 v1.5.0 Switched to curl for fastest, most reliable downloads
  2025-10-30 v1.4.0 Added fallback filename logic for URLs without valid filenames
@@ -54,10 +55,10 @@ $FinalExitCode = 1 # Assume failure
 # --- Required Console Helper Functions (Kept for Style A output formatting) ---
 
 function Write-Section {
-    param([string]$title)
+    param([string]$title, [string]$status = "INFO")
     Write-Host ""
-    Write-Host ("[ {0} ]" -f $title)
-    Write-Host ("-" * 62)
+    Write-Host ("[$status] $title")
+    Write-Host ("=" * 62)
 }
 
 function PrintKV([string]$label, [string]$value) {
@@ -78,7 +79,7 @@ function Cleanup-TempFile {
 
 # --- Start Script Execution ---
 
-Write-Section "DOWNLOAD AND INSTALL"
+Write-Section "DOWNLOAD AND INSTALL" "RUN"
 PrintKV "MSI Source URL" $MsiScriptUrl
 PrintKV "Filename Used" $MsiFileName
 PrintKV "Temporary Path" $TempMsiPath
@@ -117,7 +118,7 @@ try {
     PrintKV "File Size" "$FileSizeMB MB"
 
 } catch {
-    Write-Section "ERROR OCCURRED"
+    Write-Section "DOWNLOAD FAILED" "ERROR"
     Write-Host " ERROR: Download failed for '$MsiScriptUrl'"
     Write-Host " ERROR DETAILS: $($_.Exception.Message)"
     if ($_.Exception.InnerException) {
@@ -141,7 +142,7 @@ $ExitCode = $Process.ExitCode
 PrintKV "Process Exit Code" $ExitCode
 
 # 3. Final Status and Cleanup
-Write-Section "FINAL STATUS"
+Write-Section "FINAL STATUS" "OK"
 $CleanupResult = Cleanup-TempFile
 PrintKV "Cleanup Result" $CleanupResult
 
@@ -157,5 +158,5 @@ if ($ExitCode -eq 0 -or $ExitCode -eq 3010) {
     $FinalExitCode = 1
 }
 
-Write-Section "SCRIPT COMPLETED"
+Write-Section "SCRIPT COMPLETED" "OK"
 exit $FinalExitCode

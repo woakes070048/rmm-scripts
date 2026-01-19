@@ -8,9 +8,9 @@ $ErrorActionPreference = 'Stop'
 ╚══════╝╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚══╝╚══╝ ╚═╝  ╚═╝
 
 ================================================================================
-SCRIPT  : OnlyOffice Install v1.0.1
+SCRIPT  : OnlyOffice Install v1.0.2
 AUTHOR  : Limehawk.io
-DATE      : December 2025
+DATE      : January 2026
 USAGE   : .\onlyoffice_install.ps1
 FILE    : onlyoffice_install.ps1
 DESCRIPTION : Downloads and silently installs OnlyOffice Desktop Editors
@@ -44,36 +44,37 @@ EXIT CODES:
     1 = Failure
 
 EXAMPLE RUN:
-    [ INPUT VALIDATION ]
-    --------------------------------------------------------------
+    [INFO] INPUT VALIDATION
+    ==============================================================
     Download URL : https://download.onlyoffice.com/install/desktop/...
-    Inputs validated successfully
+    [OK] Inputs validated successfully
 
-    [ DOWNLOAD ]
-    --------------------------------------------------------------
-    Downloading OnlyOffice Desktop Editors...
-    Download completed successfully
+    [INFO] DOWNLOAD
+    ==============================================================
+    [RUN] Downloading OnlyOffice Desktop Editors...
+    [OK] Download completed successfully
 
-    [ INSTALLATION ]
-    --------------------------------------------------------------
-    Installing OnlyOffice silently...
-    Installation completed successfully
+    [INFO] INSTALLATION
+    ==============================================================
+    [RUN] Installing OnlyOffice silently...
+    [OK] Installation completed successfully
 
-    [ CLEANUP ]
-    --------------------------------------------------------------
-    Removing installer file...
-    Cleanup completed
+    [INFO] CLEANUP
+    ==============================================================
+    [RUN] Removing installer file...
+    [OK] Cleanup completed
 
-    [ FINAL STATUS ]
-    --------------------------------------------------------------
+    [INFO] FINAL STATUS
+    ==============================================================
     Result : SUCCESS
     OnlyOffice Desktop Editors installed successfully
 
-    [ SCRIPT COMPLETED ]
-    --------------------------------------------------------------
+    [INFO] SCRIPT COMPLETED
+    ==============================================================
 
 CHANGELOG
 --------------------------------------------------------------------------------
+2026-01-19 v1.0.2 Updated to two-line ASCII console output style
 2025-12-23 v1.0.1 Updated to Limehawk Script Framework
 2024-12-01 v1.0.0 Initial release - migrated from SuperOps
 ================================================================================
@@ -89,8 +90,8 @@ $downloadUrl = 'https://download.onlyoffice.com/install/desktop/editors/windows/
 # INPUT VALIDATION
 # ============================================================================
 Write-Host ""
-Write-Host "[ INPUT VALIDATION ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[INFO] INPUT VALIDATION"
+Write-Host "=============================================================="
 
 $errorOccurred = $false
 $errorText = ""
@@ -103,38 +104,38 @@ if ([string]::IsNullOrWhiteSpace($downloadUrl)) {
 
 if ($errorOccurred) {
     Write-Host ""
-    Write-Host "[ ERROR OCCURRED ]"
-    Write-Host "--------------------------------------------------------------"
+    Write-Host "[ERROR] VALIDATION FAILED"
+    Write-Host "=============================================================="
     Write-Host $errorText
     exit 1
 }
 
 Write-Host "Download URL : $downloadUrl"
-Write-Host "Inputs validated successfully"
+Write-Host "[OK] Inputs validated successfully"
 
 # ============================================================================
 # DOWNLOAD
 # ============================================================================
 Write-Host ""
-Write-Host "[ DOWNLOAD ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[INFO] DOWNLOAD"
+Write-Host "=============================================================="
 
 $installerPath = Join-Path $env:TEMP "DesktopEditors_x64.msi"
 
 try {
-    Write-Host "Downloading OnlyOffice Desktop Editors..."
+    Write-Host "[RUN] Downloading OnlyOffice Desktop Editors..."
     Invoke-WebRequest -Uri $downloadUrl -OutFile $installerPath -UseBasicParsing
 
     if (-not (Test-Path $installerPath)) {
         throw "Installer file was not downloaded"
     }
 
-    Write-Host "Download completed successfully"
+    Write-Host "[OK] Download completed successfully"
 }
 catch {
     Write-Host ""
-    Write-Host "[ ERROR OCCURRED ]"
-    Write-Host "--------------------------------------------------------------"
+    Write-Host "[ERROR] DOWNLOAD FAILED"
+    Write-Host "=============================================================="
     Write-Host "Failed to download OnlyOffice"
     Write-Host "Error : $($_.Exception.Message)"
     exit 1
@@ -144,23 +145,23 @@ catch {
 # INSTALLATION
 # ============================================================================
 Write-Host ""
-Write-Host "[ INSTALLATION ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[INFO] INSTALLATION"
+Write-Host "=============================================================="
 
 try {
-    Write-Host "Installing OnlyOffice silently..."
+    Write-Host "[RUN] Installing OnlyOffice silently..."
     $process = Start-Process "msiexec.exe" -ArgumentList "/i `"$installerPath`" /quiet /norestart" -Wait -PassThru -NoNewWindow
 
     if ($process.ExitCode -ne 0) {
         throw "MSI installation failed with exit code: $($process.ExitCode)"
     }
 
-    Write-Host "Installation completed successfully"
+    Write-Host "[OK] Installation completed successfully"
 }
 catch {
     Write-Host ""
-    Write-Host "[ ERROR OCCURRED ]"
-    Write-Host "--------------------------------------------------------------"
+    Write-Host "[ERROR] INSTALLATION FAILED"
+    Write-Host "=============================================================="
     Write-Host "Failed to install OnlyOffice"
     Write-Host "Error : $($_.Exception.Message)"
     exit 1
@@ -170,24 +171,24 @@ catch {
 # CLEANUP
 # ============================================================================
 Write-Host ""
-Write-Host "[ CLEANUP ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[INFO] CLEANUP"
+Write-Host "=============================================================="
 
-Write-Host "Removing installer file..."
+Write-Host "[RUN] Removing installer file..."
 Remove-Item -Path $installerPath -Force -ErrorAction SilentlyContinue
-Write-Host "Cleanup completed"
+Write-Host "[OK] Cleanup completed"
 
 # ============================================================================
 # FINAL STATUS
 # ============================================================================
 Write-Host ""
-Write-Host "[ FINAL STATUS ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[INFO] FINAL STATUS"
+Write-Host "=============================================================="
 Write-Host "Result : SUCCESS"
 Write-Host "OnlyOffice Desktop Editors installed successfully"
 
 Write-Host ""
-Write-Host "[ SCRIPT COMPLETED ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[INFO] SCRIPT COMPLETED"
+Write-Host "=============================================================="
 
 exit 0

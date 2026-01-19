@@ -7,9 +7,9 @@ $ErrorActionPreference = 'Stop'
 ███████╗██║██║ ╚═╝ ██║███████╗██║  ██║██║  ██║╚███╔███╔╝██║  ██╗
 ╚══════╝╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚══╝╚══╝ ╚═╝  ╚═╝
 ================================================================================
- SCRIPT   : Edge Suppress Policies                                        v1.1.0
+ SCRIPT   : Edge Suppress Policies                                        v1.1.2
  AUTHOR   : Limehawk.io
- DATE      : December 2025
+ DATE      : January 2026
  USAGE    : .\edge_suppress_policies_system.ps1
 ================================================================================
  FILE     : edge_suppress_policies_system.ps1
@@ -97,12 +97,12 @@ $ErrorActionPreference = 'Stop'
 
  EXAMPLE RUN
 
-   [ ADMIN CHECK ]
-   --------------------------------------------------------------
+   [INFO] ADMIN CHECK
+   ==============================================================
    Running as Administrator
 
-   [ EDGE POLICIES ]
-   --------------------------------------------------------------
+   [RUN] EDGE POLICIES
+   ==============================================================
    Created Edge policy registry key
    Disabled first run experience
    Disabled default browser check
@@ -115,35 +115,37 @@ $ErrorActionPreference = 'Stop'
    Disabled Copilot
    Disabled suggestions
 
-   [ EDGE BEHAVIOR ]
-   --------------------------------------------------------------
+   [RUN] EDGE BEHAVIOR
+   ==============================================================
    Disabled startup boost
    Disabled background mode
    Disabled prelaunch
    Disabled update notifications
    Disabled desktop shortcut creation
 
-   [ SCHEDULED TASKS ]
-   --------------------------------------------------------------
+   [RUN] SCHEDULED TASKS
+   ==============================================================
    Disabled MicrosoftEdgeUpdateTaskMachineCore
    Disabled MicrosoftEdgeUpdateTaskMachineUA
 
-   [ STARTUP CLEANUP ]
-   --------------------------------------------------------------
+   [RUN] STARTUP CLEANUP
+   ==============================================================
    No Edge startup entries found
    Prevented Edge shortcut creation
 
-   [ FINAL STATUS ]
-   --------------------------------------------------------------
+   [INFO] FINAL STATUS
+   ==============================================================
    Result : SUCCESS
    Changes applied : 18
 
-   [ SCRIPT COMPLETE ]
-   --------------------------------------------------------------
+   [OK] SCRIPT COMPLETE
+   ==============================================================
 
 --------------------------------------------------------------------------------
  CHANGELOG
 --------------------------------------------------------------------------------
+ 2026-01-19 v1.1.2 Fixed EXAMPLE RUN section formatting
+ 2026-01-19 v1.1.1 Updated to two-line ASCII console output style
  2024-12-27 v1.1.0 Added boolean settings at top for each feature
  2024-12-27 v1.0.0 Initial release - split from combined script
 ================================================================================
@@ -190,15 +192,15 @@ $changesApplied = 0
 # ADMIN CHECK
 # ============================================================================
 Write-Host ""
-Write-Host "[ ADMIN CHECK ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[INFO] ADMIN CHECK"
+Write-Host "=============================================================="
 
 $isAdmin = ([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)
 if (-not $isAdmin) {
     Write-Host "ERROR: This script requires Administrator privileges"
     Write-Host ""
-    Write-Host "[ ERROR OCCURRED ]"
-    Write-Host "--------------------------------------------------------------"
+    Write-Host "[ERROR] PRIVILEGE CHECK FAILED"
+    Write-Host "=============================================================="
     Write-Host "Run as Administrator or deploy via RMM as SYSTEM"
     exit 1
 }
@@ -208,8 +210,8 @@ Write-Host "Running as Administrator"
 # EDGE POLICIES
 # ============================================================================
 Write-Host ""
-Write-Host "[ EDGE POLICIES ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[RUN] EDGE POLICIES"
+Write-Host "=============================================================="
 
 try {
     $edgePolicyPath = "HKLM:\SOFTWARE\Policies\Microsoft\Edge"
@@ -289,8 +291,8 @@ try {
 # EDGE BEHAVIOR
 # ============================================================================
 Write-Host ""
-Write-Host "[ EDGE BEHAVIOR ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[RUN] EDGE BEHAVIOR"
+Write-Host "=============================================================="
 
 try {
     $edgePolicyPath = "HKLM:\SOFTWARE\Policies\Microsoft\Edge"
@@ -340,8 +342,8 @@ try {
 # ============================================================================
 if ($disableScheduledTasks) {
     Write-Host ""
-    Write-Host "[ SCHEDULED TASKS ]"
-    Write-Host "--------------------------------------------------------------"
+    Write-Host "[RUN] SCHEDULED TASKS"
+    Write-Host "=============================================================="
 
     try {
         $edgeTasks = @(
@@ -375,8 +377,8 @@ if ($disableScheduledTasks) {
 # ============================================================================
 if ($cleanStartupEntries) {
     Write-Host ""
-    Write-Host "[ STARTUP CLEANUP ]"
-    Write-Host "--------------------------------------------------------------"
+    Write-Host "[RUN] STARTUP CLEANUP"
+    Write-Host "=============================================================="
 
     try {
         $runPaths = @(
@@ -417,8 +419,8 @@ if ($cleanStartupEntries) {
 # FINAL STATUS
 # ============================================================================
 Write-Host ""
-Write-Host "[ FINAL STATUS ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[INFO] FINAL STATUS"
+Write-Host "=============================================================="
 
 if ($errorOccurred) {
     Write-Host "Result : PARTIAL SUCCESS"
@@ -435,6 +437,6 @@ if ($errorOccurred) {
 }
 
 Write-Host ""
-Write-Host "[ SCRIPT COMPLETE ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[OK] SCRIPT COMPLETE"
+Write-Host "=============================================================="
 exit 0

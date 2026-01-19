@@ -7,9 +7,9 @@
 # ███████╗██║██║ ╚═╝ ██║███████╗██║  ██║██║  ██║╚███╔███╔╝██║  ██╗
 # ╚══════╝╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚══╝╚══╝ ╚═╝  ╚═╝
 # ================================================================================
-#  SCRIPT   : Printer Connection Test                                      v1.1.0
+#  SCRIPT   : Printer Connection Test                                      v1.1.1
 #  AUTHOR   : Limehawk.io
-#  DATE     : December 2025
+#  DATE     : January 2026
 #  USAGE    : ./printer_test_connection.sh
 # ================================================================================
 #  FILE     : printer_test_connection.sh
@@ -76,29 +76,30 @@
 #
 #  EXAMPLE RUN
 #
-#    [ PRINTER CONNECTION TEST ]
-#    --------------------------------------------------------------
+#    [INFO] PRINTER CONNECTION TEST
+#    ==============================================================
 #    Hostname : workstation01
 #    Date     : Mon Dec 23 10:00:00 PST 2024
 #    Printers : 3
 #
-#    [ TESTING CONNECTIVITY ]
-#    --------------------------------------------------------------
+#    [RUN] TESTING CONNECTIVITY
+#    ==============================================================
 #    Testing printer1.example.com... OK
 #    Testing printer2.example.com... FAILED
 #    Testing 192.168.1.100... OK
 #
-#    [ FINAL STATUS ]
-#    --------------------------------------------------------------
+#    [ERROR] FINAL STATUS
+#    ==============================================================
 #    Result : FAILURE
 #    Failed : 1 printer(s) unreachable
 #
-#    [ SCRIPT COMPLETE ]
-#    --------------------------------------------------------------
+#    [ERROR] SCRIPT COMPLETED
+#    ==============================================================
 #
 # --------------------------------------------------------------------------------
 #  CHANGELOG
 # --------------------------------------------------------------------------------
+#  2026-01-19 v1.1.1 Updated to two-line ASCII console output style
 #  2025-12-23 v1.1.0 Updated to Limehawk Script Framework
 #  2024-01-01 v1.0.0 Initial release
 # ================================================================================
@@ -127,20 +128,20 @@ MAIL_SUBJECT="Printer Connectivity Alert - $(hostname)"
 # ============================================================================
 
 echo ""
-echo "[ PRINTER CONNECTION TEST ]"
-echo "--------------------------------------------------------------"
+echo "[INFO] PRINTER CONNECTION TEST"
+echo "=============================================================="
 echo "Hostname : $(hostname)"
 echo "Date     : $(date)"
 echo "Printers : ${#PRINTERS[@]}"
-echo ""
 
 # Initialize tracking
 FAILED_COUNT=0
 FAILED_PRINTERS=""
 LOG_FILE="/tmp/printer_test_$(date +%Y%m%d_%H%M%S).log"
 
-echo "[ TESTING CONNECTIVITY ]"
-echo "--------------------------------------------------------------"
+echo ""
+echo "[RUN] TESTING CONNECTIVITY"
+echo "=============================================================="
 
 for PRINTER in "${PRINTERS[@]}"; do
     echo -n "Testing $PRINTER... "
@@ -170,8 +171,9 @@ echo ""
 # SEND EMAIL ALERT IF CONFIGURED
 # ============================================================================
 if [ "$FAILED_COUNT" -gt 0 ] && [ "$SEND_EMAIL" = "true" ] && [ -n "$MAIL_TO" ]; then
-    echo "[ SENDING ALERT ]"
-    echo "--------------------------------------------------------------"
+    echo ""
+    echo "[RUN] SENDING ALERT"
+    echo "=============================================================="
 
     if command -v sendmail > /dev/null 2>&1; then
         {
@@ -196,24 +198,27 @@ fi
 # ============================================================================
 # FINAL STATUS
 # ============================================================================
-echo "[ FINAL STATUS ]"
-echo "--------------------------------------------------------------"
-
 if [ "$FAILED_COUNT" -eq 0 ]; then
+    echo ""
+    echo "[OK] FINAL STATUS"
+    echo "=============================================================="
     echo "Result : SUCCESS"
     echo "All ${#PRINTERS[@]} printer(s) are reachable"
     rm -f "$LOG_FILE"
     echo ""
-    echo "[ SCRIPT COMPLETE ]"
-    echo "--------------------------------------------------------------"
+    echo "[OK] SCRIPT COMPLETED"
+    echo "=============================================================="
     exit 0
 else
+    echo ""
+    echo "[ERROR] FINAL STATUS"
+    echo "=============================================================="
     echo "Result : FAILURE"
     echo "Failed : $FAILED_COUNT printer(s) unreachable"
     echo "Failed : $FAILED_PRINTERS"
     echo "Log    : $LOG_FILE"
     echo ""
-    echo "[ SCRIPT COMPLETE ]"
-    echo "--------------------------------------------------------------"
+    echo "[ERROR] SCRIPT COMPLETED"
+    echo "=============================================================="
     exit 1
 fi

@@ -8,9 +8,9 @@ $ErrorActionPreference = 'Stop'
 ███████╗██║██║ ╚═╝ ██║███████╗██║  ██║██║  ██║╚███╔███╔╝██║  ██╗
 ╚══════╝╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚══╝╚══╝ ╚═╝  ╚═╝
 ================================================================================
-SCRIPT  : User Accounts Report v1.0.1
+SCRIPT  : User Accounts Report v1.0.2
 AUTHOR  : Limehawk.io
-DATE      : December 2025
+DATE    : January 2026
 USAGE   : .\user_accounts_report.ps1
 FILE    : user_accounts_report.ps1
 DESCRIPTION : Generates report of local user accounts and group memberships
@@ -68,37 +68,38 @@ README
 
  EXAMPLE RUN
 
- [ LOCAL USER ACCOUNTS ]
- --------------------------------------------------------------
+ [INFO] LOCAL USER ACCOUNTS
+ ==============================================================
  Name            Enabled  LastLogon             PasswordLastSet
  ----            -------  ---------             ---------------
  Administrator   False    12/1/2025 9:00 AM     11/15/2025
  limehawk        True     12/1/2025 10:30 AM    11/20/2025
  DefaultAccount  False    <never>               <never>
 
- [ GROUP MEMBERSHIPS ]
- --------------------------------------------------------------
+ [INFO] GROUP MEMBERSHIPS
+ ==============================================================
  User: limehawk
    - Administrators
    - Users
 
- [ ACTIVE SESSIONS ]
- --------------------------------------------------------------
+ [INFO] ACTIVE SESSIONS
+ ==============================================================
  USERNAME       SESSIONNAME  ID  STATE   IDLE TIME  LOGON TIME
  limehawk       console      1   Active  none       12/1/2025 8:00 AM
 
- [ USER PROFILES ON DISK ]
- --------------------------------------------------------------
+ [INFO] USER PROFILES ON DISK
+ ==============================================================
  LocalPath                    LastUseTime           Special
  ---------                    -----------           -------
  C:\Users\limehawk            12/1/2025 10:30 AM    False
  C:\Users\Administrator       11/15/2025 2:00 PM    False
 
- [ SCRIPT COMPLETED ]
- --------------------------------------------------------------
+ [INFO] SCRIPT COMPLETED
+ ==============================================================
 
 CHANGELOG
 --------------------------------------------------------------------------------
+2026-01-19 v1.0.2 Updated to two-line ASCII console output style
 2025-12-23 v1.0.1 Updated to Limehawk Script Framework
 2025-12-01 v1.0.0 Initial Style A implementation
 ================================================================================
@@ -108,10 +109,10 @@ Set-StrictMode -Version Latest
 
 # ==== HELPER FUNCTIONS ====
 function Write-Section {
-    param([string]$Title)
+    param([string]$Prefix, [string]$Title)
     Write-Host ""
-    Write-Host "[ $Title ]"
-    Write-Host ("-" * 62)
+    Write-Host "[$Prefix] $Title"
+    Write-Host ("=" * 62)
 }
 
 # ==== MAIN SCRIPT ====
@@ -119,7 +120,7 @@ try {
     # =========================================================================
     # LOCAL USER ACCOUNTS
     # =========================================================================
-    Write-Section "LOCAL USER ACCOUNTS"
+    Write-Section "INFO" "LOCAL USER ACCOUNTS"
 
     $users = Get-LocalUser | Select-Object Name, Enabled, LastLogon, PasswordLastSet, Description, SID
 
@@ -138,7 +139,7 @@ try {
     # =========================================================================
     # ADMINISTRATOR GROUP MEMBERS
     # =========================================================================
-    Write-Section "ADMINISTRATORS GROUP"
+    Write-Section "INFO" "ADMINISTRATORS GROUP"
 
     try {
         $admins = Get-LocalGroupMember -Group "Administrators" -ErrorAction Stop
@@ -154,7 +155,7 @@ try {
     # =========================================================================
     # GROUP MEMBERSHIPS PER USER
     # =========================================================================
-    Write-Section "USER GROUP MEMBERSHIPS"
+    Write-Section "INFO" "USER GROUP MEMBERSHIPS"
 
     $localGroups = Get-LocalGroup
     foreach ($user in $users) {
@@ -182,7 +183,7 @@ try {
     # =========================================================================
     # ACTIVE LOGIN SESSIONS
     # =========================================================================
-    Write-Section "ACTIVE LOGIN SESSIONS"
+    Write-Section "INFO" "ACTIVE LOGIN SESSIONS"
 
     try {
         $sessions = query user 2>&1
@@ -198,7 +199,7 @@ try {
     # =========================================================================
     # USER PROFILES ON DISK
     # =========================================================================
-    Write-Section "USER PROFILES ON DISK"
+    Write-Section "INFO" "USER PROFILES ON DISK"
 
     $profiles = Get-CimInstance Win32_UserProfile |
         Where-Object { -not $_.Special } |
@@ -226,7 +227,7 @@ try {
     # =========================================================================
     # SYSTEM PROFILE SUMMARY
     # =========================================================================
-    Write-Section "SUMMARY"
+    Write-Section "INFO" "SUMMARY"
 
     $enabledUsers = ($users | Where-Object { $_.Enabled }).Count
     $disabledUsers = ($users | Where-Object { -not $_.Enabled }).Count
@@ -242,13 +243,13 @@ try {
     Write-Host " Computer Name         : $env:COMPUTERNAME"
     Write-Host " Domain/Workgroup      : $((Get-CimInstance Win32_ComputerSystem).Domain)"
 
-    Write-Section "SCRIPT COMPLETED"
+    Write-Section "INFO" "SCRIPT COMPLETED"
     exit 0
 
 } catch {
-    Write-Section "ERROR OCCURRED"
+    Write-Section "ERROR" "ERROR OCCURRED"
     Write-Host " Error: $($_.Exception.Message)"
     Write-Host " Line: $($_.InvocationInfo.ScriptLineNumber)"
-    Write-Section "SCRIPT HALTED"
+    Write-Section "ERROR" "SCRIPT HALTED"
     exit 1
 }

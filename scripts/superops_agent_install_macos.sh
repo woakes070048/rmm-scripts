@@ -7,9 +7,9 @@
 # ███████╗██║██║ ╚═╝ ██║███████╗██║  ██║██║  ██║╚███╔███╔╝██║  ██╗
 # ╚══════╝╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚══╝╚══╝ ╚═╝  ╚═╝
 # ================================================================================
-#  SCRIPT   : SuperOps Agent Install (macOS)                               v1.1.0
+#  SCRIPT   : SuperOps Agent Install (macOS)                               v1.1.1
 #  AUTHOR   : Limehawk.io
-#  DATE     : December 2025
+#  DATE     : January 2026
 #  USAGE    : sudo ./superops_agent_install_macos.sh
 # ================================================================================
 #  FILE     : superops_agent_install_macos.sh
@@ -70,36 +70,41 @@
 #  - 0 success
 #  - 1 failure
 #
-#  EXAMPLE RUN (Style A)
-#  [ INPUT VALIDATION ]
-#  --------------------------------------------------------------
-#  Package URL: https://app.superops.com/downloads/agent.pkg
+#  EXAMPLE RUN
 #
-#  [ OPERATION ]
-#  --------------------------------------------------------------
-#  Downloading file from https://app.superops.com/downloads/agent.pkg...
-#  File downloaded successfully.
-#  Download location: /Users/Shared/agent.pkg
-#  Starting the installation process...
-#  installer: Package name is SuperOps RMM Agent
-#  installer: Installing at base path /
-#  installer: The install was successful.
-#  Installation process completed successfully.
+#    [INFO] INPUT VALIDATION
+#    ==============================================================
+#    Package URL: https://app.superops.com/downloads/agent.pkg
+#    Target file: /Users/Shared/agent.pkg
 #
-#  [ RESULT ]
-#  --------------------------------------------------------------
-#  Status: Success
+#    [RUN] DOWNLOADING
+#    ==============================================================
+#    Downloading file from https://app.superops.com/downloads/agent.pkg...
+#    File downloaded successfully.
+#    Download location: /Users/Shared/agent.pkg
+#    File size: 45 MB
 #
-#  [ FINAL STATUS ]
-#  --------------------------------------------------------------
-#  SuperOps agent installed successfully
+#    [RUN] INSTALLING
+#    ==============================================================
+#    Starting the installation process...
+#    installer: Package name is SuperOps RMM Agent
+#    installer: Installing at base path /
+#    installer: The install was successful.
+#    Installation process completed successfully.
 #
-#  [ SCRIPT COMPLETED ]
-#  --------------------------------------------------------------
+#    [INFO] RESULT
+#    ==============================================================
+#    Status: Success
+#
+#    [OK] SCRIPT COMPLETED
+#    ==============================================================
+#    SuperOps agent installed successfully
+#
 # --------------------------------------------------------------------------------
 # --------------------------------------------------------------------------------
 #  CHANGELOG
 # --------------------------------------------------------------------------------
+#  2026-01-19 v1.1.1 Updated to two-line ASCII console output style
 #  2025-12-23 v1.1.0 Updated to Limehawk Script Framework
 #  2024-11-02 v1.0.0 Initial migration from SuperOps
 # ================================================================================
@@ -125,27 +130,24 @@ fi
 
 if [ "$ERROR_OCCURRED" -eq 1 ]; then
     echo ""
-    echo "[ ERROR OCCURRED ]"
-    echo "--------------------------------------------------------------"
+    echo "[ERROR] ERROR OCCURRED"
+    echo "=============================================================="
     echo "$ERROR_TEXT"
     echo ""
-    echo "[ RESULT ]"
-    echo "--------------------------------------------------------------"
+    echo "[INFO] RESULT"
+    echo "=============================================================="
     echo "Status: Failure"
     echo ""
-    echo "[ FINAL STATUS ]"
-    echo "--------------------------------------------------------------"
+    echo "[ERROR] FINAL STATUS"
+    echo "=============================================================="
     echo "Script cannot proceed. PKGURL environment variable is missing."
-    echo ""
-    echo "[ SCRIPT COMPLETED ]"
-    echo "--------------------------------------------------------------"
     exit 1
 fi
 
-# ==== RUNTIME OUTPUT (Style A) ====
+# ==== RUNTIME OUTPUT ====
 echo ""
-echo "[ INPUT VALIDATION ]"
-echo "--------------------------------------------------------------"
+echo "[INFO] INPUT VALIDATION"
+echo "=============================================================="
 echo "Package URL: $PKGURL"
 
 # Extract filename from URL
@@ -155,8 +157,8 @@ DOWNLOAD_FILE="/Users/Shared/$BASE_NAME"
 echo "Target file: $DOWNLOAD_FILE"
 
 echo ""
-echo "[ OPERATION ]"
-echo "--------------------------------------------------------------"
+echo "[RUN] DOWNLOADING"
+echo "=============================================================="
 
 # Download the file and handle any errors
 echo "Downloading file from $PKGURL..."
@@ -180,6 +182,9 @@ fi
 
 # Install the package if download succeeded
 if [ "$ERROR_OCCURRED" -eq 0 ]; then
+    echo ""
+    echo "[RUN] INSTALLING"
+    echo "=============================================================="
     echo "Starting the installation process..."
 
     # Change to download directory
@@ -202,14 +207,14 @@ fi
 # ==== OUTPUT RESULTS ====
 if [ "$ERROR_OCCURRED" -eq 1 ]; then
     echo ""
-    echo "[ ERROR OCCURRED ]"
-    echo "--------------------------------------------------------------"
+    echo "[ERROR] ERROR OCCURRED"
+    echo "=============================================================="
     echo "$ERROR_TEXT"
 fi
 
 echo ""
-echo "[ RESULT ]"
-echo "--------------------------------------------------------------"
+echo "[INFO] RESULT"
+echo "=============================================================="
 if [ "$ERROR_OCCURRED" -eq 1 ]; then
     echo "Status: Failure"
 else
@@ -217,17 +222,15 @@ else
 fi
 
 echo ""
-echo "[ FINAL STATUS ]"
-echo "--------------------------------------------------------------"
 if [ "$ERROR_OCCURRED" -eq 1 ]; then
+    echo "[ERROR] FINAL STATUS"
+    echo "=============================================================="
     echo "SuperOps agent installation failed. See error details above."
 else
+    echo "[OK] SCRIPT COMPLETED"
+    echo "=============================================================="
     echo "SuperOps agent installed successfully"
 fi
-
-echo ""
-echo "[ SCRIPT COMPLETED ]"
-echo "--------------------------------------------------------------"
 
 if [ "$ERROR_OCCURRED" -eq 1 ]; then
     exit 1

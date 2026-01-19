@@ -8,9 +8,9 @@ $ErrorActionPreference = 'Stop'
 ╚══════╝╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚══╝╚══╝ ╚═╝  ╚═╝
 
 ================================================================================
- SCRIPT  : Wake-on-LAN Status Check v1.0.1
+ SCRIPT  : Wake-on-LAN Status Check v1.0.3
  AUTHOR  : Limehawk.io
- DATE      : December 2025
+ DATE    : January 2026
  FILE    : wol_status_check.ps1
  DESCRIPTION : Checks Wake-on-LAN status at BIOS and OS levels
  USAGE   : .\wol_status_check.ps1
@@ -48,31 +48,33 @@ EXIT CODES:
     1 = WOL not properly configured
 
 EXAMPLE RUN:
-    [ MANUFACTURER DETECTION ]
-    --------------------------------------------------------------
+    [INFO] MANUFACTURER DETECTION
+    ==============================================================
     Manufacturer         : Dell Inc.
 
-    [ BIOS WOL STATUS ]
-    --------------------------------------------------------------
+    [INFO] BIOS WOL STATUS
+    ==============================================================
     Module               : DellBIOSProvider
     BIOS WOL Setting     : LanOnly
 
-    [ OS WOL STATUS ]
-    --------------------------------------------------------------
+    [INFO] OS WOL STATUS
+    ==============================================================
     NIC WOL Enabled      : Yes (All NICs)
 
-    [ FINAL STATUS ]
-    --------------------------------------------------------------
+    [OK] FINAL STATUS
+    ==============================================================
     BIOS WOL             : Healthy
     OS WOL               : Healthy
     SCRIPT SUCCEEDED
 
-    [ SCRIPT COMPLETED ]
-    --------------------------------------------------------------
+    [OK] SCRIPT COMPLETE
+    ==============================================================
 
 --------------------------------------------------------------------------------
  CHANGELOG
 --------------------------------------------------------------------------------
+ 2026-01-19 v1.0.3 Fixed EXAMPLE RUN section formatting
+ 2026-01-19 v1.0.2 Updated to two-line ASCII console output style
  2025-12-23 v1.0.1 Updated to Limehawk Script Framework
  2024-12-01 v1.0.0 Initial release - migrated from SuperOps
 ================================================================================
@@ -83,10 +85,10 @@ Set-StrictMode -Version Latest
 # HELPER FUNCTIONS
 # ============================================================================
 function Write-Section {
-    param([string]$title)
+    param([string]$title, [string]$prefix = "INFO")
     Write-Host ""
-    Write-Host ("[ {0} ]" -f $title)
-    Write-Host ("-" * 62)
+    Write-Host ("[{0}] {1}" -f $prefix, $title)
+    Write-Host ("=" * 62)
 }
 
 function PrintKV([string]$label, [string]$value) {
@@ -116,9 +118,9 @@ function Install-RequiredProviders {
 # PRIVILEGE CHECK
 # ============================================================================
 if (-not ([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)) {
-    Write-Section "ERROR OCCURRED"
+    Write-Section "ERROR OCCURRED" "ERROR"
     Write-Host " This script requires administrative privileges to run."
-    Write-Section "SCRIPT HALTED"
+    Write-Section "SCRIPT HALTED" "ERROR"
     exit 1
 }
 
@@ -247,25 +249,25 @@ try {
 
     $exitCode = 0
     if ($biosWolStatus -like "Unhealthy*" -or $osWolStatus -like "Unhealthy*") {
-        Write-Host " SCRIPT COMPLETED WITH WARNINGS"
+        Write-Host "[WARN] SCRIPT COMPLETED WITH WARNINGS"
         if ($summary.Count -gt 0) {
             PrintKV "Issues Found" ($summary -join "; ")
         }
         $exitCode = 1
     } elseif ($biosWolStatus -like "Error*") {
-        Write-Host " SCRIPT COMPLETED WITH ERRORS"
+        Write-Host "[ERROR] SCRIPT COMPLETED WITH ERRORS"
         $exitCode = 1
     } else {
-        Write-Host " SCRIPT SUCCEEDED"
+        Write-Host "[OK] SCRIPT SUCCEEDED"
     }
 
-    Write-Section "SCRIPT COMPLETED"
+    Write-Section "SCRIPT COMPLETE"
     exit $exitCode
 }
 catch {
-    Write-Section "ERROR OCCURRED"
+    Write-Section "ERROR OCCURRED" "ERROR"
     PrintKV "Error Message" $_.Exception.Message
     PrintKV "Error Type" $_.Exception.GetType().FullName
-    Write-Section "SCRIPT HALTED"
+    Write-Section "SCRIPT HALTED" "ERROR"
     exit 1
 }

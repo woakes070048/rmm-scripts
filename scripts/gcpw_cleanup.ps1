@@ -8,9 +8,9 @@ $ErrorActionPreference = 'Stop'
 ╚══════╝╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚══╝╚══╝ ╚═╝  ╚═╝
 
 ================================================================================
- SCRIPT  : GCPW Cleanup v1.0.1
+ SCRIPT  : GCPW Cleanup v1.0.3
  AUTHOR  : Limehawk.io
- DATE      : December 2025
+ DATE      : January 2026
  FILE    : gcpw_cleanup.ps1
  DESCRIPTION : Removes GCPW registry keys and folders for clean reinstallation
  USAGE   : .\gcpw_cleanup.ps1
@@ -44,27 +44,29 @@ EXIT CODES:
     1 = Failure
 
 EXAMPLE RUN:
-    [ CLEANING REGISTRY KEYS ]
-    --------------------------------------------------------------
+    [RUN] CLEANING REGISTRY KEYS
+    ==============================================================
     Chrome Enrollment    : Removed
     GCPW                 : Removed
     CloudManagement      : Removed
 
-    [ CLEANING FOLDERS ]
-    --------------------------------------------------------------
+    [RUN] CLEANING FOLDERS
+    ==============================================================
     Policies Folder      : Removed
     Credential Provider  : Removed
 
-    [ FINAL STATUS ]
-    --------------------------------------------------------------
+    [INFO] FINAL STATUS
+    ==============================================================
     SCRIPT SUCCEEDED
 
-    [ SCRIPT COMPLETED ]
-    --------------------------------------------------------------
+    [OK] SCRIPT COMPLETED
+    ==============================================================
 
 --------------------------------------------------------------------------------
  CHANGELOG
 --------------------------------------------------------------------------------
+ 2026-01-19 v1.0.3 Fixed EXAMPLE RUN section formatting
+ 2026-01-19 v1.0.2 Updated to two-line ASCII console output style
  2025-12-23 v1.0.1 Updated to Limehawk Script Framework
  2024-12-01 v1.0.0 Initial release - migrated from SuperOps (converted from batch)
 ================================================================================
@@ -75,10 +77,10 @@ Set-StrictMode -Version Latest
 # HELPER FUNCTIONS
 # ============================================================================
 function Write-Section {
-    param([string]$title)
+    param([string]$Title, [string]$Status = "INFO")
     Write-Host ""
-    Write-Host ("[ {0} ]" -f $title)
-    Write-Host ("-" * 62)
+    Write-Host ("[$Status] $Title")
+    Write-Host "=============================================================="
 }
 
 function PrintKV([string]$label, [string]$value) {
@@ -126,9 +128,9 @@ function Remove-FolderIfExists {
 # PRIVILEGE CHECK
 # ============================================================================
 if (-not ([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)) {
-    Write-Section "ERROR OCCURRED"
+    Write-Section "PRIVILEGE CHECK FAILED" "ERROR"
     Write-Host " This script requires administrative privileges to run."
-    Write-Section "SCRIPT HALTED"
+    Write-Section "SCRIPT FAILED" "ERROR"
     exit 1
 }
 
@@ -139,7 +141,7 @@ try {
     $errorCount = 0
 
     # Clean Registry Keys
-    Write-Section "CLEANING REGISTRY KEYS"
+    Write-Section "CLEANING REGISTRY KEYS" "RUN"
 
     $registryKeys = @(
         @{ Path = "HKLM:\SOFTWARE\Google\Chrome\Enrollment"; Label = "Chrome Enrollment" },
@@ -157,7 +159,7 @@ try {
     }
 
     # Clean Folders
-    Write-Section "CLEANING FOLDERS"
+    Write-Section "CLEANING FOLDERS" "RUN"
 
     $folders = @(
         @{ Path = "${env:ProgramFiles(x86)}\Google\Policies\Z29vZ2xlL21hY2hpbmUtbGV2ZWwtb21haGE="; Label = "Policies (Omaha)" },
@@ -184,13 +186,13 @@ try {
     Write-Host " NOTE: This script only cleans up GCPW configuration."
     Write-Host " To fully uninstall GCPW, use Programs & Features."
 
-    Write-Section "SCRIPT COMPLETED"
+    Write-Section "SCRIPT COMPLETED" "OK"
     exit 0
 }
 catch {
-    Write-Section "ERROR OCCURRED"
+    Write-Section "ERROR OCCURRED" "ERROR"
     PrintKV "Error Message" $_.Exception.Message
     PrintKV "Error Type" $_.Exception.GetType().FullName
-    Write-Section "SCRIPT HALTED"
+    Write-Section "SCRIPT FAILED" "ERROR"
     exit 1
 }

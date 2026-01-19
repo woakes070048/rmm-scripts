@@ -7,9 +7,9 @@
 # ███████╗██║██║ ╚═╝ ██║███████╗██║  ██║██║  ██║╚███╔███╔╝██║  ██╗
 # ╚══════╝╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚══╝╚══╝ ╚═╝  ╚═╝
 # ================================================================================
-#  SCRIPT   : Splashtop Streamer Install (Debian ARM64)                    v1.1.0
+#  SCRIPT   : Splashtop Streamer Install (Debian ARM64)                    v1.1.1
 #  AUTHOR   : Limehawk.io
-#  DATE     : December 2025
+#  DATE     : January 2026
 #  USAGE    : sudo ./splashtop_streamer_install_debian_arm64.sh
 # ================================================================================
 #  FILE     : splashtop_streamer_install_debian_arm64.sh
@@ -70,25 +70,38 @@
 #
 #  EXAMPLE RUN
 #
-#    [ SPLASHTOP STREAMER INSTALL - Debian ARM64 ]
-#    --------------------------------------------------------------
-#    [1/6] Updating APT...
-#    [2/6] Installing prerequisites...
-#    [3/6] Downloading Splashtop Streamer v3.7.2.0...
-#    [4/6] Extracting to /opt/splashtop...
-#    [5/6] Installing package and fixing dependencies...
-#    [6/6] Enabling and starting service...
+#    [RUN] UPDATING PACKAGES
+#    ==============================================================
+#    Updating APT...
 #
-#    [ FINAL STATUS ]
-#    --------------------------------------------------------------
+#    [RUN] INSTALLING PREREQUISITES
+#    ==============================================================
+#    Installing prerequisites...
+#
+#    [RUN] DOWNLOADING INSTALLER
+#    ==============================================================
+#    Downloading Splashtop Streamer v3.7.2.0...
+#
+#    [RUN] EXTRACTING PACKAGE
+#    ==============================================================
+#    Extracting to /opt/splashtop...
+#
+#    [RUN] INSTALLING
+#    ==============================================================
+#    Installing package and fixing dependencies...
+#
+#    [RUN] STARTING SERVICE
+#    ==============================================================
+#    Enabling and starting service...
+#
+#    [OK] SCRIPT COMPLETED
+#    ==============================================================
 #    Splashtop Streamer v3.7.2.0 installed and running
-#
-#    [ SCRIPT COMPLETE ]
-#    --------------------------------------------------------------
 #
 # --------------------------------------------------------------------------------
 #  CHANGELOG
 # --------------------------------------------------------------------------------
+#  2026-01-19 v1.1.1 Updated to two-line ASCII console output style
 #  2025-12-23 v1.1.0 Updated to Limehawk Script Framework
 #  2024-01-01 v1.0.0 Initial release
 # ================================================================================
@@ -109,51 +122,67 @@ DEB_PACKAGE="Splashtop_Streamer_Debian_arm64.deb"
 # ============================================================================
 
 echo ""
-echo "[ SPLASHTOP STREAMER INSTALL - Debian ARM64 ]"
-echo "--------------------------------------------------------------"
+echo "[RUN] UPDATING PACKAGES"
+echo "=============================================================="
 
 # Update package list
-echo "[1/6] Updating APT..."
+echo "Updating APT..."
 sudo apt update
 
+echo ""
+echo "[RUN] INSTALLING PREREQUISITES"
+echo "=============================================================="
+
 # Install prerequisites
-echo "[2/6] Installing prerequisites..."
+echo "Installing prerequisites..."
 sudo apt install -y wget tar
 
+echo ""
+echo "[RUN] DOWNLOADING INSTALLER"
+echo "=============================================================="
+
 # Download package
-echo "[3/6] Downloading Splashtop Streamer v3.7.2.0..."
+echo "Downloading Splashtop Streamer v3.7.2.0..."
 wget -O "$TAR_FILE" "$URL" || {
     echo ""
-    echo "[ ERROR OCCURRED ]"
-    echo "--------------------------------------------------------------"
+    echo "[ERROR] ERROR OCCURRED"
+    echo "=============================================================="
     echo "Failed to download package"
     echo ""
     exit 1
 }
 
+echo ""
+echo "[RUN] EXTRACTING PACKAGE"
+echo "=============================================================="
+
 # Extract package
-echo "[4/6] Extracting to $INSTALL_DIR..."
+echo "Extracting to $INSTALL_DIR..."
 sudo mkdir -p "$INSTALL_DIR"
 sudo tar -xzf "$TAR_FILE" -C "$INSTALL_DIR"
 
+echo ""
+echo "[RUN] INSTALLING"
+echo "=============================================================="
+
 # Install deb package
-echo "[5/6] Installing package and fixing dependencies..."
+echo "Installing package and fixing dependencies..."
 cd "$INSTALL_DIR"
 sudo dpkg -i "$DEB_PACKAGE" || sudo apt install -f -y
 
+echo ""
+echo "[RUN] STARTING SERVICE"
+echo "=============================================================="
+
 # Enable and start service
-echo "[6/6] Enabling and starting service..."
+echo "Enabling and starting service..."
 sudo systemctl enable --now splashtop-streamer.service
 
 # Cleanup
 rm -f "$TAR_FILE"
 
 echo ""
-echo "[ FINAL STATUS ]"
-echo "--------------------------------------------------------------"
+echo "[OK] SCRIPT COMPLETED"
+echo "=============================================================="
 echo "Splashtop Streamer v3.7.2.0 installed and running"
-
-echo ""
-echo "[ SCRIPT COMPLETE ]"
-echo "--------------------------------------------------------------"
 exit 0

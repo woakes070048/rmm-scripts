@@ -8,9 +8,9 @@ $ErrorActionPreference = 'Stop'
 ╚══════╝╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚══╝╚══╝ ╚═╝  ╚═╝
 
 ================================================================================
-SCRIPT  : Splashtop Uninstall v1.0.1
+SCRIPT  : Splashtop Uninstall v1.0.2
 AUTHOR  : Limehawk.io
-DATE      : December 2025
+DATE      : January 2026
 USAGE   : .\splashtop_uninstall.ps1
 FILE    : splashtop_uninstall.ps1
 DESCRIPTION : Uninstalls Splashtop Streamer using Windows MSI service
@@ -44,32 +44,33 @@ EXIT CODES:
     1 = Failure
 
 EXAMPLE RUN:
-    [ INPUT VALIDATION ]
-    --------------------------------------------------------------
+    [INFO] INPUT VALIDATION
+    ==============================================================
     Product Name : Splashtop Streamer
     Inputs validated successfully
 
-    [ PRODUCT LOOKUP ]
-    --------------------------------------------------------------
+    [RUN] PRODUCT LOOKUP
+    ==============================================================
     Searching for installed Splashtop Streamer...
     Found : Splashtop Streamer
     Product ID : {12345678-1234-1234-1234-123456789012}
 
-    [ UNINSTALLATION ]
-    --------------------------------------------------------------
+    [RUN] UNINSTALLATION
+    ==============================================================
     Uninstalling Splashtop Streamer...
     Uninstall completed successfully
 
-    [ FINAL STATUS ]
-    --------------------------------------------------------------
+    [OK] FINAL STATUS
+    ==============================================================
     Result : SUCCESS
     Splashtop Streamer has been uninstalled
 
-    [ SCRIPT COMPLETED ]
-    --------------------------------------------------------------
+    [INFO] SCRIPT COMPLETED
+    ==============================================================
 
 CHANGELOG
 --------------------------------------------------------------------------------
+2026-01-19 v1.0.2 Updated to two-line ASCII console output style
 2025-12-23 v1.0.1 Updated to Limehawk Script Framework
 2024-12-01 v1.0.0 Initial release - migrated from SuperOps
 ================================================================================
@@ -85,8 +86,8 @@ $productName = 'Splashtop Streamer'
 # INPUT VALIDATION
 # ============================================================================
 Write-Host ""
-Write-Host "[ INPUT VALIDATION ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[INFO] INPUT VALIDATION"
+Write-Host "=============================================================="
 
 $errorOccurred = $false
 $errorText = ""
@@ -99,8 +100,8 @@ if ([string]::IsNullOrWhiteSpace($productName)) {
 
 if ($errorOccurred) {
     Write-Host ""
-    Write-Host "[ ERROR OCCURRED ]"
-    Write-Host "--------------------------------------------------------------"
+    Write-Host "[ERROR] ERROR OCCURRED"
+    Write-Host "=============================================================="
     Write-Host $errorText
     exit 1
 }
@@ -112,8 +113,8 @@ Write-Host "Inputs validated successfully"
 # PRODUCT LOOKUP
 # ============================================================================
 Write-Host ""
-Write-Host "[ PRODUCT LOOKUP ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[RUN] PRODUCT LOOKUP"
+Write-Host "=============================================================="
 
 try {
     Write-Host "Searching for installed $productName..."
@@ -122,8 +123,8 @@ try {
 
     if (-not $product) {
         Write-Host ""
-        Write-Host "[ ERROR OCCURRED ]"
-        Write-Host "--------------------------------------------------------------"
+        Write-Host "[ERROR] ERROR OCCURRED"
+        Write-Host "=============================================================="
         Write-Host "$productName is not installed on this system"
         exit 1
     }
@@ -134,8 +135,8 @@ try {
 }
 catch {
     Write-Host ""
-    Write-Host "[ ERROR OCCURRED ]"
-    Write-Host "--------------------------------------------------------------"
+    Write-Host "[ERROR] ERROR OCCURRED"
+    Write-Host "=============================================================="
     Write-Host "Failed to query installed products"
     Write-Host "Error : $($_.Exception.Message)"
     exit 1
@@ -145,8 +146,8 @@ catch {
 # UNINSTALLATION
 # ============================================================================
 Write-Host ""
-Write-Host "[ UNINSTALLATION ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[RUN] UNINSTALLATION"
+Write-Host "=============================================================="
 
 try {
     Write-Host "Uninstalling $productName..."
@@ -162,8 +163,8 @@ try {
 }
 catch {
     Write-Host ""
-    Write-Host "[ ERROR OCCURRED ]"
-    Write-Host "--------------------------------------------------------------"
+    Write-Host "[ERROR] ERROR OCCURRED"
+    Write-Host "=============================================================="
     Write-Host "Failed to uninstall $productName"
     Write-Host "Error : $($_.Exception.Message)"
     exit 1
@@ -173,13 +174,13 @@ catch {
 # FINAL STATUS
 # ============================================================================
 Write-Host ""
-Write-Host "[ FINAL STATUS ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[OK] FINAL STATUS"
+Write-Host "=============================================================="
 Write-Host "Result : SUCCESS"
 Write-Host "$productName has been uninstalled"
 
 Write-Host ""
-Write-Host "[ SCRIPT COMPLETED ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[INFO] SCRIPT COMPLETED"
+Write-Host "=============================================================="
 
 exit 0

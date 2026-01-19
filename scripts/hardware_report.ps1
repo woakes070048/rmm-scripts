@@ -8,9 +8,9 @@ $ErrorActionPreference = 'Stop'
 ███████╗██║██║ ╚═╝ ██║███████╗██║  ██║██║  ██║╚███╔███╔╝██║  ██╗
 ╚══════╝╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚══╝╚══╝ ╚═╝  ╚═╝
 ================================================================================
- SCRIPT   : Hardware Report                                               v1.1.0
+ SCRIPT   : Hardware Report                                               v1.1.1
  AUTHOR   : Limehawk.io
- DATE      : December 2025
+ DATE      : January 2026
  USAGE    : .\hardware_report.ps1
 ================================================================================
  FILE     : hardware_report.ps1
@@ -72,16 +72,16 @@ $ErrorActionPreference = 'Stop'
 
  EXAMPLE RUN
 
- [ INPUT VALIDATION ]
- --------------------------------------------------------------
+ [INFO] INPUT VALIDATION
+ ==============================================================
  IncludeStorage       : True
  IncludeGpu           : True
  IncludeNetwork       : True
  IncludeBios          : True
  IncludeMemoryModules : True
 
- [ SYSTEM INFORMATION ]
- --------------------------------------------------------------
+ [INFO] SYSTEM INFORMATION
+ ==============================================================
  Computer Name        : DESKTOP-ABC123
  Manufacturer         : Dell Inc.
  Model                : OptiPlex 7090
@@ -89,27 +89,28 @@ $ErrorActionPreference = 'Stop'
  Total Memory         : 32.00 GB
  Number of Processors : 1
 
- [ CPU INFORMATION ]
- --------------------------------------------------------------
+ [INFO] CPU INFORMATION
+ ==============================================================
  Name                 : Intel(R) Core(TM) i7-10700 CPU @ 2.90GHz
  Cores                : 8
  Logical Processors   : 16
  Max Clock Speed      : 2904 MHz
 
- [ STORAGE DEVICES ]
- --------------------------------------------------------------
+ [INFO] STORAGE DEVICES
+ ==============================================================
  Drive C (Windows)    : 476.46 GB Total | 123.45 GB Free | 353.01 GB Used
  Drive D (Data)       : 931.51 GB Total | 456.78 GB Free | 474.73 GB Used
 
- [ FINAL STATUS ]
- --------------------------------------------------------------
+ [INFO] FINAL STATUS
+ ==============================================================
  Hardware report generated successfully.
 
- [ SCRIPT COMPLETED ]
- --------------------------------------------------------------
+ [OK] SCRIPT COMPLETED
+ ==============================================================
 --------------------------------------------------------------------------------
  CHANGELOG
 --------------------------------------------------------------------------------
+ 2026-01-19 v1.1.1 Updated to two-line ASCII console output style
  2025-12-23 v1.1.0 Updated to Limehawk Script Framework
  2025-10-31 v1.0.0 Initial release
 ================================================================================
@@ -158,31 +159,30 @@ if ($IncludeMemoryModules -isnot [bool]) {
 
 if ($errorOccurred) {
     Write-Host ""
-    Write-Host "[ ERROR OCCURRED ]"
-    Write-Host "--------------------------------------------------------------"
-    Write-Host "Input validation failed:"
+    Write-Host "[ERROR] INPUT VALIDATION FAILED"
+    Write-Host "=============================================================="
     Write-Host $errorText
 
     Write-Host ""
-    Write-Host "[ RESULT ]"
-    Write-Host "--------------------------------------------------------------"
+    Write-Host "[INFO] RESULT"
+    Write-Host "=============================================================="
     Write-Host "Status : Failure"
 
     Write-Host ""
-    Write-Host "[ FINAL STATUS ]"
-    Write-Host "--------------------------------------------------------------"
+    Write-Host "[INFO] FINAL STATUS"
+    Write-Host "=============================================================="
     Write-Host "Script cannot proceed due to invalid hardcoded inputs."
 
     Write-Host ""
-    Write-Host "[ SCRIPT COMPLETED ]"
-    Write-Host "--------------------------------------------------------------"
+    Write-Host "[ERROR] SCRIPT FAILED"
+    Write-Host "=============================================================="
     exit 1
 }
 
-# ==== RUNTIME OUTPUT (Style A) ====
+# ==== RUNTIME OUTPUT ====
 Write-Host ""
-Write-Host "[ INPUT VALIDATION ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[INFO] INPUT VALIDATION"
+Write-Host "=============================================================="
 Write-Host "IncludeStorage       : $IncludeStorage"
 Write-Host "IncludeGpu           : $IncludeGpu"
 Write-Host "IncludeNetwork       : $IncludeNetwork"
@@ -212,8 +212,8 @@ function Get-SafeProperty {
 try {
     # ==== SYSTEM INFORMATION ====
     Write-Host ""
-    Write-Host "[ SYSTEM INFORMATION ]"
-    Write-Host "--------------------------------------------------------------"
+    Write-Host "[INFO] SYSTEM INFORMATION"
+    Write-Host "=============================================================="
 
     $sysInfo = Get-CimInstance -ClassName Win32_ComputerSystem -ErrorAction Stop
 
@@ -231,8 +231,8 @@ try {
 
     # ==== CPU INFORMATION ====
     Write-Host ""
-    Write-Host "[ CPU INFORMATION ]"
-    Write-Host "--------------------------------------------------------------"
+    Write-Host "[INFO] CPU INFORMATION"
+    Write-Host "=============================================================="
 
     $cpuInfo = Get-CimInstance -ClassName Win32_Processor -ErrorAction Stop | Select-Object -First 1
 
@@ -244,8 +244,8 @@ try {
     # ==== MEMORY MODULES ====
     if ($IncludeMemoryModules) {
         Write-Host ""
-        Write-Host "[ MEMORY MODULES ]"
-        Write-Host "--------------------------------------------------------------"
+        Write-Host "[INFO] MEMORY MODULES"
+        Write-Host "=============================================================="
 
         $ramModules = Get-CimInstance -ClassName Win32_PhysicalMemory -ErrorAction Stop
 
@@ -274,8 +274,8 @@ try {
     # ==== STORAGE DEVICES ====
     if ($IncludeStorage) {
         Write-Host ""
-        Write-Host "[ STORAGE DEVICES ]"
-        Write-Host "--------------------------------------------------------------"
+        Write-Host "[INFO] STORAGE DEVICES"
+        Write-Host "=============================================================="
 
         $disks = Get-CimInstance -ClassName Win32_LogicalDisk -ErrorAction Stop | Where-Object { $_.DriveType -eq 3 }
 
@@ -300,8 +300,8 @@ try {
     # ==== GPU INFORMATION ====
     if ($IncludeGpu) {
         Write-Host ""
-        Write-Host "[ GPU INFORMATION ]"
-        Write-Host "--------------------------------------------------------------"
+        Write-Host "[INFO] GPU INFORMATION"
+        Write-Host "=============================================================="
 
         $gpus = Get-CimInstance -ClassName Win32_VideoController -ErrorAction Stop
 
@@ -331,8 +331,8 @@ try {
     # ==== NETWORK ADAPTERS ====
     if ($IncludeNetwork) {
         Write-Host ""
-        Write-Host "[ NETWORK ADAPTERS ]"
-        Write-Host "--------------------------------------------------------------"
+        Write-Host "[INFO] NETWORK ADAPTERS"
+        Write-Host "=============================================================="
 
         $netAdapters = Get-CimInstance -ClassName Win32_NetworkAdapterConfiguration -ErrorAction Stop | Where-Object { $_.IPEnabled -eq $true }
 
@@ -361,8 +361,8 @@ try {
     # ==== BIOS INFORMATION ====
     if ($IncludeBios) {
         Write-Host ""
-        Write-Host "[ BIOS INFORMATION ]"
-        Write-Host "--------------------------------------------------------------"
+        Write-Host "[INFO] BIOS INFORMATION"
+        Write-Host "=============================================================="
 
         $biosInfo = Get-CimInstance -ClassName Win32_BIOS -ErrorAction Stop
 
@@ -385,20 +385,20 @@ try {
 
 if ($errorOccurred) {
     Write-Host ""
-    Write-Host "[ ERROR OCCURRED ]"
-    Write-Host "--------------------------------------------------------------"
+    Write-Host "[ERROR] OPERATION FAILED"
+    Write-Host "=============================================================="
     Write-Host "Failed to collect hardware information:"
     Write-Host $errorText
 
     Write-Host ""
-    Write-Host "[ RESULT ]"
-    Write-Host "--------------------------------------------------------------"
+    Write-Host "[INFO] RESULT"
+    Write-Host "=============================================================="
     Write-Host "Status : Failure"
 }
 
 Write-Host ""
-Write-Host "[ FINAL STATUS ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[INFO] FINAL STATUS"
+Write-Host "=============================================================="
 if ($errorOccurred) {
     Write-Host "Hardware report generation failed. See error details above."
 } else {
@@ -406,8 +406,12 @@ if ($errorOccurred) {
 }
 
 Write-Host ""
-Write-Host "[ SCRIPT COMPLETED ]"
-Write-Host "--------------------------------------------------------------"
+if ($errorOccurred) {
+    Write-Host "[ERROR] SCRIPT FAILED"
+} else {
+    Write-Host "[OK] SCRIPT COMPLETED"
+}
+Write-Host "=============================================================="
 
 if ($errorOccurred) {
     exit 1

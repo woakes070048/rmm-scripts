@@ -8,9 +8,9 @@ $ErrorActionPreference = 'Stop'
 ███████╗██║██║ ╚═╝ ██║███████╗██║  ██║██║  ██║╚███╔███╔╝██║  ██╗
 ╚══════╝╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚══╝╚══╝ ╚═╝  ╚═╝
 ================================================================================
- SCRIPT   : Workstation Information Display                               v1.2.0
+ SCRIPT   : Workstation Information Display                               v1.2.1
  AUTHOR   : Limehawk.io
- DATE      : December 2025
+ DATE     : January 2026
  USAGE    : .\workstation_info_display.ps1
 ================================================================================
  FILE     : workstation_info_display.ps1
@@ -73,35 +73,36 @@ DESCRIPTION : Displays system info popup for user self-service from tray icon
 
  EXAMPLE RUN
 
- [ INPUT VALIDATION ]
- --------------------------------------------------------------
+ [INFO] INPUT VALIDATION
+ ==============================================================
  DisplayMode    : popup
  IncludeNetwork : True
  PopupTitle     : Workstation Information
 
- [ COLLECTING SYSTEM INFORMATION ]
- --------------------------------------------------------------
- Gathering operating system details...
- Gathering computer information...
- Gathering CPU information...
- Gathering memory information...
- Gathering network adapter information...
- Gathering BIOS information...
+ [INFO] COLLECTING SYSTEM INFORMATION
+ ==============================================================
+ [RUN] Gathering operating system details...
+ [RUN] Gathering computer information...
+ [RUN] Gathering CPU information...
+ [RUN] Gathering memory information...
+ [RUN] Gathering network adapter information...
+ [RUN] Gathering BIOS information...
 
- [ DISPLAY ]
- --------------------------------------------------------------
+ [INFO] DISPLAY
+ ==============================================================
  Display Mode : Popup
- Showing Windows Forms message box...
+ [RUN] Showing Windows Forms message box...
 
- [ FINAL STATUS ]
- --------------------------------------------------------------
- Workstation information displayed successfully.
+ [INFO] FINAL STATUS
+ ==============================================================
+ [OK] Workstation information displayed successfully.
 
- [ SCRIPT COMPLETED ]
- --------------------------------------------------------------
+ [INFO] SCRIPT COMPLETE
+ ==============================================================
 --------------------------------------------------------------------------------
  CHANGELOG
 --------------------------------------------------------------------------------
+ 2026-01-19 v1.2.1 Updated to two-line ASCII console output style
  2025-12-23 v1.2.0 Updated to Limehawk Script Framework
  2025-10-31 v1.1.0 Improved popup formatting with KV format
  2025-10-31 v1.0.0 Initial release
@@ -144,31 +145,31 @@ if ([string]::IsNullOrWhiteSpace($PopupTitle)) {
 
 if ($errorOccurred) {
     Write-Host ""
-    Write-Host "[ ERROR OCCURRED ]"
-    Write-Host "--------------------------------------------------------------"
+    Write-Host "[ERROR] ERROR OCCURRED"
+    Write-Host "=============================================================="
     Write-Host "Input validation failed:"
     Write-Host $errorText
 
     Write-Host ""
-    Write-Host "[ RESULT ]"
-    Write-Host "--------------------------------------------------------------"
+    Write-Host "[INFO] RESULT"
+    Write-Host "=============================================================="
     Write-Host "Status : Failure"
 
     Write-Host ""
-    Write-Host "[ FINAL STATUS ]"
-    Write-Host "--------------------------------------------------------------"
+    Write-Host "[INFO] FINAL STATUS"
+    Write-Host "=============================================================="
     Write-Host "Script cannot proceed due to invalid hardcoded inputs."
 
     Write-Host ""
-    Write-Host "[ SCRIPT COMPLETED ]"
-    Write-Host "--------------------------------------------------------------"
+    Write-Host "[INFO] SCRIPT COMPLETE"
+    Write-Host "=============================================================="
     exit 1
 }
 
 # ==== RUNTIME OUTPUT (Style A) ====
 Write-Host ""
-Write-Host "[ INPUT VALIDATION ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[INFO] INPUT VALIDATION"
+Write-Host "=============================================================="
 Write-Host "DisplayMode    : $DisplayMode"
 Write-Host "IncludeNetwork : $IncludeNetwork"
 Write-Host "PopupTitle     : $PopupTitle"
@@ -195,8 +196,8 @@ function Format-BytesToGB {
 
 try {
     Write-Host ""
-    Write-Host "[ COLLECTING SYSTEM INFORMATION ]"
-    Write-Host "--------------------------------------------------------------"
+    Write-Host "[INFO] COLLECTING SYSTEM INFORMATION"
+    Write-Host "=============================================================="
 
     # Initialize info text with header
     $infoText = "WORKSTATION INFORMATION" + [Environment]::NewLine
@@ -204,7 +205,7 @@ try {
     $infoText += [Environment]::NewLine
 
     # Operating System Information
-    Write-Host "Gathering operating system details..."
+    Write-Host "[RUN] Gathering operating system details..."
     $osInfo = Get-CimInstance -ClassName Win32_OperatingSystem -ErrorAction Stop
     $osName = Get-SafeProperty $osInfo 'Caption'
     $osVersion = Get-SafeProperty $osInfo 'Version'
@@ -215,13 +216,13 @@ try {
     $infoText += [Environment]::NewLine
 
     # Computer Information
-    Write-Host "Gathering computer information..."
+    Write-Host "[RUN] Gathering computer information..."
     $computerInfo = Get-CimInstance -ClassName Win32_ComputerSystem -ErrorAction Stop
     $computerName = Get-SafeProperty $computerInfo 'Name'
     $currentUser = $env:USERNAME
 
     # Get serial number from BIOS
-    Write-Host "Gathering BIOS information..."
+    Write-Host "[RUN] Gathering BIOS information..."
     $biosInfo = Get-CimInstance -ClassName Win32_BIOS -ErrorAction Stop
     $serialNumber = Get-SafeProperty $biosInfo 'SerialNumber'
 
@@ -232,7 +233,7 @@ try {
     $infoText += [Environment]::NewLine
 
     # CPU Information
-    Write-Host "Gathering CPU information..."
+    Write-Host "[RUN] Gathering CPU information..."
     $cpuInfo = Get-CimInstance -ClassName Win32_Processor -ErrorAction Stop | Select-Object -First 1
     $cpuName = Get-SafeProperty $cpuInfo 'Name'
     $cpuCores = Get-SafeProperty $cpuInfo 'NumberOfCores' 0
@@ -243,7 +244,7 @@ try {
     $infoText += [Environment]::NewLine
 
     # Memory Information
-    Write-Host "Gathering memory information..."
+    Write-Host "[RUN] Gathering memory information..."
     $ramModules = Get-CimInstance -ClassName Win32_PhysicalMemory -ErrorAction Stop
     $totalRam = 0
     foreach ($ram in $ramModules) {
@@ -258,7 +259,7 @@ try {
 
     # Network Adapter Information
     if ($IncludeNetwork) {
-        Write-Host "Gathering network adapter information..."
+        Write-Host "[RUN] Gathering network adapter information..."
         $netAdapters = Get-CimInstance -ClassName Win32_NetworkAdapterConfiguration -ErrorAction Stop | Where-Object { $_.IPEnabled -eq $true }
 
         $infoText += "NETWORK" + [Environment]::NewLine
@@ -290,12 +291,12 @@ try {
 
     # Display the information
     Write-Host ""
-    Write-Host "[ DISPLAY ]"
-    Write-Host "--------------------------------------------------------------"
+    Write-Host "[INFO] DISPLAY"
+    Write-Host "=============================================================="
     Write-Host "Display Mode : $DisplayMode"
 
     if ($DisplayMode -eq 'popup') {
-        Write-Host "Showing Windows Forms message box..."
+        Write-Host "[RUN] Showing Windows Forms message box..."
 
         try {
             Add-Type -AssemblyName System.Windows.Forms
@@ -306,13 +307,13 @@ try {
                 [System.Windows.Forms.MessageBoxIcon]::Information
             ) | Out-Null
 
-            Write-Host "Popup displayed successfully"
+            Write-Host "[OK] Popup displayed successfully"
         } catch {
             throw "Failed to display popup: $($_.Exception.Message)"
         }
 
     } elseif ($DisplayMode -eq 'console') {
-        Write-Host "Outputting to console..."
+        Write-Host "[RUN] Outputting to console..."
         Write-Host ""
         Write-Host $infoText
     }
@@ -325,29 +326,29 @@ try {
 
 if ($errorOccurred) {
     Write-Host ""
-    Write-Host "[ ERROR OCCURRED ]"
-    Write-Host "--------------------------------------------------------------"
+    Write-Host "[ERROR] ERROR OCCURRED"
+    Write-Host "=============================================================="
     Write-Host "Failed to collect or display workstation information:"
     Write-Host $errorText
 
     Write-Host ""
-    Write-Host "[ RESULT ]"
-    Write-Host "--------------------------------------------------------------"
+    Write-Host "[INFO] RESULT"
+    Write-Host "=============================================================="
     Write-Host "Status : Failure"
 }
 
 Write-Host ""
-Write-Host "[ FINAL STATUS ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[INFO] FINAL STATUS"
+Write-Host "=============================================================="
 if ($errorOccurred) {
-    Write-Host "Workstation information display failed. See error details above."
+    Write-Host "[ERROR] Workstation information display failed. See error details above."
 } else {
-    Write-Host "Workstation information displayed successfully."
+    Write-Host "[OK] Workstation information displayed successfully."
 }
 
 Write-Host ""
-Write-Host "[ SCRIPT COMPLETED ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[INFO] SCRIPT COMPLETE"
+Write-Host "=============================================================="
 
 if ($errorOccurred) {
     exit 1

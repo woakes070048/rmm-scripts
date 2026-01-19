@@ -7,7 +7,7 @@ $ErrorActionPreference = 'Stop'
 ███████╗██║██║ ╚═╝ ██║███████╗██║  ██║██║  ██║╚███╔███╔╝██║  ██╗
 ╚══════╝╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚══╝╚══╝ ╚═╝  ╚═╝
 ================================================================================
- SCRIPT   : Winget Setup for RMM                                        v1.0.2
+ SCRIPT   : Winget Setup for RMM                                        v1.0.3
  AUTHOR   : Limehawk.io
  DATE     : January 2026
  USAGE    : .\winget_setup.ps1
@@ -76,22 +76,22 @@ $ErrorActionPreference = 'Stop'
    - 1 = Failure - installation failed or system incompatible
 
  EXAMPLE RUN
-   [ INPUT VALIDATION ]
-   --------------------------------------------------------------
+   [INFO] INPUT VALIDATION
+   ==============================================================
    Configuration validated successfully
    Force Reinstall : No
    Download Timeout: 120 seconds
 
-   [ SYSTEM CHECK ]
-   --------------------------------------------------------------
+   [INFO] SYSTEM CHECK
+   ==============================================================
    OS Version      : Windows 10 22H2
    Architecture    : x64
    Admin Rights    : Yes
    Running Context : SYSTEM
    Winget Status   : Not installed
 
-   [ DOWNLOAD DEPENDENCIES ]
-   --------------------------------------------------------------
+   [RUN] DOWNLOAD DEPENDENCIES
+   ==============================================================
    Fetching latest release information...
    Latest Version  : v1.7.10861
    Downloading dependencies package...
@@ -100,21 +100,21 @@ $ErrorActionPreference = 'Stop'
    Extracted       : VCLibs.140.00.UWPDesktop
    Extracted       : UI.Xaml.2.8
 
-   [ DOWNLOAD WINGET ]
-   --------------------------------------------------------------
+   [RUN] DOWNLOAD WINGET
+   ==============================================================
    Downloading winget package...
    Downloaded      : 45.8 MB
    Package verified
 
-   [ INSTALL DEPENDENCIES ]
-   --------------------------------------------------------------
+   [RUN] INSTALL DEPENDENCIES
+   ==============================================================
    Installing VCLibs.140.00.UWPDesktop...
    Installed successfully
    Installing UI.Xaml.2.8...
    Installed successfully
 
-   [ INSTALL WINGET ]
-   --------------------------------------------------------------
+   [RUN] INSTALL WINGET
+   ==============================================================
    Installing winget AppX package...
    Installation successful
    Configuring PATH environment variable...
@@ -122,28 +122,29 @@ $ErrorActionPreference = 'Stop'
    Registering winget...
    Registration complete
 
-   [ VERIFICATION ]
-   --------------------------------------------------------------
+   [INFO] VERIFICATION
+   ==============================================================
    Testing winget command...
    Winget Version  : v1.7.10861
    Installation    : Verified
 
-   [ CLEANUP ]
-   --------------------------------------------------------------
+   [INFO] CLEANUP
+   ==============================================================
    Removing temporary files...
    Cleanup complete
 
-   [ FINAL STATUS ]
-   --------------------------------------------------------------
+   [OK] FINAL STATUS
+   ==============================================================
    Status          : Success
    Winget          : Installed and working
 
-   [ SCRIPT COMPLETED ]
-   --------------------------------------------------------------
+   [OK] SCRIPT COMPLETED
+   ==============================================================
 
 --------------------------------------------------------------------------------
  CHANGELOG
 --------------------------------------------------------------------------------
+ 2026-01-19 v1.0.3 Updated to two-line ASCII console output style
  2026-01-14 v1.0.2 Fixed header formatting for framework compliance
  2025-12-23 v1.0.1 Updated to Limehawk Script Framework
  2025-01-31 v1.0.0 Initial release - reliable winget installation for RMM
@@ -167,8 +168,8 @@ $errorOccurred = $false
 $errorText = ""
 
 Write-Host ""
-Write-Host "[ INPUT VALIDATION ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[INFO] INPUT VALIDATION"
+Write-Host "=============================================================="
 
 if ($downloadTimeout -lt 30) {
     $errorOccurred = $true
@@ -178,8 +179,8 @@ if ($downloadTimeout -lt 30) {
 
 if ($errorOccurred) {
     Write-Host ""
-    Write-Host "[ ERROR OCCURRED ]"
-    Write-Host "--------------------------------------------------------------"
+    Write-Host "[ERROR] VALIDATION FAILED"
+    Write-Host "=============================================================="
     Write-Host "Input validation failed:"
     Write-Host $errorText
     Write-Host ""
@@ -195,8 +196,8 @@ Write-Host "Download Timeout: $downloadTimeout seconds"
 # ============================================================================
 
 Write-Host ""
-Write-Host "[ SYSTEM CHECK ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[INFO] SYSTEM CHECK"
+Write-Host "=============================================================="
 
 # Check if running as SYSTEM
 $runAsSystem = $false
@@ -210,8 +211,8 @@ $isAdmin = ([Security.Principal.WindowsPrincipal]$currentUser).IsInRole([Securit
 
 if (-not $isAdmin -and -not $runAsSystem) {
     Write-Host ""
-    Write-Host "[ ERROR OCCURRED ]"
-    Write-Host "--------------------------------------------------------------"
+    Write-Host "[ERROR] PRIVILEGES REQUIRED"
+    Write-Host "=============================================================="
     Write-Host "Administrator or SYSTEM privileges required"
     Write-Host "Please run this script as Administrator"
     Write-Host ""
@@ -242,8 +243,8 @@ Write-Host "Running Context : $(if ($runAsSystem) { 'SYSTEM' } else { 'User' })"
 $osNumeric = ($osName -replace "[^\d]").Trim()
 if ($osType -eq "Workstation" -and [int]$osBuild -lt 17763) {
     Write-Host ""
-    Write-Host "[ ERROR OCCURRED ]"
-    Write-Host "--------------------------------------------------------------"
+    Write-Host "[ERROR] INCOMPATIBLE OS VERSION"
+    Write-Host "=============================================================="
     Write-Host "Windows 10 version 1809 or later required"
     Write-Host "Your build: $osBuild"
     Write-Host ""
@@ -252,8 +253,8 @@ if ($osType -eq "Workstation" -and [int]$osBuild -lt 17763) {
 
 if ($osType -eq "Server" -and [int]$osBuild -lt 17763) {
     Write-Host ""
-    Write-Host "[ ERROR OCCURRED ]"
-    Write-Host "--------------------------------------------------------------"
+    Write-Host "[ERROR] INCOMPATIBLE OS VERSION"
+    Write-Host "=============================================================="
     Write-Host "Windows Server 2019 or later required"
     Write-Host "Your build: $osBuild"
     Write-Host ""
@@ -263,8 +264,8 @@ if ($osType -eq "Server" -and [int]$osBuild -lt 17763) {
 # Check for Server Core
 if ($installationType -eq "Server Core" -and $skipServerCore) {
     Write-Host ""
-    Write-Host "[ ERROR OCCURRED ]"
-    Write-Host "--------------------------------------------------------------"
+    Write-Host "[WARN] SERVER CORE SKIPPED"
+    Write-Host "=============================================================="
     Write-Host "Server Core installation detected and skipServerCore is enabled"
     Write-Host "Installation skipped"
     Write-Host ""
@@ -313,14 +314,14 @@ if ($wingetInstalled) {
 
 if ($wingetInstalled -and -not $forceReinstall -and -not $runAsSystem) {
     Write-Host ""
-    Write-Host "[ FINAL STATUS ]"
-    Write-Host "--------------------------------------------------------------"
+    Write-Host "[OK] FINAL STATUS"
+    Write-Host "=============================================================="
     Write-Host "Status          : Winget already installed"
     Write-Host "Version         : $wingetVersion"
     Write-Host "Action          : Skipped installation"
     Write-Host ""
-    Write-Host "[ SCRIPT COMPLETED ]"
-    Write-Host "--------------------------------------------------------------"
+    Write-Host "[OK] SCRIPT COMPLETED"
+    Write-Host "=============================================================="
     exit 0
 }
 
@@ -348,8 +349,8 @@ if (-not $skipInstallation) {
 # ============================================================================
 
 Write-Host ""
-Write-Host "[ DOWNLOAD DEPENDENCIES ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[RUN] DOWNLOAD DEPENDENCIES"
+Write-Host "=============================================================="
 
 # Suppress progress bar for faster downloads
 $ProgressPreference = 'SilentlyContinue'
@@ -366,8 +367,8 @@ try {
     Write-Host "Published       : $($latestRelease.published_at)"
 } catch {
     Write-Host ""
-    Write-Host "[ ERROR OCCURRED ]"
-    Write-Host "--------------------------------------------------------------"
+    Write-Host "[ERROR] GITHUB API FAILED"
+    Write-Host "=============================================================="
     Write-Host "Failed to fetch release information from GitHub"
     Write-Host "Error: $($_.Exception.Message)"
     Write-Host "Check internet connectivity and GitHub availability"
@@ -388,8 +389,8 @@ $depsAsset = $latestRelease.assets | Where-Object { $_.name -match 'Dependencies
 
 if (-not $depsAsset) {
     Write-Host ""
-    Write-Host "[ ERROR OCCURRED ]"
-    Write-Host "--------------------------------------------------------------"
+    Write-Host "[ERROR] MISSING ASSET"
+    Write-Host "=============================================================="
     Write-Host "Dependencies package not found in release assets"
     Write-Host ""
     exit 1
@@ -402,8 +403,8 @@ try {
     Write-Host "Downloaded      : $([math]::Round($fileSize/1MB, 1)) MB"
 } catch {
     Write-Host ""
-    Write-Host "[ ERROR OCCURRED ]"
-    Write-Host "--------------------------------------------------------------"
+    Write-Host "[ERROR] DOWNLOAD FAILED"
+    Write-Host "=============================================================="
     Write-Host "Failed to download dependencies package"
     Write-Host "Error: $($_.Exception.Message)"
     Write-Host ""
@@ -433,8 +434,8 @@ try {
     $zip.Dispose()
 } catch {
     Write-Host ""
-    Write-Host "[ ERROR OCCURRED ]"
-    Write-Host "--------------------------------------------------------------"
+    Write-Host "[ERROR] EXTRACTION FAILED"
+    Write-Host "=============================================================="
     Write-Host "Failed to extract dependencies"
     Write-Host "Error: $($_.Exception.Message)"
     Write-Host ""
@@ -446,16 +447,16 @@ try {
 # ============================================================================
 
 Write-Host ""
-Write-Host "[ DOWNLOAD WINGET ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[RUN] DOWNLOAD WINGET"
+Write-Host "=============================================================="
 
 Write-Host "Downloading winget package..."
 $wingetAsset = $latestRelease.assets | Where-Object { $_.name -match '\.msixbundle$' } | Select-Object -First 1
 
 if (-not $wingetAsset) {
     Write-Host ""
-    Write-Host "[ ERROR OCCURRED ]"
-    Write-Host "--------------------------------------------------------------"
+    Write-Host "[ERROR] MISSING ASSET"
+    Write-Host "=============================================================="
     Write-Host "Winget package not found in release assets"
     Write-Host ""
     exit 1
@@ -469,8 +470,8 @@ try {
     Write-Host "Package verified"
 } catch {
     Write-Host ""
-    Write-Host "[ ERROR OCCURRED ]"
-    Write-Host "--------------------------------------------------------------"
+    Write-Host "[ERROR] DOWNLOAD FAILED"
+    Write-Host "=============================================================="
     Write-Host "Failed to download winget package"
     Write-Host "Error: $($_.Exception.Message)"
     Write-Host ""
@@ -497,8 +498,8 @@ if ($licenseAsset) {
 # ============================================================================
 
 Write-Host ""
-Write-Host "[ INSTALL DEPENDENCIES ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[RUN] INSTALL DEPENDENCIES"
+Write-Host "=============================================================="
 
 $depFiles = Get-ChildItem -Path $depsExtractPath -Filter "*.appx"
 
@@ -529,8 +530,8 @@ foreach ($depFile in $depFiles) {
 # ============================================================================
 
 Write-Host ""
-Write-Host "[ INSTALL WINGET ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[RUN] INSTALL WINGET"
+Write-Host "=============================================================="
 
 Write-Host "Installing winget AppX package..."
 try {
@@ -552,8 +553,8 @@ try {
         Write-Host "Same version already installed"
     } else {
         Write-Host ""
-        Write-Host "[ ERROR OCCURRED ]"
-        Write-Host "--------------------------------------------------------------"
+        Write-Host "[ERROR] INSTALLATION FAILED"
+        Write-Host "=============================================================="
         Write-Host "Failed to install winget package"
         Write-Host "Error: $errorMsg"
         Write-Host ""
@@ -569,8 +570,8 @@ try {
 
 # Configure PATH
 Write-Host ""
-Write-Host "[ CONFIGURATION ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[RUN] CONFIGURATION"
+Write-Host "=============================================================="
 Write-Host "Configuring PATH environment variable..."
 
 $localAppData = if ($runAsSystem) {
@@ -668,8 +669,8 @@ Add-AppxPackage -DisableDevelopmentMode -Register "$env:ProgramFiles\WindowsApps
 # ============================================================================
 
 Write-Host ""
-Write-Host "[ VERIFICATION ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[INFO] VERIFICATION"
+Write-Host "=============================================================="
 
 Write-Host "Waiting for winget to initialize..."
 Start-Sleep -Seconds 3
@@ -709,8 +710,8 @@ try {
 # ============================================================================
 
 Write-Host ""
-Write-Host "[ CLEANUP ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[INFO] CLEANUP"
+Write-Host "=============================================================="
 
 if (-not $skipInstallation -and $tempDir -and (Test-Path $tempDir)) {
     Write-Host "Removing temporary files..."
@@ -729,8 +730,8 @@ if (-not $skipInstallation -and $tempDir -and (Test-Path $tempDir)) {
 # ============================================================================
 
 Write-Host ""
-Write-Host "[ FINAL STATUS ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[OK] FINAL STATUS"
+Write-Host "=============================================================="
 
 if ($verificationSuccess) {
     Write-Host "Status          : Success"
@@ -740,8 +741,8 @@ if ($verificationSuccess) {
     }
 
     Write-Host ""
-    Write-Host "[ SCRIPT COMPLETED ]"
-    Write-Host "--------------------------------------------------------------"
+    Write-Host "[OK] SCRIPT COMPLETED"
+    Write-Host "=============================================================="
     exit 0
 } else {
     Write-Host "Status          : Installed with warnings"
@@ -749,7 +750,7 @@ if ($verificationSuccess) {
     Write-Host "Action          : Restart PowerShell or system to use winget"
 
     Write-Host ""
-    Write-Host "[ SCRIPT COMPLETED ]"
-    Write-Host "--------------------------------------------------------------"
+    Write-Host "[WARN] SCRIPT COMPLETED"
+    Write-Host "=============================================================="
     exit 0
 }

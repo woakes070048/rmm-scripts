@@ -8,9 +8,9 @@ $ErrorActionPreference = 'Stop'
 ███████╗██║██║ ╚═╝ ██║███████╗██║  ██║██║  ██║╚███╔███╔╝██║  ██╗
 ╚══════╝╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚══╝╚══╝ ╚═╝  ╚═╝
 ================================================================================
- SCRIPT   : Local User Delete v1.3.1
+ SCRIPT   : Local User Delete v1.3.2
  AUTHOR   : Limehawk.io
- DATE      : December 2025
+ DATE      : January 2026
  USAGE    : .\local_user_delete.ps1
 ================================================================================
  FILE     : local_user_delete.ps1
@@ -66,28 +66,29 @@ $ErrorActionPreference = 'Stop'
 
  EXAMPLE RUN
 
- [ INPUT VALIDATION ]
- --------------------------------------------------------------
+ [INFO] INPUT VALIDATION
+ ==============================================================
  Username : tempuser
 
- [ OPERATION ]
- --------------------------------------------------------------
+ [RUN] OPERATION
+ ==============================================================
  Found user: tempuser
  Removing user profile...
  Profile removed via CIM
  Removing user account...
  User account removed
 
- [ RESULT ]
- --------------------------------------------------------------
+ [OK] RESULT
+ ==============================================================
  Status : Success
  User   : tempuser (deleted)
 
- [ SCRIPT COMPLETED ]
- --------------------------------------------------------------
+ [OK] SCRIPT COMPLETED
+ ==============================================================
 --------------------------------------------------------------------------------
  CHANGELOG
 --------------------------------------------------------------------------------
+ 2026-01-19 v1.3.2 Updated to two-line ASCII console output style
  2025-12-23 v1.3.1 Updated to Limehawk Script Framework
  2025-12-03 v1.3.0 Use descriptive runtime variable name ($UsernameToDelete)
  2025-12-03 v1.2.0 Standardize variable names ($Username instead of $UserToDelete); 2025-12-03 v1.1.0 Delete orphaned profiles even if user account doesn't exist; 2025-11-29 v1.0.0 Initial Style A implementation
@@ -109,38 +110,38 @@ $Username = "$UsernameToDelete"  # Set to "listusers" to list all users
 # ==== HELPER FUNCTIONS ====
 function Show-LocalUsers {
     Write-Host ""
-    Write-Host "[ CURRENT LOCAL USERS ]"
-    Write-Host "--------------------------------------------------------------"
+    Write-Host "[INFO] CURRENT LOCAL USERS"
+    Write-Host "=============================================================="
     Get-LocalUser | ForEach-Object {
         $status = if ($_.Enabled) { "Enabled" } else { "Disabled" }
         Write-Host " $($_.Name.PadRight(20)) : $status"
     }
-    Write-Host "--------------------------------------------------------------"
+    Write-Host "=============================================================="
 }
 
 # ==== LIST USERS MODE ====
 if ([string]::IsNullOrWhiteSpace($Username) -or $Username -eq "listusers" -or $Username -eq '$' + 'UsernameToDelete') {
     Show-LocalUsers
     Write-Host ""
-    Write-Host "[ RESULT ]"
-    Write-Host "--------------------------------------------------------------"
+    Write-Host "[OK] RESULT"
+    Write-Host "=============================================================="
     Write-Host "Status : Listed users only"
     Write-Host "Action : Set Username variable to delete a user"
     Write-Host ""
-    Write-Host "[ SCRIPT COMPLETED ]"
-    Write-Host "--------------------------------------------------------------"
+    Write-Host "[OK] SCRIPT COMPLETED"
+    Write-Host "=============================================================="
     exit 0
 }
 
 # ==== RUNTIME OUTPUT ====
 Write-Host ""
-Write-Host "[ INPUT VALIDATION ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[INFO] INPUT VALIDATION"
+Write-Host "=============================================================="
 Write-Host "Username : $Username"
 
 Write-Host ""
-Write-Host "[ OPERATION ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[RUN] OPERATION"
+Write-Host "=============================================================="
 
 try {
     # Check if user exists
@@ -200,15 +201,15 @@ try {
 
 if ($errorOccurred) {
     Write-Host ""
-    Write-Host "[ ERROR OCCURRED ]"
-    Write-Host "--------------------------------------------------------------"
+    Write-Host "[ERROR] OPERATION FAILED"
+    Write-Host "=============================================================="
     Write-Host $errorText
     Show-LocalUsers
 }
 
 Write-Host ""
-Write-Host "[ RESULT ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[OK] RESULT"
+Write-Host "=============================================================="
 if ($errorOccurred) {
     Write-Host "Status  : Failure"
 } elseif (-not $userExists -and -not $profileRemoved) {
@@ -222,8 +223,8 @@ if ($errorOccurred) {
 }
 
 Write-Host ""
-Write-Host "[ FINAL STATUS ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[OK] FINAL STATUS"
+Write-Host "=============================================================="
 if ($errorOccurred) {
     Write-Host "Deletion failed. See error above."
 } elseif (-not $userExists -and -not $profileRemoved) {
@@ -234,8 +235,8 @@ if ($errorOccurred) {
 }
 
 Write-Host ""
-Write-Host "[ SCRIPT COMPLETED ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[OK] SCRIPT COMPLETED"
+Write-Host "=============================================================="
 
 if ($errorOccurred) {
     exit 1

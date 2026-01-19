@@ -7,9 +7,9 @@
 # ███████╗██║██║ ╚═╝ ██║███████╗██║  ██║██║  ██║╚███╔███╔╝██║  ██╗
 # ╚══════╝╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚══╝╚══╝ ╚═╝  ╚═╝
 # ================================================================================
-#  SCRIPT   : Toggle CUPS Web Interface                                    v1.1.0
+#  SCRIPT   : Toggle CUPS Web Interface                                    v1.1.1
 #  AUTHOR   : Limehawk.io
-#  DATE     : December 2025
+#  DATE     : January 2026
 #  USAGE    : sudo ./cups_toggle_macos.sh
 # ================================================================================
 #  FILE     : cups_toggle_macos.sh
@@ -68,20 +68,21 @@
 #
 #  EXAMPLE RUN
 #
-#    [ CUPS WEB INTERFACE TOGGLE ]
-#    --------------------------------------------------------------
+#    [RUN] CUPS WEB INTERFACE TOGGLE
+#    ==============================================================
 #    Current Status : Disabled
 #    Action         : Enabling
 #    Result         : ENABLED
 #
 #    CUPS Web Interface URL: http://localhost:631
 #
-#    [ SCRIPT COMPLETE ]
-#    --------------------------------------------------------------
+#    [OK] SCRIPT COMPLETED
+#    ==============================================================
 #
 # --------------------------------------------------------------------------------
 #  CHANGELOG
 # --------------------------------------------------------------------------------
+#  2026-01-19 v1.1.1 Updated to two-line ASCII console output style
 #  2025-12-23 v1.1.0 Updated to Limehawk Script Framework
 #  2024-01-01 v1.0.0 Initial release
 # ================================================================================
@@ -93,14 +94,14 @@ set -euo pipefail
 # ============================================================================
 
 echo ""
-echo "[ CUPS WEB INTERFACE TOGGLE ]"
-echo "--------------------------------------------------------------"
+echo "[RUN] CUPS WEB INTERFACE TOGGLE"
+echo "=============================================================="
 
 # Check if running as root
 if [[ $EUID -ne 0 ]]; then
     echo ""
-    echo "[ ERROR OCCURRED ]"
-    echo "--------------------------------------------------------------"
+    echo "[ERROR] ERROR OCCURRED"
+    echo "=============================================================="
     echo "This script must be run as root"
     echo "Usage: sudo ./cups_toggle_macos.sh"
     echo ""
@@ -127,6 +128,6 @@ else
 fi
 
 echo ""
-echo "[ SCRIPT COMPLETE ]"
-echo "--------------------------------------------------------------"
+echo "[OK] SCRIPT COMPLETED"
+echo "=============================================================="
 exit 0

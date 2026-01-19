@@ -8,7 +8,7 @@ $ErrorActionPreference = 'Stop'
 ███████╗██║██║ ╚═╝ ██║███████╗██║  ██║██║  ██║╚███╔███╔╝██║  ██╗
 ╚══════╝╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚══╝╚══╝ ╚═╝  ╚═╝
 ================================================================================
- SCRIPT   : Windows Firewall Toggle                                     v1.0.2
+ SCRIPT   : Windows Firewall Toggle                                     v1.0.3
  AUTHOR   : Limehawk.io
  DATE     : January 2026
  USAGE    : .\windows_firewall_toggle.ps1
@@ -62,33 +62,34 @@ $ErrorActionPreference = 'Stop'
 
  EXAMPLE RUN
 
- [ CURRENT STATE ]
- --------------------------------------------------------------
+ [INFO] CURRENT STATE
+ ==============================================================
  Domain Profile  : ON
  Private Profile : ON
  Public Profile  : ON
 
- [ OPERATION ]
- --------------------------------------------------------------
+ [RUN] OPERATION
+ ==============================================================
  Firewall is currently ON
  Turning firewall OFF...
 
- [ NEW STATE ]
- --------------------------------------------------------------
+ [INFO] NEW STATE
+ ==============================================================
  Domain Profile  : OFF
  Private Profile : OFF
  Public Profile  : OFF
 
- [ RESULT ]
- --------------------------------------------------------------
+ [OK] RESULT
+ ==============================================================
  Status : Success
  Action : Firewall disabled
 
- [ SCRIPT COMPLETED ]
- --------------------------------------------------------------
+ [OK] SCRIPT COMPLETED
+ ==============================================================
 --------------------------------------------------------------------------------
  CHANGELOG
 --------------------------------------------------------------------------------
+ 2026-01-19 v1.0.3 Updated to two-line ASCII console output style
  2026-01-14 v1.0.2 Fixed header formatting for framework compliance
  2025-12-23 v1.0.1 Updated to Limehawk Script Framework
  2025-11-29 v1.0.0 Initial Style A implementation
@@ -105,8 +106,8 @@ $errorText = ""
 $isAdmin = ([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole] "Administrator")
 if (-not $isAdmin) {
     Write-Host ""
-    Write-Host "[ ERROR OCCURRED ]"
-    Write-Host "--------------------------------------------------------------"
+    Write-Host "[ERROR] PRIVILEGES REQUIRED"
+    Write-Host "=============================================================="
     Write-Host "Script requires admin privileges."
     Write-Host "Please relaunch as Administrator."
     exit 1
@@ -114,8 +115,8 @@ if (-not $isAdmin) {
 
 # ==== GET CURRENT STATE ====
 Write-Host ""
-Write-Host "[ CURRENT STATE ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[INFO] CURRENT STATE"
+Write-Host "=============================================================="
 
 try {
     $domainProfile = (Get-NetFirewallProfile -Name Domain).Enabled
@@ -140,16 +141,16 @@ try {
 
 if ($errorOccurred) {
     Write-Host ""
-    Write-Host "[ ERROR OCCURRED ]"
-    Write-Host "--------------------------------------------------------------"
+    Write-Host "[ERROR] QUERY FAILED"
+    Write-Host "=============================================================="
     Write-Host $errorText
     exit 1
 }
 
 # ==== TOGGLE FIREWALL ====
 Write-Host ""
-Write-Host "[ OPERATION ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[RUN] OPERATION"
+Write-Host "=============================================================="
 
 try {
     if ($isFirewallOn) {
@@ -170,15 +171,15 @@ try {
 
 if ($errorOccurred) {
     Write-Host ""
-    Write-Host "[ ERROR OCCURRED ]"
-    Write-Host "--------------------------------------------------------------"
+    Write-Host "[ERROR] TOGGLE FAILED"
+    Write-Host "=============================================================="
     Write-Host $errorText
 }
 
 # ==== VERIFY NEW STATE ====
 Write-Host ""
-Write-Host "[ NEW STATE ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[INFO] NEW STATE"
+Write-Host "=============================================================="
 
 try {
     $newDomainProfile = (Get-NetFirewallProfile -Name Domain).Enabled
@@ -198,8 +199,12 @@ try {
 }
 
 Write-Host ""
-Write-Host "[ RESULT ]"
-Write-Host "--------------------------------------------------------------"
+if ($errorOccurred) {
+    Write-Host "[ERROR] RESULT"
+} else {
+    Write-Host "[OK] RESULT"
+}
+Write-Host "=============================================================="
 if ($errorOccurred) {
     Write-Host "Status : Failure"
 } else {
@@ -208,8 +213,12 @@ if ($errorOccurred) {
 }
 
 Write-Host ""
-Write-Host "[ FINAL STATUS ]"
-Write-Host "--------------------------------------------------------------"
+if ($errorOccurred) {
+    Write-Host "[ERROR] FINAL STATUS"
+} else {
+    Write-Host "[OK] FINAL STATUS"
+}
+Write-Host "=============================================================="
 if ($errorOccurred) {
     Write-Host "Firewall toggle failed. See error above."
 } else {
@@ -222,8 +231,12 @@ if ($errorOccurred) {
 }
 
 Write-Host ""
-Write-Host "[ SCRIPT COMPLETED ]"
-Write-Host "--------------------------------------------------------------"
+if ($errorOccurred) {
+    Write-Host "[ERROR] SCRIPT COMPLETED"
+} else {
+    Write-Host "[OK] SCRIPT COMPLETED"
+}
+Write-Host "=============================================================="
 
 if ($errorOccurred) {
     exit 1

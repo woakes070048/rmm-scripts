@@ -7,9 +7,9 @@
 # ███████╗██║██║ ╚═╝ ██║███████╗██║  ██║██║  ██║╚███╔███╔╝██║  ██╗
 # ╚══════╝╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚══╝╚══╝ ╚═╝  ╚═╝
 # ================================================================================
-#  SCRIPT   : Set DHCP (macOS)                                             v1.1.0
+#  SCRIPT   : Set DHCP (macOS)                                             v1.1.1
 #  AUTHOR   : Limehawk.io
-#  DATE     : December 2025
+#  DATE     : January 2026
 #  USAGE    : sudo ./network_dhcp_set_macos.sh
 # ================================================================================
 #  FILE     : network_dhcp_set_macos.sh
@@ -73,36 +73,37 @@
 #
 #  EXAMPLE RUN
 #
-#    [ INPUT VALIDATION ]
-#    --------------------------------------------------------------
+#    [INFO] INPUT VALIDATION
+#    ==============================================================
 #     Running as root          : Yes
 #     Interface                : en0 (auto-detected)
 #     Network Service          : Wi-Fi
 #     Toggle Delay             : 2s
 #
-#    [ CURRENT CONFIGURATION ]
-#    --------------------------------------------------------------
+#    [INFO] CURRENT CONFIGURATION
+#    ==============================================================
 #     Current IP               : 192.168.1.100
 #     Current Config           : DHCP Configuration
 #
-#    [ OPERATION ]
-#    --------------------------------------------------------------
+#    [RUN] OPERATION
+#    ==============================================================
 #    Disabling network service...
 #    Setting DHCP on en0...
 #    Enabling network service...
 #
-#    [ RESULT ]
-#    --------------------------------------------------------------
+#    [INFO] RESULT
+#    ==============================================================
 #     Status                   : Success
 #     Configuration            : DHCP Configuration
 #     IP Address               : 192.168.1.101
 #
-#    [ SCRIPT COMPLETE ]
-#    --------------------------------------------------------------
+#    [OK] SCRIPT COMPLETED
+#    ==============================================================
 #
 # --------------------------------------------------------------------------------
 #  CHANGELOG
 # --------------------------------------------------------------------------------
+#  2026-01-19 v1.1.1 Updated to two-line ASCII console output style
 #  2025-12-23 v1.1.0 Updated to Limehawk Script Framework
 #  2024-11-01 v1.0.0 Initial release
 # ================================================================================
@@ -121,9 +122,11 @@ TOGGLE_DELAY=2
 # ============================================================================
 
 print_section() {
+    local status="$1"
+    local title="$2"
     echo ""
-    echo "[ $1 ]"
-    echo "--------------------------------------------------------------"
+    echo "[$status] $title"
+    echo "=============================================================="
 }
 
 print_kv() {
@@ -157,13 +160,13 @@ detect_primary_interface() {
 # MAIN EXECUTION
 # ============================================================================
 
-print_section "INPUT VALIDATION"
+print_section "INFO" "INPUT VALIDATION"
 
 # Check for root privileges
 if [ "$(id -u)" != "0" ]; then
     echo ""
-    echo "[ ERROR OCCURRED ]"
-    echo "--------------------------------------------------------------"
+    echo "[ERROR] ERROR OCCURRED"
+    echo "=============================================================="
     echo "This script must be run with root privileges (sudo)"
     echo ""
     exit 1
@@ -182,8 +185,8 @@ fi
 SERVICE_NAME=$(get_service_for_interface "$INTERFACE")
 if [ -z "$SERVICE_NAME" ]; then
     echo ""
-    echo "[ ERROR OCCURRED ]"
-    echo "--------------------------------------------------------------"
+    echo "[ERROR] ERROR OCCURRED"
+    echo "=============================================================="
     echo "Could not find network service for interface $INTERFACE"
     echo ""
     exit 1
@@ -191,7 +194,7 @@ fi
 print_kv "Network Service" "$SERVICE_NAME"
 print_kv "Toggle Delay" "${TOGGLE_DELAY}s"
 
-print_section "CURRENT CONFIGURATION"
+print_section "INFO" "CURRENT CONFIGURATION"
 
 # Show current IP configuration
 CURRENT_IP=$(ipconfig getifaddr "$INTERFACE" 2>/dev/null || echo "Not configured")
@@ -201,7 +204,7 @@ print_kv "Current IP" "$CURRENT_IP"
 CURRENT_CONFIG=$(networksetup -getinfo "$SERVICE_NAME" 2>/dev/null | head -1 || echo "Unknown")
 print_kv "Current Config" "$CURRENT_CONFIG"
 
-print_section "OPERATION"
+print_section "RUN" "OPERATION"
 
 echo "Disabling network service..."
 networksetup -setnetworkserviceenabled "$SERVICE_NAME" off
@@ -215,7 +218,7 @@ echo "Enabling network service..."
 networksetup -setnetworkserviceenabled "$SERVICE_NAME" on
 sleep $TOGGLE_DELAY
 
-print_section "RESULT"
+print_section "INFO" "RESULT"
 
 # Verify configuration
 NEW_CONFIG=$(networksetup -getinfo "$SERVICE_NAME" 2>/dev/null | head -1 || echo "Unknown")
@@ -225,11 +228,11 @@ print_kv "Status" "Success"
 print_kv "Configuration" "$NEW_CONFIG"
 print_kv "IP Address" "$NEW_IP"
 
-print_section "FINAL STATUS"
+print_section "INFO" "FINAL STATUS"
 echo "DHCP has been configured on $SERVICE_NAME ($INTERFACE)."
 echo "If IP shows 'Acquiring...', wait a few seconds for DHCP lease."
 
 echo ""
-echo "[ SCRIPT COMPLETE ]"
-echo "--------------------------------------------------------------"
+echo "[OK] SCRIPT COMPLETED"
+echo "=============================================================="
 exit 0

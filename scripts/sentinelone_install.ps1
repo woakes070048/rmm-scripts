@@ -8,9 +8,9 @@ $ErrorActionPreference = 'Stop'
 ███████╗██║██║ ╚═╝ ██║███████╗██║  ██║██║  ██║╚███╔███╔╝██║  ██╗
 ╚══════╝╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚══╝╚══╝ ╚═╝  ╚═╝
 ================================================================================
- SCRIPT   : SentinelOne Install                                           v1.0.0
+ SCRIPT   : SentinelOne Install                                           v1.0.1
  AUTHOR   : Limehawk.io
- DATE     : December 2025
+ DATE     : January 2026
  USAGE    : .\sentinelone_install.ps1
 ================================================================================
  FILE     : sentinelone_install.ps1
@@ -71,41 +71,42 @@ DESCRIPTION : Silently installs SentinelOne endpoint agent with site token
 
  EXAMPLE RUN
 
- [ INPUT VALIDATION ]
- --------------------------------------------------------------
+ [INFO] INPUT VALIDATION
+ ==============================================================
  Site Token       : eyJ...***
  Architecture     : 64-bit
  Installer Type   : EXE
 
- [ PRE-CHECK ]
- --------------------------------------------------------------
+ [RUN] PRE-CHECK
+ ==============================================================
  Checking for existing installation...
  SentinelOne not detected
 
- [ DOWNLOAD ]
- --------------------------------------------------------------
+ [RUN] DOWNLOAD
+ ==============================================================
  Downloading 64-bit EXE installer...
  Download complete (61.5 MB)
 
- [ INSTALLATION ]
- --------------------------------------------------------------
+ [RUN] INSTALLATION
+ ==============================================================
  Starting silent installation...
  Installer completed with exit code 0
 
- [ VERIFICATION ]
- --------------------------------------------------------------
+ [RUN] VERIFICATION
+ ==============================================================
  Attempt 1: Checking...
  SentinelOne detected
 
- [ FINAL STATUS ]
- --------------------------------------------------------------
+ [OK] FINAL STATUS
+ ==============================================================
  Result : SUCCESS
 
- [ SCRIPT COMPLETED ]
- --------------------------------------------------------------
+ [OK] SCRIPT COMPLETED
+ ==============================================================
 --------------------------------------------------------------------------------
  CHANGELOG
 --------------------------------------------------------------------------------
+ 2026-01-19 v1.0.1 Updated to two-line ASCII console output style
  2025-12-28 v1.0.0 Initial release
 ================================================================================
 #>
@@ -142,12 +143,12 @@ if ([string]::IsNullOrWhiteSpace($SiteToken)) {
 
 if ($errorOccurred) {
     Write-Host ""
-    Write-Host "[ ERROR OCCURRED ]"
-    Write-Host "--------------------------------------------------------------"
+    Write-Host "[ERROR] VALIDATION FAILED"
+    Write-Host "=============================================================="
     Write-Host $errorText
     Write-Host ""
-    Write-Host "[ SCRIPT COMPLETED ]"
-    Write-Host "--------------------------------------------------------------"
+    Write-Host "[ERROR] SCRIPT COMPLETED"
+    Write-Host "=============================================================="
     exit 1
 }
 
@@ -178,8 +179,8 @@ function Test-SentinelOneInstalled {
 
 # ==== RUNTIME OUTPUT ====
 Write-Host ""
-Write-Host "[ INPUT VALIDATION ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[INFO] INPUT VALIDATION"
+Write-Host "=============================================================="
 $maskedToken = if ($SiteToken.Length -gt 10) { $SiteToken.Substring(0,10) + "***" } else { "***" }
 Write-Host "Site Token       : $maskedToken"
 Write-Host "Architecture     : $archDisplay"
@@ -187,8 +188,8 @@ Write-Host "Installer Type   : $(if ($UseExe) { 'EXE' } else { 'MSI' })"
 
 # ==== PRE-CHECK ====
 Write-Host ""
-Write-Host "[ PRE-CHECK ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[RUN] PRE-CHECK"
+Write-Host "=============================================================="
 Write-Host "Checking for existing installation..."
 
 $existingPath = Test-SentinelOneInstalled
@@ -196,12 +197,12 @@ if ($existingPath) {
     if ($SkipIfInstalled) {
         Write-Host "SentinelOne already installed at: $existingPath"
         Write-Host ""
-        Write-Host "[ FINAL STATUS ]"
-        Write-Host "--------------------------------------------------------------"
+        Write-Host "[OK] FINAL STATUS"
+        Write-Host "=============================================================="
         Write-Host "Result : SUCCESS (already installed)"
         Write-Host ""
-        Write-Host "[ SCRIPT COMPLETED ]"
-        Write-Host "--------------------------------------------------------------"
+        Write-Host "[OK] SCRIPT COMPLETED"
+        Write-Host "=============================================================="
         exit 0
     } else {
         Write-Host "SentinelOne detected, reinstalling..."
@@ -212,8 +213,8 @@ if ($existingPath) {
 
 # ==== DOWNLOAD ====
 Write-Host ""
-Write-Host "[ DOWNLOAD ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[RUN] DOWNLOAD"
+Write-Host "=============================================================="
 
 $installerExt = if ($UseExe) { "exe" } else { "msi" }
 $installerPath = "$TempPath\SentinelOneInstaller.$installerExt"
@@ -237,19 +238,19 @@ try {
     }
 } catch {
     Write-Host ""
-    Write-Host "[ ERROR OCCURRED ]"
-    Write-Host "--------------------------------------------------------------"
+    Write-Host "[ERROR] DOWNLOAD FAILED"
+    Write-Host "=============================================================="
     Write-Host "Download failed: $($_.Exception.Message)"
     Write-Host ""
-    Write-Host "[ SCRIPT COMPLETED ]"
-    Write-Host "--------------------------------------------------------------"
+    Write-Host "[ERROR] SCRIPT COMPLETED"
+    Write-Host "=============================================================="
     exit 1
 }
 
 # ==== INSTALLATION ====
 Write-Host ""
-Write-Host "[ INSTALLATION ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[RUN] INSTALLATION"
+Write-Host "=============================================================="
 
 try {
     Write-Host "Starting silent installation..."
@@ -268,19 +269,19 @@ try {
 
 } catch {
     Write-Host ""
-    Write-Host "[ ERROR OCCURRED ]"
-    Write-Host "--------------------------------------------------------------"
+    Write-Host "[ERROR] INSTALLATION FAILED"
+    Write-Host "=============================================================="
     Write-Host "Installation failed: $($_.Exception.Message)"
     Write-Host ""
-    Write-Host "[ SCRIPT COMPLETED ]"
-    Write-Host "--------------------------------------------------------------"
+    Write-Host "[ERROR] SCRIPT COMPLETED"
+    Write-Host "=============================================================="
     exit 1
 }
 
 # ==== VERIFICATION ====
 Write-Host ""
-Write-Host "[ VERIFICATION ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[RUN] VERIFICATION"
+Write-Host "=============================================================="
 
 $verified = $false
 $attempt = 0
@@ -300,20 +301,20 @@ while (-not $verified -and $attempt -lt $MaxVerifyAttempts) {
 if (-not $verified) {
     Write-Host "SentinelOne not detected after $MaxVerifyAttempts attempts"
     Write-Host ""
-    Write-Host "[ FINAL STATUS ]"
-    Write-Host "--------------------------------------------------------------"
+    Write-Host "[ERROR] FINAL STATUS"
+    Write-Host "=============================================================="
     Write-Host "Result : FAILED - Installation could not be verified"
     Write-Host ""
-    Write-Host "[ SCRIPT COMPLETED ]"
-    Write-Host "--------------------------------------------------------------"
+    Write-Host "[ERROR] SCRIPT COMPLETED"
+    Write-Host "=============================================================="
     exit 1
 }
 
 # ==== CLEANUP ====
 if ($CleanupAfter) {
     Write-Host ""
-    Write-Host "[ CLEANUP ]"
-    Write-Host "--------------------------------------------------------------"
+    Write-Host "[RUN] CLEANUP"
+    Write-Host "=============================================================="
     try {
         Remove-Item -Path $TempPath -Recurse -Force -ErrorAction SilentlyContinue
         Write-Host "Temporary files removed"
@@ -324,11 +325,11 @@ if ($CleanupAfter) {
 
 # ==== FINAL STATUS ====
 Write-Host ""
-Write-Host "[ FINAL STATUS ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[OK] FINAL STATUS"
+Write-Host "=============================================================="
 Write-Host "Result : SUCCESS"
 
 Write-Host ""
-Write-Host "[ SCRIPT COMPLETED ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[OK] SCRIPT COMPLETED"
+Write-Host "=============================================================="
 exit 0

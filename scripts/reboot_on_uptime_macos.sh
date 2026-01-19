@@ -7,9 +7,9 @@
 # ███████╗██║██║ ╚═╝ ██║███████╗██║  ██║██║  ██║╚███╔███╔╝██║  ██╗
 # ╚══════╝╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚══╝╚══╝ ╚═╝  ╚═╝
 # ================================================================================
-#  SCRIPT   : Reboot on Uptime Threshold                                   v1.1.0
+#  SCRIPT   : Reboot on Uptime Threshold                                   v1.1.1
 #  AUTHOR   : Limehawk.io
-#  DATE     : December 2025
+#  DATE     : January 2026
 #  USAGE    : sudo ./reboot_on_uptime_macos.sh
 # ================================================================================
 #  FILE     : reboot_on_uptime_macos.sh
@@ -67,18 +67,22 @@
 #
 #  EXAMPLE RUN
 #
-#    [ UPTIME CHECK ]
-#    --------------------------------------------------------------
-#     Current Uptime      : 21 days
-#     Threshold           : 14 days
+#    [INFO] UPTIME CHECK
+#    ==============================================================
+#    Current Uptime : 21 days
+#    Threshold      : 14 days
 #
-#    [ FINAL STATUS ]
-#    --------------------------------------------------------------
-#     Uptime exceeds threshold. Rebooting now...
+#    [RUN] FINAL STATUS
+#    ==============================================================
+#    Uptime exceeds threshold. Rebooting now...
+#
+#    [RUN] REBOOTING
+#    ==============================================================
 #
 # --------------------------------------------------------------------------------
 #  CHANGELOG
 # --------------------------------------------------------------------------------
+#  2026-01-19 v1.1.1 Updated to two-line ASCII console output style
 #  2025-12-23 v1.1.0 Updated to Limehawk Script Framework
 #  2024-01-01 v1.0.0 Initial release
 # ================================================================================
@@ -96,8 +100,8 @@ max_uptime_days=14
 # ============================================================================
 
 echo ""
-echo "[ UPTIME CHECK ]"
-echo "--------------------------------------------------------------"
+echo "[INFO] UPTIME CHECK"
+echo "=============================================================="
 
 # Get uptime in days based on OS
 if [[ -f /proc/uptime ]]; then
@@ -112,29 +116,33 @@ elif [[ "$(uname)" == "Darwin" ]]; then
     uptime_days=$((uptime_seconds / 86400))
 else
     echo ""
-    echo "[ ERROR OCCURRED ]"
-    echo "--------------------------------------------------------------"
+    echo "[ERROR] ERROR OCCURRED"
+    echo "=============================================================="
     echo "Unable to determine uptime on this system"
     echo ""
     exit 1
 fi
 
-echo " Current Uptime      : ${uptime_days} days"
-echo " Threshold           : ${max_uptime_days} days"
-
-echo ""
-echo "[ FINAL STATUS ]"
-echo "--------------------------------------------------------------"
+echo "Current Uptime : ${uptime_days} days"
+echo "Threshold      : ${max_uptime_days} days"
 
 if [[ "$uptime_days" -gt "$max_uptime_days" ]]; then
-    echo " Uptime exceeds threshold. Rebooting now..."
+    echo ""
+    echo "[RUN] FINAL STATUS"
+    echo "=============================================================="
+    echo "Uptime exceeds threshold. Rebooting now..."
+    echo ""
+    echo "[RUN] REBOOTING"
+    echo "=============================================================="
     sudo reboot
 else
-    echo " Uptime within acceptable range. No reboot needed."
+    echo ""
+    echo "[OK] FINAL STATUS"
+    echo "=============================================================="
+    echo "Uptime within acceptable range. No reboot needed."
+    echo ""
+    echo "[OK] SCRIPT COMPLETED"
+    echo "=============================================================="
 fi
-
-echo ""
-echo "[ SCRIPT COMPLETE ]"
-echo "--------------------------------------------------------------"
 
 exit 0

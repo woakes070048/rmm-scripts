@@ -8,9 +8,9 @@ $ErrorActionPreference = 'Stop'
 ╚══════╝╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚══╝╚══╝ ╚═╝  ╚═╝
 
 ================================================================================
-SCRIPT  : Windows 11 Compatibility Check v1.0.1
+SCRIPT  : Windows 11 Compatibility Check v1.0.2
 AUTHOR  : Limehawk.io
-DATE      : December 2025
+DATE      : January 2026
 USAGE   : .\win11_compatibility_check.ps1
 FILE    : win11_compatibility_check.ps1
 DESCRIPTION : Checks hardware requirements for Windows 11 upgrade
@@ -51,43 +51,45 @@ EXIT CODES:
     1 = Not compatible with Windows 11
 
 EXAMPLE RUN:
-    [ PROCESSOR CHECK ]
-    --------------------------------------------------------------
+
+    [RUN] PROCESSOR CHECK
+    ==============================================================
     Processor            : Intel(R) Core(TM) i7-10700 CPU @ 2.90GHz
     Cores                : 8
     Cores Compatible     : Yes
 
-    [ MEMORY CHECK ]
-    --------------------------------------------------------------
+    [RUN] MEMORY CHECK
+    ==============================================================
     Total RAM            : 16 GB
     RAM Compatible       : Yes
 
-    [ STORAGE CHECK ]
-    --------------------------------------------------------------
+    [RUN] STORAGE CHECK
+    ==============================================================
     System Disk Size     : 512 GB
     Storage Compatible   : Yes
 
-    [ TPM CHECK ]
-    --------------------------------------------------------------
+    [RUN] TPM CHECK
+    ==============================================================
     TPM Present          : Yes
     TPM Version          : 2.0
     TPM Compatible       : Yes
 
-    [ SECURE BOOT CHECK ]
-    --------------------------------------------------------------
+    [RUN] SECURE BOOT CHECK
+    ==============================================================
     Secure Boot Available: Yes
     Secure Boot Enabled  : Yes
 
-    [ FINAL STATUS ]
-    --------------------------------------------------------------
+    [OK] FINAL STATUS
+    ==============================================================
     Windows 11 Compatible: YES
     SCRIPT SUCCEEDED
 
-    [ SCRIPT COMPLETED ]
-    --------------------------------------------------------------
+    [OK] SCRIPT COMPLETED
+    ==============================================================
 
 CHANGELOG
 --------------------------------------------------------------------------------
+2026-01-19 v1.0.2 Updated to two-line ASCII console output style
 2025-12-23 v1.0.1 Updated to Limehawk Script Framework
 2024-12-01 v1.0.0 Initial release - migrated from SuperOps (removed module dependency)
 ================================================================================
@@ -98,15 +100,15 @@ Set-StrictMode -Version Latest
 # HELPER FUNCTIONS
 # ============================================================================
 function Write-Section {
-    param([string]$title)
+    param([string]$prefix, [string]$title)
     Write-Host ""
-    Write-Host ("[ {0} ]" -f $title)
-    Write-Host ("-" * 62)
+    Write-Host ("[{0}] {1}" -f $prefix, $title)
+    Write-Host "=============================================================="
 }
 
 function PrintKV([string]$label, [string]$value) {
     $lbl = $label.PadRight(24)
-    Write-Host (" {0} : {1}" -f $lbl, $value)
+    Write-Host ("{0} : {1}" -f $lbl, $value)
 }
 
 # ============================================================================
@@ -117,7 +119,7 @@ try {
     $issues = @()
 
     # Processor Check
-    Write-Section "PROCESSOR CHECK"
+    Write-Section "RUN" "PROCESSOR CHECK"
 
     $Processor = Get-WmiObject -Class Win32_Processor
     $ProcessorName = $Processor.Name
@@ -144,7 +146,7 @@ try {
     }
 
     # Memory Check
-    Write-Section "MEMORY CHECK"
+    Write-Section "RUN" "MEMORY CHECK"
 
     $RAM = [math]::Round((Get-WmiObject -Class Win32_PhysicalMemory | Measure-Object Capacity -Sum).Sum / 1GB, 1)
     $RAMCompatible = $RAM -ge 4
@@ -158,7 +160,7 @@ try {
     }
 
     # Storage Check
-    Write-Section "STORAGE CHECK"
+    Write-Section "RUN" "STORAGE CHECK"
 
     $Disk = Get-WmiObject -Class Win32_LogicalDisk | Where-Object { $_.DeviceID -eq "C:" }
     $DiskSize = [math]::Round($Disk.Size / 1GB, 0)
@@ -173,7 +175,7 @@ try {
     }
 
     # TPM Check
-    Write-Section "TPM CHECK"
+    Write-Section "RUN" "TPM CHECK"
 
     $TPMCompatible = $false
     try {
@@ -203,7 +205,7 @@ try {
     }
 
     # Secure Boot Check
-    Write-Section "SECURE BOOT CHECK"
+    Write-Section "RUN" "SECURE BOOT CHECK"
 
     $SecureBootAvailable = $false
     $SecureBootEnabled = $false
@@ -229,7 +231,7 @@ try {
     }
 
     # UEFI Check
-    Write-Section "FIRMWARE CHECK"
+    Write-Section "RUN" "FIRMWARE CHECK"
 
     $FirmwareType = "Unknown"
     try {
@@ -258,34 +260,30 @@ try {
     }
 
     # Final Status
-    Write-Section "FINAL STATUS"
-
     if ($IsCompatible) {
+        Write-Section "OK" "FINAL STATUS"
         PrintKV "Windows 11 Compatible" "YES"
-        Write-Host " SCRIPT SUCCEEDED"
+        Write-Host "SCRIPT SUCCEEDED"
         Write-Host ""
-        Write-Host " This device meets Windows 11 hardware requirements."
+        Write-Host "This device meets Windows 11 hardware requirements."
+        Write-Section "OK" "SCRIPT COMPLETED"
+        exit 0
     } else {
+        Write-Section "WARN" "FINAL STATUS"
         PrintKV "Windows 11 Compatible" "NO"
         Write-Host ""
-        Write-Host " Issues Found:"
+        Write-Host "Issues Found:"
         foreach ($issue in $issues) {
             Write-Host "  - $issue"
         }
-    }
-
-    Write-Section "SCRIPT COMPLETED"
-
-    if ($IsCompatible) {
-        exit 0
-    } else {
+        Write-Section "WARN" "SCRIPT COMPLETED"
         exit 1
     }
 }
 catch {
-    Write-Section "ERROR OCCURRED"
+    Write-Section "ERROR" "ERROR OCCURRED"
     PrintKV "Error Message" $_.Exception.Message
     PrintKV "Error Type" $_.Exception.GetType().FullName
-    Write-Section "SCRIPT HALTED"
+    Write-Section "ERROR" "SCRIPT HALTED"
     exit 1
 }

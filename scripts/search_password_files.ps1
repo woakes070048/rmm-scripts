@@ -7,7 +7,7 @@ $ErrorActionPreference = 'Stop'
 ███████╗██║██║ ╚═╝ ██║███████╗██║  ██║██║  ██║╚███╔███╔╝██║  ██╗
 ╚══════╝╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚══╝╚══╝ ╚═╝  ╚═╝
 ================================================================================
- SCRIPT   : Search Password Files                                        v1.3.0
+ SCRIPT   : Search Password Files                                        v1.3.1
  AUTHOR   : Limehawk.io
  DATE     : January 2026
  USAGE    : .\search_password_files.ps1
@@ -78,24 +78,24 @@ $ErrorActionPreference = 'Stop'
 
  EXAMPLE RUN
 
-   [ INPUT VALIDATION ]
-   --------------------------------------------------------------
+   [INFO] INPUT VALIDATION
+   ==============================================================
    All required inputs are valid
 
-   [ ENUMERATING USER PROFILES ]
-   --------------------------------------------------------------
+   [INFO] ENUMERATING USER PROFILES
+   ==============================================================
    Found 3 user profiles
    Profile : Administrator
    Profile : JohnDoe
    Profile : Guest
 
-   [ SEARCHING FILESYSTEM ]
-   --------------------------------------------------------------
+   [RUN] SEARCHING FILESYSTEM
+   ==============================================================
    Searching 18 directories across 3 profiles
    Search patterns: *password*, *credential*, *secret*, *creds*, *logins*
 
-   [ RESULTS ]
-   --------------------------------------------------------------
+   [INFO] RESULTS
+   ==============================================================
    Found 2 potential password files
 
    Path     : C:\Users\JohnDoe\Documents\passwords.xlsx
@@ -106,17 +106,18 @@ $ErrorActionPreference = 'Stop'
    Size     : 1.3 KB
    Modified : 2024-08-22
 
-   [ FINAL STATUS ]
-   --------------------------------------------------------------
+   [OK] FINAL STATUS
+   ==============================================================
    Result : SUCCESS
    Files Found : 2
 
-   [ SCRIPT COMPLETE ]
-   --------------------------------------------------------------
+   [OK] SCRIPT COMPLETED
+   ==============================================================
 
 --------------------------------------------------------------------------------
  CHANGELOG
 --------------------------------------------------------------------------------
+ 2026-01-19 v1.3.1 Updated to two-line ASCII console output style
  2026-01-13 v1.3.0 Add critical findings section for high-priority items (1Password kits, etc)
  2026-01-13 v1.2.0 Remove *secret* and *accounts* patterns to reduce false positives
  2026-01-13 v1.1.9 Wrap entire webhook message in code block
@@ -370,8 +371,8 @@ $fileList
 # INPUT VALIDATION
 # ============================================================================
 Write-Host ""
-Write-Host "[ INPUT VALIDATION ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[INFO] INPUT VALIDATION"
+Write-Host "=============================================================="
 
 if ($searchPatterns.Count -eq 0) {
     $errorOccurred = $true
@@ -393,8 +394,8 @@ if ($maxDepth -lt 1) {
 
 if ($errorOccurred) {
     Write-Host ""
-    Write-Host "[ ERROR OCCURRED ]"
-    Write-Host "--------------------------------------------------------------"
+    Write-Host "[ERROR] VALIDATION FAILED"
+    Write-Host "=============================================================="
     Write-Host $errorText
     Write-Host ""
     exit 1
@@ -406,8 +407,8 @@ Write-Host "All required inputs are valid"
 # ENUMERATE USER PROFILES
 # ============================================================================
 Write-Host ""
-Write-Host "[ ENUMERATING USER PROFILES ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[INFO] ENUMERATING USER PROFILES"
+Write-Host "=============================================================="
 
 $usersPath = "C:\Users"
 $userProfiles = @()
@@ -424,8 +425,8 @@ try {
 }
 catch {
     Write-Host ""
-    Write-Host "[ ERROR OCCURRED ]"
-    Write-Host "--------------------------------------------------------------"
+    Write-Host "[ERROR] ENUMERATION FAILED"
+    Write-Host "=============================================================="
     Write-Host "Failed to enumerate user profiles"
     Write-Host "Error : $($_.Exception.Message)"
     Write-Host ""
@@ -437,13 +438,13 @@ catch {
 if ($userProfiles.Count -eq 0) {
     Write-Host "No user profiles found"
     Write-Host ""
-    Write-Host "[ FINAL STATUS ]"
-    Write-Host "--------------------------------------------------------------"
+    Write-Host "[OK] FINAL STATUS"
+    Write-Host "=============================================================="
     Write-Host "Result : SUCCESS"
     Write-Host "Files Found : 0"
     Write-Host ""
-    Write-Host "[ SCRIPT COMPLETE ]"
-    Write-Host "--------------------------------------------------------------"
+    Write-Host "[OK] SCRIPT COMPLETED"
+    Write-Host "=============================================================="
     Write-Host ""
     exit 0
 }
@@ -481,8 +482,8 @@ $indexUsed = $false
 
 if ($useIndex) {
     Write-Host ""
-    Write-Host "[ SEARCHING INDEX ]"
-    Write-Host "--------------------------------------------------------------"
+    Write-Host "[RUN] SEARCHING INDEX"
+    Write-Host "=============================================================="
     Write-Host "Attempting Windows Search Index query"
 
     $indexResults = Search-WithIndex -Patterns $searchPatterns -Paths $targetPaths
@@ -500,8 +501,8 @@ if ($useIndex) {
 
 if (-not $indexUsed) {
     Write-Host ""
-    Write-Host "[ SEARCHING FILESYSTEM ]"
-    Write-Host "--------------------------------------------------------------"
+    Write-Host "[RUN] SEARCHING FILESYSTEM"
+    Write-Host "=============================================================="
     Write-Host "Searching $($targetPaths.Count) directories across $($userProfiles.Count) profile(s)"
     Write-Host "Search patterns : $($searchPatterns -join ', ')"
     Write-Host "Max depth : $maxDepth"
@@ -513,8 +514,8 @@ if (-not $indexUsed) {
 # RESULTS
 # ============================================================================
 Write-Host ""
-Write-Host "[ RESULTS ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[INFO] RESULTS"
+Write-Host "=============================================================="
 
 $uniqueFiles = $foundFiles | Sort-Object -Property Path -Unique
 
@@ -571,8 +572,8 @@ else {
     # Send webhook alert (skip if blank or placeholder not replaced)
     $webhookConfigured = -not [string]::IsNullOrWhiteSpace($googleChatWebhookUrl) -and $googleChatWebhookUrl -ne ('$' + 'GoogleChatWebhook')
     if ($webhookConfigured) {
-        Write-Host "[ WEBHOOK ALERT ]"
-        Write-Host "--------------------------------------------------------------"
+        Write-Host "[INFO] WEBHOOK ALERT"
+        Write-Host "=============================================================="
         $hostname = $env:COMPUTERNAME
         $sent = Send-GoogleChatAlert -WebhookUrl $googleChatWebhookUrl -Hostname $hostname -FileCount $uniqueFiles.Count -Files $uniqueFiles -CriticalFiles $criticalFiles
         if ($sent) {
@@ -585,16 +586,17 @@ else {
 # ============================================================================
 # FINAL STATUS
 # ============================================================================
-Write-Host "[ FINAL STATUS ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host ""
+Write-Host "[OK] FINAL STATUS"
+Write-Host "=============================================================="
 Write-Host "Result : SUCCESS"
 Write-Host "Files Found : $($uniqueFiles.Count)"
 Write-Host "Critical : $($criticalFiles.Count)"
 Write-Host "Search Method : $(if ($indexUsed) { 'Windows Search Index' } else { 'Filesystem' })"
 
 Write-Host ""
-Write-Host "[ SCRIPT COMPLETE ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[OK] SCRIPT COMPLETED"
+Write-Host "=============================================================="
 Write-Host ""
 
 exit 0

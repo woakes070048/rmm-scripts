@@ -7,9 +7,9 @@
 # ███████╗██║██║ ╚═╝ ██║███████╗██║  ██║██║  ██║╚███╔███╔╝██║  ██╗
 # ╚══════╝╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚══╝╚══╝ ╚═╝  ╚═╝
 # ================================================================================
-#  SCRIPT   : Dokploy Orphaned Volumes Cleanup                             v1.1.0
+#  SCRIPT   : Dokploy Orphaned Volumes Cleanup                             v1.1.1
 #  AUTHOR   : Limehawk.io
-#  DATE     : December 2025
+#  DATE     : January 2026
 #  USAGE    : sudo ./dokploy_orphaned_volumes_cleanup.sh
 # ================================================================================
 #  FILE     : dokploy_orphaned_volumes_cleanup.sh
@@ -56,41 +56,46 @@
 #
 #  EXAMPLE OUTPUT
 #  -----------------------------------------------------------------------
-#  ===================================
-#  Dokploy Orphaned Volumes Finder
-#  ===================================
 #
-#  Step 1: Scanning containers for volume usage...
-#    ✓ Scanned 15 containers
+#    [RUN] SCANNING CONTAINERS
+#    ==============================================================
+#    Scanning containers for volume usage...
+#    Scanned 15 containers
 #
-#  Step 2: Scanning Docker Swarm services for volume usage...
-#    ✓ Scanned 3 Swarm services
+#    [RUN] SCANNING SWARM SERVICES
+#    ==============================================================
+#    Scanning Docker Swarm services for volume usage...
+#    Scanned 3 Swarm services
 #
-#  Step 3: Getting all volumes on system...
-#    ✓ Found 20 total volumes
-#    ✓ Found 18 volumes in use
+#    [RUN] ANALYZING VOLUMES
+#    ==============================================================
+#    Getting all volumes on system...
+#    Found 20 total volumes
+#    Found 18 volumes in use
 #
-#  Step 4: Identifying orphaned volumes...
+#    [INFO] ORPHANED VOLUMES FOUND
+#    ==============================================================
+#    Found 2 orphaned volume(s):
 #
-#  Found 2 orphaned volume(s):
+#    Volume: old_app_data
+#      Created: 2024-10-15 14:23:45
+#      Driver: local
+#      Size: 2.3G
+#      Path: /var/lib/docker/volumes/old_app_data/_data
+#      Status: NOT USED by any container or service
 #
-#  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-#  Volume: old_app_data
-#    Created: 2024-10-15 14:23:45
-#    Driver: local
-#    Size: 2.3G
-#    Path: /var/lib/docker/volumes/old_app_data/_data
-#    Status: ⚠️  NOT USED by any container or service
-#  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+#    [RUN] REMOVING VOLUMES
+#    ==============================================================
+#    Removing 2 orphaned volumes...
+#    Done!
 #
-#  ===================================
-#
-#  Removing 2 orphaned volumes...
-#  Done!
+#    [OK] SCRIPT COMPLETED
+#    ==============================================================
 #
 # --------------------------------------------------------------------------------
 #  CHANGELOG
 # --------------------------------------------------------------------------------
+#  2026-01-19 v1.1.1 Updated to two-line ASCII console output style
 #  2025-12-23 v1.1.0 Updated to Limehawk Script Framework
 #  2024-11-18 v1.0.0 Initial release
 # ================================================================================
@@ -102,39 +107,41 @@ AUTO_REMOVE=true                      # Set to true to automatically remove orph
                                       # Set to false to only list them (safe mode)
 # ============================================================================
 
-echo "==================================="
-echo "Dokploy Orphaned Volumes Finder"
-echo "==================================="
 echo ""
-
-echo "Step 1: Scanning containers for volume usage..."
+echo "[RUN] SCANNING CONTAINERS"
+echo "=============================================================="
+echo "Scanning containers for volume usage..."
 # Get all volumes that are attached to any container (running or stopped)
 used_volumes=$(docker ps -aq | xargs -r docker inspect --format '{{range .Mounts}}{{if eq .Type "volume"}}{{.Name}}{{"\n"}}{{end}}{{end}}' 2>/dev/null | sort -u)
 container_count=$(docker ps -aq | wc -l)
-echo "  ✓ Scanned $container_count containers"
+echo "Scanned $container_count containers"
 
 echo ""
-echo "Step 2: Scanning Docker Swarm services for volume usage..."
+echo "[RUN] SCANNING SWARM SERVICES"
+echo "=============================================================="
+echo "Scanning Docker Swarm services for volume usage..."
 # Also check Docker Swarm services for volumes
 swarm_volumes=$(docker service ls -q 2>/dev/null | xargs -r docker service inspect --format '{{range .Spec.TaskTemplate.ContainerSpec.Mounts}}{{if eq .Type "volume"}}{{.Source}}{{"\n"}}{{end}}{{end}}' 2>/dev/null | sort -u)
 service_count=$(docker service ls -q 2>/dev/null | wc -l)
-echo "  ✓ Scanned $service_count Swarm services"
+echo "Scanned $service_count Swarm services"
 
 # Combine both lists
 all_used_volumes=$(echo -e "$used_volumes\n$swarm_volumes" | grep -v '^$' | sort -u)
 used_count=$(echo "$all_used_volumes" | grep -v '^$' | wc -l)
 
 echo ""
-echo "Step 3: Getting all volumes on system..."
+echo "[RUN] ANALYZING VOLUMES"
+echo "=============================================================="
+echo "Getting all volumes on system..."
 # Get all volumes
 all_volumes=$(docker volume ls -q)
 total_volume_count=$(echo "$all_volumes" | wc -l)
-echo "  ✓ Found $total_volume_count total volumes"
-echo "  ✓ Found $used_count volumes in use"
+echo "Found $total_volume_count total volumes"
+echo "Found $used_count volumes in use"
 
 echo ""
-echo "Step 4: Identifying orphaned volumes..."
-echo ""
+echo "[INFO] IDENTIFYING ORPHANED VOLUMES"
+echo "=============================================================="
 
 # Find orphaned volumes (volumes that exist but aren't in the used list)
 orphaned_volumes=()
@@ -148,7 +155,7 @@ done
 
 # Display results
 if [ ${#orphaned_volumes[@]} -eq 0 ]; then
-    echo "✓ No orphaned volumes found!"
+    echo "No orphaned volumes found!"
     echo "All $total_volume_count volumes are attached to containers or services."
 else
     echo "Found ${#orphaned_volumes[@]} orphaned volume(s):"
@@ -166,29 +173,26 @@ else
             size="Unknown"
         fi
 
-        echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
         echo "Volume: $volume"
         echo "  Created: $created"
         echo "  Driver: $driver"
         echo "  Size: $size"
         echo "  Path: $mountpoint"
-        echo "  Status: ⚠️  NOT USED by any container or service"
+        echo "  Status: NOT USED by any container or service"
+        echo ""
     done
 
-    echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-    echo ""
-
     if [ "$AUTO_REMOVE" = false ]; then
+        echo ""
+        echo "[WARN] MANUAL REMOVAL REQUIRED"
+        echo "=============================================================="
         echo "To remove these orphaned volumes:"
         echo "  1. Set AUTO_REMOVE=true at the top of this script"
         echo "  2. Or manually remove: docker volume rm <volume_name>"
         echo ""
-        echo "⚠️  WARNING: Verify you don't need these volumes before removing!"
+        echo "WARNING: Verify you don't need these volumes before removing!"
     fi
 fi
-
-echo ""
-echo "==================================="
 
 # ===================================================================
 # AUTOMATIC REMOVAL SECTION
@@ -196,6 +200,8 @@ echo "==================================="
 
 if [ "$AUTO_REMOVE" = true ] && [ ${#orphaned_volumes[@]} -gt 0 ]; then
     echo ""
+    echo "[RUN] REMOVING VOLUMES"
+    echo "=============================================================="
     echo "Removing ${#orphaned_volumes[@]} orphaned volumes..."
 
     # Just remove them all at once
@@ -205,6 +211,9 @@ if [ "$AUTO_REMOVE" = true ] && [ ${#orphaned_volumes[@]} -gt 0 ]; then
 
     echo "Done!"
 elif [ "$AUTO_REMOVE" = true ] && [ ${#orphaned_volumes[@]} -eq 0 ]; then
-    echo ""
     echo "No orphaned volumes to remove."
 fi
+
+echo ""
+echo "[OK] SCRIPT COMPLETED"
+echo "=============================================================="

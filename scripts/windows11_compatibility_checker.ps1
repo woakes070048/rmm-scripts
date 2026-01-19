@@ -8,9 +8,9 @@ $ErrorActionPreference = 'Stop'
 ███████╗██║██║ ╚═╝ ██║███████╗██║  ██║██║  ██║╚███╔███╔╝██║  ██╗
 ╚══════╝╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚══╝╚══╝ ╚═╝  ╚═╝
 ================================================================================
- SCRIPT   : Windows 11 Compatibility Checker                             v1.0.1
+ SCRIPT   : Windows 11 Compatibility Checker                             v1.0.2
  AUTHOR   : Limehawk.io
- DATE      : December 2025
+ DATE      : January 2026
  USAGE    : .\windows11_compatibility_checker.ps1
 ================================================================================
  FILE     : windows11_compatibility_checker.ps1
@@ -78,67 +78,68 @@ DESCRIPTION : Checks TPM, SecureBoot, RAM, CPU compatibility for Windows 11
 
  EXAMPLE RUN
 
- [ INPUT VALIDATION ]
- --------------------------------------------------------------
+ [INFO] INPUT VALIDATION
+ ==============================================================
  MinimumRamGB     : 4
  MinimumStorageGB : 64
  AttemptAutoFix   : False
  CheckOnly        : True
 
- [ TPM CHECK ]
- --------------------------------------------------------------
+ [RUN] TPM CHECK
+ ==============================================================
  TPM Version      : 2.0
  TPM Present      : True
  TPM Enabled      : True
  TPM Activated    : True
  Result           : Pass
 
- [ SECURE BOOT CHECK ]
- --------------------------------------------------------------
+ [RUN] SECURE BOOT CHECK
+ ==============================================================
  Secure Boot Capable : True
  Secure Boot Enabled : True
  Result              : Pass
 
- [ CPU COMPATIBILITY CHECK ]
- --------------------------------------------------------------
+ [RUN] CPU COMPATIBILITY CHECK
+ ==============================================================
  CPU Name         : Intel Core i7-10700
  CPU Family       : Intel
  Result           : Pass
 
- [ RAM CHECK ]
- --------------------------------------------------------------
+ [RUN] RAM CHECK
+ ==============================================================
  Total RAM        : 16.00 GB
  Required RAM     : 4 GB
  Result           : Pass
 
- [ STORAGE CHECK ]
- --------------------------------------------------------------
+ [RUN] STORAGE CHECK
+ ==============================================================
  System Drive     : C:
  Available Space  : 250.00 GB
  Required Space   : 64 GB
  Result           : Pass
 
- [ FIRMWARE CHECK ]
- --------------------------------------------------------------
+ [RUN] FIRMWARE CHECK
+ ==============================================================
  Firmware Type    : UEFI
  Result           : Pass
 
- [ COMPATIBILITY SUMMARY ]
- --------------------------------------------------------------
+ [OK] COMPATIBILITY SUMMARY
+ ==============================================================
  Total Checks     : 6
  Checks Passed    : 6
  Checks Failed    : 0
  Overall Status   : Compatible
 
- [ FINAL STATUS ]
- --------------------------------------------------------------
+ [OK] FINAL STATUS
+ ==============================================================
  This system is ready for Windows 11 upgrade.
 
- [ SCRIPT COMPLETED ]
- --------------------------------------------------------------
+ [OK] SCRIPT COMPLETED
+ ==============================================================
 --------------------------------------------------------------------------------
  CHANGELOG
 --------------------------------------------------------------------------------
+ 2026-01-19 v1.0.2 Updated to two-line ASCII console output style
  2025-12-23 v1.0.1 Updated to Limehawk Script Framework
  2025-11-02 v1.0.0 Initial Style A compliant release with Windows 11 compatibility checking and optional auto-fix capability
 ================================================================================
@@ -184,31 +185,25 @@ if ($CheckOnly -isnot [bool]) {
 
 if ($errorOccurred) {
     Write-Host ""
-    Write-Host "[ ERROR OCCURRED ]"
-    Write-Host "--------------------------------------------------------------"
-    Write-Host "Input validation failed:"
+    Write-Host "[ERROR] INPUT VALIDATION FAILED"
+    Write-Host "=============================================================="
     Write-Host $errorText
 
     Write-Host ""
-    Write-Host "[ RESULT ]"
-    Write-Host "--------------------------------------------------------------"
-    Write-Host "Status : Failure"
-
-    Write-Host ""
-    Write-Host "[ FINAL STATUS ]"
-    Write-Host "--------------------------------------------------------------"
+    Write-Host "[ERROR] FINAL STATUS"
+    Write-Host "=============================================================="
     Write-Host "Script cannot proceed due to invalid hardcoded inputs."
 
     Write-Host ""
-    Write-Host "[ SCRIPT COMPLETED ]"
-    Write-Host "--------------------------------------------------------------"
+    Write-Host "[ERROR] SCRIPT COMPLETED"
+    Write-Host "=============================================================="
     exit 2
 }
 
 # ==== RUNTIME OUTPUT (Style A) ====
 Write-Host ""
-Write-Host "[ INPUT VALIDATION ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[INFO] INPUT VALIDATION"
+Write-Host "=============================================================="
 Write-Host "MinimumRamGB     : $MinimumRamGB"
 Write-Host "MinimumStorageGB : $MinimumStorageGB"
 Write-Host "AttemptAutoFix   : $AttemptAutoFix"
@@ -236,8 +231,8 @@ function Format-BytesToGB {
 
 # ==== TPM CHECK ====
 Write-Host ""
-Write-Host "[ TPM CHECK ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[RUN] TPM CHECK"
+Write-Host "=============================================================="
 
 $checksRun++
 $tpmPass = $false
@@ -298,8 +293,8 @@ try {
 
 # ==== SECURE BOOT CHECK ====
 Write-Host ""
-Write-Host "[ SECURE BOOT CHECK ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[RUN] SECURE BOOT CHECK"
+Write-Host "=============================================================="
 
 $checksRun++
 $secureBootPass = $false
@@ -330,8 +325,8 @@ try {
 
 # ==== CPU COMPATIBILITY CHECK ====
 Write-Host ""
-Write-Host "[ CPU COMPATIBILITY CHECK ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[RUN] CPU COMPATIBILITY CHECK"
+Write-Host "=============================================================="
 
 $checksRun++
 $cpuPass = $false
@@ -381,8 +376,8 @@ try {
 
 # ==== RAM CHECK ====
 Write-Host ""
-Write-Host "[ RAM CHECK ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[RUN] RAM CHECK"
+Write-Host "=============================================================="
 
 $checksRun++
 $ramPass = $false
@@ -416,8 +411,8 @@ try {
 
 # ==== STORAGE CHECK ====
 Write-Host ""
-Write-Host "[ STORAGE CHECK ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[RUN] STORAGE CHECK"
+Write-Host "=============================================================="
 
 $checksRun++
 $storagePass = $false
@@ -454,8 +449,8 @@ try {
 
 # ==== FIRMWARE CHECK ====
 Write-Host ""
-Write-Host "[ FIRMWARE CHECK ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[RUN] FIRMWARE CHECK"
+Write-Host "=============================================================="
 
 $checksRun++
 $firmwarePass = $false
@@ -493,35 +488,46 @@ try {
 }
 
 # ==== COMPATIBILITY SUMMARY ====
-Write-Host ""
-Write-Host "[ COMPATIBILITY SUMMARY ]"
-Write-Host "--------------------------------------------------------------"
-Write-Host "Total Checks     : $checksRun"
-Write-Host "Checks Passed    : $checksPassed"
-Write-Host "Checks Failed    : $checksFailed"
-
 if ($checksFailed -eq 0) {
+    Write-Host ""
+    Write-Host "[OK] COMPATIBILITY SUMMARY"
+    Write-Host "=============================================================="
+    Write-Host "Total Checks     : $checksRun"
+    Write-Host "Checks Passed    : $checksPassed"
+    Write-Host "Checks Failed    : $checksFailed"
     Write-Host "Overall Status   : Compatible"
 } else {
+    Write-Host ""
+    Write-Host "[WARN] COMPATIBILITY SUMMARY"
+    Write-Host "=============================================================="
+    Write-Host "Total Checks     : $checksRun"
+    Write-Host "Checks Passed    : $checksPassed"
+    Write-Host "Checks Failed    : $checksFailed"
     Write-Host "Overall Status   : Not Compatible"
 }
 
 # ==== BLOCKERS ====
 if ($checksFailed -gt 0) {
     Write-Host ""
-    Write-Host "[ COMPATIBILITY BLOCKERS ]"
-    Write-Host "--------------------------------------------------------------"
+    Write-Host "[WARN] COMPATIBILITY BLOCKERS"
+    Write-Host "=============================================================="
     Write-Host $blockersText
 }
 
 # ==== FINAL STATUS ====
-Write-Host ""
-Write-Host "[ FINAL STATUS ]"
-Write-Host "--------------------------------------------------------------"
-
 if ($checksFailed -eq 0) {
+    Write-Host ""
+    Write-Host "[OK] FINAL STATUS"
+    Write-Host "=============================================================="
     Write-Host "This system is ready for Windows 11 upgrade."
+    Write-Host ""
+    Write-Host "[OK] SCRIPT COMPLETED"
+    Write-Host "=============================================================="
+    exit 0
 } else {
+    Write-Host ""
+    Write-Host "[WARN] FINAL STATUS"
+    Write-Host "=============================================================="
     Write-Host "This system has $checksFailed blocker(s) preventing Windows 11 upgrade."
     Write-Host ""
     Write-Host "Recommended Actions:"
@@ -529,14 +535,8 @@ if ($checksFailed -eq 0) {
     Write-Host "- Enable TPM 2.0 in BIOS/UEFI if available"
     Write-Host "- Enable Secure Boot in BIOS/UEFI if available"
     Write-Host "- Upgrade hardware if CPU, RAM, or storage insufficient"
-}
-
-Write-Host ""
-Write-Host "[ SCRIPT COMPLETED ]"
-Write-Host "--------------------------------------------------------------"
-
-if ($checksFailed -eq 0) {
-    exit 0
-} else {
+    Write-Host ""
+    Write-Host "[WARN] SCRIPT COMPLETED"
+    Write-Host "=============================================================="
     exit 1
 }

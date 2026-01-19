@@ -7,9 +7,9 @@ $ErrorActionPreference = 'Stop'
 ███████╗██║██║ ╚═╝ ██║███████╗██║  ██║██║  ██║╚███╔███╔╝██║  ██╗
 ╚══════╝╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚══╝╚══╝ ╚═╝  ╚═╝
 ================================================================================
-SCRIPT  : Winget Package Installer v1.0.1
+SCRIPT  : Winget Package Installer v1.0.2
 AUTHOR  : Limehawk.io
-DATE      : December 2025
+DATE      : January 2026
 USAGE   : .\winget_install_package.ps1
 FILE    : winget_install_package.ps1
 DESCRIPTION : Installs software package using winget with SuperOps integration
@@ -55,30 +55,32 @@ README
    - 1 = Failure - installation failed or winget unavailable
 
  EXAMPLE RUN
-   [ INPUT VALIDATION ]
-   --------------------------------------------------------------
+
+   [INFO] INPUT VALIDATION
+   ==============================================================
    Software Name   : Google.Chrome
 
-   [ WINGET CHECK ]
-   --------------------------------------------------------------
+   [INFO] WINGET CHECK
+   ==============================================================
    Winget          : Available
    Version         : v1.7.10861
 
-   [ INSTALLATION ]
-   --------------------------------------------------------------
+   [RUN] INSTALLATION
+   ==============================================================
    Installing Google.Chrome...
    Installation complete
 
-   [ FINAL STATUS ]
-   --------------------------------------------------------------
+   [OK] FINAL STATUS
+   ==============================================================
    Status          : Success
    Package         : Google.Chrome installed
 
-   [ SCRIPT COMPLETED ]
-   --------------------------------------------------------------
+   [OK] SCRIPT COMPLETED
+   ==============================================================
 
 CHANGELOG
 --------------------------------------------------------------------------------
+2026-01-19 v1.0.2 Updated to two-line ASCII console output style
 2025-12-23 v1.0.1 Updated to Limehawk Script Framework
 2025-12-03 v1.0.0 Initial release - winget package installer for SuperOps
 ================================================================================
@@ -99,8 +101,8 @@ $errorOccurred = $false
 $errorText = ""
 
 Write-Host ""
-Write-Host "[ INPUT VALIDATION ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[INFO] INPUT VALIDATION"
+Write-Host "=============================================================="
 
 if ([string]::IsNullOrWhiteSpace($PackageId)) {
     $errorOccurred = $true
@@ -110,9 +112,8 @@ if ([string]::IsNullOrWhiteSpace($PackageId)) {
 
 if ($errorOccurred) {
     Write-Host ""
-    Write-Host "[ ERROR OCCURRED ]"
-    Write-Host "--------------------------------------------------------------"
-    Write-Host "Input validation failed:"
+    Write-Host "[ERROR] INPUT VALIDATION FAILED"
+    Write-Host "=============================================================="
     Write-Host $errorText
     Write-Host ""
     exit 1
@@ -125,8 +126,8 @@ Write-Host "Package ID      : $PackageId"
 # ============================================================================
 
 Write-Host ""
-Write-Host "[ WINGET CHECK ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[INFO] WINGET CHECK"
+Write-Host "=============================================================="
 
 $wingetPath = $null
 $runAsSystem = ([System.Security.Principal.WindowsIdentity]::GetCurrent().User.Value -eq "S-1-5-18")
@@ -153,8 +154,8 @@ try {
 
 if (-not $wingetPath) {
     Write-Host ""
-    Write-Host "[ ERROR OCCURRED ]"
-    Write-Host "--------------------------------------------------------------"
+    Write-Host "[ERROR] WINGET NOT AVAILABLE"
+    Write-Host "=============================================================="
     Write-Host "Winget is not installed or not available"
     Write-Host "Run winget_installer.ps1 first to install winget"
     Write-Host ""
@@ -177,8 +178,8 @@ Write-Host "Version         : $wingetVersion"
 # ============================================================================
 
 Write-Host ""
-Write-Host "[ INSTALLATION ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[RUN] INSTALLATION"
+Write-Host "=============================================================="
 
 Write-Host "Installing $PackageId..."
 
@@ -206,9 +207,8 @@ try {
     }
 } catch {
     Write-Host ""
-    Write-Host "[ ERROR OCCURRED ]"
-    Write-Host "--------------------------------------------------------------"
-    Write-Host "Installation failed"
+    Write-Host "[ERROR] INSTALLATION FAILED"
+    Write-Host "=============================================================="
     Write-Host "Error: $($_.Exception.Message)"
     Write-Host ""
     exit 1
@@ -218,23 +218,25 @@ try {
 # FINAL STATUS
 # ============================================================================
 
-Write-Host ""
-Write-Host "[ FINAL STATUS ]"
-Write-Host "--------------------------------------------------------------"
-
 if ($installSuccess) {
+    Write-Host ""
+    Write-Host "[OK] FINAL STATUS"
+    Write-Host "=============================================================="
     Write-Host "Status          : Success"
     Write-Host "Package         : $PackageId installed"
     Write-Host ""
-    Write-Host "[ SCRIPT COMPLETED ]"
-    Write-Host "--------------------------------------------------------------"
+    Write-Host "[OK] SCRIPT COMPLETED"
+    Write-Host "=============================================================="
     exit 0
 } else {
+    Write-Host ""
+    Write-Host "[ERROR] FINAL STATUS"
+    Write-Host "=============================================================="
     Write-Host "Status          : Failed"
     Write-Host "Package         : $PackageId"
     Write-Host "Action          : Check winget logs or try manual installation"
     Write-Host ""
-    Write-Host "[ SCRIPT COMPLETED ]"
-    Write-Host "--------------------------------------------------------------"
+    Write-Host "[ERROR] SCRIPT COMPLETED"
+    Write-Host "=============================================================="
     exit 1
 }

@@ -8,7 +8,7 @@ $ErrorActionPreference = 'Stop'
 ███████╗██║██║ ╚═╝ ██║███████╗██║  ██║██║  ██║╚███╔███╔╝██║  ██╗
 ╚══════╝╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚══╝╚══╝ ╚═╝  ╚═╝
 ================================================================================
- SCRIPT   : Dell Command Update                                         v2.1.2
+ SCRIPT   : Dell Command Update                                         v2.1.4
  AUTHOR   : Limehawk.io
  DATE     : January 2026
  USAGE    : .\dell_command_update.ps1
@@ -70,14 +70,14 @@ $ErrorActionPreference = 'Stop'
 
  EXAMPLE RUN
 
- [ INPUT VALIDATION ]
- --------------------------------------------------------------
+ [INFO] INPUT VALIDATION
+ ==============================================================
  DCU CLI Path : C:\Program Files\Dell\CommandUpdate\dcu-cli.exe
  DCU Log Path : C:\dell\logs
  Winget ID    : Dell.CommandUpdate
 
- [ OPERATION ]
- --------------------------------------------------------------
+ [RUN] OPERATION
+ ==============================================================
  Checking for winget...
  winget found
  Checking for Dell Command Update...
@@ -87,29 +87,31 @@ $ErrorActionPreference = 'Stop'
  Scanning for updates...
  Scan complete
 
- [ SCAN LOG ]
- --------------------------------------------------------------
+ [INFO] SCAN LOG
+ ==============================================================
  <Dell Command Update scan results displayed here>
 
- [ OPERATION ]
- --------------------------------------------------------------
+ [RUN] APPLY UPDATES
+ ==============================================================
  Applying updates...
  Updates applied
 
- [ APPLY UPDATES LOG ]
- --------------------------------------------------------------
+ [INFO] APPLY UPDATES LOG
+ ==============================================================
  <Dell Command Update apply results displayed here>
 
- [ RESULT ]
- --------------------------------------------------------------
+ [OK] RESULT
+ ==============================================================
  Status : Success
 
- [ SCRIPT COMPLETED ]
- --------------------------------------------------------------
+ [OK] SCRIPT COMPLETED
+ ==============================================================
 
 --------------------------------------------------------------------------------
  CHANGELOG
 --------------------------------------------------------------------------------
+ 2026-01-19 v2.1.4 Fixed EXAMPLE RUN section formatting
+ 2026-01-19 v2.1.3 Updated to two-line ASCII console output style
  2026-01-14 v2.1.2 Fixed header formatting for framework compliance
  2025-12-23 v2.1.1 Updated to Limehawk Script Framework
  2025-12-01 v2.1.0 Output scan and apply log contents to console for RMM visibility
@@ -148,23 +150,23 @@ if ([string]::IsNullOrWhiteSpace($WingetId)) {
 
 if ($errorOccurred) {
     Write-Host ""
-    Write-Host "[ ERROR OCCURRED ]"
-    Write-Host "--------------------------------------------------------------"
+    Write-Host "[ERROR] VALIDATION FAILED"
+    Write-Host "=============================================================="
     Write-Host $errorText
     exit 1
 }
 
 # ==== RUNTIME OUTPUT ====
 Write-Host ""
-Write-Host "[ INPUT VALIDATION ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[INFO] INPUT VALIDATION"
+Write-Host "=============================================================="
 Write-Host "DCU CLI Path : $DcuCliPath"
 Write-Host "DCU Log Path : $DcuLogPath"
 Write-Host "Winget ID    : $WingetId"
 
 Write-Host ""
-Write-Host "[ OPERATION ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[RUN] OPERATION"
+Write-Host "=============================================================="
 
 try {
     # Check for winget
@@ -220,8 +222,8 @@ try {
 
     # Output scan log
     Write-Host ""
-    Write-Host "[ SCAN LOG ]"
-    Write-Host "--------------------------------------------------------------"
+    Write-Host "[INFO] SCAN LOG"
+    Write-Host "=============================================================="
     if (Test-Path "$DcuLogPath\scan.log") {
         Get-Content "$DcuLogPath\scan.log" | ForEach-Object { Write-Host $_ }
     } else {
@@ -230,16 +232,16 @@ try {
 
     # Apply updates without rebooting
     Write-Host ""
-    Write-Host "[ OPERATION ]"
-    Write-Host "--------------------------------------------------------------"
+    Write-Host "[RUN] APPLY UPDATES"
+    Write-Host "=============================================================="
     Write-Host "Applying updates..."
     & $DcuCliPath /applyUpdates -reboot=disable -outputLog="$DcuLogPath\applyUpdates.log"
     Write-Host "Updates applied"
 
     # Output apply log
     Write-Host ""
-    Write-Host "[ APPLY UPDATES LOG ]"
-    Write-Host "--------------------------------------------------------------"
+    Write-Host "[INFO] APPLY UPDATES LOG"
+    Write-Host "=============================================================="
     if (Test-Path "$DcuLogPath\applyUpdates.log") {
         Get-Content "$DcuLogPath\applyUpdates.log" | ForEach-Object { Write-Host $_ }
     } else {
@@ -253,24 +255,28 @@ try {
 
 if ($errorOccurred) {
     Write-Host ""
-    Write-Host "[ ERROR OCCURRED ]"
-    Write-Host "--------------------------------------------------------------"
+    Write-Host "[ERROR] OPERATION FAILED"
+    Write-Host "=============================================================="
     Write-Host $errorText
 
     Write-Host ""
-    Write-Host "[ RESULT ]"
-    Write-Host "--------------------------------------------------------------"
+    Write-Host "[ERROR] RESULT"
+    Write-Host "=============================================================="
     Write-Host "Status : Failure"
 } else {
     Write-Host ""
-    Write-Host "[ RESULT ]"
-    Write-Host "--------------------------------------------------------------"
+    Write-Host "[OK] RESULT"
+    Write-Host "=============================================================="
     Write-Host "Status : Success"
 }
 
 Write-Host ""
-Write-Host "[ FINAL STATUS ]"
-Write-Host "--------------------------------------------------------------"
+if ($errorOccurred) {
+    Write-Host "[ERROR] FINAL STATUS"
+} else {
+    Write-Host "[OK] FINAL STATUS"
+}
+Write-Host "=============================================================="
 if ($errorOccurred) {
     Write-Host "Dell Command Update process failed. See error above."
 } else {
@@ -279,8 +285,12 @@ if ($errorOccurred) {
 }
 
 Write-Host ""
-Write-Host "[ SCRIPT COMPLETED ]"
-Write-Host "--------------------------------------------------------------"
+if ($errorOccurred) {
+    Write-Host "[ERROR] SCRIPT COMPLETED"
+} else {
+    Write-Host "[OK] SCRIPT COMPLETED"
+}
+Write-Host "=============================================================="
 
 if ($errorOccurred) {
     exit 1
