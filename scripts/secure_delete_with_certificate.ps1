@@ -7,7 +7,7 @@ $ErrorActionPreference = 'Stop'
 ███████╗██║██║ ╚═╝ ██║███████╗██║  ██║██║  ██║╚███╔███╔╝██║  ██╗
 ╚══════╝╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚══╝╚══╝ ╚═╝  ╚═╝
 ================================================================================
- SCRIPT   : Secure Delete with Certificate                               v1.0.3
+ SCRIPT   : Secure Delete with Certificate                               v1.0.4
  AUTHOR   : Limehawk.io
  DATE     : January 2026
  USAGE    : .\secure_delete_with_certificate.ps1
@@ -182,6 +182,7 @@ EXAMPLE RUN (DRY RUN MODE):
 --------------------------------------------------------------------------------
  CHANGELOG
 --------------------------------------------------------------------------------
+ 2026-01-19 v1.0.4 Fixed winget detection to work in SYSTEM context (RMM compatibility)
  2026-01-19 v1.0.3 Fixed header alignment (DATE, FILE, DESCRIPTION spacing)
  2026-01-19 v1.0.2 Updated to two-line ASCII console output style
  2025-12-23 v1.0.1 Updated to Limehawk Script Framework
@@ -1086,9 +1087,20 @@ if (-not $sdeleteAvailable) {
     if ($autoInstallSDelete) {
         Write-Host "SDelete not found. Installing via winget..."
 
-        # Check if winget is available
-        $wingetAvailable = $null -ne (Get-Command winget -ErrorAction SilentlyContinue)
-        if (-not $wingetAvailable) {
+        # Check if winget is available (works in both user and SYSTEM context)
+        $wingetExe = $null
+        $wingetCmd = Get-Command winget -ErrorAction SilentlyContinue
+        if ($wingetCmd) {
+            $wingetExe = $wingetCmd.Source
+        } else {
+            # SYSTEM context: resolve from WindowsApps directly
+            $wingetPath = Resolve-Path "$env:ProgramFiles\WindowsApps\Microsoft.DesktopAppInstaller_*_x64__8wekyb3d8bbwe\winget.exe" -ErrorAction SilentlyContinue | Sort-Object | Select-Object -Last 1
+            if ($wingetPath) {
+                $wingetExe = $wingetPath.Path
+            }
+        }
+
+        if (-not $wingetExe -or -not (Test-Path $wingetExe)) {
             Write-Host ""
             Write-Host "[ERROR] WINGET NOT AVAILABLE"
             Write-Host "=============================================================="
@@ -1099,7 +1111,7 @@ if (-not $sdeleteAvailable) {
         }
 
         try {
-            $installResult = winget install Microsoft.Sysinternals.SDelete --accept-source-agreements --accept-package-agreements 2>&1
+            $installResult = & $wingetExe install Microsoft.Sysinternals.SDelete --accept-source-agreements --accept-package-agreements 2>&1
             Write-Host $installResult
 
             # Refresh PATH and verify installation
