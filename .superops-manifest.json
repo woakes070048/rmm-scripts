@@ -373,9 +373,9 @@
       "scriptId": "259059170738298880",
       "filename": "secure_delete_with_certificate",
       "language": "PowerShell",
-      "checksum": "sha256:977337f025040fa8",
+      "checksum": "sha256:28401f93d1b9b300",
       "metaChecksum": "meta:749fa37e2e3054ae",
-      "lastModified": "2026-01-19T22:10:35.939646+00:00"
+      "lastModified": "2026-01-19T22:19:45.772028+00:00"
     },
     {
       "scriptId": "259059169136074752",
@@ -1114,5 +1114,5 @@
       "lastModified": "2026-01-19T09:36:22.856642+00:00"
     }
   ],
-  "lastSync": "2026-01-19T22:10:35.940078+00:00"
+  "lastSync": "2026-01-19T22:19:45.772342+00:00"
 }
