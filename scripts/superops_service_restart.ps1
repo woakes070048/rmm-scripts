@@ -7,7 +7,7 @@ $ErrorActionPreference = 'Stop'
 ███████╗██║██║ ╚═╝ ██║███████╗██║  ██║██║  ██║╚███╔███╔╝██║  ██╗
 ╚══════╝╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚══╝╚══╝ ╚═╝  ╚═╝
 ================================================================================
- SCRIPT   : Restart SuperOps Services                                    v2.1.0
+ SCRIPT   : Restart SuperOps Services                                    v2.1.1
  AUTHOR   : Limehawk.io
  DATE     : January 2026
  USAGE    : .\superops_service_restart.ps1
@@ -160,6 +160,7 @@ Service restart scheduled - will execute after script exits
 --------------------------------------------------------------------------------
  CHANGELOG
 --------------------------------------------------------------------------------
+ 2026-01-18 v2.1.1 DEBUG: Re-enabled restart, added command output
  2026-01-18 v2.1.0 DEBUG: Added process tree dump, disabled restart logic
  2026-01-18 v2.0.2 Fixed RMM detection to also match service filter pattern
  2026-01-18 v2.0.1 Simplified RMM detection to match superops.exe
@@ -371,26 +372,26 @@ try {
     }
     Write-Host ""
 
-    # DEBUG: Restart logic disabled - showing what WOULD happen
-    Write-Host "** DEBUG MODE: Restart disabled **"
-    Write-Host "Would use mode   : $(if ($runningFromRMM) { 'Background (scheduled)' } else { 'Direct (synchronous)' })"
-    Write-Host "Would restart    : $($services.Name -join ', ')"
-    $servicesRestarted = 0  # No actual restarts in debug mode
-
-    <# RESTART LOGIC COMMENTED OUT FOR DEBUG
     if ($runningFromRMM) {
         # Background restart approach - spawn detached process
+        # Script exits immediately, background process restarts services after delay
         Write-Host "Scheduling background restart in 2 seconds..."
 
         $serviceNames = ($services | ForEach-Object { $_.Name }) -join "','"
         $restartCommand = "Start-Sleep -Seconds 2; @('$serviceNames') | ForEach-Object { Restart-Service -Name `$_ -Force }"
 
+        Write-Host ""
+        Write-Host "DEBUG: Background command:"
+        Write-Host "  powershell.exe -NoProfile -ExecutionPolicy Bypass -Command `"$restartCommand`""
+        Write-Host ""
+
         Start-Process -FilePath "powershell.exe" -ArgumentList "-NoProfile", "-ExecutionPolicy", "Bypass", "-Command", $restartCommand -WindowStyle Hidden
 
         Write-Host "Restart command issued successfully"
+        Write-Host "Script will now exit - services restart in background after 2 seconds"
         $servicesRestarted = $servicesFound
     } else {
-        # Direct restart - synchronous
+        # Direct restart - synchronous (safe when not running from RMM)
         Write-Host "Restarting services directly..."
 
         foreach ($svc in $services) {
@@ -406,7 +407,6 @@ try {
             }
         }
     }
-    #>
 
 } catch {
     $errorOccurred = $true
