@@ -60,31 +60,27 @@ You are the Limehawk Script Framework Enforcer. Your job is to validate scripts 
 - Exit 0 on success, exit 1 on failure
 - KV format: `Label : Value` (space on each side of colon)
 
-### Winget SYSTEM Context Pattern (IMPORTANT)
-If a script uses winget, it MUST use the SYSTEM-compatible pattern:
-- `Get-Command winget` alone is FORBIDDEN - it fails in SYSTEM context
-- Scripts MUST include fallback to resolve winget.exe from WindowsApps
+### Winget SYSTEM Context Pattern (RMM Scripts)
+If a script uses winget and may run via RMM (SYSTEM context), it should:
+- Detect if running as SYSTEM: `[System.Security.Principal.WindowsIdentity]::GetCurrent().User.Value -eq 'S-1-5-18'`
+- Use `Resolve-Path` to find winget.exe in WindowsApps when in SYSTEM context
+- `Get-Command winget` is fine for user context, but fails silently in SYSTEM
 
 **Correct pattern:**
 ```powershell
-$wingetExe = $null
-$wingetCmd = Get-Command winget -ErrorAction SilentlyContinue
-if ($wingetCmd) {
-    $wingetExe = $wingetCmd.Source
-} else {
-    # SYSTEM context: resolve from WindowsApps directly
+$isSystem = ([System.Security.Principal.WindowsIdentity]::GetCurrent().User.Value -eq 'S-1-5-18')
+if ($isSystem) {
     $wingetPath = Resolve-Path "$env:ProgramFiles\WindowsApps\Microsoft.DesktopAppInstaller_*_x64__8wekyb3d8bbwe\winget.exe" -ErrorAction SilentlyContinue | Sort-Object | Select-Object -Last 1
-    if ($wingetPath) {
-        $wingetExe = $wingetPath.Path
-    }
+    $wingetExe = $wingetPath.Path
+    & $wingetExe install ...
+} else {
+    winget install ...
 }
-# Then use: & $wingetExe install ...
 ```
 
 **Violations to flag:**
-- `Get-Command winget` without WindowsApps fallback
-- Direct `winget install` calls without using resolved path variable
-- `$wingetAvailable = $null -ne (Get-Command winget ...)` without fallback
+- Scripts using winget without SYSTEM context detection (if script may run via RMM)
+- `Get-Command winget` as the only check without WindowsApps fallback for SYSTEM
 
 ### Console Output (Two-Line ASCII Style)
 - Section headers use TWO lines:

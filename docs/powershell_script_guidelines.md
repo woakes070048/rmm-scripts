@@ -417,37 +417,38 @@ Provide sensible defaults for optional fields (0 for numbers, 'Unknown' for stri
 
 ### Winget in SYSTEM Context (RMM Compatibility)
 
-**IMPORTANT:** `Get-Command winget` does NOT work in SYSTEM context because AppX package resolution is user-specific. Scripts that use winget and may run via RMM tools (SuperOps, Datto, NinjaRMM) MUST use direct path resolution.
+`Get-Command winget` works fine in user context but fails in SYSTEM context because AppX package resolution is user-specific. Scripts that may run via RMM tools (SuperOps, Datto, NinjaRMM) should detect context and use path resolution only when needed.
 
 **Pattern:**
 ```powershell
-# Check if winget is available (works in both user and SYSTEM context)
-$wingetExe = $null
-$wingetCmd = Get-Command winget -ErrorAction SilentlyContinue
-if ($wingetCmd) {
-    $wingetExe = $wingetCmd.Source
-} else {
-    # SYSTEM context: resolve from WindowsApps directly
+# Detect if running as SYSTEM
+$isSystem = ([System.Security.Principal.WindowsIdentity]::GetCurrent().User.Value -eq 'S-1-5-18')
+
+if ($isSystem) {
+    # SYSTEM context: resolve winget.exe path directly (Get-Command won't work)
     $wingetPath = Resolve-Path "$env:ProgramFiles\WindowsApps\Microsoft.DesktopAppInstaller_*_x64__8wekyb3d8bbwe\winget.exe" -ErrorAction SilentlyContinue | Sort-Object | Select-Object -Last 1
     if ($wingetPath) {
         $wingetExe = $wingetPath.Path
+    } else {
+        Write-Host "[ERROR] Winget not found in WindowsApps"
+        exit 1
     }
+    # Call winget by full path
+    & $wingetExe install <PackageId> --silent --accept-source-agreements --accept-package-agreements
+} else {
+    # User context: Get-Command works normally
+    if (-not (Get-Command winget -ErrorAction SilentlyContinue)) {
+        Write-Host "[ERROR] Winget not available"
+        exit 1
+    }
+    winget install <PackageId> --silent --accept-source-agreements --accept-package-agreements
 }
-
-# Check if winget was found
-if (-not $wingetExe -or -not (Test-Path $wingetExe)) {
-    Write-Host "[ERROR] Winget not available"
-    exit 1
-}
-
-# Use winget by full path (NOT just 'winget')
-& $wingetExe install <PackageId> --silent --accept-source-agreements --accept-package-agreements
 ```
 
-**Why this matters:**
+**Why SYSTEM context is different:**
 - RMM tools execute scripts as SYSTEM (NT AUTHORITY\SYSTEM)
 - SYSTEM has no user profile, so AppX aliases don't exist
-- PATH modifications don't help because AppX resolution is user-specific
+- `Get-Command winget` returns nothing even when winget is installed
 - The only reliable method is resolving the full path to winget.exe
 
 **Scripts affected:** Any script that calls winget and may run via RMM deployment.
