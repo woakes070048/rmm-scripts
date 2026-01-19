@@ -7,7 +7,7 @@ $ErrorActionPreference = 'Stop'
 ███████╗██║██║ ╚═╝ ██║███████╗██║  ██║██║  ██║╚███╔███╔╝██║  ██╗
 ╚══════╝╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚══╝╚══╝ ╚═╝  ╚═╝
 ================================================================================
- SCRIPT   : Antivirus Uninstall (Multi-Vendor)                           v1.2.1
+ SCRIPT   : Antivirus Uninstall (Multi-Vendor)                           v1.2.2
  AUTHOR   : Limehawk.io
  DATE     : January 2026
  USAGE    : .\antivirus_uninstall.ps1
@@ -134,6 +134,7 @@ Note: A system reboot is recommended for complete removal
 --------------------------------------------------------------------------------
  CHANGELOG
 --------------------------------------------------------------------------------
+ 2026-01-18 v1.2.2 Increased MCPR timeout from 5 to 15 minutes
  2026-01-18 v1.2.1 Added timeouts and error handling for WMI/MCPR operations
  2026-01-18 v1.2.0 Rewrote McAfee detection with registry/services/paths/WMI
  2025-12-23 v1.1.0 Updated to Limehawk Script Framework
@@ -432,17 +433,17 @@ if ($mcAfeeDetected) {
         }
 
         Write-Host "  Downloaded to: $mcprPath"
-        Write-Host "Running MCPR tool (silent mode, 5 min timeout)..."
+        Write-Host "Running MCPR tool (silent mode, 15 min timeout)..."
 
-        # Run MCPR with timeout (5 minutes max)
+        # Run MCPR with timeout (15 minutes max - it can be slow)
         $mcprProcess = Start-Process -FilePath $mcprPath -ArgumentList "/silent" -PassThru -ErrorAction Stop
-        $mcprExited = $mcprProcess.WaitForExit(300000)  # 5 minutes in milliseconds
+        $mcprExited = $mcprProcess.WaitForExit(900000)  # 15 minutes in milliseconds
 
         if ($mcprExited) {
             Write-Host "  MCPR exit code: $($mcprProcess.ExitCode)"
             $mcprSuccess = $true
         } else {
-            Write-Host "  MCPR timeout (5 min) - killing process"
+            Write-Host "  MCPR timeout (15 min) - killing process"
             try {
                 $mcprProcess.Kill()
                 $mcprProcess.WaitForExit(5000)
