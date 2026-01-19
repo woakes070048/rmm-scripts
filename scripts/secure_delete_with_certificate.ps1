@@ -7,13 +7,13 @@ $ErrorActionPreference = 'Stop'
 ███████╗██║██║ ╚═╝ ██║███████╗██║  ██║██║  ██║╚███╔███╔╝██║  ██╗
 ╚══════╝╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚══╝╚══╝ ╚═╝  ╚═╝
 ================================================================================
- SCRIPT   : Secure Delete with Certificate v1.0.2
+ SCRIPT   : Secure Delete with Certificate                               v1.0.3
  AUTHOR   : Limehawk.io
- DATE      : January 2026
+ DATE     : January 2026
  USAGE    : .\secure_delete_with_certificate.ps1
 ================================================================================
- FILE     : secure_delete_with_certificate.ps1
-DESCRIPTION : Securely deletes files with DoD-compliant overwriting and audit trail
+ FILE        : secure_delete_with_certificate.ps1
+ DESCRIPTION : Securely deletes files with DoD-compliant overwriting and audit trail
 --------------------------------------------------------------------------------
  README
 --------------------------------------------------------------------------------
@@ -182,6 +182,7 @@ EXAMPLE RUN (DRY RUN MODE):
 --------------------------------------------------------------------------------
  CHANGELOG
 --------------------------------------------------------------------------------
+ 2026-01-19 v1.0.3 Added SuperOps runtime variables and placeholder validation
  2026-01-19 v1.0.2 Updated to two-line ASCII console output style
  2025-12-23 v1.0.1 Updated to Limehawk Script Framework
  2025-12-08 v1.0.0 Initial release - comprehensive secure deletion with certificate generation for legal documentation
@@ -190,46 +191,45 @@ EXAMPLE RUN (DRY RUN MODE):
 Set-StrictMode -Version Latest
 
 # ==============================================================================
-# REQUIRED INPUTS - MODIFY THESE VALUES
+# SUPEROPS RUNTIME VARIABLES - DO NOT MODIFY PLACEHOLDER NAMES
 # ==============================================================================
+# These placeholders are replaced by SuperOps at runtime.
+# Use double quotes - single quotes prevent replacement.
 
-# Target file or folder to securely delete
-$targetPath = 'C:\Path\To\File\Or\Folder'
-
-# Output directory for certificates (leave empty for Desktop)
-$outputDirectory = ''
-
-# Number of overwrite passes (DoD standard is 3, higher = more secure but slower)
-$overwritePasses = 3
-
-# Operator information (person executing the deletion)
-$operatorName = 'Your Name Here'
-
-# Legal case reference (optional - leave empty if not applicable)
-$caseReference = ''
-
-# Witness name (optional - leave empty if no witness)
-$witnessName = ''
-
-# Additional notes for the certificate (optional)
-$notes = ''
+$targetPath       = "$YourTargetPathHere"
+$outputDirectory  = "$YourOutputDirectoryHere"
+$overwritePasses  = "$YourOverwritePassesHere"
+$operatorName     = "$YourOperatorNameHere"
+$caseReference    = "$YourCaseReferenceHere"
+$witnessName      = "$YourWitnessNameHere"
+$notes            = "$YourNotesHere"
+$dryRun           = "$YourDryRunHere"
+$recursive        = "$YourRecursiveHere"
+$generateHtml     = "$YourGenerateHtmlHere"
+$autoInstallSDelete = "$YourAutoInstallSDeleteHere"
 
 # ==============================================================================
-# SETTINGS
+# CONVERT STRING INPUTS TO PROPER TYPES
 # ==============================================================================
 
-# DRY RUN MODE - Set to $true to test without deleting anything
-# Performs all steps (enumeration, hashing, system info) but skips actual deletion
-$dryRun = $true
+# Convert numeric string to integer (default: 3 passes)
+if ($overwritePasses -match '^\d+$') {
+    $overwritePasses = [int]$overwritePasses
+} else {
+    $overwritePasses = 3
+}
 
-# Process subfolders if target is a directory
-$recursive = $true
+# Convert boolean strings to actual booleans
+$dryRun = $dryRun -eq 'true' -or $dryRun -eq '$true' -or $dryRun -eq '1'
+$recursive = $recursive -eq 'true' -or $recursive -eq '$true' -or $recursive -eq '1'
+$generateHtml = $generateHtml -eq 'true' -or $generateHtml -eq '$true' -or $generateHtml -eq '1'
+$autoInstallSDelete = $autoInstallSDelete -eq 'true' -or $autoInstallSDelete -eq '$true' -or $autoInstallSDelete -eq '1'
 
-# Generate HTML certificate in addition to plain text
-$generateHtml = $true
-
-# Auto-install SDelete via winget if not found
-$autoInstallSDelete = $true
+# Handle empty optional fields (SuperOps may pass empty string or placeholder)
+if ($outputDirectory -eq '$' + 'YourOutputDirectoryHere') { $outputDirectory = '' }
+if ($caseReference -eq '$' + 'YourCaseReferenceHere') { $caseReference = '' }
+if ($witnessName -eq '$' + 'YourWitnessNameHere') { $witnessName = '' }
+if ($notes -eq '$' + 'YourNotesHere') { $notes = '' }
 
 # ==============================================================================
 # STATE VARIABLES
@@ -999,7 +999,7 @@ function New-HtmlCertificate {
         <div class="footer">
             <strong>END OF CERTIFICATE$(if ($dryRun) { ' (DRY RUN PREVIEW)' })</strong><br>
             Session ID: $($SystemInfo['SessionId'])<br>
-            Generated by Limehawk Secure Deletion Script v1.0.0
+            Generated by Limehawk Secure Deletion Script v1.0.3
         </div>
     </div>
 </body>
@@ -1018,16 +1018,17 @@ Write-Section "INPUT VALIDATION" "INFO"
 $errorOccurred = $false
 $errorText = ""
 
-if ([string]::IsNullOrWhiteSpace($targetPath)) {
+# Check for unreplaced SuperOps runtime variables
+if ([string]::IsNullOrWhiteSpace($targetPath) -or $targetPath -eq '$' + 'YourTargetPathHere') {
     $errorOccurred = $true
     if ($errorText.Length -gt 0) { $errorText += "`n" }
-    $errorText += "- Target path is required"
+    $errorText += "- SuperOps runtime variable `$YourTargetPathHere was not replaced"
 }
 
-if ([string]::IsNullOrWhiteSpace($operatorName)) {
+if ([string]::IsNullOrWhiteSpace($operatorName) -or $operatorName -eq '$' + 'YourOperatorNameHere') {
     $errorOccurred = $true
     if ($errorText.Length -gt 0) { $errorText += "`n" }
-    $errorText += "- Operator name is required for legal documentation"
+    $errorText += "- SuperOps runtime variable `$YourOperatorNameHere was not replaced"
 }
 
 if ($overwritePasses -lt 1 -or $overwritePasses -gt 35) {
