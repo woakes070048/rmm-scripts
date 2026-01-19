@@ -10,9 +10,9 @@ $ErrorActionPreference = 'Stop'
  SCRIPT   : Restart SuperOps Services                                    v2.0.0
  AUTHOR   : Limehawk.io
  DATE     : January 2026
- USAGE    : .\restart_superops_services.ps1
+ USAGE    : .\superops_service_restart.ps1
 ================================================================================
- FILE     : restart_superops_services.ps1
+ FILE     : superops_service_restart.ps1
  DESCRIPTION : Restarts RMM agent services with automatic RMM execution detection
 --------------------------------------------------------------------------------
  README

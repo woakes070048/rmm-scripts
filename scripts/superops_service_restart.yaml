@@ -1,4 +1,4 @@
-name: restart_superops_services.ps1
+name: superops_service_restart.ps1
 description: Restarts RMM agent services with automatic RMM execution detection
 language: PowerShell
 runAs: SYSTEM_USER
