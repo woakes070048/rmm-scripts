@@ -131,21 +131,20 @@ $ErrorActionPreference = 'Stop'
 
  EXAMPLE RUN
 
-   [ INPUT VALIDATION ]
-   --------------------------------------------------------------
-   All required inputs are valid
+   ┌─[i] INPUT VALIDATION ────────────────────────────────────────┐
+     All required inputs are valid
 
-   [ OPERATION ]
-   --------------------------------------------------------------
-   Step 1 complete
-   Step 2 complete
+   ┌─[>] OPERATION ───────────────────────────────────────────────┐
+     Step 1 complete
+     Step 2 complete
 
-   [ FINAL STATUS ]
-   --------------------------------------------------------------
-   Result : SUCCESS
+   ┌─[i] RESULT ──────────────────────────────────────────────────┐
+     Status : Success
 
-   [ SCRIPT COMPLETE ]
-   --------------------------------------------------------------
+   ┌─[✓] FINAL STATUS ────────────────────────────────────────────┐
+     Operation completed successfully
+
+   ┌─[✓] SCRIPT COMPLETED ────────────────────────────────────────┐
 
 --------------------------------------------------------------------------------
  CHANGELOG
@@ -303,7 +302,7 @@ The error message should:
 - Use scalar variables only: `$errorOccurred = $false` and `$errorText = ""`
 - NO arrays or lists for error tracking
 - Build error messages with newline concatenation
-- If INPUT validation fails, print `[ ERROR OCCURRED ]` section and exit 1
+- If INPUT validation fails, print `┌─[✗] ERROR OCCURRED` section and exit 1
 - DO NOT pre-validate operations (file existence, module availability, network connectivity)
 - Let `$ErrorActionPreference = 'Stop'` catch operational failures naturally
 
@@ -332,27 +331,47 @@ if (-not (Get-Module $moduleName)) { ... }
 
 ## Console Output
 
-**Section header format:**
+**Section header format (Box Style with Status Indicators):**
 ```powershell
 Write-Host ""
-Write-Host "[ SECTION NAME ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "┌─[i] SECTION NAME ────────────────────────────────────────────┐"
 ```
-(62 hyphens exactly)
+
+**Status indicators:**
+- `[i]` = Info (INPUT VALIDATION, ENVIRONMENT DETECTION, RESULT, DEBUG sections)
+- `[>]` = Action (DOWNLOAD, INSTALLATION, RESTART SERVICES, operations in progress)
+- `[✓]` = Success (FINAL STATUS on success, SCRIPT COMPLETED on success)
+- `[!]` = Warning (non-fatal issues)
+- `[✗]` = Error/Failure (ERROR OCCURRED, FINAL STATUS on failure)
 
 **Section names are DYNAMIC** - choose names that describe the operation
 
 **Common patterns:**
-- Always start with: `[ INPUT VALIDATION ]` or `[ SETUP ]`
-- Operation sections: `[ DOWNLOAD ]`, `[ INSTALLATION ]`, `[ CONFIGURATION ]`, etc.
-- Always end with: `[ FINAL STATUS ]` and `[ SCRIPT COMPLETE ]`
-- On error: `[ ERROR OCCURRED ]`
+- Always start with: `┌─[i] INPUT VALIDATION` or `┌─[i] SETUP`
+- Operation sections: `┌─[>] DOWNLOAD`, `┌─[>] INSTALLATION`, `┌─[>] CONFIGURATION`, etc.
+- On success end with: `┌─[✓] FINAL STATUS` and `┌─[✓] SCRIPT COMPLETED`
+- On error: `┌─[✗] ERROR OCCURRED` and `┌─[✗] FINAL STATUS`
 
 **Within sections:** write clean, readable output
-- NO status prefixes like [INFO], [ OK ], [FAIL]
+- NO additional status prefixes inside sections
 - Just plain descriptive text: "Downloaded file successfully"
 - Use KV format for data: `Label : Value` (one space each side of colon)
 - Natural language for actions: "Created directory", "Installed package"
+
+**Helper function for headers:**
+```powershell
+function Write-Section {
+    param([string]$Type, [string]$Name)
+    $indicators = @{ 'i'='i'; 'action'='>'; 'success'='✓'; 'warn'='!'; 'error'='✗' }
+    $symbol = $indicators[$Type]
+    $header = "┌─[$symbol] $Name "
+    $padding = 62 - $header.Length
+    if ($padding -gt 0) { $header += "─" * $padding }
+    $header += "┐"
+    Write-Host ""
+    Write-Host $header
+}
+```
 
 ---
 
@@ -363,7 +382,7 @@ Write-Host "--------------------------------------------------------------"
   - Add helpful context to the error
   - Attempt recovery or cleanup
   - Continue script execution after non-critical failure
-- On error, print `[ ERROR OCCURRED ]` section with:
+- On error, print `┌─[✗] ERROR OCCURRED` section with:
   - What failed (clear description)
   - The actual error message
   - Context (what operation, what parameters)
@@ -415,13 +434,13 @@ Provide sensible defaults for optional fields (0 for numbers, 'Unknown' for stri
 The number and names of console sections should match the script's actual operations:
 
 **Simple scripts** (1-2 operations):
-- `[ INPUT VALIDATION ]` → `[ OPERATION ]` → `[ RESULT ]` → `[ FINAL STATUS ]` → `[ SCRIPT COMPLETE ]`
+- `┌─[i] INPUT VALIDATION` → `┌─[>] OPERATION` → `┌─[i] RESULT` → `┌─[✓] FINAL STATUS` → `┌─[✓] SCRIPT COMPLETED`
 
 **Moderate scripts** (3-5 operations):
-- `[ INPUT VALIDATION ]` → `[ DOWNLOAD ]` → `[ EXTRACTION ]` → `[ RESULT ]` → `[ FINAL STATUS ]` → `[ SCRIPT COMPLETE ]`
+- `┌─[i] INPUT VALIDATION` → `┌─[>] DOWNLOAD` → `┌─[>] EXTRACTION` → `┌─[i] RESULT` → `┌─[✓] FINAL STATUS` → `┌─[✓] SCRIPT COMPLETED`
 
 **Complex scripts** (6+ operations):
-- `[ INPUT VALIDATION ]` → `[ DOWNLOAD ]` → `[ EXTRACTION ]` → `[ INSTALLATION ]` → `[ CONFIGURATION ]` → `[ TESTING ]` → `[ RESULT ]` → `[ FINAL STATUS ]` → `[ SCRIPT COMPLETE ]`
+- `┌─[i] INPUT VALIDATION` → `┌─[>] DOWNLOAD` → `┌─[>] EXTRACTION` → `┌─[>] INSTALLATION` → `┌─[>] CONFIGURATION` → `┌─[>] TESTING` → `┌─[i] RESULT` → `┌─[✓] FINAL STATUS` → `┌─[✓] SCRIPT COMPLETED`
 
 Choose section names that clearly describe what's happening. Be descriptive but concise.
 

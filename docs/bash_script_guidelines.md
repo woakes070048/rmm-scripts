@@ -128,21 +128,20 @@ After Functions: Main script execution
 #
 #  EXAMPLE RUN
 #
-#    [ INPUT VALIDATION ]
-#    --------------------------------------------------------------
-#    All required inputs are valid
+#    ┌─[i] INPUT VALIDATION ────────────────────────────────────────┐
+#      All required inputs are valid
 #
-#    [ OPERATION ]
-#    --------------------------------------------------------------
-#    Step 1 complete
-#    Step 2 complete
+#    ┌─[>] OPERATION ───────────────────────────────────────────────┐
+#      Step 1 complete
+#      Step 2 complete
 #
-#    [ FINAL STATUS ]
-#    --------------------------------------------------------------
-#    Result : SUCCESS
+#    ┌─[i] RESULT ──────────────────────────────────────────────────┐
+#      Status : Success
 #
-#    [ SCRIPT COMPLETE ]
-#    --------------------------------------------------------------
+#    ┌─[✓] FINAL STATUS ────────────────────────────────────────────┐
+#      Operation completed successfully
+#
+#    ┌─[✓] SCRIPT COMPLETED ────────────────────────────────────────┐
 #
 # --------------------------------------------------------------------------------
 #  CHANGELOG
@@ -317,8 +316,7 @@ fi
 
 if [[ "$ERROR_OCCURRED" = true ]]; then
     echo ""
-    echo "[ ERROR OCCURRED ]"
-    echo "--------------------------------------------------------------"
+    echo "┌─[✗] ERROR OCCURRED ────────────────────────────────────────────┐"
     echo -e "$ERROR_TEXT"
     echo ""
     exit 1
@@ -329,27 +327,59 @@ fi
 
 ## Console Output
 
-**Section header format:**
+**Section header format (Box Style with Status Indicators):**
 ```bash
 echo ""
-echo "[ SECTION NAME ]"
-echo "--------------------------------------------------------------"
+echo "┌─[i] SECTION NAME ────────────────────────────────────────────┐"
 ```
-(62 hyphens exactly)
+
+**Status indicators:**
+- `[i]` = Info (INPUT VALIDATION, ENVIRONMENT DETECTION, RESULT, DEBUG sections)
+- `[>]` = Action (DOWNLOAD, INSTALLATION, RESTART SERVICES, operations in progress)
+- `[✓]` = Success (FINAL STATUS on success, SCRIPT COMPLETED on success)
+- `[!]` = Warning (non-fatal issues)
+- `[✗]` = Error/Failure (ERROR OCCURRED, FINAL STATUS on failure)
 
 **Section names are DYNAMIC** - choose names that describe the operation
 
 **Common patterns:**
-- Always start with: `[ INPUT VALIDATION ]` or `[ SETUP ]`
-- Operation sections: `[ DOWNLOAD ]`, `[ INSTALLATION ]`, `[ CONFIGURATION ]`, etc.
-- Always end with: `[ FINAL STATUS ]` and `[ SCRIPT COMPLETE ]`
-- On error: `[ ERROR OCCURRED ]`
+- Always start with: `┌─[i] INPUT VALIDATION` or `┌─[i] SETUP`
+- Operation sections: `┌─[>] DOWNLOAD`, `┌─[>] INSTALLATION`, `┌─[>] CONFIGURATION`, etc.
+- On success end with: `┌─[✓] FINAL STATUS` and `┌─[✓] SCRIPT COMPLETED`
+- On error: `┌─[✗] ERROR OCCURRED` and `┌─[✗] FINAL STATUS`
 
 **Within sections:** write clean, readable output
-- NO status prefixes like [INFO], [ OK ], [FAIL]
+- NO additional status prefixes inside sections
 - Just plain descriptive text: "Downloaded file successfully"
 - Use KV format for data: `Label : Value` (one space each side of colon)
 - Natural language for actions: "Created directory", "Installed package"
+
+**Helper function for headers:**
+```bash
+write_section() {
+    local type="$1"
+    local name="$2"
+    local symbol
+    case "$type" in
+        i|info)    symbol="i" ;;
+        action)    symbol=">" ;;
+        success)   symbol="✓" ;;
+        warn)      symbol="!" ;;
+        error)     symbol="✗" ;;
+        *)         symbol="i" ;;
+    esac
+    local header="┌─[$symbol] $name "
+    local total_len=62
+    local current_len=${#header}
+    local padding=$((total_len - current_len))
+    if [[ $padding -gt 0 ]]; then
+        header+=$(printf '─%.0s' $(seq 1 $padding))
+    fi
+    header+="┐"
+    echo ""
+    echo "$header"
+}
+```
 
 ---
 
@@ -357,7 +387,7 @@ echo "--------------------------------------------------------------"
 
 - Use `set -e` to exit on errors (optional, can use explicit checks)
 - Wrap risky operations in if-statements or use `|| { error handling }`
-- On error, print `[ ERROR OCCURRED ]` section with:
+- On error, print `┌─[✗] ERROR OCCURRED` section with:
   - What failed (clear description)
   - The actual error message
   - Context (what operation, what parameters)
@@ -368,10 +398,9 @@ echo "--------------------------------------------------------------"
 ```bash
 if ! command -v docker &> /dev/null; then
     echo ""
-    echo "[ ERROR OCCURRED ]"
-    echo "--------------------------------------------------------------"
-    echo "Docker is not installed"
-    echo "Please install Docker before running this script"
+    echo "┌─[✗] ERROR OCCURRED ────────────────────────────────────────────┐"
+    echo "  Docker is not installed"
+    echo "  Please install Docker before running this script"
     echo ""
     exit 1
 fi
@@ -436,13 +465,13 @@ run_task() {
 The number and names of console sections should match the script's actual operations:
 
 **Simple scripts** (1-2 operations):
-- `[ INPUT VALIDATION ]` → `[ OPERATION ]` → `[ RESULT ]` → `[ FINAL STATUS ]` → `[ SCRIPT COMPLETE ]`
+- `┌─[i] INPUT VALIDATION` → `┌─[>] OPERATION` → `┌─[i] RESULT` → `┌─[✓] FINAL STATUS` → `┌─[✓] SCRIPT COMPLETED`
 
 **Moderate scripts** (3-5 operations):
-- `[ INPUT VALIDATION ]` → `[ DOWNLOAD ]` → `[ EXTRACTION ]` → `[ RESULT ]` → `[ FINAL STATUS ]` → `[ SCRIPT COMPLETE ]`
+- `┌─[i] INPUT VALIDATION` → `┌─[>] DOWNLOAD` → `┌─[>] EXTRACTION` → `┌─[i] RESULT` → `┌─[✓] FINAL STATUS` → `┌─[✓] SCRIPT COMPLETED`
 
 **Complex scripts** (6+ operations):
-- `[ INPUT VALIDATION ]` → `[ DOWNLOAD ]` → `[ EXTRACTION ]` → `[ INSTALLATION ]` → `[ CONFIGURATION ]` → `[ TESTING ]` → `[ RESULT ]` → `[ FINAL STATUS ]` → `[ SCRIPT COMPLETE ]`
+- `┌─[i] INPUT VALIDATION` → `┌─[>] DOWNLOAD` → `┌─[>] EXTRACTION` → `┌─[>] INSTALLATION` → `┌─[>] CONFIGURATION` → `┌─[>] TESTING` → `┌─[i] RESULT` → `┌─[✓] FINAL STATUS` → `┌─[✓] SCRIPT COMPLETED`
 
 Choose section names that clearly describe what's happening. Be descriptive but concise.
 
