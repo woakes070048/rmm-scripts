@@ -7,7 +7,7 @@ $ErrorActionPreference = 'Stop'
 ███████╗██║██║ ╚═╝ ██║███████╗██║  ██║██║  ██║╚███╔███╔╝██║  ██╗
 ╚══════╝╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚══╝╚══╝ ╚═╝  ╚═╝
 ================================================================================
- SCRIPT   : Secure Delete with Certificate                               v1.0.4
+ SCRIPT   : Secure Delete with Certificate                               v1.0.5
  AUTHOR   : Limehawk.io
  DATE     : January 2026
  USAGE    : .\secure_delete_with_certificate.ps1
@@ -31,7 +31,7 @@ DATA SOURCES & PRIORITY:
 
 REQUIRED INPUTS:
     $targetPath       - File or folder path to securely delete
-    $outputDirectory  - Where to save the certificate (default: Desktop)
+    $outputDirectory  - Where to save the certificate (default: Desktop, REQUIRED in SYSTEM context)
     $overwritePasses  - Number of overwrite passes (default: 3)
     $operatorName     - Name of person executing the deletion
     $caseReference    - Legal case reference number (optional)
@@ -182,6 +182,7 @@ EXAMPLE RUN (DRY RUN MODE):
 --------------------------------------------------------------------------------
  CHANGELOG
 --------------------------------------------------------------------------------
+ 2026-01-19 v1.0.5 Require explicit outputDirectory when running in SYSTEM context
  2026-01-19 v1.0.4 Fixed winget detection to work in SYSTEM context (RMM compatibility)
  2026-01-19 v1.0.3 Fixed header alignment (DATE, FILE, DESCRIPTION spacing)
  2026-01-19 v1.0.2 Updated to two-line ASCII console output style
@@ -1172,8 +1173,18 @@ if (-not $sdeleteAvailable) {
     }
 }
 
-# Set default output directory
+# Set default output directory (SYSTEM context requires explicit path)
+$isSystem = ([System.Security.Principal.WindowsIdentity]::GetCurrent().User.Value -eq 'S-1-5-18')
 if ([string]::IsNullOrWhiteSpace($outputDirectory)) {
+    if ($isSystem) {
+        Write-Host ""
+        Write-Host "[ERROR] OUTPUT DIRECTORY REQUIRED"
+        Write-Host "=============================================================="
+        Write-Host "Running in SYSTEM context requires an explicit output directory."
+        Write-Host "Set `$outputDirectory to a valid path (e.g., 'C:\ProgramData\SecureDeletionCerts')"
+        Write-Host ""
+        exit 1
+    }
     $outputDirectory = [Environment]::GetFolderPath('Desktop')
 }
 
