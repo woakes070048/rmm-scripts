@@ -1,5 +1,5 @@
 name: local_user_admin_toggle.ps1
-description: ''
+description: Adds or removes a local user from the Administrators group
 language: PowerShell
 runAs: SYSTEM_USER
 timeout: 15
@@ -8,7 +8,21 @@ tags:
 - Windows
 shared: true
 favourite: false
-readme: ''
+readme: |
+  ## Purpose
+  Adds or removes a local user from the Administrators group. Idempotent operation that ensures the user's group membership aligns with the requested action.
+
+  ## Usage
+  Provide the following SuperOps runtime variable:
+  - `TargetUsername` - The local user account to manage
+
+  Configure the action via hardcoded setting:
+  - `Action` - "add" or "remove"
+
+  ## Requirements
+  - Windows 10/11
+  - Admin privileges required
+  - Target user must exist locally
 runtimeVariables:
 - name: TargetUsername
 placeholderVariables: []

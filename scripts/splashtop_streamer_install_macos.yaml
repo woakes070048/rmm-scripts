@@ -1,5 +1,5 @@
 name: splashtop_streamer_install_macos.sh
-description: ''
+description: Downloads and installs Splashtop Streamer agent on macOS for remote access
 language: Bash
 runAs: SYSTEM_USER
 timeout: 15
@@ -8,6 +8,19 @@ tags:
 - Software
 shared: false
 favourite: false
-readme: ''
+readme: |
+  Purpose:
+  Downloads and installs the Splashtop Streamer agent on macOS for remote access capabilities. The Streamer runs on computers to allow remote connections from Splashtop Business clients.
+
+  Usage Notes:
+  - Run with sudo privileges
+  - Downloads installer DMG to /tmp
+  - Mounts DMG, installs package, then unmounts and cleans up
+  - Installer URL points to v3.7.0.0
+
+  Requirements:
+  - macOS
+  - Root/sudo privileges
+  - Internet connectivity
 runtimeVariables: []
 placeholderVariables: []

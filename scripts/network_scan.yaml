@@ -1,5 +1,5 @@
 name: network_scan.ps1
-description: ''
+description: Scans IP address range using multi-threaded ping to discover active hosts on the network
 language: PowerShell
 runAs: SYSTEM_USER
 timeout: 15
@@ -8,6 +8,21 @@ tags:
 - Windows
 shared: false
 favourite: false
-readme: ''
+readme: |
+  Purpose
+  -------
+  Scans a range of IP addresses using multi-threaded ping requests to discover active hosts on the network. Optionally resolves hostnames via DNS.
+
+  Usage Notes
+  -----------
+  - Edit startIP and endIP variables to set scan range
+  - Set disableDNS to true to skip hostname resolution (faster)
+  - Adjust threads variable to control concurrency (default: 32)
+  - Results sorted by IP address with hostname if DNS enabled
+
+  Requirements
+  ------------
+  - Windows PowerShell 5.1 or later
+  - Network access to target IP range
 runtimeVariables: []
 placeholderVariables: []

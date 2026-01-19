@@ -8,7 +8,29 @@ tags:
 - Mac
 shared: false
 favourite: false
-readme: ''
+readme: |
+  Purpose
+  -------
+  Renames a macOS device using a custom client segment with standardized
+  naming pattern: CLIENT-USER-UUID. Allows variable length client segment
+  override. Sets HostName, ComputerName, and LocalHostName.
+  Designed for RMM deployment with custom client naming.
+
+  Usage Notes
+  -----------
+  - Custom client from $YourCustomClientHere (variable length, primary)
+  - Fallback to $YourClientNameHere if custom not set
+  - Username detected from current console user
+  - UUID from hardware identifier
+  - Final hostname is exactly 15 characters (NetBIOS compatible)
+  - Flushes DNS cache after rename
+  - Skips rename if hostname already matches
+
+  Requirements
+  ------------
+  - macOS 10.14 or later
+  - Root/sudo access
+  - RMM variable $YourCustomClientHere or $YourClientNameHere must be set
 runtimeVariables:
 - name: YourCustomClientHere
 placeholderVariables:

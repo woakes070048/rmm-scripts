@@ -1,5 +1,5 @@
 name: user_accounts_report.ps1
-description: ''
+description: Generates report of local user accounts, group memberships, sessions, and profiles
 language: PowerShell
 runAs: SYSTEM_USER
 timeout: 15
@@ -8,6 +8,23 @@ tags:
 - Windows
 shared: false
 favourite: false
-readme: ''
+readme: |
+  Purpose
+  -------
+  Generates a comprehensive report of all local user accounts, their group memberships, login sessions, and user profiles on the system. Provides a single view of all user-related information for auditing and troubleshooting.
+
+  Usage Notes
+  -----------
+  - No inputs required - reports on current system state
+  - Reports all local users including disabled accounts
+  - Shows group membership for each user
+  - Displays active login sessions
+  - Lists user profile folders with last use time and size
+
+  Requirements
+  ------------
+  - Windows 10/11 or Windows Server
+  - PowerShell 5.1+
+  - Admin privileges recommended for full details
 runtimeVariables: []
 placeholderVariables: []

@@ -1,5 +1,5 @@
 name: splashtop_service_restart_macos.sh
-description: ''
+description: Restarts Splashtop Streamer service on macOS to resolve connectivity issues
 language: Bash
 runAs: SYSTEM_USER
 timeout: 15
@@ -9,6 +9,21 @@ tags:
 - Software
 shared: true
 favourite: false
-readme: ''
+readme: |
+  Purpose
+  -------
+  Restarts the Splashtop Streamer service on macOS when remote access becomes unresponsive or connections fail. This is useful for resolving connectivity issues without requiring a full system reboot.
+
+  Usage Notes
+  -----------
+  - Uses launchctl to manage the service lifecycle
+  - Unloads then reloads the Splashtop launch daemon
+  - All operations are local to the machine
+
+  Requirements
+  ------------
+  - macOS operating system
+  - Root/sudo privileges
+  - Splashtop Streamer installed
 runtimeVariables: []
 placeholderVariables: []

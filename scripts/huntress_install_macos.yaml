@@ -1,5 +1,5 @@
 name: huntress_install_macos.sh
-description: ''
+description: Downloads and installs Huntress Agent on macOS endpoints for managed detection and response
 language: Bash
 runAs: SYSTEM_USER
 timeout: 15
@@ -9,7 +9,21 @@ tags:
 - Software
 shared: false
 favourite: false
-readme: ''
+readme: |
+  ## Purpose
+  Downloads and installs the Huntress Agent on macOS systems. Huntress provides managed detection and response (MDR) services. This script handles the download, validation, and installation of the agent with proper logging.
+
+  ## Usage
+  Provide the following SuperOps runtime variables:
+  - `ACCOUNT_KEY` - Your Huntress account secret key (32-char hex)
+  - `ORG_KEY` - Organization key for agent affiliation
+  - `INSTALL_SYSTEM_EXTENSION` - Whether to install system extension (requires MDM pre-configuration)
+
+  ## Requirements
+  - macOS operating system
+  - Root/sudo privileges
+  - Network connectivity to huntress.io
+  - Valid Huntress account key and organization key
 runtimeVariables:
 - name: ACCOUNT_KEY
 - name: ORG_KEY

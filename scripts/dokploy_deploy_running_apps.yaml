@@ -1,5 +1,5 @@
 name: dokploy_deploy_running_apps.sh
-description: ''
+description: Triggers deployments for all currently running Dokploy applications via API
 language: Bash
 runAs: SYSTEM_USER
 timeout: 15
@@ -8,6 +8,19 @@ tags:
 - Windows
 shared: false
 favourite: false
-readme: ''
+readme: |
+  ## Purpose
+  Automates the deployment process for all running Dokploy applications. Fetches application metadata via the Dokploy API, checks each app's status, and triggers deployments only for apps that are currently running. Idle applications are skipped.
+
+  ## Usage Notes
+  - Configure DOKPLOY_DOMAIN and API_TOKEN in script before running
+  - Adds 2-second delay between deployments to avoid API rate limits
+  - Skips applications with "idle" status
+  - API calls use HTTPS for encrypted communication
+
+  ## Requirements
+  - curl installed
+  - Network connectivity to Dokploy domain
+  - Valid Dokploy API token with deployment permissions
 runtimeVariables: []
 placeholderVariables: []

@@ -1,5 +1,5 @@
 name: onedrive_reenable.ps1
-description: ''
+description: Reverses OneDrive blocking policies and reinstalls OneDrive from Microsoft CDN
 language: PowerShell
 runAs: SYSTEM_USER
 timeout: 15
@@ -8,6 +8,26 @@ tags:
 - Windows
 shared: true
 favourite: false
-readme: ''
+readme: |
+  Purpose
+  -------
+  Reverses the registry policies set by onedrive_remove_complete.ps1 and reinstalls OneDrive. Use this when a machine needs to switch back to Microsoft services.
+
+  Usage Notes
+  -----------
+  - Removes HKLM GPO DisableFileSyncNGSC policy
+  - Removes Explorer DisableOneDriveFileSync policy
+  - Optionally cleans Default User profile policies
+  - Downloads and installs OneDrive from Microsoft CDN
+
+  Configurable options (hardcoded in script):
+  - $installOneDrive: Download and install OneDrive (default: true)
+  - $cleanDefaultProfile: Also clean Default User profile (default: true)
+
+  Requirements
+  ------------
+  - Windows with PowerShell 5.1 or later
+  - Administrator privileges
+  - Network connectivity to Microsoft CDN (for installation)
 runtimeVariables: []
 placeholderVariables: []

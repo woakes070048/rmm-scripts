@@ -1,5 +1,5 @@
 name: local_user_delete.ps1
-description: ''
+description: Deletes local user account and associated profile directory
 language: PowerShell
 runAs: SYSTEM_USER
 timeout: 15
@@ -9,7 +9,20 @@ tags:
 - Windows
 shared: true
 favourite: false
-readme: ''
+readme: |
+  ## Purpose
+  Deletes a local user account and its associated profile directory. Completely removes the user from the system including their files.
+
+  ## Usage
+  Provide the following SuperOps runtime variable:
+  - `UsernameToDelete` - Username of the account to delete (set to "listusers" to only list current users)
+
+  ## Requirements
+  - Windows 10/11
+  - Admin privileges required
+  - PowerShell 5.1+
+
+  **Warning:** This is a destructive operation - data cannot be recovered. Backup important data before running.
 runtimeVariables:
 - name: UsernameToDelete
 placeholderVariables: []

@@ -1,5 +1,5 @@
 name: choco_upgrade_all.ps1
-description: ''
+description: Upgrades all Chocolatey-managed packages to their latest versions with auto-confirmation
 language: PowerShell
 runAs: SYSTEM_USER
 timeout: 15
@@ -8,6 +8,18 @@ tags:
 - Windows
 shared: false
 favourite: false
-readme: ''
+readme: |
+  ## Purpose
+  Upgrades all Chocolatey-managed packages to their latest versions using the choco upgrade all command with automatic confirmation.
+
+  ## Usage Notes
+  - Auto-confirm enabled (-y flag) for unattended operation
+  - No configuration required; operates on all installed Chocolatey packages
+  - Package downloads use configured Chocolatey sources
+
+  ## Requirements
+  - Windows OS
+  - Administrator privileges
+  - Chocolatey package manager installed
 runtimeVariables: []
 placeholderVariables: []

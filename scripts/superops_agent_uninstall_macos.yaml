@@ -1,5 +1,5 @@
 name: superops_agent_uninstall_macos.sh
-description: ''
+description: Uninstalls SuperOps RMM agent from macOS using the vendor uninstall script
 language: Bash
 runAs: SYSTEM_USER
 timeout: 15
@@ -9,6 +9,21 @@ tags:
 - Software
 shared: false
 favourite: false
-readme: ''
+readme: |
+  Purpose:
+  Uninstalls the SuperOps RMM agent from macOS systems by executing the agent's built-in uninstall script. Provides a clean removal of the agent and all associated components.
+
+  Usage Notes:
+  - Uses official SuperOps uninstall script at /Library/superops/uninstall.sh
+  - Executes with sudo privileges
+  - Validates script existence before execution
+  - All-or-nothing - any failure stops the script immediately
+
+  Requirements:
+  - Bash shell
+  - macOS operating system
+  - Sudo privileges
+  - SuperOps RMM agent must be installed
+  - Uninstall script must exist at /Library/superops/uninstall.sh
 runtimeVariables: []
 placeholderVariables: []

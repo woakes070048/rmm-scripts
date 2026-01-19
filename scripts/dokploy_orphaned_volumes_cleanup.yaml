@@ -1,5 +1,5 @@
 name: dokploy_orphaned_volumes_cleanup.sh
-description: ''
+description: Identifies and removes orphaned Docker volumes to free disk space
 language: Bash
 runAs: SYSTEM_USER
 timeout: 15
@@ -8,6 +8,17 @@ tags:
 - Windows
 shared: false
 favourite: false
-readme: ''
+readme: |
+  ## Purpose
+  Scans Docker containers and Swarm services to identify volumes that are not currently mounted or in use. Provides detailed information about orphaned volumes including size, creation date, and mount point. Can optionally remove orphaned volumes automatically to free up disk space.
+
+  ## Usage
+  - Set `AUTO_REMOVE=true` to automatically remove orphaned volumes
+  - Set `AUTO_REMOVE=false` for safe mode (list only)
+
+  ## Requirements
+  - Docker installed and running
+  - Root/sudo access for volume inspection and removal
+  - Docker Swarm (optional, script works without it)
 runtimeVariables: []
 placeholderVariables: []

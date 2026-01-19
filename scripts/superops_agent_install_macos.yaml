@@ -1,5 +1,5 @@
 name: superops_agent_install_macos.sh
-description: ''
+description: Downloads and installs SuperOps RMM agent on macOS via PKG installer
 language: Bash
 runAs: SYSTEM_USER
 timeout: 15
@@ -8,6 +8,21 @@ tags:
 - Software
 shared: false
 favourite: false
-readme: ''
+readme: |
+  Purpose:
+  Downloads and installs the SuperOps RMM agent on macOS systems using the PKG installer format. Designed for automated deployment where the package download URL is provided as an environment variable.
+
+  Usage Notes:
+  - PKGURL environment variable must be set by RMM platform
+  - Downloads PKG to /Users/Shared directory
+  - Uses macOS installer command with -dumplog for detailed logging
+  - Installer handles cleanup after installation
+
+  Requirements:
+  - macOS
+  - Sudo privileges
+  - Internet access
+  - PKGURL environment variable set by RMM platform
+  - curl command (standard on macOS)
 runtimeVariables: []
 placeholderVariables: []

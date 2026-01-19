@@ -8,7 +8,36 @@ tags:
 - Windows
 shared: true
 favourite: false
-readme: ''
+readme: |
+  Purpose
+  -------
+  Rename a Windows device and sync the same name to SuperOps.
+
+  Naming pattern (max 15 chars): CLIENT-USERUUID
+  - CLIENT: Custom override $YourCustomClientHere, else from $YourClientNameHere
+    (variable length, sanitized A-Z0-9, trimmed if needed)
+  - USER: Sanitized username, maximized, truncated if needed
+  - UUID: SMBIOS UUID tail, at least 3 chars
+
+  Usage Notes
+  -----------
+  - Requires SuperOps runtime variables:
+    - $YourApiKeyHere: SuperOps API key
+    - $YourCustomClientHere: Custom client segment (overrides auto 3-char)
+    - $YourAssetIdHere: Asset ID (placeholder)
+    - $YourAssetNameHere: Current asset name (placeholder)
+    - $YourClientNameHere: Client name fallback (placeholder)
+  - Only A-Z, 0-9, and hyphen used in hostname
+  - Always exactly 15 characters
+  - SuperOps asset name updated via GraphQL API
+  - Reboot required for hostname change to take effect
+
+  Requirements
+  ------------
+  - Windows 10/11
+  - Administrator privileges
+  - SuperOps agent installed
+  - Internet access for SuperOps API
 runtimeVariables:
 - name: YourApiKeyHere
 - name: YourCustomClientHere

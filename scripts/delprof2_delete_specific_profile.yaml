@@ -1,5 +1,5 @@
 name: delprof2_delete_specific_profile.ps1
-description: ''
+description: Deletes only the specified Windows user profile using DelProf2 utility
 language: PowerShell
 runAs: SYSTEM_USER
 timeout: 15
@@ -9,7 +9,21 @@ tags:
 - Windows
 shared: false
 favourite: false
-readme: ''
+readme: |
+  ## Purpose
+  Deletes ONLY the specified Windows user profile. All other profiles are left untouched. Uses DelProf2 utility.
+
+  ## Usage Notes
+  - Protects gaia, administrator from accidental deletion
+  - Downloads DelProf2 directly (no Chocolatey required)
+  - Cleans up after execution
+  - DESTRUCTIVE OPERATION - profile cannot be recovered
+
+  ## Requirements
+  - Windows 10/11
+  - Admin privileges required
+  - Internet access for DelProf2 download
+  - Runtime variable: `profile_to_delete` (username of the profile to delete)
 runtimeVariables:
 - name: profile_to_delete
 placeholderVariables: []

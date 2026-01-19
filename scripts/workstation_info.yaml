@@ -1,5 +1,5 @@
 name: workstation_info.vbs
-description: ''
+description: Displays system info popup message box for Windows user self-service via RMM tray
 language: VBScript
 runAs: SYSTEM_USER
 timeout: 15
@@ -8,6 +8,25 @@ tags:
 - Windows
 shared: false
 favourite: false
-readme: ''
+readme: |
+  Purpose
+  -------
+  Displays a popup message box showing system information to the end user.
+  Designed to be triggered from the RMM tray icon for user self-service.
+
+  Usage
+  -----
+  - Collects and displays via WMI:
+    - Operating System name and version
+    - Computer name and current user
+    - Serial number
+    - CPU name and core count
+    - Total RAM
+    - Network adapter info (name, IP, MAC)
+
+  Requirements
+  ------------
+  - Windows 10/11
+  - No special privileges required
 runtimeVariables: []
 placeholderVariables: []

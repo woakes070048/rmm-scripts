@@ -1,5 +1,5 @@
 name: nirsoft_uninstall_view.ps1
-description: ''
+description: Uses NirSoft UninstallView to uninstall software matching wildcard patterns
 language: PowerShell
 runAs: SYSTEM_USER
 timeout: 15
@@ -8,6 +8,23 @@ tags:
 - Windows
 shared: false
 favourite: false
-readme: ''
+readme: |
+  Purpose
+  -------
+  Downloads NirSoft UninstallView utility and uses it to uninstall software matching a specified pattern using wildcard matching.
+
+  Usage Notes
+  -----------
+  - Edit appName variable with application name or pattern to uninstall
+  - Supports wildcards (e.g., Adobe*, *Chrome*, etc.)
+  - Downloads appropriate version based on system architecture (32/64-bit)
+  - UninstallView is downloaded from official NirSoft website
+  - Check manually after execution to confirm uninstallation
+
+  Requirements
+  ------------
+  - Windows OS
+  - Administrator privileges
+  - Internet connectivity
 runtimeVariables: []
 placeholderVariables: []

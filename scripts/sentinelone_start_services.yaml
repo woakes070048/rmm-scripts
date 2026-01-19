@@ -1,5 +1,5 @@
 name: sentinelone_start_services.ps1
-description: ''
+description: Ensures all SentinelOne services are running on Windows systems
 language: PowerShell
 runAs: SYSTEM_USER
 timeout: 15
@@ -9,6 +9,22 @@ tags:
 - Windows
 shared: false
 favourite: false
-readme: ''
+readme: |
+  Purpose
+  -------
+  Checks the status of all SentinelOne services on Windows systems and ensures they are running. Enables disabled services and starts stopped services. Useful for troubleshooting SentinelOne agent issues where services may have been stopped or disabled.
+
+  Usage Notes
+  -----------
+  - No inputs required - automatically checks all SentinelOne services
+  - Services checked: LogProcessorService, SentinelAgent, SentinelHelperService, SentinelStaticEngine
+  - Sets disabled services to Automatic startup type
+  - Reports final status for all services
+
+  Requirements
+  ------------
+  - Windows PowerShell 5.1 or PowerShell 7+
+  - Administrator privileges
+  - SentinelOne agent must be installed
 runtimeVariables: []
 placeholderVariables: []

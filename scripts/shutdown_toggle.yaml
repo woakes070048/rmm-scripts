@@ -1,5 +1,5 @@
 name: shutdown_toggle.ps1
-description: ''
+description: Schedules system shutdown with warning or cancels existing scheduled shutdown
 language: PowerShell
 runAs: SYSTEM_USER
 timeout: 15
@@ -8,6 +8,21 @@ tags:
 - Windows
 shared: false
 favourite: false
-readme: ''
+readme: |
+  Purpose
+  -------
+  Schedules a system shutdown with a warning message, or cancels an existing scheduled shutdown if one is already pending. Acts as a toggle - run once to schedule, run again to cancel.
+
+  Usage Notes
+  -----------
+  - Default shutdown time is 60 seconds (configurable via shutdownTime variable)
+  - User sees on-screen countdown before shutdown
+  - Run the script again to cancel a pending shutdown
+
+  Requirements
+  ------------
+  - Windows 10/11 or Windows Server
+  - Administrator privileges
+  - shutdown.exe (standard Windows component)
 runtimeVariables: []
 placeholderVariables: []

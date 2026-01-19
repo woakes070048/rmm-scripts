@@ -1,5 +1,5 @@
 name: splashtop_business_install_macos.sh
-description: ''
+description: Downloads and installs Splashtop Business client on macOS
 language: Bash
 runAs: SYSTEM_USER
 timeout: 15
@@ -8,6 +8,21 @@ tags:
 - Software
 shared: false
 favourite: false
-readme: ''
+readme: |
+  Purpose
+  -------
+  Downloads and installs the Splashtop Business client application on macOS. The Business client allows users to connect to remote computers with Splashtop Streamer installed.
+
+  Usage Notes
+  -----------
+  - Downloads installer DMG from official Splashtop servers
+  - Mounts DMG, installs package, then unmounts and cleans up
+  - Installer is removed after installation
+
+  Requirements
+  ------------
+  - macOS
+  - Root/sudo privileges
+  - Internet connectivity
 runtimeVariables: []
 placeholderVariables: []

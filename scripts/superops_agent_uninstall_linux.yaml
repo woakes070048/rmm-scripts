@@ -1,5 +1,5 @@
 name: superops_agent_uninstall_linux.sh
-description: ''
+description: Uninstalls SuperOps RMM agent from Linux using the vendor uninstall script
 language: Bash
 runAs: SYSTEM_USER
 timeout: 15
@@ -9,6 +9,21 @@ tags:
 - Software
 shared: false
 favourite: false
-readme: ''
+readme: |
+  Purpose:
+  Uninstalls the SuperOps RMM agent from Linux systems by executing the agent's built-in uninstall script. Provides a clean removal of the agent and all associated components.
+
+  Usage Notes:
+  - Uses official SuperOps uninstall script at /opt/superopsrmm/uninstall.sh
+  - Sets executable permissions on the uninstall script before running
+  - Validates script existence before execution
+  - All-or-nothing - any failure stops the script immediately
+
+  Requirements:
+  - Bash shell
+  - Linux operating system
+  - Root/sudo privileges
+  - SuperOps RMM agent must be installed
+  - Uninstall script must exist at /opt/superopsrmm/uninstall.sh
 runtimeVariables: []
 placeholderVariables: []

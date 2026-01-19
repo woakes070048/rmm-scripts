@@ -1,5 +1,5 @@
 name: printers_remove_all.ps1
-description: ''
+description: Removes all printers, drivers, and ports from Windows using PowerShell
 language: PowerShell
 runAs: SYSTEM_USER
 timeout: 15
@@ -9,6 +9,18 @@ tags:
 - Windows
 shared: false
 favourite: false
-readme: ''
+readme: |
+  Purpose:
+  Removes ALL installed printers, their associated ports, and unused printer drivers from Windows. Use with caution - this is a destructive operation that cannot be undone.
+
+  Usage Notes:
+  - Set $removeDrivers to control driver removal (default: true)
+  - Set $removePorts to control orphaned port removal (default: true)
+  - Reports count of removed printers, ports, and drivers
+
+  Requirements:
+  - Windows 10/11 or Windows Server
+  - Administrator privileges
+  - Print Spooler service running
 runtimeVariables: []
 placeholderVariables: []
