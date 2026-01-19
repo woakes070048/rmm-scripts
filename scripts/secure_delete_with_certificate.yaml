@@ -10,16 +10,5 @@ tags:
 shared: false
 favourite: false
 readme: ''
-runtimeVariables:
-- name: target_path
-- name: output_directory
-- name: overwrite_passes
-- name: operator_name
-- name: case_reference
-- name: witness_name
-- name: notes_text
-- name: dry_run
-- name: recursive_mode
-- name: generate_html
-- name: auto_install_sdelete
+runtimeVariables: []
 placeholderVariables: []
