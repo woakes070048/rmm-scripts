@@ -2,7 +2,7 @@ name: ubuntu_debian_update_verbose.sh
 description: Automates Ubuntu/Debian package updates with verbose output and reboot detection
 language: Bash
 runAs: SYSTEM_USER
-timeout: 30
+timeout: 90
 tags:
 - Linux
 - Maintenance

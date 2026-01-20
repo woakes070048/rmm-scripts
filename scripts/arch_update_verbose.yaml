@@ -2,7 +2,7 @@ name: arch_update_verbose.sh
 description: Automates Arch Linux/Omarchy package updates with verbose output
 language: Bash
 runAs: SYSTEM_USER
-timeout: 30
+timeout: 90
 tags:
 - Linux
 - Maintenance
