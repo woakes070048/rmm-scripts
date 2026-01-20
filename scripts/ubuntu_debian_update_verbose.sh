@@ -7,7 +7,7 @@
 # ███████╗██║██║ ╚═╝ ██║███████╗██║  ██║██║  ██║╚███╔███╔╝██║  ██╗
 # ╚══════╝╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚══╝╚══╝ ╚═╝  ╚═╝
 # ================================================================================
-#  SCRIPT   : Ubuntu/Debian System Update (Verbose)                        v1.2.0
+#  SCRIPT   : Ubuntu/Debian System Update (Verbose)                        v1.3.0
 #  AUTHOR   : Limehawk.io
 #  DATE     : January 2026
 #  USAGE    : sudo ./ubuntu_debian_update_verbose.sh
@@ -110,6 +110,7 @@
 # --------------------------------------------------------------------------------
 #  CHANGELOG
 # --------------------------------------------------------------------------------
+#  2026-01-20 v1.3.0 Add warning for held-back packages needing dist-upgrade
 #  2026-01-20 v1.2.0 Add trap handler for dpkg recovery on interrupt
 #  2026-01-20 v1.1.2 Fixed README structure for framework compliance
 #  2026-01-19 v1.1.1 Updated to two-line ASCII console output style
@@ -201,6 +202,12 @@ if [ "$ENABLE_FULL_UPGRADE" = true ]; then
     run_task_verbose "Performing full system upgrade" apt-get dist-upgrade -y --no-install-recommends
 else
     run_task_verbose "Upgrading all system packages" apt-get upgrade -y --no-install-recommends
+    # Check for held-back packages that need dist-upgrade
+    held=$(apt-get -s dist-upgrade 2>/dev/null | grep "^Inst" | wc -l)
+    if [ "$held" -gt 0 ]; then
+        echo ""
+        echo -e "${YELLOW}[WARN] $held package(s) held back - set ENABLE_FULL_UPGRADE=true to upgrade${NC}"
+    fi
 fi
 
 if [ "$ENABLE_AUTOREMOVE" = true ]; then
