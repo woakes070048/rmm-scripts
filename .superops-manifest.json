@@ -181,9 +181,9 @@
       "scriptId": "259059219677437952",
       "filename": "ubuntu_debian_update_verbose",
       "language": "Bash",
-      "checksum": "sha256:00c261173217ef98",
+      "checksum": "sha256:2b20dc8e655bf6a9",
       "metaChecksum": "meta:63e70ce59a114bba",
-      "lastModified": "2026-01-19T23:26:35.554286+00:00"
+      "lastModified": "2026-01-20T16:20:57.332250+00:00"
     },
     {
       "scriptId": "259059218180071424",
@@ -1122,5 +1122,5 @@
       "lastModified": "2026-01-19T23:15:37.636764+00:00"
     }
   ],
-  "lastSync": "2026-01-19T23:27:41.357441+00:00"
+  "lastSync": "2026-01-20T16:20:57.332692+00:00"
 }
