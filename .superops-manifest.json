@@ -1120,7 +1120,15 @@
       "metaChecksum": "meta:a20e4739bc16db42",
       "language": "PowerShell",
       "lastModified": "2026-01-19T23:15:37.636764+00:00"
+    },
+    {
+      "scriptId": "353431407091859456",
+      "filename": "arch_update_verbose",
+      "checksum": "sha256:3bfc9e70af443cd1",
+      "metaChecksum": "meta:d5d0480e3db19ca2",
+      "language": "Bash",
+      "lastModified": "2026-01-20T16:52:01.234725+00:00"
     }
   ],
-  "lastSync": "2026-01-20T16:50:05.697627+00:00"
+  "lastSync": "2026-01-20T16:52:01.235197+00:00"
 }
