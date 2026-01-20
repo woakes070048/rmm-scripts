@@ -1106,14 +1106,6 @@
       "lastModified": "2026-01-19T23:26:18.370052+00:00"
     },
     {
-      "scriptId": "5286715339754479616",
-      "filename": "console_output_test",
-      "checksum": "sha256:3bbe20a4ea9f901e",
-      "metaChecksum": "meta:7ae10be09eabc629",
-      "language": "PowerShell",
-      "lastModified": "2026-01-19T09:36:22.856642+00:00"
-    },
-    {
       "scriptId": "3784411666984587264",
       "filename": "secure_delete_interactive",
       "checksum": "sha256:1cab763581442f2a",
