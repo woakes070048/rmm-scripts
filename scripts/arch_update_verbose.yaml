@@ -6,7 +6,6 @@ timeout: 90
 tags:
 - Linux
 - Maintenance
-- Arch
 shared: false
 favourite: false
 readme: |
