@@ -6,7 +6,7 @@ timeout: 90
 tags:
 - Linux
 - Maintenance
-shared: false
+shared: true
 favourite: false
 readme: |
   Purpose
