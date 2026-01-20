@@ -7,7 +7,7 @@
 # ███████╗██║██║ ╚═╝ ██║███████╗██║  ██║██║  ██║╚███╔███╔╝██║  ██╗
 # ╚══════╝╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚══╝╚══╝ ╚═╝  ╚═╝
 # ================================================================================
-#  SCRIPT   : Ubuntu/Debian System Update (Verbose)                        v1.1.2
+#  SCRIPT   : Ubuntu/Debian System Update (Verbose)                        v1.2.0
 #  AUTHOR   : Limehawk.io
 #  DATE     : January 2026
 #  USAGE    : sudo ./ubuntu_debian_update_verbose.sh
@@ -110,6 +110,7 @@
 # --------------------------------------------------------------------------------
 #  CHANGELOG
 # --------------------------------------------------------------------------------
+#  2026-01-20 v1.2.0 Add trap handler for dpkg recovery on interrupt
 #  2026-01-20 v1.1.2 Fixed README structure for framework compliance
 #  2026-01-19 v1.1.1 Updated to two-line ASCII console output style
 #  2025-12-23 v1.1.0 Updated to Limehawk Script Framework
@@ -129,6 +130,18 @@ ENABLE_COLOR_OUTPUT=true              # Use colored output
 # ENVIRONMENT SETTINGS
 # ============================================================================
 export DEBIAN_FRONTEND=noninteractive
+
+# --- Trap Handler for Interrupted Upgrades ---
+cleanup() {
+    local exit_code=$?
+    if [ $exit_code -ne 0 ]; then
+        echo ""
+        echo -e "${YELLOW}[WARN] Script interrupted, running dpkg recovery...${NC}"
+        dpkg --configure -a
+        apt-get -f install -y
+    fi
+}
+trap cleanup EXIT
 
 # --- Define Colors ---
 if [ "$ENABLE_COLOR_OUTPUT" = true ]; then
