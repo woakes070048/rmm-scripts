@@ -7,7 +7,7 @@
 # ███████╗██║██║ ╚═╝ ██║███████╗██║  ██║██║  ██║╚███╔███╔╝██║  ██╗
 # ╚══════╝╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚══╝╚══╝ ╚═╝  ╚═╝
 # ================================================================================
-#  SCRIPT   : Ubuntu/Debian System Update (Verbose)                        v1.1.1
+#  SCRIPT   : Ubuntu/Debian System Update (Verbose)                        v1.1.2
 #  AUTHOR   : Limehawk.io
 #  DATE     : January 2026
 #  USAGE    : sudo ./ubuntu_debian_update_verbose.sh
@@ -24,43 +24,60 @@
 #  packages, removes unused dependencies, and cleans package cache.
 #  Provides color-coded status messages and reboot detection.
 #
-#  CONFIGURATION
-#  -----------------------------------------------------------------------
-#  - ENSURE_APT_UTILS: Install apt-utils if missing (recommended: true)
-#  - ENABLE_FULL_UPGRADE: Use dist-upgrade instead of upgrade (default: false)
-#  - ENABLE_AUTOREMOVE: Remove unused packages after upgrade (default: true)
-#  - ENABLE_CACHE_CLEAN: Clean apt cache to free disk space (default: true)
-#  - ENABLE_COLOR_OUTPUT: Use colored terminal output (default: true)
+#  DATA SOURCES & PRIORITY
+#
+#    Not applicable - uses system-configured apt repositories
+#
+#  REQUIRED INPUTS
+#
+#    All inputs are hardcoded in the SETTINGS section:
+#      - ENSURE_APT_UTILS: Install apt-utils if missing
+#      - ENABLE_FULL_UPGRADE: Use dist-upgrade instead of upgrade
+#      - ENABLE_AUTOREMOVE: Remove unused packages after upgrade
+#      - ENABLE_CACHE_CLEAN: Clean apt cache to free disk space
+#      - ENABLE_COLOR_OUTPUT: Use colored terminal output
+#
+#  ENDPOINTS
+#
+#    System-configured apt repositories (varies by installation)
+#
+#  SETTINGS
+#
+#    - ENSURE_APT_UTILS: Install apt-utils if missing (recommended: true)
+#    - ENABLE_FULL_UPGRADE: Use dist-upgrade instead of upgrade (default: false)
+#    - ENABLE_AUTOREMOVE: Remove unused packages after upgrade (default: true)
+#    - ENABLE_CACHE_CLEAN: Clean apt cache to free disk space (default: true)
+#    - ENABLE_COLOR_OUTPUT: Use colored terminal output (default: true)
 #
 #  BEHAVIOR
-#  -----------------------------------------------------------------------
-#  1. Updates package lists from repositories
-#  2. Ensures apt-utils is installed for proper configuration
-#  3. Upgrades all system packages (or performs dist-upgrade if enabled)
-#  4. Removes unused packages and dependencies if enabled
-#  5. Cleans apt cache if enabled
-#  6. Checks if system reboot is required and notifies user
+#
+#    1. Updates package lists from repositories
+#    2. Ensures apt-utils is installed for proper configuration
+#    3. Upgrades all system packages (or performs dist-upgrade if enabled)
+#    4. Removes unused packages and dependencies if enabled
+#    5. Cleans apt cache if enabled
+#    6. Checks if system reboot is required and notifies user
 #
 #  PREREQUISITES
-#  -----------------------------------------------------------------------
-#  - Root/sudo access required
-#  - Ubuntu or Debian-based Linux distribution
-#  - Network connectivity to package repositories
-#  - apt package manager
+#
+#    - Root/sudo access required
+#    - Ubuntu or Debian-based Linux distribution
+#    - Network connectivity to package repositories
+#    - apt package manager
 #
 #  SECURITY NOTES
-#  -----------------------------------------------------------------------
-#  - No secrets exposed in output
-#  - Uses DEBIAN_FRONTEND=noninteractive to prevent interactive prompts
-#  - Runs with elevated privileges (sudo required)
+#
+#    - No secrets exposed in output
+#    - Uses DEBIAN_FRONTEND=noninteractive to prevent interactive prompts
+#    - Runs with elevated privileges (sudo required)
 #
 #  EXIT CODES
-#  -----------------------------------------------------------------------
-#  0 - Success (all updates completed)
-#  Non-zero - Failure (error occurred during execution)
 #
-#  EXAMPLE OUTPUT
-#  -----------------------------------------------------------------------
+#    0 = Success (all updates completed)
+#    1 = Failure (error occurred during execution)
+#
+#  EXAMPLE RUN
+#
 #    [RUN] STARTING SYSTEM UPDATE
 #    ==============================================================
 #
@@ -93,6 +110,7 @@
 # --------------------------------------------------------------------------------
 #  CHANGELOG
 # --------------------------------------------------------------------------------
+#  2026-01-20 v1.1.2 Fixed README structure for framework compliance
 #  2026-01-19 v1.1.1 Updated to two-line ASCII console output style
 #  2025-12-23 v1.1.0 Updated to Limehawk Script Framework
 #  2024-11-18 v1.0.0 Initial release
@@ -144,7 +162,7 @@ run_task_verbose() {
         echo -e "${RED}[ERROR] $description (Exit Code: $status)${NC}"
         echo "=============================================================="
         echo -e "${RED}Halting script due to error.${NC}"
-        exit $status
+        exit 1
     fi
 }
 
@@ -188,3 +206,5 @@ if [ -f /var/run/reboot-required ]; then
     echo ""
     echo -e "${YELLOW}[WARN] System reboot required${NC}"
 fi
+
+exit 0
