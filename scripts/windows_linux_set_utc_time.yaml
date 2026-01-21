@@ -8,21 +8,38 @@ tags:
 - Maintenance
 shared: false
 favourite: false
-readme: |
-  Purpose
+readme: 'Purpose
+
   -------
-  Configures Windows to use UTC for the hardware clock instead of local time. This prevents the clock from being wrong when switching between Windows and Linux on dual-boot systems, as Linux uses UTC by default.
+
+  Configures Windows to use UTC for the hardware clock instead of local time. This
+  prevents the clock from being wrong when switching between Windows and Linux on
+  dual-boot systems, as Linux uses UTC by default.
+
 
   Usage Notes
+
   -----------
+
   - Sets RealTimeIsUniversal registry value to 1 in TimeZoneInformation
+
   - No configurable inputs required
+
   - Run once after installing Windows on a dual-boot system
 
+
   Requirements
+
   ------------
+
   - PowerShell 5.1 or later
+
   - Administrator privileges (required for HKLM access)
+
   - Windows 10/11
+
+  '
 runtimeVariables: []
 placeholderVariables: []
+scriptId: '259059240497963008'
+lastPushedChecksum: sha256:d81f5af54a2d914c

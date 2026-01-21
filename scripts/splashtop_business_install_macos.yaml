@@ -8,21 +8,37 @@ tags:
 - Software
 shared: false
 favourite: false
-readme: |
-  Purpose
+readme: 'Purpose
+
   -------
-  Downloads and installs the Splashtop Business client application on macOS. The Business client allows users to connect to remote computers with Splashtop Streamer installed.
+
+  Downloads and installs the Splashtop Business client application on macOS. The Business
+  client allows users to connect to remote computers with Splashtop Streamer installed.
+
 
   Usage Notes
+
   -----------
+
   - Downloads installer DMG from official Splashtop servers
+
   - Mounts DMG, installs package, then unmounts and cleans up
+
   - Installer is removed after installation
 
+
   Requirements
+
   ------------
+
   - macOS
+
   - Root/sudo privileges
+
   - Internet connectivity
+
+  '
 runtimeVariables: []
 placeholderVariables: []
+scriptId: '2890665459264626688'
+lastPushedChecksum: sha256:687707d59ce4a3d6

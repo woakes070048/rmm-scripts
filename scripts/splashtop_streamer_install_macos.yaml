@@ -8,19 +8,34 @@ tags:
 - Software
 shared: false
 favourite: false
-readme: |
-  Purpose:
-  Downloads and installs the Splashtop Streamer agent on macOS for remote access capabilities. The Streamer runs on computers to allow remote connections from Splashtop Business clients.
+readme: 'Purpose:
+
+  Downloads and installs the Splashtop Streamer agent on macOS for remote access capabilities.
+  The Streamer runs on computers to allow remote connections from Splashtop Business
+  clients.
+
 
   Usage Notes:
+
   - Run with sudo privileges
+
   - Downloads installer DMG to /tmp
+
   - Mounts DMG, installs package, then unmounts and cleans up
+
   - Installer URL points to v3.7.0.0
 
+
   Requirements:
+
   - macOS
+
   - Root/sudo privileges
+
   - Internet connectivity
+
+  '
 runtimeVariables: []
 placeholderVariables: []
+scriptId: '259059189193236480'
+lastPushedChecksum: sha256:7962109ca8b9e885

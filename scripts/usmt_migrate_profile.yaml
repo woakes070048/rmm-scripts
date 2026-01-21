@@ -1,5 +1,6 @@
 name: usmt_migrate_profile.ps1
-description: Interactive USMT tool for backing up and restoring user profiles across machines
+description: Interactive USMT tool for backing up and restoring user profiles across
+  machines
 language: PowerShell
 runAs: SYSTEM_USER
 timeout: 15
@@ -8,29 +9,19 @@ tags:
 - Windows
 shared: false
 favourite: false
-readme: |
-  Purpose
-  -------
-  Interactive USMT (User State Migration Tool) backup and restore utility for remote terminal sessions. Enables backing up user profiles from one machine and restoring them to another, including documents, settings, and application data.
-
-  Usage Notes
-  -----------
-  - Run interactively - presents menu-driven interface
-  - Backup options include:
-    - Documents, Desktop, Downloads, Pictures, Music, Videos
-    - Favorites/Bookmarks, AppData (Roaming and Local)
-    - Printers, Wallpaper settings
-    - Optional encryption for backup security
-  - Restore options:
-    - Merge to existing account
-    - Create new local account during restore
-  - USMT tools are auto-downloaded if not present
-
-  Requirements
-  ------------
-  - Windows 10/11 or Windows Server
-  - Administrator privileges required
-  - Internet connectivity (for initial USMT download)
-  - Sufficient disk space for migration store
+readme: "Purpose\n-------\nInteractive USMT (User State Migration Tool) backup and\
+  \ restore utility for remote terminal sessions. Enables backing up user profiles\
+  \ from one machine and restoring them to another, including documents, settings,\
+  \ and application data.\n\nUsage Notes\n-----------\n- Run interactively - presents\
+  \ menu-driven interface\n- Backup options include:\n  - Documents, Desktop, Downloads,\
+  \ Pictures, Music, Videos\n  - Favorites/Bookmarks, AppData (Roaming and Local)\n\
+  \  - Printers, Wallpaper settings\n  - Optional encryption for backup security\n\
+  - Restore options:\n  - Merge to existing account\n  - Create new local account\
+  \ during restore\n- USMT tools are auto-downloaded if not present\n\nRequirements\n\
+  ------------\n- Windows 10/11 or Windows Server\n- Administrator privileges required\n\
+  - Internet connectivity (for initial USMT download)\n- Sufficient disk space for\
+  \ migration store\n"
 runtimeVariables: []
 placeholderVariables: []
+scriptId: '259059222848331776'
+lastPushedChecksum: sha256:482acfccee3b6926

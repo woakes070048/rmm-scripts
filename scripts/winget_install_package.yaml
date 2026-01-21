@@ -1,5 +1,6 @@
 name: winget_install_package.ps1
-description: Installs a software package using winget with SuperOps runtime variable for package name
+description: Installs a software package using winget with SuperOps runtime variable
+  for package name
 language: PowerShell
 runAs: SYSTEM_USER
 timeout: 15
@@ -9,23 +10,42 @@ tags:
 - Windows
 shared: false
 favourite: false
-readme: |
-  Purpose
+readme: 'Purpose
+
   -------
-  Installs a software package using winget (Windows Package Manager). Uses SuperOps runtime text replacement for the package name. Handles silent installation with automatic acceptance of agreements.
+
+  Installs a software package using winget (Windows Package Manager). Uses SuperOps
+  runtime text replacement for the package name. Handles silent installation with
+  automatic acceptance of agreements.
+
 
   Usage Notes
+
   -----------
-  - PackageName runtime variable specifies winget package ID (e.g., "Google.Chrome", "Mozilla.Firefox")
+
+  - PackageName runtime variable specifies winget package ID (e.g., "Google.Chrome",
+  "Mozilla.Firefox")
+
   - Silent installation mode with machine scope when available
+
   - Validates package exists before installation
+
   - Accepts package and source agreements automatically
 
+
   Requirements
+
   ------------
+
   - Winget must be installed (use winget_setup first)
+
   - Administrator privileges recommended
+
   - Internet connectivity
+
+  '
 runtimeVariables:
 - name: PackageName
 placeholderVariables: []
+scriptId: '1015783170502094848'
+lastPushedChecksum: sha256:e76fc103203862f5

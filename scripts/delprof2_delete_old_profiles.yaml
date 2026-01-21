@@ -9,20 +9,34 @@ tags:
 - Windows
 shared: false
 favourite: false
-readme: |
-  ## Purpose
-  Deletes Windows user profiles older than a specified number of days. Uses DelProf2 utility downloaded directly from helgeklein.com.
+readme: '## Purpose
+
+  Deletes Windows user profiles older than a specified number of days. Uses DelProf2
+  utility downloaded directly from helgeklein.com.
+
 
   ## Usage Notes
+
   - DESTRUCTIVE OPERATION - deleted profiles cannot be recovered
+
   - Set `$days_old` runtime variable (default: 30 days)
+
   - Always protects: gaia and administrator profiles
+
   - Downloads DelProf2 directly (no Chocolatey required)
 
+
   ## Requirements
+
   - Windows 10/11
+
   - Administrator privileges
+
   - Internet access for DelProf2 download from helgeklein.com
+
+  '
 runtimeVariables:
 - name: days_old
 placeholderVariables: []
+scriptId: '259059068233703424'
+lastPushedChecksum: sha256:ee37b4b394ed8d99

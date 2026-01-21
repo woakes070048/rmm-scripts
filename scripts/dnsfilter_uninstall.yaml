@@ -10,19 +10,34 @@ tags:
 - Windows
 shared: false
 favourite: false
-readme: |
-  ## Purpose
-  Completely removes DNSFilter agent from a Windows system including uninstalling the MSI package, stopping/removing services, deleting installation folders, cleaning up registry keys, and resetting DNS settings to DHCP.
+readme: '## Purpose
+
+  Completely removes DNSFilter agent from a Windows system including uninstalling
+  the MSI package, stopping/removing services, deleting installation folders, cleaning
+  up registry keys, and resetting DNS settings to DHCP.
+
 
   ## Usage Notes
+
   - Uninstalls DNS Agent via WMI if installed
+
   - Stops and deletes related Windows services
+
   - Removes installation folders and registry keys
+
   - Resets all NICs to use DHCP for DNS
+
   - Flushes DNS cache
 
+
   ## Requirements
+
   - Windows 10/11 or Windows Server
+
   - Administrator privileges
+
+  '
 runtimeVariables: []
 placeholderVariables: []
+scriptId: '259059081412206592'
+lastPushedChecksum: sha256:5ad008b42a3ab348

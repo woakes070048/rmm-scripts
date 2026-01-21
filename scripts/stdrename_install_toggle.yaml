@@ -8,18 +8,32 @@ tags:
 - Windows
 shared: true
 favourite: false
-readme: |
-  Purpose:
-  Toggles installation of stdrename - a command-line file/folder renaming utility. If installed, uninstalls it. If not installed, downloads and installs it. Installs to System32 for system-wide availability.
+readme: 'Purpose:
+
+  Toggles installation of stdrename - a command-line file/folder renaming utility.
+  If installed, uninstalls it. If not installed, downloads and installs it. Installs
+  to System32 for system-wide availability.
+
 
   Usage Notes:
+
   - Toggle behavior: if installed it uninstalls, if not installed it installs
+
   - Downloads from GitHub releases (latest version)
+
   - Installs to C:\Windows\System32 for PATH accessibility
 
+
   Requirements:
+
   - Windows 10/11
+
   - Admin privileges (writing to System32)
+
   - Internet connectivity for download
+
+  '
 runtimeVariables: []
 placeholderVariables: []
+scriptId: '2703029945385623552'
+lastPushedChecksum: sha256:5059050d3cf4b21f

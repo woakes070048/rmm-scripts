@@ -8,19 +8,33 @@ tags:
 - Windows
 shared: true
 favourite: false
-readme: |
-  ## Purpose
-  Performs a comprehensive health check on all mounted disks and volumes on macOS. Verifies partition maps, file systems, and SMART status where supported.
+readme: '## Purpose
+
+  Performs a comprehensive health check on all mounted disks and volumes on macOS.
+  Verifies partition maps, file systems, and SMART status where supported.
+
 
   ## Usage Notes
+
   - Auto-detects all mounted disks
+
   - Checks partition map health
+
   - Verifies HFS and APFS volumes
+
   - Reports SMART status when available
+
   - Read-only operations (verification only)
 
+
   ## Requirements
+
   - macOS operating system
+
   - Root/sudo privileges
+
+  '
 runtimeVariables: []
 placeholderVariables: []
+scriptId: '5830142789672906752'
+lastPushedChecksum: sha256:1391750fc9b31938

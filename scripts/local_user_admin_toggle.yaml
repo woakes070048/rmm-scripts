@@ -8,21 +8,35 @@ tags:
 - Windows
 shared: true
 favourite: false
-readme: |
-  ## Purpose
-  Adds or removes a local user from the Administrators group. Idempotent operation that ensures the user's group membership aligns with the requested action.
+readme: '## Purpose
+
+  Adds or removes a local user from the Administrators group. Idempotent operation
+  that ensures the user''s group membership aligns with the requested action.
+
 
   ## Usage
+
   Provide the following SuperOps runtime variable:
+
   - `TargetUsername` - The local user account to manage
 
+
   Configure the action via hardcoded setting:
+
   - `Action` - "add" or "remove"
 
+
   ## Requirements
+
   - Windows 10/11
+
   - Admin privileges required
+
   - Target user must exist locally
+
+  '
 runtimeVariables:
 - name: TargetUsername
 placeholderVariables: []
+scriptId: '1015917390952198144'
+lastPushedChecksum: sha256:b1601a8a0b797f17

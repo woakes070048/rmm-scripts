@@ -8,16 +8,28 @@ tags:
 - Maintenance
 shared: false
 favourite: false
-readme: |
-  ## Purpose
-  Prevents macOS from creating .DS_Store files on network shares. These files contain folder metadata and can clutter network drives, causing issues for non-Mac users accessing shared folders.
+readme: '## Purpose
+
+  Prevents macOS from creating .DS_Store files on network shares. These files contain
+  folder metadata and can clutter network drives, causing issues for non-Mac users
+  accessing shared folders.
+
 
   ## Usage
+
   - Run the script as the current user
+
   - Log out and back in (or reboot) for changes to take effect
 
+
   ## Requirements
+
   - macOS operating system
+
   - No special privileges required (runs as current user)
+
+  '
 runtimeVariables: []
 placeholderVariables: []
+scriptId: '259059088395722752'
+lastPushedChecksum: sha256:6a32e8ee9e2fd422

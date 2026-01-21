@@ -8,29 +8,53 @@ tags:
 - Maintenance
 shared: false
 favourite: false
-readme: |
-  Purpose
+readme: 'Purpose
+
   -------
-  Configures an "always-on" power profile for macOS laptops and desktops. Sets display sleep, disk sleep, system sleep, and hibernation settings based on whether the device has a battery (laptop vs desktop).
+
+  Configures an "always-on" power profile for macOS laptops and desktops. Sets display
+  sleep, disk sleep, system sleep, and hibernation settings based on whether the device
+  has a battery (laptop vs desktop).
+
 
   Usage Notes
+
   -----------
+
   Desktop (no battery):
+
   - Display Sleep (AC): 30 minutes
+
   - Disk Sleep (AC): 60 minutes
+
   - System Sleep (AC): Never
+
   - Hibernation: Disabled
 
+
   Laptop (with battery):
+
   - Display Sleep (AC): 30 minutes, (DC): 10 minutes
+
   - Disk Sleep (AC): 60 minutes, (DC): 30 minutes
+
   - System Sleep (DC): 20 minutes
+
   - Hibernation: Enabled (default)
 
+
   Requirements
+
   ------------
+
   - macOS 10.12 or later
+
   - Root/sudo privileges
+
   - pmset utility (standard macOS component)
+
+  '
 runtimeVariables: []
 placeholderVariables: []
+scriptId: '259059133677428736'
+lastPushedChecksum: sha256:9072c99f1f6610aa

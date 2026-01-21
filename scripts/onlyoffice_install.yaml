@@ -9,22 +9,39 @@ tags:
 - Windows
 shared: false
 favourite: false
-readme: |
-  Purpose
+readme: 'Purpose
+
   -------
-  Downloads and silently installs OnlyOffice Desktop Editors, a free office suite compatible with Microsoft Office formats.
+
+  Downloads and silently installs OnlyOffice Desktop Editors, a free office suite
+  compatible with Microsoft Office formats.
+
 
   Usage Notes
+
   -----------
+
   - Downloads OnlyOffice MSI installer to temp directory
+
   - Installs silently using msiexec
+
   - Cleans up installer file after completion
+
   - Downloads from official OnlyOffice website
 
+
   Requirements
+
   ------------
+
   - Windows OS (64-bit)
+
   - Administrator privileges
+
   - Internet connectivity
+
+  '
 runtimeVariables: []
 placeholderVariables: []
+scriptId: '259059120024969216'
+lastPushedChecksum: sha256:23aa265c1afc89cd

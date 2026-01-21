@@ -1,5 +1,6 @@
 name: winget_setup.ps1
-description: Installs winget (Windows Package Manager) for RMM environments using AppX method
+description: Installs winget (Windows Package Manager) for RMM environments using
+  AppX method
 language: PowerShell
 runAs: SYSTEM_USER
 timeout: 15
@@ -8,24 +9,44 @@ tags:
 - Windows
 shared: true
 favourite: false
-readme: |
-  Purpose
+readme: 'Purpose
+
   -------
-  Installs winget (Windows Package Manager) on Windows systems using the most reliable installation method. Optimized for RMM environments running under SYSTEM context. Uses manual AppX installation method which is more reliable than Repair-WinGetPackageManager.
+
+  Installs winget (Windows Package Manager) on Windows systems using the most reliable
+  installation method. Optimized for RMM environments running under SYSTEM context.
+  Uses manual AppX installation method which is more reliable than Repair-WinGetPackageManager.
+
 
   Usage Notes
+
   -----------
+
   - Downloads winget and dependencies from GitHub
+
   - Installs VCLibs and UI.Xaml dependencies first
+
   - Configures PATH environment variable automatically
+
   - Skips installation if winget already exists (unless forceReinstall is true)
+
   - Handles Windows 10, 11, and Server 2019+
 
+
   Requirements
+
   ------------
+
   - Administrator or SYSTEM privileges
+
   - Windows 10 1809+ or Windows Server 2019+
+
   - Internet connectivity to GitHub
+
   - PowerShell 5.1 or higher
+
+  '
 runtimeVariables: []
 placeholderVariables: []
+scriptId: '4253548481531990016'
+lastPushedChecksum: sha256:819474147f9e8b9a

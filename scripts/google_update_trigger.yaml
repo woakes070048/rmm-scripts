@@ -1,5 +1,6 @@
 name: google_update_trigger.ps1
-description: Triggers Google Update scheduled task to force an immediate check for Chrome updates
+description: Triggers Google Update scheduled task to force an immediate check for
+  Chrome updates
 language: PowerShell
 runAs: SYSTEM_USER
 timeout: 15
@@ -8,16 +9,28 @@ tags:
 - Windows
 shared: false
 favourite: false
-readme: |
-  ## Purpose
-  Triggers the Google Update scheduled task to force an immediate check for Chrome and other Google product updates.
+readme: '## Purpose
+
+  Triggers the Google Update scheduled task to force an immediate check for Chrome
+  and other Google product updates.
+
 
   ## Usage
-  No inputs required. The script automatically finds and triggers GoogleUpdateTaskMachineUA scheduled tasks.
+
+  No inputs required. The script automatically finds and triggers GoogleUpdateTaskMachineUA
+  scheduled tasks.
+
 
   ## Requirements
+
   - Windows 10/11
+
   - Google Chrome or other Google products installed
+
   - Administrator privileges
+
+  '
 runtimeVariables: []
 placeholderVariables: []
+scriptId: '259059097769992192'
+lastPushedChecksum: sha256:8b0829bbfee0f445

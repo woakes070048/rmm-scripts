@@ -8,16 +8,27 @@ tags:
 - Windows
 shared: true
 favourite: false
-readme: |
-  ## Purpose
-  Flushes the DNS cache on macOS to resolve DNS-related connectivity issues. Automatically detects macOS version and uses the appropriate flush method.
+readme: '## Purpose
+
+  Flushes the DNS cache on macOS to resolve DNS-related connectivity issues. Automatically
+  detects macOS version and uses the appropriate flush method.
+
 
   ## Usage
+
   - Run with sudo: `sudo ./flush_dns.sh`
+
   - Script auto-detects macOS version and selects appropriate flush command
 
+
   ## Requirements
+
   - macOS 10.6 or later
+
   - Root/sudo privileges
+
+  '
 runtimeVariables: []
 placeholderVariables: []
+scriptId: '934483777516347392'
+lastPushedChecksum: sha256:fd8698fac2a9f51f

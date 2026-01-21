@@ -9,18 +9,33 @@ tags:
 - Windows
 shared: false
 favourite: false
-readme: |
-  ## Purpose
-  Performs a complete cleanup of ESET antivirus software from Windows systems. Removes services, processes, files, registry entries, and scheduled tasks left behind after ESET uninstallation. Useful when standard uninstall fails or leaves remnants that interfere with new AV deployment.
+readme: '## Purpose
+
+  Performs a complete cleanup of ESET antivirus software from Windows systems. Removes
+  services, processes, files, registry entries, and scheduled tasks left behind after
+  ESET uninstallation. Useful when standard uninstall fails or leaves remnants that
+  interfere with new AV deployment.
+
 
   ## Usage
+
   - Run as Administrator or via RMM as SYSTEM
+
   - No inputs required - all cleanup targets are predefined
+
   - A system reboot is recommended after cleanup
 
+
   ## Requirements
+
   - Windows PowerShell 5.1 or PowerShell 7+
+
   - Administrator privileges (required)
+
   - No modules required
+
+  '
 runtimeVariables: []
 placeholderVariables: []
+scriptId: '317078575525470208'
+lastPushedChecksum: sha256:a2251842f79f9ca3

@@ -9,17 +9,29 @@ tags:
 - Windows
 shared: false
 favourite: false
-readme: |
-  ## Purpose
-  Removes Google Credential Provider for Windows (GCPW) registry keys and folders to allow for a clean reinstallation or complete removal.
+readme: '## Purpose
+
+  Removes Google Credential Provider for Windows (GCPW) registry keys and folders
+  to allow for a clean reinstallation or complete removal.
+
 
   ## Usage
+
   - Run as Administrator or via RMM as SYSTEM
+
   - No inputs required
+
   - Does NOT uninstall GCPW itself (use Programs & Features for that)
 
+
   ## Requirements
+
   - Windows 10/11 or Windows Server
+
   - Administrator privileges
+
+  '
 runtimeVariables: []
 placeholderVariables: []
+scriptId: '1365998311448080384'
+lastPushedChecksum: sha256:7c4b484087b6fe55

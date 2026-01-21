@@ -9,22 +9,40 @@ tags:
 - Windows
 shared: false
 favourite: false
-readme: |
-  Purpose
+readme: 'Purpose
+
   -------
-  Checks the status of all SentinelOne services on Windows systems and ensures they are running. Enables disabled services and starts stopped services. Useful for troubleshooting SentinelOne agent issues where services may have been stopped or disabled.
+
+  Checks the status of all SentinelOne services on Windows systems and ensures they
+  are running. Enables disabled services and starts stopped services. Useful for troubleshooting
+  SentinelOne agent issues where services may have been stopped or disabled.
+
 
   Usage Notes
+
   -----------
+
   - No inputs required - automatically checks all SentinelOne services
+
   - Services checked: LogProcessorService, SentinelAgent, SentinelHelperService, SentinelStaticEngine
+
   - Sets disabled services to Automatic startup type
+
   - Reports final status for all services
 
+
   Requirements
+
   ------------
+
   - Windows PowerShell 5.1 or PowerShell 7+
+
   - Administrator privileges
+
   - SentinelOne agent must be installed
+
+  '
 runtimeVariables: []
 placeholderVariables: []
+scriptId: '259059176723570688'
+lastPushedChecksum: sha256:0b95244cb05b4797

@@ -8,21 +8,39 @@ tags:
 - Windows
 shared: true
 favourite: false
-readme: |
-  ## Purpose
-  Generates a comprehensive hardware inventory report for the local machine. Collects system information, CPU, memory, storage, GPU, network adapters, and BIOS details. Designed for unattended execution in RMM environments to gather standardized hardware data for asset management.
+readme: '## Purpose
+
+  Generates a comprehensive hardware inventory report for the local machine. Collects
+  system information, CPU, memory, storage, GPU, network adapters, and BIOS details.
+  Designed for unattended execution in RMM environments to gather standardized hardware
+  data for asset management.
+
 
   ## Usage
+
   Configure via hardcoded settings in the script:
+
   - `IncludeStorage` - Include storage device information
+
   - `IncludeGpu` - Include GPU information
+
   - `IncludeNetwork` - Include network adapter information
+
   - `IncludeBios` - Include BIOS information
+
   - `IncludeMemoryModules` - Include individual RAM module details
 
+
   ## Requirements
+
   - PowerShell 5.1 or later
+
   - Windows operating system with CIM/WMI support
+
   - No special permissions required (runs in user context)
+
+  '
 runtimeVariables: []
 placeholderVariables: []
+scriptId: '2059287687210598400'
+lastPushedChecksum: sha256:95cee5a490d733af

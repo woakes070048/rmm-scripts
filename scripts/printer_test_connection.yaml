@@ -8,19 +8,34 @@ tags:
 - Windows
 shared: false
 favourite: false
-readme: |
-  Purpose:
-  Tests network connectivity to configured printers by pinging their hostnames/IPs. Reports success/failure for each printer and optionally sends an email alert if any tests fail.
+readme: 'Purpose:
+
+  Tests network connectivity to configured printers by pinging their hostnames/IPs.
+  Reports success/failure for each printer and optionally sends an email alert if
+  any tests fail.
+
 
   Usage Notes:
+
   - Configure PRINTERS array with printer hostnames or IP addresses
+
   - Performs DNS lookup for failed connections as diagnostics
+
   - Optional email alerts via sendmail when failures occur
+
   - Default: 2 ping packets with 5 second timeout
 
+
   Requirements:
+
   - macOS or Linux
+
   - Network access to printer hosts
+
   - (Optional) sendmail for email alerts
+
+  '
 runtimeVariables: []
 placeholderVariables: []
+scriptId: '259059148156166144'
+lastPushedChecksum: sha256:8c85fe824e4c808c

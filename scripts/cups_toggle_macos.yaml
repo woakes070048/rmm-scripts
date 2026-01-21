@@ -8,18 +8,32 @@ tags:
 - Services
 shared: false
 favourite: false
-readme: |
-  ## Purpose
-  Toggles the CUPS (Common Unix Printing System) web interface on or off. If currently enabled, disables it. If disabled, enables it. Useful for managing printer administration access on macOS and Linux systems.
+readme: '## Purpose
+
+  Toggles the CUPS (Common Unix Printing System) web interface on or off. If currently
+  enabled, disables it. If disabled, enables it. Useful for managing printer administration
+  access on macOS and Linux systems.
+
 
   ## Usage Notes
+
   - Auto-detects current state and toggles to opposite
+
   - Web interface URL when enabled: http://localhost:631
+
   - Enabling exposes printer admin interface on localhost:631
 
+
   ## Requirements
+
   - macOS or Linux with CUPS installed
+
   - cupsctl command available
+
   - Root/sudo privileges
+
+  '
 runtimeVariables: []
 placeholderVariables: []
+scriptId: '259059066321100800'
+lastPushedChecksum: sha256:798218624bddb90d

@@ -9,19 +9,33 @@ tags:
 - Windows
 shared: false
 favourite: false
-readme: |
-  Purpose:
-  Uninstalls Splashtop Streamer from a Windows system using the Windows Installer service (MSI uninstall).
+readme: 'Purpose:
+
+  Uninstalls Splashtop Streamer from a Windows system using the Windows Installer
+  service (MSI uninstall).
+
 
   Usage Notes:
+
   - Searches for Splashtop Streamer in installed products
+
   - Retrieves the product GUID automatically
+
   - Executes silent uninstall via CIM method
+
   - Product name can be customized via $productName variable
 
+
   Requirements:
+
   - Windows OS
+
   - Administrator privileges
+
   - Splashtop Streamer installed
+
+  '
 runtimeVariables: []
 placeholderVariables: []
+scriptId: '259059190602522624'
+lastPushedChecksum: sha256:bc1a49eef9c80621

@@ -9,19 +9,34 @@ tags:
 - Windows
 shared: true
 favourite: false
-readme: |
-  ## Purpose
-  Downloads and installs Emsisoft Anti-Malware from a specified URL. Designed for deployments where the Emsisoft installer is hosted on a web server or cloud storage and needs to be deployed to endpoints via RMM.
+readme: '## Purpose
+
+  Downloads and installs Emsisoft Anti-Malware from a specified URL. Designed for
+  deployments where the Emsisoft installer is hosted on a web server or cloud storage
+  and needs to be deployed to endpoints via RMM.
+
 
   ## Usage
+
   - Set `$installerUrl` to the full URL of the Emsisoft installer executable
+
   - Set `$downloadPath` to the local directory for download (default: `$env:TEMP`)
+
   - Installer is executed immediately after download (interactive install)
 
+
   ## Requirements
+
   - Windows PowerShell 5.1 or PowerShell 7+
+
   - Internet connectivity to download URL
+
   - Administrator privileges recommended (for installation)
+
   - Sufficient disk space for installer download
+
+  '
 runtimeVariables: []
 placeholderVariables: []
+scriptId: '8388334911230820352'
+lastPushedChecksum: sha256:60ba86f93ffcfe92

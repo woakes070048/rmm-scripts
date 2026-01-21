@@ -1,5 +1,6 @@
 name: windows_update_reset.ps1
-description: Resets Windows Update components by clearing caches, re-registering DLLs, and restarting services
+description: Resets Windows Update components by clearing caches, re-registering DLLs,
+  and restarting services
 language: PowerShell
 runAs: SYSTEM_USER
 timeout: 15
@@ -10,24 +11,44 @@ tags:
 - Windows
 shared: false
 favourite: false
-readme: |
-  Purpose
+readme: 'Purpose
+
   -------
-  Completely resets Windows Update components by stopping services, clearing caches, resetting security descriptors, re-registering DLLs, and restarting services. Fixes most Windows Update problems.
+
+  Completely resets Windows Update components by stopping services, clearing caches,
+  resetting security descriptors, re-registering DLLs, and restarting services. Fixes
+  most Windows Update problems.
+
 
   Usage Notes
+
   -----------
+
   - Stops BITS, wuauserv, appidsvc, cryptsvc services
+
   - Clears SoftwareDistribution, catroot2, and QMGR data
+
   - Re-registers 30+ Windows Update related DLLs
+
   - Resets Winsock
+
   - Creates .bak folders for recovery
+
   - Optional reboot after reset (configure RebootAfterReset)
 
+
   Requirements
+
   ------------
+
   - Windows 10/11
+
   - Administrator privileges
+
   - Internet connectivity for updates after reset
+
+  '
 runtimeVariables: []
 placeholderVariables: []
+scriptId: '259059246441291776'
+lastPushedChecksum: sha256:ef58c55ceb0df14e
