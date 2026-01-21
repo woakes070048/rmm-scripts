@@ -21,4 +21,4 @@ readme: "Purpose\n-------\nAutomates system package updates for Arch Linux and O
 runtimeVariables: []
 placeholderVariables: []
 scriptId: '353431407091859456'
-lastPushedChecksum: sha256:3bfc9e70af443cd1
+lastPushedChecksum: sha256:132e3b80eb80e9b3
