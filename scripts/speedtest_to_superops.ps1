@@ -163,7 +163,6 @@ Set-StrictMode -Version Latest
 # HARDCODED INPUTS
 # ============================================================================
 
-$superOpsModule = $SuperOpsModule  # Passed by RMM environment
 $downloadUrl    = 'https://install.speedtest.net/app/cli/ookla-speedtest-1.2.0-win64.zip'
 $zipPath        = "$env:TEMP\speedtest.zip"
 $extractPath    = "$env:TEMP\SpeedtestCLI"
