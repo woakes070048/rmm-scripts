@@ -2,284 +2,984 @@
   "version": "1.0",
   "scripts": [
     {
-      "scriptId": "259059269958754304",
-      "filename": "workstation_info_macos",
-      "language": "Bash",
-      "checksum": "sha256:ec6f46c9627f2d4b",
-      "lastModified": "2026-01-21T03:54:57.827Z"
+      "scriptId": "259059052882550784",
+      "filename": "1password_install",
+      "language": "ps1",
+      "checksum": "",
+      "lastModified": "2026-01-21T03:56:56.639Z"
     },
     {
-      "scriptId": "259059265290493952",
-      "filename": "workstation_info",
-      "language": "VBScript",
-      "checksum": "sha256:3897e294e0f6e0a1",
-      "lastModified": "2026-01-21T03:54:57.827Z"
+      "scriptId": "2059305194998857728",
+      "filename": "antivirus_status",
+      "language": "ps1",
+      "checksum": "",
+      "lastModified": "2026-01-21T03:56:56.639Z"
     },
     {
-      "scriptId": "259059219677437952",
-      "filename": "ubuntu_debian_update_verbose",
-      "language": "Bash",
-      "checksum": "sha256:a6338a1bc9c15517",
-      "lastModified": "2026-01-21T03:54:57.827Z"
-    },
-    {
-      "scriptId": "259059218180071424",
-      "filename": "synology_backup_agent_install_linux",
-      "language": "Bash",
-      "checksum": "sha256:d25da66ea53f3a05",
-      "lastModified": "2026-01-21T03:54:57.827Z"
-    },
-    {
-      "scriptId": "259059204263370752",
-      "filename": "superops_agent_uninstall_macos_alt_path",
-      "language": "Bash",
-      "checksum": "sha256:a8e900b1e21cfd34",
-      "lastModified": "2026-01-21T03:54:57.827Z"
-    },
-    {
-      "scriptId": "259059202858278912",
-      "filename": "superops_agent_uninstall_macos",
-      "language": "Bash",
-      "checksum": "sha256:1f2ddeee28510922",
-      "lastModified": "2026-01-21T03:54:57.827Z"
-    },
-    {
-      "scriptId": "259059199326674944",
-      "filename": "superops_agent_uninstall_linux",
-      "language": "Bash",
-      "checksum": "sha256:2009c72750ce9121",
-      "lastModified": "2026-01-21T03:54:57.827Z"
-    },
-    {
-      "scriptId": "259059197846085632",
-      "filename": "superops_agent_reinstall_macos",
-      "language": "Bash",
-      "checksum": "sha256:174ea4eea6e05f07",
-      "lastModified": "2026-01-21T03:54:57.827Z"
-    },
-    {
-      "scriptId": "259059196407439360",
-      "filename": "superops_agent_install_macos",
-      "language": "Bash",
-      "checksum": "sha256:6fc3490acf5c28f8",
-      "lastModified": "2026-01-21T03:54:57.827Z"
-    },
-    {
-      "scriptId": "259059192137637888",
-      "filename": "splashtop_uninstall_macos",
-      "language": "Bash",
-      "checksum": "sha256:b9213924115309e4",
-      "lastModified": "2026-01-21T03:54:57.827Z"
-    },
-    {
-      "scriptId": "259059189193236480",
-      "filename": "splashtop_streamer_install_macos",
-      "language": "Bash",
-      "checksum": "sha256:7962109ca8b9e885",
-      "lastModified": "2026-01-21T03:54:57.827Z"
-    },
-    {
-      "scriptId": "259059187649732608",
-      "filename": "splashtop_streamer_install_debian_arm64",
-      "language": "Bash",
-      "checksum": "sha256:4fb1452893ccc28c",
-      "lastModified": "2026-01-21T03:54:57.827Z"
-    },
-    {
-      "scriptId": "259059185107984384",
-      "filename": "splashtop_streamer_install_debian_amd64",
-      "language": "Bash",
-      "checksum": "sha256:0d1eb15b627f4539",
-      "lastModified": "2026-01-21T03:54:57.827Z"
-    },
-    {
-      "scriptId": "259059178191577088",
-      "filename": "sentinelone_uninstall_linux",
-      "language": "Bash",
-      "checksum": "sha256:14d539a27befd82d",
-      "lastModified": "2026-01-21T03:54:57.827Z"
-    },
-    {
-      "scriptId": "259059167751954432",
-      "filename": "screenshot_macos",
-      "language": "Bash",
-      "checksum": "sha256:280df0bae5ceebc6",
-      "lastModified": "2026-01-21T03:54:57.827Z"
-    },
-    {
-      "scriptId": "259059166317502464",
-      "filename": "reset_nvram_reboot_macos",
-      "language": "Bash",
-      "checksum": "sha256:86cce573a4c2c35d",
-      "lastModified": "2026-01-21T03:54:57.827Z"
-    },
-    {
-      "scriptId": "259059164883050496",
-      "filename": "rename_workstation_manual_macos",
-      "language": "Bash",
-      "checksum": "sha256:a9b8d95d110acc3c",
-      "lastModified": "2026-01-21T03:54:57.827Z"
-    },
-    {
-      "scriptId": "259059160919433216",
-      "filename": "rename_workstation_auto_macos",
-      "language": "Bash",
-      "checksum": "sha256:6f80ffa845d204c0",
-      "lastModified": "2026-01-21T03:54:57.827Z"
-    },
-    {
-      "scriptId": "259059156825792512",
-      "filename": "reboot_on_uptime_macos",
-      "language": "Bash",
-      "checksum": "sha256:90407ef54e6ade53",
-      "lastModified": "2026-01-21T03:54:57.827Z"
-    },
-    {
-      "scriptId": "259059148156166144",
-      "filename": "printer_test_connection",
-      "language": "Bash",
-      "checksum": "sha256:8c85fe824e4c808c",
-      "lastModified": "2026-01-21T03:54:57.827Z"
-    },
-    {
-      "scriptId": "259059146683965440",
-      "filename": "printer_install_macos",
-      "language": "Bash",
-      "checksum": "sha256:629c0f1457ee7d88",
-      "lastModified": "2026-01-21T03:54:57.827Z"
-    },
-    {
-      "scriptId": "259059136814768128",
-      "filename": "printer_install_linux",
-      "language": "Bash",
-      "checksum": "sha256:d721fe27c531e96a",
-      "lastModified": "2026-01-21T03:54:57.827Z"
-    },
-    {
-      "scriptId": "259059133677428736",
-      "filename": "power_profile_macos",
-      "language": "Bash",
-      "checksum": "sha256:9072c99f1f6610aa",
-      "lastModified": "2026-01-21T03:54:57.827Z"
-    },
-    {
-      "scriptId": "259059108515799040",
-      "filename": "network_service_refresh_macos",
-      "language": "Bash",
-      "checksum": "sha256:5c518394b55357ae",
-      "lastModified": "2026-01-21T03:54:57.827Z"
-    },
-    {
-      "scriptId": "259059105630117888",
-      "filename": "network_dhcp_set_macos",
-      "language": "Bash",
-      "checksum": "sha256:0aedf22695283c5f",
-      "lastModified": "2026-01-21T03:54:57.827Z"
-    },
-    {
-      "scriptId": "259059101830078464",
-      "filename": "macos_auto_updates_enable",
-      "language": "Bash",
-      "checksum": "sha256:25ead792bd41f224",
-      "lastModified": "2026-01-21T03:54:57.827Z"
-    },
-    {
-      "scriptId": "259059099158306816",
-      "filename": "huntress_install_macos",
-      "language": "Bash",
-      "checksum": "sha256:910ea6231cde662c",
-      "lastModified": "2026-01-21T03:54:57.827Z"
-    },
-    {
-      "scriptId": "259059088395722752",
-      "filename": "ds_store_disable_macos",
-      "language": "Bash",
-      "checksum": "sha256:6a32e8ee9e2fd422",
-      "lastModified": "2026-01-21T03:54:57.827Z"
-    },
-    {
-      "scriptId": "259059085669425152",
-      "filename": "dokploy_orphaned_volumes_cleanup",
-      "language": "Bash",
-      "checksum": "sha256:4aa76efabe2abc10",
-      "lastModified": "2026-01-21T03:54:57.827Z"
-    },
-    {
-      "scriptId": "259059084121726976",
-      "filename": "dokploy_deploy_running_apps",
-      "language": "Bash",
-      "checksum": "sha256:8a96dfa39a6721da",
-      "lastModified": "2026-01-21T03:54:57.827Z"
-    },
-    {
-      "scriptId": "259059076156743680",
-      "filename": "dietpi_proxmox_install",
-      "language": "Bash",
-      "checksum": "sha256:4267f99c659dd43a",
-      "lastModified": "2026-01-21T03:54:57.827Z"
-    },
-    {
-      "scriptId": "259059066321100800",
-      "filename": "cups_toggle_macos",
-      "language": "Bash",
-      "checksum": "sha256:798218624bddb90d",
-      "lastModified": "2026-01-21T03:54:57.827Z"
-    },
-    {
-      "scriptId": "6174064285322764288",
-      "filename": "winreagent_delete",
-      "language": "Bat",
-      "checksum": "sha256:7cdde3ac493fbd25",
-      "lastModified": "2026-01-21T03:54:57.827Z"
-    },
-    {
-      "scriptId": "2890665459264626688",
-      "filename": "splashtop_business_install_macos",
-      "language": "Bash",
-      "checksum": "sha256:687707d59ce4a3d6",
-      "lastModified": "2026-01-21T03:54:57.827Z"
-    },
-    {
-      "scriptId": "6351689847169097728",
-      "filename": "kb5039302_kir_rollback_and_reboot",
-      "language": "Bat",
-      "checksum": "sha256:0b72f3986f387bee",
-      "lastModified": "2026-01-21T03:54:57.827Z"
-    },
-    {
-      "scriptId": "5197034403851927552",
-      "filename": "splashtop_service_restart_macos",
-      "language": "Bash",
-      "checksum": "sha256:e0bc68bd45e5ac0e",
-      "lastModified": "2026-01-21T03:54:57.827Z"
-    },
-    {
-      "scriptId": "5830142789672906752",
-      "filename": "disk_scan_and_fix",
-      "language": "Bash",
-      "checksum": "sha256:1391750fc9b31938",
-      "lastModified": "2026-01-21T03:54:57.827Z"
-    },
-    {
-      "scriptId": "934483777516347392",
-      "filename": "flush_dns",
-      "language": "Bash",
-      "checksum": "sha256:fd8698fac2a9f51f",
-      "lastModified": "2026-01-21T03:54:57.827Z"
-    },
-    {
-      "scriptId": "3659744570500739072",
-      "filename": "printers_nuke_all",
-      "language": "Bat",
-      "checksum": "sha256:d66c9f9629deba03",
-      "lastModified": "2026-01-21T03:54:57.827Z"
+      "scriptId": "259059054442831872",
+      "filename": "antivirus_uninstall",
+      "language": "ps1",
+      "checksum": "",
+      "lastModified": "2026-01-21T03:56:56.639Z"
     },
     {
       "scriptId": "353431407091859456",
       "filename": "arch_update_verbose",
-      "language": "Bash",
-      "checksum": "sha256:132e3b80eb80e9b3",
-      "lastModified": "2026-01-21T03:54:57.827Z"
+      "language": "sh",
+      "checksum": "",
+      "lastModified": "2026-01-21T03:56:56.639Z"
+    },
+    {
+      "scriptId": "6523706799125475328",
+      "filename": "bitlocker_enable_superops",
+      "language": "ps1",
+      "checksum": "",
+      "lastModified": "2026-01-21T03:56:56.639Z"
+    },
+    {
+      "scriptId": "259059056091193344",
+      "filename": "canon_mf455dw_driver_install",
+      "language": "ps1",
+      "checksum": "",
+      "lastModified": "2026-01-21T03:56:56.639Z"
+    },
+    {
+      "scriptId": "259059058993651712",
+      "filename": "choco_upgrade_all",
+      "language": "ps1",
+      "checksum": "",
+      "lastModified": "2026-01-21T03:56:56.639Z"
+    },
+    {
+      "scriptId": "259059066321100800",
+      "filename": "cups_toggle_macos",
+      "language": "sh",
+      "checksum": "",
+      "lastModified": "2026-01-21T03:56:56.639Z"
+    },
+    {
+      "scriptId": "654800809091403776",
+      "filename": "dell_command_update",
+      "language": "ps1",
+      "checksum": "",
+      "lastModified": "2026-01-21T03:56:56.639Z"
+    },
+    {
+      "scriptId": "7029137174820597760",
+      "filename": "delprof2_delete_all_profiles",
+      "language": "ps1",
+      "checksum": "",
+      "lastModified": "2026-01-21T03:56:56.639Z"
+    },
+    {
+      "scriptId": "259059068233703424",
+      "filename": "delprof2_delete_old_profiles",
+      "language": "ps1",
+      "checksum": "",
+      "lastModified": "2026-01-21T03:56:56.639Z"
+    },
+    {
+      "scriptId": "259059070683176960",
+      "filename": "delprof2_delete_specific_profile",
+      "language": "ps1",
+      "checksum": "",
+      "lastModified": "2026-01-21T03:56:56.639Z"
+    },
+    {
+      "scriptId": "259059074357387264",
+      "filename": "delprof2_keep_selected_profile",
+      "language": "ps1",
+      "checksum": "",
+      "lastModified": "2026-01-21T03:56:56.639Z"
+    },
+    {
+      "scriptId": "2363511650220425216",
+      "filename": "deskview_install",
+      "language": "ps1",
+      "checksum": "",
+      "lastModified": "2026-01-21T03:56:56.639Z"
+    },
+    {
+      "scriptId": "259059076156743680",
+      "filename": "dietpi_proxmox_install",
+      "language": "sh",
+      "checksum": "",
+      "lastModified": "2026-01-21T03:56:56.639Z"
+    },
+    {
+      "scriptId": "259059077524086784",
+      "filename": "directory_cleanup",
+      "language": "ps1",
+      "checksum": "",
+      "lastModified": "2026-01-21T03:56:56.639Z"
+    },
+    {
+      "scriptId": "259059079201808384",
+      "filename": "directory_size_analyze",
+      "language": "ps1",
+      "checksum": "",
+      "lastModified": "2026-01-21T03:56:56.639Z"
+    },
+    {
+      "scriptId": "5261212187550191616",
+      "filename": "disk_cleanup",
+      "language": "ps1",
+      "checksum": "",
+      "lastModified": "2026-01-21T03:56:56.639Z"
+    },
+    {
+      "scriptId": "5830142789672906752",
+      "filename": "disk_scan_and_fix",
+      "language": "sh",
+      "checksum": "",
+      "lastModified": "2026-01-21T03:56:56.639Z"
+    },
+    {
+      "scriptId": "259059081412206592",
+      "filename": "dnsfilter_uninstall",
+      "language": "ps1",
+      "checksum": "",
+      "lastModified": "2026-01-21T03:56:56.639Z"
+    },
+    {
+      "scriptId": "259059084121726976",
+      "filename": "dokploy_deploy_running_apps",
+      "language": "sh",
+      "checksum": "",
+      "lastModified": "2026-01-21T03:56:56.639Z"
+    },
+    {
+      "scriptId": "259059085669425152",
+      "filename": "dokploy_orphaned_volumes_cleanup",
+      "language": "sh",
+      "checksum": "",
+      "lastModified": "2026-01-21T03:56:56.639Z"
+    },
+    {
+      "scriptId": "259059088395722752",
+      "filename": "ds_store_disable_macos",
+      "language": "sh",
+      "checksum": "",
+      "lastModified": "2026-01-21T03:56:56.639Z"
+    },
+    {
+      "scriptId": "259059094657818624",
+      "filename": "duplicati_backup_status",
+      "language": "ps1",
+      "checksum": "",
+      "lastModified": "2026-01-21T03:56:56.639Z"
+    },
+    {
+      "scriptId": "7562203575531061248",
+      "filename": "edge_set_chrome_default_user",
+      "language": "ps1",
+      "checksum": "",
+      "lastModified": "2026-01-21T03:56:56.639Z"
+    },
+    {
+      "scriptId": "7562203720498790400",
+      "filename": "edge_suppress_policies_system",
+      "language": "ps1",
+      "checksum": "",
+      "lastModified": "2026-01-21T03:56:56.639Z"
+    },
+    {
+      "scriptId": "8388334911230820352",
+      "filename": "emsisoft_install_via_url",
+      "language": "ps1",
+      "checksum": "",
+      "lastModified": "2026-01-21T03:56:56.639Z"
+    },
+    {
+      "scriptId": "317078575525470208",
+      "filename": "eset_cleanup",
+      "language": "ps1",
+      "checksum": "",
+      "lastModified": "2026-01-21T03:56:56.639Z"
+    },
+    {
+      "scriptId": "934483777516347392",
+      "filename": "flush_dns",
+      "language": "sh",
+      "checksum": "",
+      "lastModified": "2026-01-21T03:56:56.639Z"
+    },
+    {
+      "scriptId": "8969905695147712512",
+      "filename": "foxit_pdf_editor_plus_install",
+      "language": "ps1",
+      "checksum": "",
+      "lastModified": "2026-01-21T03:56:56.639Z"
+    },
+    {
+      "scriptId": "1365998311448080384",
+      "filename": "gcpw_cleanup",
+      "language": "ps1",
+      "checksum": "",
+      "lastModified": "2026-01-21T03:56:56.639Z"
+    },
+    {
+      "scriptId": "259059096159379456",
+      "filename": "gcpw_install",
+      "language": "ps1",
+      "checksum": "",
+      "lastModified": "2026-01-21T03:56:56.639Z"
+    },
+    {
+      "scriptId": "259059097769992192",
+      "filename": "google_update_trigger",
+      "language": "ps1",
+      "checksum": "",
+      "lastModified": "2026-01-21T03:56:56.639Z"
+    },
+    {
+      "scriptId": "2059287687210598400",
+      "filename": "hardware_report",
+      "language": "ps1",
+      "checksum": "",
+      "lastModified": "2026-01-21T03:56:56.639Z"
+    },
+    {
+      "scriptId": "259059099158306816",
+      "filename": "huntress_install_macos",
+      "language": "sh",
+      "checksum": "",
+      "lastModified": "2026-01-21T03:56:56.639Z"
+    },
+    {
+      "scriptId": "259059100479512576",
+      "filename": "ipconfig_release_renew",
+      "language": "ps1",
+      "checksum": "",
+      "lastModified": "2026-01-21T03:56:56.639Z"
+    },
+    {
+      "scriptId": "6351689847169097728",
+      "filename": "kb5039302_kir_rollback_and_reboot",
+      "language": "bat",
+      "checksum": "",
+      "lastModified": "2026-01-21T03:56:56.639Z"
+    },
+    {
+      "scriptId": "3077420686222594048",
+      "filename": "limehawk_admin_profile_branding",
+      "language": "ps1",
+      "checksum": "",
+      "lastModified": "2026-01-21T03:56:56.639Z"
+    },
+    {
+      "scriptId": "1015907075732598784",
+      "filename": "local_user_admin_create",
+      "language": "ps1",
+      "checksum": "",
+      "lastModified": "2026-01-21T03:56:56.639Z"
+    },
+    {
+      "scriptId": "1015917390952198144",
+      "filename": "local_user_admin_toggle",
+      "language": "ps1",
+      "checksum": "",
+      "lastModified": "2026-01-21T03:56:56.639Z"
+    },
+    {
+      "scriptId": "1015906830558752768",
+      "filename": "local_user_create",
+      "language": "ps1",
+      "checksum": "",
+      "lastModified": "2026-01-21T03:56:56.639Z"
+    },
+    {
+      "scriptId": "1015904364706459648",
+      "filename": "local_user_delete",
+      "language": "ps1",
+      "checksum": "",
+      "lastModified": "2026-01-21T03:56:56.639Z"
+    },
+    {
+      "scriptId": "259059101830078464",
+      "filename": "macos_auto_updates_enable",
+      "language": "sh",
+      "checksum": "",
+      "lastModified": "2026-01-21T03:56:56.639Z"
+    },
+    {
+      "scriptId": "7521762971991781376",
+      "filename": "maintenance_reboot",
+      "language": "ps1",
+      "checksum": "",
+      "lastModified": "2026-01-21T03:56:56.639Z"
+    },
+    {
+      "scriptId": "5428837218762698752",
+      "filename": "mrt_scan",
+      "language": "ps1",
+      "checksum": "",
+      "lastModified": "2026-01-21T03:56:56.639Z"
+    },
+    {
+      "scriptId": "259059103193227264",
+      "filename": "msi_install_from_url",
+      "language": "ps1",
+      "checksum": "",
+      "lastModified": "2026-01-21T03:56:56.639Z"
+    },
+    {
+      "scriptId": "259059105630117888",
+      "filename": "network_dhcp_set_macos",
+      "language": "sh",
+      "checksum": "",
+      "lastModified": "2026-01-21T03:56:56.639Z"
+    },
+    {
+      "scriptId": "259059107093929984",
+      "filename": "network_scan",
+      "language": "ps1",
+      "checksum": "",
+      "lastModified": "2026-01-21T03:56:56.639Z"
+    },
+    {
+      "scriptId": "259059108515799040",
+      "filename": "network_service_refresh_macos",
+      "language": "sh",
+      "checksum": "",
+      "lastModified": "2026-01-21T03:56:56.639Z"
+    },
+    {
+      "scriptId": "259059110013165568",
+      "filename": "ninjaone_uninstall",
+      "language": "ps1",
+      "checksum": "",
+      "lastModified": "2026-01-21T03:56:56.639Z"
+    },
+    {
+      "scriptId": "259059111493754880",
+      "filename": "nircmd_screenshot",
+      "language": "ps1",
+      "checksum": "",
+      "lastModified": "2026-01-21T03:56:56.639Z"
+    },
+    {
+      "scriptId": "259059112915623936",
+      "filename": "nircmd_set_resolution",
+      "language": "ps1",
+      "checksum": "",
+      "lastModified": "2026-01-21T03:56:56.639Z"
+    },
+    {
+      "scriptId": "259059118645043200",
+      "filename": "nirsoft_uninstall_view",
+      "language": "ps1",
+      "checksum": "",
+      "lastModified": "2026-01-21T03:56:56.639Z"
+    },
+    {
+      "scriptId": "2689507915451260928",
+      "filename": "onedrive_reenable",
+      "language": "ps1",
+      "checksum": "",
+      "lastModified": "2026-01-21T03:56:56.639Z"
+    },
+    {
+      "scriptId": "6668060130075115520",
+      "filename": "onedrive_remove_complete",
+      "language": "ps1",
+      "checksum": "",
+      "lastModified": "2026-01-21T03:56:56.639Z"
+    },
+    {
+      "scriptId": "6295817723329372160",
+      "filename": "onestart_complete_removal",
+      "language": "ps1",
+      "checksum": "",
+      "lastModified": "2026-01-21T03:56:56.639Z"
+    },
+    {
+      "scriptId": "259059120024969216",
+      "filename": "onlyoffice_install",
+      "language": "ps1",
+      "checksum": "",
+      "lastModified": "2026-01-21T03:56:56.639Z"
+    },
+    {
+      "scriptId": "259059121564278784",
+      "filename": "potplayer_install",
+      "language": "ps1",
+      "checksum": "",
+      "lastModified": "2026-01-21T03:56:56.639Z"
+    },
+    {
+      "scriptId": "259059122973564928",
+      "filename": "power_plans_add_default",
+      "language": "ps1",
+      "checksum": "",
+      "lastModified": "2026-01-21T03:56:56.639Z"
+    },
+    {
+      "scriptId": "259059132276531200",
+      "filename": "power_profile_always_on",
+      "language": "ps1",
+      "checksum": "",
+      "lastModified": "2026-01-21T03:56:56.639Z"
+    },
+    {
+      "scriptId": "259059133677428736",
+      "filename": "power_profile_macos",
+      "language": "sh",
+      "checksum": "",
+      "lastModified": "2026-01-21T03:56:56.639Z"
+    },
+    {
+      "scriptId": "259059135199961088",
+      "filename": "print_queue_clear",
+      "language": "ps1",
+      "checksum": "",
+      "lastModified": "2026-01-21T03:56:56.639Z"
+    },
+    {
+      "scriptId": "6403580733975965696",
+      "filename": "print_queue_reset",
+      "language": "ps1",
+      "checksum": "",
+      "lastModified": "2026-01-21T03:56:56.639Z"
+    },
+    {
+      "scriptId": "259059136814768128",
+      "filename": "printer_install_linux",
+      "language": "sh",
+      "checksum": "",
+      "lastModified": "2026-01-21T03:56:56.639Z"
+    },
+    {
+      "scriptId": "259059146683965440",
+      "filename": "printer_install_macos",
+      "language": "sh",
+      "checksum": "",
+      "lastModified": "2026-01-21T03:56:56.639Z"
+    },
+    {
+      "scriptId": "259059148156166144",
+      "filename": "printer_test_connection",
+      "language": "sh",
+      "checksum": "",
+      "lastModified": "2026-01-21T03:56:56.639Z"
+    },
+    {
+      "scriptId": "3659744570500739072",
+      "filename": "printers_nuke_all",
+      "language": "bat",
+      "checksum": "",
+      "lastModified": "2026-01-21T03:56:56.639Z"
+    },
+    {
+      "scriptId": "259059155206791168",
+      "filename": "printers_remove_all",
+      "language": "ps1",
+      "checksum": "",
+      "lastModified": "2026-01-21T03:56:56.639Z"
+    },
+    {
+      "scriptId": "259059156825792512",
+      "filename": "reboot_on_uptime_macos",
+      "language": "sh",
+      "checksum": "",
+      "lastModified": "2026-01-21T03:56:56.639Z"
+    },
+    {
+      "scriptId": "259059159342374912",
+      "filename": "remote_wipe",
+      "language": "ps1",
+      "checksum": "",
+      "lastModified": "2026-01-21T03:56:56.639Z"
+    },
+    {
+      "scriptId": "1154509803255455744",
+      "filename": "rename_to_snake_case",
+      "language": "ps1",
+      "checksum": "",
+      "lastModified": "2026-01-21T03:56:56.639Z"
+    },
+    {
+      "scriptId": "8083616885623574528",
+      "filename": "rename_workstation_auto",
+      "language": "ps1",
+      "checksum": "",
+      "lastModified": "2026-01-21T03:56:56.639Z"
+    },
+    {
+      "scriptId": "259059160919433216",
+      "filename": "rename_workstation_auto_macos",
+      "language": "sh",
+      "checksum": "",
+      "lastModified": "2026-01-21T03:56:56.639Z"
+    },
+    {
+      "scriptId": "8083647452427669504",
+      "filename": "rename_workstation_manual",
+      "language": "ps1",
+      "checksum": "",
+      "lastModified": "2026-01-21T03:56:56.639Z"
+    },
+    {
+      "scriptId": "259059164883050496",
+      "filename": "rename_workstation_manual_macos",
+      "language": "sh",
+      "checksum": "",
+      "lastModified": "2026-01-21T03:56:56.639Z"
+    },
+    {
+      "scriptId": "259059166317502464",
+      "filename": "reset_nvram_reboot_macos",
+      "language": "sh",
+      "checksum": "",
+      "lastModified": "2026-01-21T03:56:56.639Z"
+    },
+    {
+      "scriptId": "259059167751954432",
+      "filename": "screenshot_macos",
+      "language": "sh",
+      "checksum": "",
+      "lastModified": "2026-01-21T03:56:56.639Z"
+    },
+    {
+      "scriptId": "436712787778891776",
+      "filename": "search_password_files",
+      "language": "ps1",
+      "checksum": "",
+      "lastModified": "2026-01-21T03:56:56.639Z"
+    },
+    {
+      "scriptId": "259059169136074752",
+      "filename": "search_password_files_tickets",
+      "language": "ps1",
+      "checksum": "",
+      "lastModified": "2026-01-21T03:56:56.639Z"
+    },
+    {
+      "scriptId": "3784411666984587264",
+      "filename": "secure_delete_interactive",
+      "language": "ps1",
+      "checksum": "",
+      "lastModified": "2026-01-21T03:56:56.639Z"
+    },
+    {
+      "scriptId": "259059170738298880",
+      "filename": "secure_delete_with_certificate",
+      "language": "ps1",
+      "checksum": "",
+      "lastModified": "2026-01-21T03:56:56.639Z"
+    },
+    {
+      "scriptId": "7562225567458115584",
+      "filename": "sentinelone_install",
+      "language": "ps1",
+      "checksum": "",
+      "lastModified": "2026-01-21T03:56:56.639Z"
+    },
+    {
+      "scriptId": "259059176723570688",
+      "filename": "sentinelone_start_services",
+      "language": "ps1",
+      "checksum": "",
+      "lastModified": "2026-01-21T03:56:56.639Z"
+    },
+    {
+      "scriptId": "259059178191577088",
+      "filename": "sentinelone_uninstall_linux",
+      "language": "sh",
+      "checksum": "",
+      "lastModified": "2026-01-21T03:56:56.639Z"
+    },
+    {
+      "scriptId": "259059179743469568",
+      "filename": "shutdown_toggle",
+      "language": "ps1",
+      "checksum": "",
+      "lastModified": "2026-01-21T03:56:56.639Z"
+    },
+    {
+      "scriptId": "6533495977667035136",
+      "filename": "speedtest_to_superops",
+      "language": "ps1",
+      "checksum": "",
+      "lastModified": "2026-01-21T03:56:56.639Z"
+    },
+    {
+      "scriptId": "259059182331355136",
+      "filename": "splashtop_business_install",
+      "language": "ps1",
+      "checksum": "",
+      "lastModified": "2026-01-21T03:56:56.639Z"
+    },
+    {
+      "scriptId": "2890665459264626688",
+      "filename": "splashtop_business_install_macos",
+      "language": "sh",
+      "checksum": "",
+      "lastModified": "2026-01-21T03:56:56.639Z"
+    },
+    {
+      "scriptId": "3769539001587634176",
+      "filename": "splashtop_service_restart",
+      "language": "ps1",
+      "checksum": "",
+      "lastModified": "2026-01-21T03:56:56.639Z"
+    },
+    {
+      "scriptId": "5197034403851927552",
+      "filename": "splashtop_service_restart_macos",
+      "language": "sh",
+      "checksum": "",
+      "lastModified": "2026-01-21T03:56:56.639Z"
+    },
+    {
+      "scriptId": "259059183686115328",
+      "filename": "splashtop_streamer_install",
+      "language": "ps1",
+      "checksum": "",
+      "lastModified": "2026-01-21T03:56:56.639Z"
+    },
+    {
+      "scriptId": "259059185107984384",
+      "filename": "splashtop_streamer_install_debian_amd64",
+      "language": "sh",
+      "checksum": "",
+      "lastModified": "2026-01-21T03:56:56.639Z"
+    },
+    {
+      "scriptId": "259059187649732608",
+      "filename": "splashtop_streamer_install_debian_arm64",
+      "language": "sh",
+      "checksum": "",
+      "lastModified": "2026-01-21T03:56:56.639Z"
+    },
+    {
+      "scriptId": "259059189193236480",
+      "filename": "splashtop_streamer_install_macos",
+      "language": "sh",
+      "checksum": "",
+      "lastModified": "2026-01-21T03:56:56.639Z"
+    },
+    {
+      "scriptId": "259059190602522624",
+      "filename": "splashtop_uninstall",
+      "language": "ps1",
+      "checksum": "",
+      "lastModified": "2026-01-21T03:56:56.639Z"
+    },
+    {
+      "scriptId": "259059192137637888",
+      "filename": "splashtop_uninstall_macos",
+      "language": "sh",
+      "checksum": "",
+      "lastModified": "2026-01-21T03:56:56.639Z"
+    },
+    {
+      "scriptId": "259059193635004416",
+      "filename": "start_menu_clear_tiles",
+      "language": "ps1",
+      "checksum": "",
+      "lastModified": "2026-01-21T03:56:56.639Z"
+    },
+    {
+      "scriptId": "2703029945385623552",
+      "filename": "stdrename_install_toggle",
+      "language": "ps1",
+      "checksum": "",
+      "lastModified": "2026-01-21T03:56:56.639Z"
+    },
+    {
+      "scriptId": "259059194989764608",
+      "filename": "superops_agent_install",
+      "language": "ps1",
+      "checksum": "",
+      "lastModified": "2026-01-21T03:56:56.639Z"
+    },
+    {
+      "scriptId": "259059196407439360",
+      "filename": "superops_agent_install_macos",
+      "language": "sh",
+      "checksum": "",
+      "lastModified": "2026-01-21T03:56:56.639Z"
+    },
+    {
+      "scriptId": "259059197846085632",
+      "filename": "superops_agent_reinstall_macos",
+      "language": "sh",
+      "checksum": "",
+      "lastModified": "2026-01-21T03:56:56.639Z"
+    },
+    {
+      "scriptId": "259059199326674944",
+      "filename": "superops_agent_uninstall_linux",
+      "language": "sh",
+      "checksum": "",
+      "lastModified": "2026-01-21T03:56:56.639Z"
+    },
+    {
+      "scriptId": "259059202858278912",
+      "filename": "superops_agent_uninstall_macos",
+      "language": "sh",
+      "checksum": "",
+      "lastModified": "2026-01-21T03:56:56.639Z"
+    },
+    {
+      "scriptId": "259059204263370752",
+      "filename": "superops_agent_uninstall_macos_alt_path",
+      "language": "sh",
+      "checksum": "",
+      "lastModified": "2026-01-21T03:56:56.639Z"
+    },
+    {
+      "scriptId": "259059206855450624",
+      "filename": "superops_agent_uninstall_windows",
+      "language": "ps1",
+      "checksum": "",
+      "lastModified": "2026-01-21T03:56:56.639Z"
+    },
+    {
+      "scriptId": "259059208889688064",
+      "filename": "superops_agent_uninstall_windows_legacy",
+      "language": "ps1",
+      "checksum": "",
+      "lastModified": "2026-01-21T03:56:56.639Z"
+    },
+    {
+      "scriptId": "259059213503422464",
+      "filename": "superops_agent_uninstaller",
+      "language": "ps1",
+      "checksum": "",
+      "lastModified": "2026-01-21T03:56:56.639Z"
+    },
+    {
+      "scriptId": "259059215009177600",
+      "filename": "superops_service_restart",
+      "language": "ps1",
+      "checksum": "",
+      "lastModified": "2026-01-21T03:56:56.639Z"
+    },
+    {
+      "scriptId": "7562208783506063360",
+      "filename": "superops_tray_icon_always_show",
+      "language": "ps1",
+      "checksum": "",
+      "lastModified": "2026-01-21T03:56:56.639Z"
+    },
+    {
+      "scriptId": "259059216389103616",
+      "filename": "synology_backup_agent_install",
+      "language": "ps1",
+      "checksum": "",
+      "lastModified": "2026-01-21T03:56:56.639Z"
+    },
+    {
+      "scriptId": "259059218180071424",
+      "filename": "synology_backup_agent_install_linux",
+      "language": "sh",
+      "checksum": "",
+      "lastModified": "2026-01-21T03:56:56.639Z"
+    },
+    {
+      "scriptId": "6582476168459661312",
+      "filename": "time_sync_fix",
+      "language": "ps1",
+      "checksum": "",
+      "lastModified": "2026-01-21T03:56:56.639Z"
+    },
+    {
+      "scriptId": "259059219677437952",
+      "filename": "ubuntu_debian_update_verbose",
+      "language": "sh",
+      "checksum": "",
+      "lastModified": "2026-01-21T03:56:56.639Z"
+    },
+    {
+      "scriptId": "259059221279662080",
+      "filename": "user_accounts_report",
+      "language": "ps1",
+      "checksum": "",
+      "lastModified": "2026-01-21T03:56:56.639Z"
+    },
+    {
+      "scriptId": "259059222848331776",
+      "filename": "usmt_migrate_profile",
+      "language": "ps1",
+      "checksum": "",
+      "lastModified": "2026-01-21T03:56:56.639Z"
+    },
+    {
+      "scriptId": "259059226895835136",
+      "filename": "wifi_adapters_disable",
+      "language": "ps1",
+      "checksum": "",
+      "lastModified": "2026-01-21T03:56:56.639Z"
+    },
+    {
+      "scriptId": "259059232625254400",
+      "filename": "wifi_passwords_show",
+      "language": "ps1",
+      "checksum": "",
+      "lastModified": "2026-01-21T03:56:56.639Z"
+    },
+    {
+      "scriptId": "259059235116670976",
+      "filename": "wifiman_install",
+      "language": "ps1",
+      "checksum": "",
+      "lastModified": "2026-01-21T03:56:56.639Z"
+    },
+    {
+      "scriptId": "259059236475625472",
+      "filename": "win11_compatibility_check",
+      "language": "ps1",
+      "checksum": "",
+      "lastModified": "2026-01-21T03:56:56.639Z"
+    },
+    {
+      "scriptId": "259059237931048960",
+      "filename": "windows11_compatibility_checker",
+      "language": "ps1",
+      "checksum": "",
+      "lastModified": "2026-01-21T03:56:56.639Z"
+    },
+    {
+      "scriptId": "1907390810231676928",
+      "filename": "windows_dism_sfc_chkdsk_maintenance",
+      "language": "ps1",
+      "checksum": "",
+      "lastModified": "2026-01-21T03:56:56.639Z"
+    },
+    {
+      "scriptId": "6103852407269097472",
+      "filename": "windows_firewall_toggle",
+      "language": "ps1",
+      "checksum": "",
+      "lastModified": "2026-01-21T03:56:56.639Z"
+    },
+    {
+      "scriptId": "259059240497963008",
+      "filename": "windows_linux_set_utc_time",
+      "language": "ps1",
+      "checksum": "",
+      "lastModified": "2026-01-21T03:56:56.639Z"
+    },
+    {
+      "scriptId": "214958378614583296",
+      "filename": "windows_product_key_to_superops",
+      "language": "ps1",
+      "checksum": "",
+      "lastModified": "2026-01-21T03:56:56.639Z"
+    },
+    {
+      "scriptId": "259059241932414976",
+      "filename": "windows_unactivated_dark_mode",
+      "language": "ps1",
+      "checksum": "",
+      "lastModified": "2026-01-21T03:56:56.639Z"
+    },
+    {
+      "scriptId": "259059243740160000",
+      "filename": "windows_update_access_restore",
+      "language": "ps1",
+      "checksum": "",
+      "lastModified": "2026-01-21T03:56:56.639Z"
+    },
+    {
+      "scriptId": "259059245052977152",
+      "filename": "windows_update_access_toggle",
+      "language": "ps1",
+      "checksum": "",
+      "lastModified": "2026-01-21T03:56:56.639Z"
+    },
+    {
+      "scriptId": "259059246441291776",
+      "filename": "windows_update_reset",
+      "language": "ps1",
+      "checksum": "",
+      "lastModified": "2026-01-21T03:56:56.639Z"
+    },
+    {
+      "scriptId": "1015783170502094848",
+      "filename": "winget_install_package",
+      "language": "ps1",
+      "checksum": "",
+      "lastModified": "2026-01-21T03:56:56.639Z"
+    },
+    {
+      "scriptId": "4253548481531990016",
+      "filename": "winget_setup",
+      "language": "ps1",
+      "checksum": "",
+      "lastModified": "2026-01-21T03:56:56.639Z"
+    },
+    {
+      "scriptId": "259059247913492480",
+      "filename": "winget_upgrade_all",
+      "language": "ps1",
+      "checksum": "",
+      "lastModified": "2026-01-21T03:56:56.639Z"
+    },
+    {
+      "scriptId": "259059249217921024",
+      "filename": "winre_partition_resize",
+      "language": "ps1",
+      "checksum": "",
+      "lastModified": "2026-01-21T03:56:56.639Z"
+    },
+    {
+      "scriptId": "259059250698510336",
+      "filename": "winre_restore",
+      "language": "ps1",
+      "checksum": "",
+      "lastModified": "2026-01-21T03:56:56.639Z"
+    },
+    {
+      "scriptId": "259059257623306240",
+      "filename": "winreagent_cleanup",
+      "language": "ps1",
+      "checksum": "",
+      "lastModified": "2026-01-21T03:56:56.639Z"
+    },
+    {
+      "scriptId": "6174064285322764288",
+      "filename": "winreagent_delete",
+      "language": "bat",
+      "checksum": "",
+      "lastModified": "2026-01-21T03:56:56.639Z"
+    },
+    {
+      "scriptId": "259059260295077888",
+      "filename": "wol_enable",
+      "language": "ps1",
+      "checksum": "",
+      "lastModified": "2026-01-21T03:56:56.639Z"
+    },
+    {
+      "scriptId": "259059262794883072",
+      "filename": "wol_status_check",
+      "language": "ps1",
+      "checksum": "",
+      "lastModified": "2026-01-21T03:56:56.639Z"
+    },
+    {
+      "scriptId": "259059265290493952",
+      "filename": "workstation_info",
+      "language": "vbs",
+      "checksum": "",
+      "lastModified": "2026-01-21T03:56:56.639Z"
+    },
+    {
+      "scriptId": "259059268004208640",
+      "filename": "workstation_info_display",
+      "language": "ps1",
+      "checksum": "",
+      "lastModified": "2026-01-21T03:56:56.639Z"
+    },
+    {
+      "scriptId": "259059269958754304",
+      "filename": "workstation_info_macos",
+      "language": "sh",
+      "checksum": "",
+      "lastModified": "2026-01-21T03:56:56.639Z"
     }
   ]
 }
