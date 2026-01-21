@@ -4,18 +4,19 @@ language: PowerShell
 runAs: SYSTEM_USER
 timeout: 15
 tags:
-- Network
-- Software
-- Windows
+  - Network
+  - Software
+  - Windows
 shared: true
 favourite: false
-readme: 'Purpose
+readme: >
+  Purpose
 
   -------
 
-  Downloads and runs Ookla Speedtest CLI, captures network performance metrics, and
-  synchronizes the results to SuperOps custom fields for monitoring and reporting.
-  Designed for RMM automation to track internet connectivity quality.
+  Downloads and runs Ookla Speedtest CLI, captures network performance metrics,
+  and synchronizes the results to SuperOps custom fields for monitoring and
+  reporting. Designed for RMM automation to track internet connectivity quality.
 
 
   Usage Notes
@@ -24,8 +25,8 @@ readme: 'Purpose
 
   - Automatically downloads Speedtest CLI if not present
 
-  - Sends four custom fields to SuperOps: Download Speed, Upload Speed, ISP, Speedtest
-  URL
+  - Sends four custom fields to SuperOps: Download Speed, Upload Speed, ISP,
+  Speedtest URL
 
   - Reports detailed metrics to console (ping, jitter, packet loss, server info)
 
@@ -44,11 +45,9 @@ readme: 'Purpose
 
   - Windows with PowerShell 5.1+ or PowerShell 7+
 
-  - SuperOps custom fields must exist: Download Speed, Upload Speed, ISP, Speedtest
-  URL
-
-  '
+  - SuperOps custom fields must exist: Download Speed, Upload Speed, ISP,
+  Speedtest URL
 runtimeVariables: []
 placeholderVariables: []
-scriptId: '301198284472233984'
-lastPushedChecksum: sha256:c9c37d5b9461961a
+scriptId: "301198284472233984"
+lastPushedChecksum: sha256:7acbcc6ae7192b5b
