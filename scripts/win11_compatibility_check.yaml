@@ -4,17 +4,18 @@ language: PowerShell
 runAs: SYSTEM_USER
 timeout: 15
 tags:
-- Monitoring
-- Windows
+  - Monitoring
+  - Windows
 shared: false
 favourite: false
-readme: 'Purpose
+readme: >
+  Purpose
 
   -------
 
-  Checks if the current Windows device meets the hardware requirements for Windows
-  11 upgrade, including processor (2+ cores, 1GHz+), RAM (4GB+), storage (64GB+),
-  TPM 2.0, Secure Boot capability, and UEFI firmware.
+  Checks if the current Windows device meets the hardware requirements for
+  Windows 11 upgrade, including processor (2+ cores, 1GHz+), RAM (4GB+), storage
+  (64GB+), TPM 2.0, Secure Boot capability, and UEFI firmware.
 
 
   Usage Notes
@@ -39,9 +40,8 @@ readme: 'Purpose
   - Windows 10
 
   - Administrator privileges (for TPM check)
-
-  '
 runtimeVariables: []
 placeholderVariables: []
-scriptId: '259059236475625472'
+scriptId: "259059236475625472"
 lastPushedChecksum: sha256:12be2dab9e24d0d4
+lastPushedMetaChecksum: sha256:2657e85b73641107

@@ -4,32 +4,50 @@ language: PowerShell
 runAs: SYSTEM_USER
 timeout: 15
 tags:
-- Administration
-- Windows
+  - Administration
+  - Windows
 shared: true
 favourite: false
-readme: "Purpose\n-------\nRename a Windows device and sync the same name to SuperOps.\n\
-  \nNaming pattern (max 15 chars): CLIENT3-USERUUID\n- CLIENT3: 3-char abbreviation\
-  \ of client name (always forced)\n- USER: Sanitized username, maximized, truncated\
-  \ if needed\n- UUID: SMBIOS UUID tail, at least 3 chars\n\nUsage Notes\n-----------\n\
-  - Requires SuperOps runtime variables:\n  - $YourApiKeyHere: SuperOps API key\n\
-  \  - $YourAssetIdHere: Asset ID (placeholder)\n  - $YourAssetNameHere: Current asset\
-  \ name (placeholder)\n  - $YourClientNameHere: Client name (placeholder)\n- Only\
-  \ A-Z, 0-9, and hyphen used in hostname\n- Always exactly 15 characters\n- SuperOps\
-  \ asset name updated via GraphQL API\n- Reboot required for hostname change to take\
-  \ effect\n\nRequirements\n------------\n- Windows 10/11\n- Administrator privileges\n\
-  - SuperOps agent installed\n- Internet access for SuperOps API\n"
+readme: |
+  Purpose
+  -------
+  Rename a Windows device and sync the same name to SuperOps.
+
+  Naming pattern (max 15 chars): CLIENT3-USERUUID
+  - CLIENT3: 3-char abbreviation of client name (always forced)
+  - USER: Sanitized username, maximized, truncated if needed
+  - UUID: SMBIOS UUID tail, at least 3 chars
+
+  Usage Notes
+  -----------
+  - Requires SuperOps runtime variables:
+    - $YourApiKeyHere: SuperOps API key
+    - $YourAssetIdHere: Asset ID (placeholder)
+    - $YourAssetNameHere: Current asset name (placeholder)
+    - $YourClientNameHere: Client name (placeholder)
+  - Only A-Z, 0-9, and hyphen used in hostname
+  - Always exactly 15 characters
+  - SuperOps asset name updated via GraphQL API
+  - Reboot required for hostname change to take effect
+
+  Requirements
+  ------------
+  - Windows 10/11
+  - Administrator privileges
+  - SuperOps agent installed
+  - Internet access for SuperOps API
 runtimeVariables:
-- name: YourApiKeyHere
+  - name: YourApiKeyHere
 placeholderVariables:
-- name: YourAssetIdHere
-  label: Asset ID
-  column: assetId
-- name: YourAssetNameHere
-  label: Asset name
-  column: name
-- name: YourClientNameHere
-  label: Client name
-  column: client.name
-scriptId: '8083616885623574528'
+  - name: YourAssetIdHere
+    label: Asset ID
+    column: assetId
+  - name: YourAssetNameHere
+    label: Asset name
+    column: name
+  - name: YourClientNameHere
+    label: Client name
+    column: client.name
+scriptId: "8083616885623574528"
 lastPushedChecksum: sha256:66097951d0d86e7e
+lastPushedMetaChecksum: sha256:c8a39bf8c5e0d921

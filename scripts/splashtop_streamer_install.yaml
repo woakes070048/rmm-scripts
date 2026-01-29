@@ -4,14 +4,15 @@ language: PowerShell
 runAs: SYSTEM_USER
 timeout: 15
 tags:
-- Software
-- Windows
+  - Software
+  - Windows
 shared: false
 favourite: false
-readme: 'Purpose:
+readme: >
+  Purpose:
 
-  Silently installs or upgrades the Splashtop Streamer agent for remote access. Configured
-  to hide the system tray icon by default.
+  Silently installs or upgrades the Splashtop Streamer agent for remote access.
+  Configured to hide the system tray icon by default.
 
 
   Usage Notes:
@@ -32,9 +33,8 @@ readme: 'Purpose:
   - Administrator privileges
 
   - Splashtop deploy installer downloaded to specified path
-
-  '
 runtimeVariables: []
 placeholderVariables: []
-scriptId: '259059183686115328'
+scriptId: "259059183686115328"
 lastPushedChecksum: sha256:ba206f1ad3a5419d
+lastPushedMetaChecksum: sha256:956f7d35589eee3e

@@ -4,16 +4,17 @@ language: PowerShell
 runAs: SYSTEM_USER
 timeout: 15
 tags:
-- Cleanup
-- Services
-- Windows
+  - Cleanup
+  - Services
+  - Windows
 shared: false
 favourite: false
-readme: 'Purpose:
+readme: >
+  Purpose:
 
-  Removes ALL installed printers, their associated ports, and unused printer drivers
-  from Windows. Use with caution - this is a destructive operation that cannot be
-  undone.
+  Removes ALL installed printers, their associated ports, and unused printer
+  drivers from Windows. Use with caution - this is a destructive operation that
+  cannot be undone.
 
 
   Usage Notes:
@@ -32,9 +33,8 @@ readme: 'Purpose:
   - Administrator privileges
 
   - Print Spooler service running
-
-  '
 runtimeVariables: []
 placeholderVariables: []
-scriptId: '259059155206791168'
+scriptId: "259059155206791168"
 lastPushedChecksum: sha256:f5ff959c9835072b
+lastPushedMetaChecksum: sha256:d96653ee4f4028bd

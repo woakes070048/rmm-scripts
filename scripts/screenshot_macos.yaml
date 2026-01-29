@@ -4,15 +4,16 @@ language: Bash
 runAs: SYSTEM_USER
 timeout: 15
 tags:
-- Mac
-- Maintenance
+  - Mac
+  - Maintenance
 shared: false
 favourite: false
-readme: 'Purpose:
+readme: >
+  Purpose:
 
-  Captures a screenshot on macOS and saves it with a timestamped filename. Uses the
-  native screencapture utility for silent capture. Designed for RMM deployment to
-  capture system state for troubleshooting.
+  Captures a screenshot on macOS and saves it with a timestamped filename. Uses
+  the native screencapture utility for silent capture. Designed for RMM
+  deployment to capture system state for troubleshooting.
 
 
   Usage Notes:
@@ -33,9 +34,8 @@ readme: 'Purpose:
   - screencapture utility (standard macOS component)
 
   - Screen Recording permission may be required (System Preferences > Security)
-
-  '
 runtimeVariables: []
 placeholderVariables: []
-scriptId: '259059167751954432'
+scriptId: "259059167751954432"
 lastPushedChecksum: sha256:280df0bae5ceebc6
+lastPushedMetaChecksum: sha256:335e8f336158f79f

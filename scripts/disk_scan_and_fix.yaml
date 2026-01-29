@@ -4,14 +4,16 @@ language: Bash
 runAs: SYSTEM_USER
 timeout: 15
 tags:
-- Disk
-- Windows
+  - Disk
+  - Windows
 shared: true
 favourite: false
-readme: '## Purpose
+readme: >
+  ## Purpose
 
-  Performs a comprehensive health check on all mounted disks and volumes on macOS.
-  Verifies partition maps, file systems, and SMART status where supported.
+  Performs a comprehensive health check on all mounted disks and volumes on
+  macOS. Verifies partition maps, file systems, and SMART status where
+  supported.
 
 
   ## Usage Notes
@@ -32,9 +34,8 @@ readme: '## Purpose
   - macOS operating system
 
   - Root/sudo privileges
-
-  '
 runtimeVariables: []
 placeholderVariables: []
-scriptId: '5830142789672906752'
+scriptId: "5830142789672906752"
 lastPushedChecksum: sha256:1391750fc9b31938
+lastPushedMetaChecksum: sha256:9a4c036fbd871f40

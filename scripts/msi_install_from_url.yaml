@@ -4,17 +4,18 @@ language: PowerShell
 runAs: SYSTEM_USER
 timeout: 15
 tags:
-- Software
-- Windows
+  - Software
+  - Windows
 shared: false
 favourite: false
-readme: 'Purpose
+readme: >
+  Purpose
 
   -------
 
-  Downloads and silently installs an MSI package from the URL specified in the MSIURL
-  runtime variable. The file is saved to the temporary directory and cleaned up after
-  installation completes.
+  Downloads and silently installs an MSI package from the URL specified in the
+  MSIURL runtime variable. The file is saved to the temporary directory and
+  cleaned up after installation completes.
 
 
   Usage Notes
@@ -39,10 +40,9 @@ readme: 'Purpose
   - Admin rights
 
   - Network connectivity
-
-  '
 runtimeVariables:
-- name: MSIURL
+  - name: MSIURL
 placeholderVariables: []
-scriptId: '259059103193227264'
+scriptId: "259059103193227264"
 lastPushedChecksum: sha256:9a91a88b3c1246d1
+lastPushedMetaChecksum: sha256:b567e58a315a0a8a

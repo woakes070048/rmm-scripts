@@ -4,18 +4,19 @@ language: PowerShell
 runAs: SYSTEM_USER
 timeout: 15
 tags:
-- Cleanup
-- Software
-- Windows
+  - Cleanup
+  - Software
+  - Windows
 shared: false
 favourite: false
-readme: 'Purpose
+readme: >
+  Purpose
 
   -------
 
-  Completely removes NinjaOne RMM agent and Ninja Remote from a Windows system. Includes
-  disabling uninstall prevention, removing services, cleaning up registry entries,
-  and removing the virtual display driver.
+  Completely removes NinjaOne RMM agent and Ninja Remote from a Windows system.
+  Includes disabling uninstall prevention, removing services, cleaning up
+  registry entries, and removing the virtual display driver.
 
 
   Usage Notes
@@ -40,9 +41,8 @@ readme: 'Purpose
   - Windows OS
 
   - Administrator privileges
-
-  '
 runtimeVariables: []
 placeholderVariables: []
-scriptId: '259059110013165568'
+scriptId: "259059110013165568"
 lastPushedChecksum: sha256:c5cf794d589cf8bc
+lastPushedMetaChecksum: sha256:fd38a601efd09693

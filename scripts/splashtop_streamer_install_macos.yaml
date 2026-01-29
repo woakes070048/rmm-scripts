@@ -4,15 +4,16 @@ language: Bash
 runAs: SYSTEM_USER
 timeout: 15
 tags:
-- Mac
-- Software
+  - Mac
+  - Software
 shared: false
 favourite: false
-readme: 'Purpose:
+readme: >
+  Purpose:
 
-  Downloads and installs the Splashtop Streamer agent on macOS for remote access capabilities.
-  The Streamer runs on computers to allow remote connections from Splashtop Business
-  clients.
+  Downloads and installs the Splashtop Streamer agent on macOS for remote access
+  capabilities. The Streamer runs on computers to allow remote connections from
+  Splashtop Business clients.
 
 
   Usage Notes:
@@ -33,9 +34,8 @@ readme: 'Purpose:
   - Root/sudo privileges
 
   - Internet connectivity
-
-  '
 runtimeVariables: []
 placeholderVariables: []
-scriptId: '259059189193236480'
+scriptId: "259059189193236480"
 lastPushedChecksum: sha256:7962109ca8b9e885
+lastPushedMetaChecksum: sha256:d4f6939320a72c42

@@ -4,14 +4,15 @@ language: Bash
 runAs: SYSTEM_USER
 timeout: 15
 tags:
-- Software
-- Windows
+  - Software
+  - Windows
 shared: false
 favourite: false
-readme: '## Purpose
+readme: >
+  ## Purpose
 
-  Downloads and runs the DietPi Debian 12 Bookworm VM installer for Proxmox. Creates
-  a lightweight Debian-based VM optimized for low resource usage.
+  Downloads and runs the DietPi Debian 12 Bookworm VM installer for Proxmox.
+  Creates a lightweight Debian-based VM optimized for low resource usage.
 
 
   ## Usage Notes
@@ -32,9 +33,8 @@ readme: '## Purpose
   - Internet access to GitHub
 
   - curl installed
-
-  '
 runtimeVariables: []
 placeholderVariables: []
-scriptId: '259059076156743680'
+scriptId: "259059076156743680"
 lastPushedChecksum: sha256:4267f99c659dd43a
+lastPushedMetaChecksum: sha256:295f1d32e7051400

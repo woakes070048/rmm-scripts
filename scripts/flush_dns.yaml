@@ -4,14 +4,15 @@ language: Bash
 runAs: SYSTEM_USER
 timeout: 15
 tags:
-- Network
-- Windows
+  - Network
+  - Windows
 shared: true
 favourite: false
-readme: '## Purpose
+readme: >
+  ## Purpose
 
-  Flushes the DNS cache on macOS to resolve DNS-related connectivity issues. Automatically
-  detects macOS version and uses the appropriate flush method.
+  Flushes the DNS cache on macOS to resolve DNS-related connectivity issues.
+  Automatically detects macOS version and uses the appropriate flush method.
 
 
   ## Usage
@@ -26,9 +27,8 @@ readme: '## Purpose
   - macOS 10.6 or later
 
   - Root/sudo privileges
-
-  '
 runtimeVariables: []
 placeholderVariables: []
-scriptId: '934483777516347392'
+scriptId: "934483777516347392"
 lastPushedChecksum: sha256:fd8698fac2a9f51f
+lastPushedMetaChecksum: sha256:7bfb66c0257c0336

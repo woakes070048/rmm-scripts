@@ -4,14 +4,15 @@ language: Bash
 runAs: SYSTEM_USER
 timeout: 15
 tags:
-- Linux
-- Software
+  - Linux
+  - Software
 shared: false
 favourite: false
-readme: 'Purpose:
+readme: >
+  Purpose:
 
-  Downloads and installs the Splashtop Streamer agent on Debian systems running ARM64
-  architecture (e.g., Raspberry Pi, ARM servers).
+  Downloads and installs the Splashtop Streamer agent on Debian systems running
+  ARM64 architecture (e.g., Raspberry Pi, ARM servers).
 
 
   Usage Notes:
@@ -36,9 +37,8 @@ readme: 'Purpose:
   - Internet connectivity
 
   - wget and tar (installed automatically if missing)
-
-  '
 runtimeVariables: []
 placeholderVariables: []
-scriptId: '259059187649732608'
+scriptId: "259059187649732608"
 lastPushedChecksum: sha256:4fb1452893ccc28c
+lastPushedMetaChecksum: sha256:8465a57ef5f0f307

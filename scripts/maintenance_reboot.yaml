@@ -1,21 +1,22 @@
 name: maintenance_reboot.ps1
-description: System reboot with graceful or force mode when uptime exceeds threshold
-  or reboot flags detected
+description: System reboot with graceful or force mode when uptime exceeds
+  threshold or reboot flags detected
 language: PowerShell
 runAs: SYSTEM_USER
 timeout: 15
 tags:
-- Maintenance
-- Services
-- Windows
+  - Maintenance
+  - Services
+  - Windows
 shared: true
 favourite: false
-readme: 'Purpose
+readme: >
+  Purpose
 
   -------
 
-  Performs system reboot when uptime exceeds threshold or reboot flags are detected.
-  Supports two modes:
+  Performs system reboot when uptime exceeds threshold or reboot flags are
+  detected. Supports two modes:
 
 
   GRACEFUL MODE (default) - For servers/workstations with active users
@@ -52,11 +53,10 @@ readme: 'Purpose
   - PowerShell 5.1+
 
   - Local Administrator rights
-
-  '
 runtimeVariables:
-- name: graceful_true_or_false
-- name: maxuptimedays
+  - name: graceful_true_or_false
+  - name: maxuptimedays
 placeholderVariables: []
-scriptId: '7521762971991781376'
+scriptId: "7521762971991781376"
 lastPushedChecksum: sha256:7f7bd5e13d21a1a0
+lastPushedMetaChecksum: sha256:d1c3e8715ef135ac

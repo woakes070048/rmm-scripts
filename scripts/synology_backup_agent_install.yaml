@@ -4,16 +4,17 @@ language: PowerShell
 runAs: SYSTEM_USER
 timeout: 15
 tags:
-- Backup
-- Logs
-- Software
-- Windows
+  - Backup
+  - Logs
+  - Software
+  - Windows
 shared: false
 favourite: false
-readme: 'Purpose:
+readme: >
+  Purpose:
 
-  Installs the Synology Active Backup for Business Agent on Windows using winget.
-  This agent enables centralized backup management from a Synology NAS.
+  Installs the Synology Active Backup for Business Agent on Windows using
+  winget. This agent enables centralized backup management from a Synology NAS.
 
 
   Usage Notes:
@@ -36,9 +37,8 @@ readme: 'Purpose:
   - winget (App Installer) installed
 
   - Synology NAS with Active Backup for Business package
-
-  '
 runtimeVariables: []
 placeholderVariables: []
-scriptId: '259059216389103616'
+scriptId: "259059216389103616"
 lastPushedChecksum: sha256:71047d6fc64e0624
+lastPushedMetaChecksum: sha256:86057b12d1244edd

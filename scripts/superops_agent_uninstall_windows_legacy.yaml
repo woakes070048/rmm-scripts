@@ -4,16 +4,17 @@ language: PowerShell
 runAs: SYSTEM_USER
 timeout: 15
 tags:
-- Cleanup
-- Software
-- Windows
+  - Cleanup
+  - Software
+  - Windows
 shared: false
 favourite: false
-readme: 'Purpose:
+readme: >
+  Purpose:
 
-  Uninstalls the legacy SuperOps agent on Windows systems using the product''s IdentifyingNumber.
-  Intended for environments where the agent cannot be uninstalled via standard methods
-  or newer uninstallers.
+  Uninstalls the legacy SuperOps agent on Windows systems using the product's
+  IdentifyingNumber. Intended for environments where the agent cannot be
+  uninstalled via standard methods or newer uninstallers.
 
 
   Usage Notes:
@@ -34,9 +35,8 @@ readme: 'Purpose:
   - Administrative privileges
 
   - WMI service must be running
-
-  '
 runtimeVariables: []
 placeholderVariables: []
-scriptId: '259059208889688064'
+scriptId: "259059208889688064"
 lastPushedChecksum: sha256:e9b006cfd6aeea35
+lastPushedMetaChecksum: sha256:8863b93c60e63cf2

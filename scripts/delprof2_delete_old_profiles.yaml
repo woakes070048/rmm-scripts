@@ -4,15 +4,16 @@ language: PowerShell
 runAs: SYSTEM_USER
 timeout: 15
 tags:
-- Administration
-- Cleanup
-- Windows
+  - Administration
+  - Cleanup
+  - Windows
 shared: false
 favourite: false
-readme: '## Purpose
+readme: >
+  ## Purpose
 
-  Deletes Windows user profiles older than a specified number of days. Uses DelProf2
-  utility downloaded directly from helgeklein.com.
+  Deletes Windows user profiles older than a specified number of days. Uses
+  DelProf2 utility downloaded directly from helgeklein.com.
 
 
   ## Usage Notes
@@ -33,10 +34,9 @@ readme: '## Purpose
   - Administrator privileges
 
   - Internet access for DelProf2 download from helgeklein.com
-
-  '
 runtimeVariables:
-- name: days_old
+  - name: days_old
 placeholderVariables: []
-scriptId: '259059068233703424'
+scriptId: "259059068233703424"
 lastPushedChecksum: sha256:fe123239bb67db0b
+lastPushedMetaChecksum: sha256:95857786c81f2b4d

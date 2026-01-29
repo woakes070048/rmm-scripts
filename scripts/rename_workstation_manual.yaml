@@ -4,35 +4,53 @@ language: PowerShell
 runAs: SYSTEM_USER
 timeout: 15
 tags:
-- Administration
-- Windows
+  - Administration
+  - Windows
 shared: true
 favourite: false
-readme: "Purpose\n-------\nRename a Windows device and sync the same name to SuperOps.\n\
-  \nNaming pattern (max 15 chars): CLIENT-USERUUID\n- CLIENT: Custom override $YourCustomClientHere,\
-  \ else from $YourClientNameHere\n  (variable length, sanitized A-Z0-9, trimmed if\
-  \ needed)\n- USER: Sanitized username, maximized, truncated if needed\n- UUID: SMBIOS\
-  \ UUID tail, at least 3 chars\n\nUsage Notes\n-----------\n- Requires SuperOps runtime\
-  \ variables:\n  - $YourApiKeyHere: SuperOps API key\n  - $YourCustomClientHere:\
-  \ Custom client segment (overrides auto 3-char)\n  - $YourAssetIdHere: Asset ID\
-  \ (placeholder)\n  - $YourAssetNameHere: Current asset name (placeholder)\n  - $YourClientNameHere:\
-  \ Client name fallback (placeholder)\n- Only A-Z, 0-9, and hyphen used in hostname\n\
-  - Always exactly 15 characters\n- SuperOps asset name updated via GraphQL API\n\
-  - Reboot required for hostname change to take effect\n\nRequirements\n------------\n\
-  - Windows 10/11\n- Administrator privileges\n- SuperOps agent installed\n- Internet\
-  \ access for SuperOps API\n"
+readme: |
+  Purpose
+  -------
+  Rename a Windows device and sync the same name to SuperOps.
+
+  Naming pattern (max 15 chars): CLIENT-USERUUID
+  - CLIENT: Custom override $YourCustomClientHere, else from $YourClientNameHere
+    (variable length, sanitized A-Z0-9, trimmed if needed)
+  - USER: Sanitized username, maximized, truncated if needed
+  - UUID: SMBIOS UUID tail, at least 3 chars
+
+  Usage Notes
+  -----------
+  - Requires SuperOps runtime variables:
+    - $YourApiKeyHere: SuperOps API key
+    - $YourCustomClientHere: Custom client segment (overrides auto 3-char)
+    - $YourAssetIdHere: Asset ID (placeholder)
+    - $YourAssetNameHere: Current asset name (placeholder)
+    - $YourClientNameHere: Client name fallback (placeholder)
+  - Only A-Z, 0-9, and hyphen used in hostname
+  - Always exactly 15 characters
+  - SuperOps asset name updated via GraphQL API
+  - Reboot required for hostname change to take effect
+
+  Requirements
+  ------------
+  - Windows 10/11
+  - Administrator privileges
+  - SuperOps agent installed
+  - Internet access for SuperOps API
 runtimeVariables:
-- name: YourApiKeyHere
-- name: YourCustomClientHere
+  - name: YourApiKeyHere
+  - name: YourCustomClientHere
 placeholderVariables:
-- name: YourAssetIdHere
-  label: Asset ID
-  column: assetId
-- name: YourAssetNameHere
-  label: Asset name
-  column: name
-- name: YourClientNameHere
-  label: Client name
-  column: client.name
-scriptId: '8083647452427669504'
+  - name: YourAssetIdHere
+    label: Asset ID
+    column: assetId
+  - name: YourAssetNameHere
+    label: Asset name
+    column: name
+  - name: YourClientNameHere
+    label: Client name
+    column: client.name
+scriptId: "8083647452427669504"
 lastPushedChecksum: sha256:0993815bfe34d2fb
+lastPushedMetaChecksum: sha256:7b5555d9900717fc

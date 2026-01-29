@@ -4,16 +4,17 @@ language: PowerShell
 runAs: SYSTEM_USER
 timeout: 15
 tags:
-- Applications
-- Software
-- Windows
+  - Applications
+  - Software
+  - Windows
 shared: false
 favourite: false
-readme: '## Purpose
+readme: >
+  ## Purpose
 
-  Installs Foxit PDF Editor from Microsoft Store source via winget. The MS Store version
-  validates licenses server-side, supporting all Foxit subscription types including
-  PDF Editor+, Suite Pro Teams, and other subscription SKUs.
+  Installs Foxit PDF Editor from Microsoft Store source via winget. The MS Store
+  version validates licenses server-side, supporting all Foxit subscription
+  types including PDF Editor+, Suite Pro Teams, and other subscription SKUs.
 
 
   ## Usage
@@ -32,9 +33,8 @@ readme: '## Purpose
   - Administrator/SYSTEM privileges
 
   - Internet connectivity to Microsoft Store
-
-  '
 runtimeVariables: []
 placeholderVariables: []
-scriptId: '8969905695147712512'
+scriptId: "8969905695147712512"
 lastPushedChecksum: sha256:46dc5587c5f2c2bf
+lastPushedMetaChecksum: sha256:05a701017c5fb58d

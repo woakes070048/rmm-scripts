@@ -4,11 +4,12 @@ language: Bash
 runAs: SYSTEM_USER
 timeout: 15
 tags:
-- Administration
-- Mac
+  - Administration
+  - Mac
 shared: false
 favourite: false
-readme: 'Purpose
+readme: >
+  Purpose
 
   -------
 
@@ -23,7 +24,8 @@ readme: 'Purpose
 
   -----------
 
-  - Client name from RMM placeholder $YourClientNameHere (3-char abbreviation used)
+  - Client name from RMM placeholder $YourClientNameHere (3-char abbreviation
+  used)
 
   - Username detected from current console user
 
@@ -45,12 +47,11 @@ readme: 'Purpose
   - Root/sudo access
 
   - RMM variable $YourClientNameHere must be set
-
-  '
 runtimeVariables: []
 placeholderVariables:
-- name: YourClientNameHere
-  label: Client name
-  column: client.name
-scriptId: '259059160919433216'
+  - name: YourClientNameHere
+    label: Client name
+    column: client.name
+scriptId: "259059160919433216"
 lastPushedChecksum: sha256:6f80ffa845d204c0
+lastPushedMetaChecksum: sha256:0869a76e3fe9860c

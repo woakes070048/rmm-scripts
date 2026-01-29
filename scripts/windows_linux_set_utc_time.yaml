@@ -4,17 +4,18 @@ language: PowerShell
 runAs: SYSTEM_USER
 timeout: 15
 tags:
-- Linux
-- Maintenance
+  - Linux
+  - Maintenance
 shared: false
 favourite: false
-readme: 'Purpose
+readme: >
+  Purpose
 
   -------
 
-  Configures Windows to use UTC for the hardware clock instead of local time. This
-  prevents the clock from being wrong when switching between Windows and Linux on
-  dual-boot systems, as Linux uses UTC by default.
+  Configures Windows to use UTC for the hardware clock instead of local time.
+  This prevents the clock from being wrong when switching between Windows and
+  Linux on dual-boot systems, as Linux uses UTC by default.
 
 
   Usage Notes
@@ -37,9 +38,8 @@ readme: 'Purpose
   - Administrator privileges (required for HKLM access)
 
   - Windows 10/11
-
-  '
 runtimeVariables: []
 placeholderVariables: []
-scriptId: '259059240497963008'
+scriptId: "259059240497963008"
 lastPushedChecksum: sha256:424ae2c5ad972585
+lastPushedMetaChecksum: sha256:fcc4830f90866a92

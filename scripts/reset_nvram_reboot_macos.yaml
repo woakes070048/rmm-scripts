@@ -4,17 +4,18 @@ language: Bash
 runAs: SYSTEM_USER
 timeout: 15
 tags:
-- Antivirus
-- Mac
-- Services
+  - Antivirus
+  - Mac
+  - Services
 shared: false
 favourite: false
-readme: 'Purpose:
+readme: >
+  Purpose:
 
-  Schedules an NVRAM reset on the next reboot and immediately reboots the Mac. NVRAM
-  stores system settings including startup disk, display resolution, speaker volume,
-  and time zone. Useful for troubleshooting boot issues, display problems, audio issues,
-  and startup disk errors.
+  Schedules an NVRAM reset on the next reboot and immediately reboots the Mac.
+  NVRAM stores system settings including startup disk, display resolution,
+  speaker volume, and time zone. Useful for troubleshooting boot issues, display
+  problems, audio issues, and startup disk errors.
 
 
   Usage Notes:
@@ -37,9 +38,8 @@ readme: 'Purpose:
   - macOS 10.14 or later
 
   - Intel-based Mac (Apple Silicon uses different reset method)
-
-  '
 runtimeVariables: []
 placeholderVariables: []
-scriptId: '259059166317502464'
+scriptId: "259059166317502464"
 lastPushedChecksum: sha256:86cce573a4c2c35d
+lastPushedMetaChecksum: sha256:70d54f663d5bf0c9

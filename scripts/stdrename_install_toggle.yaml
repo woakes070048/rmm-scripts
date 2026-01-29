@@ -4,15 +4,16 @@ language: PowerShell
 runAs: SYSTEM_USER
 timeout: 15
 tags:
-- Software
-- Windows
+  - Software
+  - Windows
 shared: true
 favourite: false
-readme: 'Purpose:
+readme: >
+  Purpose:
 
-  Toggles installation of stdrename - a command-line file/folder renaming utility.
-  If installed, uninstalls it. If not installed, downloads and installs it. Installs
-  to System32 for system-wide availability.
+  Toggles installation of stdrename - a command-line file/folder renaming
+  utility. If installed, uninstalls it. If not installed, downloads and installs
+  it. Installs to System32 for system-wide availability.
 
 
   Usage Notes:
@@ -31,9 +32,8 @@ readme: 'Purpose:
   - Admin privileges (writing to System32)
 
   - Internet connectivity for download
-
-  '
 runtimeVariables: []
 placeholderVariables: []
-scriptId: '2703029945385623552'
+scriptId: "2703029945385623552"
 lastPushedChecksum: sha256:6fb3442faa559a1f
+lastPushedMetaChecksum: sha256:56f86ee4d7b4ab95

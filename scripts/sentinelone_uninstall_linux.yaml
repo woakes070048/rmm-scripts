@@ -4,17 +4,18 @@ language: Bash
 runAs: SYSTEM_USER
 timeout: 15
 tags:
-- Antivirus
-- Cleanup
-- Linux
+  - Antivirus
+  - Cleanup
+  - Linux
 shared: false
 favourite: false
-readme: 'Purpose
+readme: >
+  Purpose
 
   -------
 
-  Uninstalls the SentinelOne agent from Linux systems using the sentinelctl command.
-  Verifies the agent is installed before attempting removal.
+  Uninstalls the SentinelOne agent from Linux systems using the sentinelctl
+  command. Verifies the agent is installed before attempting removal.
 
 
   Usage Notes
@@ -37,9 +38,8 @@ readme: 'Purpose
   - Root/sudo privileges
 
   - sentinelctl must be in PATH (/usr/local/bin or /opt/sentinelone/bin)
-
-  '
 runtimeVariables: []
 placeholderVariables: []
-scriptId: '259059178191577088'
+scriptId: "259059178191577088"
 lastPushedChecksum: sha256:14d539a27befd82d
+lastPushedMetaChecksum: sha256:ccca88f4a2d59be3

@@ -1,24 +1,26 @@
 name: dell_command_update.ps1
-description: Installs Dell Command Update via winget and applies driver/firmware updates
-  silently
+description: Installs Dell Command Update via winget and applies driver/firmware
+  updates silently
 language: PowerShell
 runAs: SYSTEM_USER
 timeout: 15
 tags:
-- Maintenance
-- Windows
+  - Maintenance
+  - Windows
 shared: true
 favourite: false
-readme: '## Purpose
+readme: >
+  ## Purpose
 
-  Installs Dell Command Update via winget and runs it to scan and apply driver/firmware
-  updates silently. Designed for automated Dell system maintenance in RMM environments.
+  Installs Dell Command Update via winget and runs it to scan and apply
+  driver/firmware updates silently. Designed for automated Dell system
+  maintenance in RMM environments.
 
 
   ## Usage Notes
 
-  - Configures DCU for silent operation: auto-suspend BitLocker, disable user consent
-  prompts
+  - Configures DCU for silent operation: auto-suspend BitLocker, disable user
+  consent prompts
 
   - Applies updates without rebooting (reboot=disable)
 
@@ -34,9 +36,8 @@ readme: '## Purpose
   - Dell system hardware
 
   - Administrator privileges
-
-  '
 runtimeVariables: []
 placeholderVariables: []
-scriptId: '654800809091403776'
+scriptId: "654800809091403776"
 lastPushedChecksum: sha256:a83e3d86b27a7bd3
+lastPushedMetaChecksum: sha256:19bfe79ddefebf78

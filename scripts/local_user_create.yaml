@@ -4,48 +4,33 @@ language: PowerShell
 runAs: SYSTEM_USER
 timeout: 15
 tags:
-- Administration
-- Windows
+  - Administration
+  - Windows
 shared: true
 favourite: false
-readme: 'Purpose
-
+readme: |
+  Purpose
   -------
-
   Creates a new local user account with specified username and password.
-
   Optionally adds the user to the Administrators group.
 
-
   Usage Notes
-
   -----------
-
   - Set username via SuperOps runtime variable $NewUsername
-
   - Set password via SuperOps runtime variable $NewPassword
-
   - Configure AddToAdmin to "Yes" or "No" in script (default: "No")
-
   - Script validates inputs before creating account
-
   - Reports success/failure with user details
 
-
   Requirements
-
   ------------
-
   - Windows 10/11
-
   - Administrator privileges
-
   - PowerShell 5.1+
-
-  '
 runtimeVariables:
-- name: NewUsername
-- name: NewPassword
+  - name: NewUsername
+  - name: NewPassword
 placeholderVariables: []
-scriptId: '1015906830558752768'
+scriptId: "1015906830558752768"
 lastPushedChecksum: sha256:11eced3f499bf362
+lastPushedMetaChecksum: sha256:f94899a2529f8503

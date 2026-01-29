@@ -4,15 +4,16 @@ language: Bash
 runAs: SYSTEM_USER
 timeout: 15
 tags:
-- Services
-- Windows
+  - Services
+  - Windows
 shared: false
 favourite: false
-readme: 'Purpose:
+readme: >
+  Purpose:
 
-  Tests network connectivity to configured printers by pinging their hostnames/IPs.
-  Reports success/failure for each printer and optionally sends an email alert if
-  any tests fail.
+  Tests network connectivity to configured printers by pinging their
+  hostnames/IPs. Reports success/failure for each printer and optionally sends
+  an email alert if any tests fail.
 
 
   Usage Notes:
@@ -33,9 +34,8 @@ readme: 'Purpose:
   - Network access to printer hosts
 
   - (Optional) sendmail for email alerts
-
-  '
 runtimeVariables: []
 placeholderVariables: []
-scriptId: '259059148156166144'
+scriptId: "259059148156166144"
 lastPushedChecksum: sha256:8c85fe824e4c808c
+lastPushedMetaChecksum: sha256:7fcb876e1fd175a7

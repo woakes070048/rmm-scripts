@@ -1,20 +1,22 @@
 name: synology_backup_agent_install_linux.sh
-description: Installs Synology Active Backup for Business Agent on Linux with prerequisite
-  checks
+description: Installs Synology Active Backup for Business Agent on Linux with
+  prerequisite checks
 language: Bash
 runAs: SYSTEM_USER
 timeout: 15
 tags:
-- Backup
-- Linux
-- Logs
-- Software
+  - Backup
+  - Linux
+  - Logs
+  - Software
 shared: false
 favourite: false
-readme: 'Purpose:
+readme: >
+  Purpose:
 
-  Installs the Synology Active Backup for Business Agent on Linux systems. Includes
-  prerequisite checks for architecture, kernel headers, and required tools.
+  Installs the Synology Active Backup for Business Agent on Linux systems.
+  Includes prerequisite checks for architecture, kernel headers, and required
+  tools.
 
 
   Usage Notes:
@@ -43,9 +45,8 @@ readme: 'Purpose:
   - make 4.1+, dkms 2.2.0.3+, gcc 4.8.2+
 
   - unzip, curl or wget
-
-  '
 runtimeVariables: []
 placeholderVariables: []
-scriptId: '259059218180071424'
+scriptId: "259059218180071424"
 lastPushedChecksum: sha256:d25da66ea53f3a05
+lastPushedMetaChecksum: sha256:6997e0c440603253

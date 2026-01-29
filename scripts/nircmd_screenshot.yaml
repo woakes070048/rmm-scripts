@@ -4,16 +4,17 @@ language: PowerShell
 runAs: SYSTEM_USER
 timeout: 15
 tags:
-- Maintenance
-- Windows
+  - Maintenance
+  - Windows
 shared: false
 favourite: false
-readme: 'Purpose
+readme: >
+  Purpose
 
   -------
 
-  Captures a screenshot of the current display using NirSoft''s NirCmd utility. Downloads
-  NirCmd if not already present, then saves a timestamped screenshot.
+  Captures a screenshot of the current display using NirSoft's NirCmd utility.
+  Downloads NirCmd if not already present, then saves a timestamped screenshot.
 
 
   Usage Notes
@@ -38,9 +39,8 @@ readme: 'Purpose
   - Internet access for NirCmd download
 
   - Write permissions to destination folder
-
-  '
 runtimeVariables: []
 placeholderVariables: []
-scriptId: '259059111493754880'
+scriptId: "259059111493754880"
 lastPushedChecksum: sha256:1796923bd56b59bc
+lastPushedMetaChecksum: sha256:6afd90c0b43bd856

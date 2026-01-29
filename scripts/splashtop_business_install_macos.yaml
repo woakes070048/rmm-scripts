@@ -4,16 +4,18 @@ language: Bash
 runAs: SYSTEM_USER
 timeout: 15
 tags:
-- Mac
-- Software
+  - Mac
+  - Software
 shared: false
 favourite: false
-readme: 'Purpose
+readme: >
+  Purpose
 
   -------
 
-  Downloads and installs the Splashtop Business client application on macOS. The Business
-  client allows users to connect to remote computers with Splashtop Streamer installed.
+  Downloads and installs the Splashtop Business client application on macOS. The
+  Business client allows users to connect to remote computers with Splashtop
+  Streamer installed.
 
 
   Usage Notes
@@ -36,9 +38,8 @@ readme: 'Purpose
   - Root/sudo privileges
 
   - Internet connectivity
-
-  '
 runtimeVariables: []
 placeholderVariables: []
-scriptId: '2890665459264626688'
+scriptId: "2890665459264626688"
 lastPushedChecksum: sha256:687707d59ce4a3d6
+lastPushedMetaChecksum: sha256:009f76073fb19bad

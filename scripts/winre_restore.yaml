@@ -4,18 +4,20 @@ language: PowerShell
 runAs: SYSTEM_USER
 timeout: 15
 tags:
-- Disk
-- Recovery
-- Windows
+  - Disk
+  - Recovery
+  - Windows
 shared: false
 favourite: false
-readme: 'Purpose
+readme: >
+  Purpose
 
   -------
 
   Restores Windows Recovery Environment (WinRE) by downloading Winre.wim and
 
-  ReAgent.xml files from a specified URL and placing them in the Recovery folder.
+  ReAgent.xml files from a specified URL and placing them in the Recovery
+  folder.
 
   Fixes systems where WinRE has been corrupted or deleted.
 
@@ -44,9 +46,8 @@ readme: 'Purpose
   - Network connectivity to download URLs
 
   - Valid WinRE files hosted at specified URLs
-
-  '
 runtimeVariables: []
 placeholderVariables: []
-scriptId: '259059250698510336'
+scriptId: "259059250698510336"
 lastPushedChecksum: sha256:2ee202fdbbaf51a9
+lastPushedMetaChecksum: sha256:3ebf11ba0a737e85

@@ -1,20 +1,22 @@
 name: superops_agent_uninstaller.ps1
-description: Uninstalls SuperOps agent via WMI/CIM with diagnostic reporting and cleanup
-  suggestions
+description: Uninstalls SuperOps agent via WMI/CIM with diagnostic reporting and
+  cleanup suggestions
 language: PowerShell
 runAs: SYSTEM_USER
 timeout: 15
 tags:
-- Cleanup
-- Software
-- Windows
+  - Cleanup
+  - Software
+  - Windows
 shared: false
 favourite: false
-readme: 'Purpose:
+readme: >
+  Purpose:
 
-  Performs a quiet uninstallation of the SuperOps RMM Agent using the MSI ProductCode
-  GUID. Reports which uninstall method (WMI or CIM) was used, provides diagnostic
-  information, and checks for leftover services to suggest manual cleanup commands.
+  Performs a quiet uninstallation of the SuperOps RMM Agent using the MSI
+  ProductCode GUID. Reports which uninstall method (WMI or CIM) was used,
+  provides diagnostic information, and checks for leftover services to suggest
+  manual cleanup commands.
 
 
   Usage Notes:
@@ -37,9 +39,8 @@ readme: 'Purpose:
   - Run as Administrator
 
   - Windows operating system
-
-  '
 runtimeVariables: []
 placeholderVariables: []
-scriptId: '259059213503422464'
+scriptId: "259059213503422464"
 lastPushedChecksum: sha256:6439d63a1026f721
+lastPushedMetaChecksum: sha256:f20ea6f7103e9896

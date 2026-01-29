@@ -4,15 +4,17 @@ language: Bash
 runAs: SYSTEM_USER
 timeout: 15
 tags:
-- Cleanup
-- Linux
-- Software
+  - Cleanup
+  - Linux
+  - Software
 shared: false
 favourite: false
-readme: 'Purpose:
+readme: >
+  Purpose:
 
-  Uninstalls the SuperOps RMM agent from Linux systems by executing the agent''s built-in
-  uninstall script. Provides a clean removal of the agent and all associated components.
+  Uninstalls the SuperOps RMM agent from Linux systems by executing the agent's
+  built-in uninstall script. Provides a clean removal of the agent and all
+  associated components.
 
 
   Usage Notes:
@@ -37,9 +39,8 @@ readme: 'Purpose:
   - SuperOps RMM agent must be installed
 
   - Uninstall script must exist at /opt/superopsrmm/uninstall.sh
-
-  '
 runtimeVariables: []
 placeholderVariables: []
-scriptId: '259059199326674944'
+scriptId: "259059199326674944"
 lastPushedChecksum: sha256:2009c72750ce9121
+lastPushedMetaChecksum: sha256:6876e1c77e330fe0

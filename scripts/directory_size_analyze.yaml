@@ -18,7 +18,8 @@ readme: >
 
   ## Usage Notes
 
-  - Set $YourTargetDirectoryHere runtime variable to the path to scan (e.g., C:\Users)
+  - Set $YourTargetDirectoryHere runtime variable to the path to scan (e.g.,
+  C:\Users)
 
   - Designed for unattended RMM execution
 
@@ -42,4 +43,5 @@ runtimeVariables:
   - name: YourTargetDirectoryHere
 placeholderVariables: []
 scriptId: "259059079201808384"
-lastPushedChecksum: sha256:3b5971f9905e36f3
+lastPushedChecksum: sha256:133ac70c3798cf9f
+lastPushedMetaChecksum: sha256:34add1a22f182c73

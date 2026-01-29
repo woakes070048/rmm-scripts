@@ -4,15 +4,16 @@ language: PowerShell
 runAs: SYSTEM_USER
 timeout: 15
 tags:
-- Cleanup
-- Software
-- Windows
+  - Cleanup
+  - Software
+  - Windows
 shared: false
 favourite: false
-readme: 'Purpose:
+readme: >
+  Purpose:
 
-  Uninstalls Splashtop Streamer from a Windows system using the Windows Installer
-  service (MSI uninstall).
+  Uninstalls Splashtop Streamer from a Windows system using the Windows
+  Installer service (MSI uninstall).
 
 
   Usage Notes:
@@ -33,9 +34,8 @@ readme: 'Purpose:
   - Administrator privileges
 
   - Splashtop Streamer installed
-
-  '
 runtimeVariables: []
 placeholderVariables: []
-scriptId: '259059190602522624'
+scriptId: "259059190602522624"
 lastPushedChecksum: sha256:0800aca199e5aa18
+lastPushedMetaChecksum: sha256:94525b2791b02bce

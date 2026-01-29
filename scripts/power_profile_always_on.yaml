@@ -1,21 +1,22 @@
 name: power_profile_always_on.ps1
-description: Creates custom always-on power plan for workstations that should never
-  sleep on AC power
+description: Creates custom always-on power plan for workstations that should
+  never sleep on AC power
 language: PowerShell
 runAs: SYSTEM_USER
 timeout: 15
 tags:
-- Maintenance
-- Windows
+  - Maintenance
+  - Windows
 shared: false
 favourite: false
-readme: 'Purpose
+readme: >
+  Purpose
 
   -------
 
-  Creates a custom "Always On - Limehawk" power plan optimized for workstations that
-  should never sleep while on AC power. If the plan already exists, it will be reused
-  and reconfigured. The plan is based on High Performance settings.
+  Creates a custom "Always On - Limehawk" power plan optimized for workstations
+  that should never sleep while on AC power. If the plan already exists, it will
+  be reused and reconfigured. The plan is based on High Performance settings.
 
 
   Usage Notes
@@ -49,9 +50,8 @@ readme: 'Purpose
   - Administrator privileges
 
   - High Performance power plan must exist
-
-  '
 runtimeVariables: []
 placeholderVariables: []
-scriptId: '259059132276531200'
+scriptId: "259059132276531200"
 lastPushedChecksum: sha256:e1a77ca471b39412
+lastPushedMetaChecksum: sha256:f075cce3d6aaf355

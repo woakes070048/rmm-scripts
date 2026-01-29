@@ -4,15 +4,16 @@ language: Bash
 runAs: SYSTEM_USER
 timeout: 15
 tags:
-- Mac
-- Software
+  - Mac
+  - Software
 shared: false
 favourite: false
-readme: 'Purpose:
+readme: >
+  Purpose:
 
-  Performs a complete reinstallation of the SuperOps RMM agent on macOS by uninstalling
-  the current agent and installing a new version from a provided URL. Useful for agent
-  upgrades or fixing corrupted installations.
+  Performs a complete reinstallation of the SuperOps RMM agent on macOS by
+  uninstalling the current agent and installing a new version from a provided
+  URL. Useful for agent upgrades or fixing corrupted installations.
 
 
   Usage Notes:
@@ -41,9 +42,8 @@ readme: 'Purpose:
   - PKGURL environment variable set by RMM platform
 
   - curl command (standard on macOS)
-
-  '
 runtimeVariables: []
 placeholderVariables: []
-scriptId: '259059197846085632'
+scriptId: "259059197846085632"
 lastPushedChecksum: sha256:174ea4eea6e05f07
+lastPushedMetaChecksum: sha256:2d20ac4b2c534643

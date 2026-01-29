@@ -1,57 +1,38 @@
 name: mrt_scan.ps1
-description: Runs Microsoft Malicious Software Removal Tool with configurable scan
-  mode
+description: Runs Microsoft Malicious Software Removal Tool with configurable scan mode
 language: PowerShell
 runAs: SYSTEM_USER
 timeout: 60
 tags:
-- Antivirus
-- Windows
+  - Antivirus
+  - Windows
 shared: true
 favourite: false
-readme: 'Purpose
-
+readme: |
+  Purpose
   -------
-
   Executes the built-in Windows Malicious Software Removal Tool (MRT.exe) with
-
   configurable scan mode. Designed for RMM deployment via SuperOps, allowing
-
   administrators to trigger Quick or Full silent scans on target endpoints.
-
   Displays scan status and log preview upon completion.
 
-
   Usage Notes
-
   -----------
-
   - Set scan mode via SuperOps runtime variable $QuickOrFull (Quick or Full)
-
   - Quick scan takes several minutes
-
   - Full scan can take SEVERAL HOURS depending on disk size
-
   - Displays last 50 lines of MRT log file after completion
-
   - MRT exit code 0 indicates no infection found
 
-
   Requirements
-
   ------------
-
   - Windows OS with MRT.exe (included by default)
-
   - Administrator privileges
-
   - PowerShell 5.1+
-
   - SuperOps module available
-
-  '
 runtimeVariables:
-- name: QuickOrFull
+  - name: QuickOrFull
 placeholderVariables: []
-scriptId: '5428837218762698752'
+scriptId: "5428837218762698752"
 lastPushedChecksum: sha256:869633f2768cf87a
+lastPushedMetaChecksum: sha256:9a224bdcf5900826

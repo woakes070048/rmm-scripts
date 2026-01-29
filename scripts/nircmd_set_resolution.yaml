@@ -4,16 +4,17 @@ language: PowerShell
 runAs: SYSTEM_USER
 timeout: 15
 tags:
-- Maintenance
-- Windows
+  - Maintenance
+  - Windows
 shared: false
 favourite: false
-readme: 'Purpose
+readme: >
+  Purpose
 
   -------
 
-  Changes the display resolution using NirSoft''s NirCmd utility. Downloads NirCmd
-  if not already present, then sets the specified resolution.
+  Changes the display resolution using NirSoft's NirCmd utility. Downloads
+  NirCmd if not already present, then sets the specified resolution.
 
 
   Usage Notes
@@ -40,9 +41,8 @@ readme: 'Purpose
   - Internet access for NirCmd download
 
   - Display must support requested resolution
-
-  '
 runtimeVariables: []
 placeholderVariables: []
-scriptId: '259059112915623936'
+scriptId: "259059112915623936"
 lastPushedChecksum: sha256:46e9a7858aa5218f
+lastPushedMetaChecksum: sha256:34aad0fa8e17ec1a

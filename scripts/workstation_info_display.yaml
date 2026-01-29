@@ -1,21 +1,23 @@
 name: workstation_info_display.ps1
-description: Displays system info popup for user self-service via tray icon or RMM
-  execution
+description: Displays system info popup for user self-service via tray icon or RMM execution
 language: PowerShell
 runAs: SYSTEM_USER
 timeout: 15
 tags:
-- Monitoring
-- Windows
+  - Monitoring
+  - Windows
 shared: false
 favourite: false
-readme: 'Purpose
+readme: >
+  Purpose
 
   -------
 
-  Collects and displays comprehensive workstation information including operating
+  Collects and displays comprehensive workstation information including
+  operating
 
-  system details, computer name, current user, CPU specifications, memory capacity,
+  system details, computer name, current user, CPU specifications, memory
+  capacity,
 
   network adapter configuration, and hardware serial number. Designed for quick
 
@@ -48,9 +50,8 @@ readme: 'Purpose
   - For popup mode: .NET Framework (included in Windows)
 
   - No special permissions required (runs in user context)
-
-  '
 runtimeVariables: []
 placeholderVariables: []
-scriptId: '259059268004208640'
+scriptId: "259059268004208640"
 lastPushedChecksum: sha256:330cc5d8ea5101af
+lastPushedMetaChecksum: sha256:018c9817d6f85956

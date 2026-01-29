@@ -4,15 +4,16 @@ language: PowerShell
 runAs: SYSTEM_USER
 timeout: 15
 tags:
-- Administration
-- Cleanup
-- Windows
+  - Administration
+  - Cleanup
+  - Windows
 shared: false
 favourite: false
-readme: '## Purpose
+readme: >
+  ## Purpose
 
-  Deletes ONLY the specified Windows user profile. All other profiles are left untouched.
-  Uses DelProf2 utility.
+  Deletes ONLY the specified Windows user profile. All other profiles are left
+  untouched. Uses DelProf2 utility.
 
 
   ## Usage Notes
@@ -35,10 +36,9 @@ readme: '## Purpose
   - Internet access for DelProf2 download
 
   - Runtime variable: `profile_to_delete` (username of the profile to delete)
-
-  '
 runtimeVariables:
-- name: profile_to_delete
+  - name: profile_to_delete
 placeholderVariables: []
-scriptId: '259059070683176960'
+scriptId: "259059070683176960"
 lastPushedChecksum: sha256:79af0bb2cd848701
+lastPushedMetaChecksum: sha256:4be26e0dd1019713

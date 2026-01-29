@@ -1,23 +1,25 @@
 name: onedrive_remove_complete.ps1
-description: Completely removes Microsoft OneDrive with startup suppression and registry
-  cleanup
+description: Completely removes Microsoft OneDrive with startup suppression and
+  registry cleanup
 language: PowerShell
 runAs: SYSTEM_USER
 timeout: 15
 tags:
-- Applications
-- Cleanup
-- Windows
+  - Applications
+  - Cleanup
+  - Windows
 shared: true
 favourite: false
-readme: 'Purpose
+readme: >
+  Purpose
 
   -------
 
-  Performs a complete, multi-path uninstallation of Microsoft OneDrive with permanent
-  startup suppression. Stops running processes, executes the official Microsoft uninstall
-  utility against all known install paths (system and Office), removes scheduled tasks,
-  and applies registry policies to prevent reinstallation.
+  Performs a complete, multi-path uninstallation of Microsoft OneDrive with
+  permanent startup suppression. Stops running processes, executes the official
+  Microsoft uninstall utility against all known install paths (system and
+  Office), removes scheduled tasks, and applies registry policies to prevent
+  reinstallation.
 
 
   Usage Notes
@@ -50,9 +52,8 @@ readme: 'Purpose
   - Administrator privileges
 
   - No network requirements (local operations only)
-
-  '
 runtimeVariables: []
 placeholderVariables: []
-scriptId: '6668060130075115520'
+scriptId: "6668060130075115520"
 lastPushedChecksum: sha256:e1f4ee52cb2ad974
+lastPushedMetaChecksum: sha256:717b199f78f7c3d0

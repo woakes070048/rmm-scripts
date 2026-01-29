@@ -4,14 +4,16 @@ language: PowerShell
 runAs: SYSTEM_USER
 timeout: 15
 tags:
-- Administration
-- Windows
+  - Administration
+  - Windows
 shared: true
 favourite: false
-readme: '## Purpose
+readme: >
+  ## Purpose
 
-  Adds or removes a local user from the Administrators group. Idempotent operation
-  that ensures the user''s group membership aligns with the requested action.
+  Adds or removes a local user from the Administrators group. Idempotent
+  operation that ensures the user's group membership aligns with the requested
+  action.
 
 
   ## Usage
@@ -33,10 +35,9 @@ readme: '## Purpose
   - Admin privileges required
 
   - Target user must exist locally
-
-  '
 runtimeVariables:
-- name: TargetUsername
+  - name: TargetUsername
 placeholderVariables: []
-scriptId: '1015917390952198144'
+scriptId: "1015917390952198144"
 lastPushedChecksum: sha256:95b630b90fb3e26d
+lastPushedMetaChecksum: sha256:0aadd9e4a6362469

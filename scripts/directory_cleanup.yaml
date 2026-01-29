@@ -4,15 +4,16 @@ language: PowerShell
 runAs: SYSTEM_USER
 timeout: 15
 tags:
-- Cleanup
-- Disk
-- Windows
+  - Cleanup
+  - Disk
+  - Windows
 shared: false
 favourite: false
-readme: '## Purpose
+readme: >
+  ## Purpose
 
-  Cleans up files and directories older than a specified number of days. Logs deleted
-  items to a file in the target folder.
+  Cleans up files and directories older than a specified number of days. Logs
+  deleted items to a file in the target folder.
 
 
   ## Usage Notes
@@ -30,12 +31,12 @@ readme: '## Purpose
 
   - Runtime variable: `runtime_folderPath` (path to the folder to clean up)
 
-  - Runtime variable: `runtime_days` (number of days old a file must be to be deleted)
-
-  '
+  - Runtime variable: `runtime_days` (number of days old a file must be to be
+  deleted)
 runtimeVariables:
-- name: runtime_folderPath
-- name: runtime_days
+  - name: runtime_folderPath
+  - name: runtime_days
 placeholderVariables: []
-scriptId: '259059077524086784'
+scriptId: "259059077524086784"
 lastPushedChecksum: sha256:f3556ed6849d69df
+lastPushedMetaChecksum: sha256:ce996a9b2b3cd40e

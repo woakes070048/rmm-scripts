@@ -4,17 +4,18 @@ language: PowerShell
 runAs: SYSTEM_USER
 timeout: 15
 tags:
-- Maintenance
-- Windows
+  - Maintenance
+  - Windows
 shared: false
 favourite: false
-readme: 'Purpose
+readme: >
+  Purpose
 
   -------
 
-  Bypasses the locked personalization settings on non-activated Windows 11 by applying
-  wallpaper and dark mode settings directly via registry. Also optionally configures
-  UTC hardware clock for dual-boot Linux compatibility.
+  Bypasses the locked personalization settings on non-activated Windows 11 by
+  applying wallpaper and dark mode settings directly via registry. Also
+  optionally configures UTC hardware clock for dual-boot Linux compatibility.
 
 
   Usage Notes
@@ -41,9 +42,8 @@ readme: 'Purpose
   - Administrator privileges
 
   - Internet access for wallpaper download
-
-  '
 runtimeVariables: []
 placeholderVariables: []
-scriptId: '259059241932414976'
+scriptId: "259059241932414976"
 lastPushedChecksum: sha256:32741261201c0a0a
+lastPushedMetaChecksum: sha256:8180fc72ca2c5d8b

@@ -4,16 +4,17 @@ language: PowerShell
 runAs: SYSTEM_USER
 timeout: 15
 tags:
-- Patch
-- Windows
+  - Patch
+  - Windows
 shared: false
 favourite: false
-readme: 'Purpose
+readme: >
+  Purpose
 
   -------
 
-  Upgrades all winget-managed packages to their latest versions. Includes logging
-  and automatic cleanup of old log files.
+  Upgrades all winget-managed packages to their latest versions. Includes
+  logging and automatic cleanup of old log files.
 
 
   Usage Notes
@@ -40,9 +41,8 @@ readme: 'Purpose
   - Administrator privileges
 
   - Winget (App Installer) installed
-
-  '
 runtimeVariables: []
 placeholderVariables: []
-scriptId: '259059247913492480'
+scriptId: "259059247913492480"
 lastPushedChecksum: sha256:a012ab90c5f2a0d1
+lastPushedMetaChecksum: sha256:eceee64fd7dc9662

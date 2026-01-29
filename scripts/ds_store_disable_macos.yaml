@@ -4,15 +4,16 @@ language: Bash
 runAs: SYSTEM_USER
 timeout: 15
 tags:
-- Mac
-- Maintenance
+  - Mac
+  - Maintenance
 shared: false
 favourite: false
-readme: '## Purpose
+readme: >
+  ## Purpose
 
-  Prevents macOS from creating .DS_Store files on network shares. These files contain
-  folder metadata and can clutter network drives, causing issues for non-Mac users
-  accessing shared folders.
+  Prevents macOS from creating .DS_Store files on network shares. These files
+  contain folder metadata and can clutter network drives, causing issues for
+  non-Mac users accessing shared folders.
 
 
   ## Usage
@@ -27,9 +28,8 @@ readme: '## Purpose
   - macOS operating system
 
   - No special privileges required (runs as current user)
-
-  '
 runtimeVariables: []
 placeholderVariables: []
-scriptId: '259059088395722752'
+scriptId: "259059088395722752"
 lastPushedChecksum: sha256:6a32e8ee9e2fd422
+lastPushedMetaChecksum: sha256:f232d106d158edfb

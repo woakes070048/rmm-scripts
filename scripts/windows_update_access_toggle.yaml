@@ -4,17 +4,18 @@ language: PowerShell
 runAs: SYSTEM_USER
 timeout: 15
 tags:
-- Patch
-- Windows
+  - Patch
+  - Windows
 shared: false
 favourite: false
-readme: 'Purpose
+readme: >
+  Purpose
 
   -------
 
-  Toggles user access to Windows Update settings in the Settings app. If access is
-  currently blocked, it will be enabled. If access is currently allowed, it will be
-  blocked.
+  Toggles user access to Windows Update settings in the Settings app. If access
+  is currently blocked, it will be enabled. If access is currently allowed, it
+  will be blocked.
 
 
   Usage Notes
@@ -37,9 +38,8 @@ readme: 'Purpose
   - Windows 10/11
 
   - Administrator privileges
-
-  '
 runtimeVariables: []
 placeholderVariables: []
-scriptId: '259059245052977152'
+scriptId: "259059245052977152"
 lastPushedChecksum: sha256:f3e6ce36a0c0a34e
+lastPushedMetaChecksum: sha256:27334d6d3188aa15

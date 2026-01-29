@@ -4,21 +4,45 @@ language: Bash
 runAs: SYSTEM_USER
 timeout: 90
 tags:
-- Linux
-- Maintenance
+  - Linux
+  - Maintenance
 shared: true
 favourite: false
-readme: "Purpose\n-------\nAutomates system package updates for Arch Linux and Omarchy\
-  \ systems with verbose output and error handling. Syncs package databases, upgrades\
-  \ all packages, removes orphaned dependencies, and cleans package cache. Provides\
-  \ color-coded status messages.\n\nUsage Notes\n-----------\n- Run with sudo or as\
-  \ root\n- Configure options at top of script:\n  - ENABLE_ORPHAN_REMOVAL: Remove\
-  \ orphaned packages after upgrade\n  - ENABLE_CACHE_CLEAN: Clean pacman cache to\
-  \ free disk space\n  - ENABLE_COLOR_OUTPUT: Use colored terminal output\n\nRequirements\n\
-  ------------\n- Root/sudo access required\n- Arch Linux or Arch-based distribution\
-  \ (Omarchy, EndeavourOS, Manjaro, etc.)\n- Network connectivity to package mirrors\n\
-  - pacman package manager\n"
+readme: >
+  Purpose
+
+  -------
+
+  Automates system package updates for Arch Linux and Omarchy systems with
+  verbose output and error handling. Syncs package databases, upgrades all
+  packages, removes orphaned dependencies, and cleans package cache. Provides
+  color-coded status messages.
+
+
+  Usage Notes
+
+  -----------
+
+  - Run with sudo or as root
+
+  - Configure options at top of script:
+    - ENABLE_ORPHAN_REMOVAL: Remove orphaned packages after upgrade
+    - ENABLE_CACHE_CLEAN: Clean pacman cache to free disk space
+    - ENABLE_COLOR_OUTPUT: Use colored terminal output
+
+  Requirements
+
+  ------------
+
+  - Root/sudo access required
+
+  - Arch Linux or Arch-based distribution (Omarchy, EndeavourOS, Manjaro, etc.)
+
+  - Network connectivity to package mirrors
+
+  - pacman package manager
 runtimeVariables: []
 placeholderVariables: []
-scriptId: '353431407091859456'
+scriptId: "353431407091859456"
 lastPushedChecksum: sha256:132e3b80eb80e9b3
+lastPushedMetaChecksum: sha256:c0a0c0ce932a13de

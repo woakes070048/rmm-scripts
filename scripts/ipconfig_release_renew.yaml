@@ -1,19 +1,19 @@
 name: ipconfig_release_renew.ps1
-description: Releases and renews IP addresses on DHCP-enabled adapters and flushes
-  DNS cache
+description: Releases and renews IP addresses on DHCP-enabled adapters and flushes DNS cache
 language: PowerShell
 runAs: SYSTEM_USER
 timeout: 15
 tags:
-- Network
-- Windows
+  - Network
+  - Windows
 shared: false
 favourite: false
-readme: '## Purpose
+readme: >
+  ## Purpose
 
-  Releases and renews IP addresses on all DHCP-enabled network adapters, and flushes
-  the DNS cache. Useful for resolving network connectivity issues caused by stale
-  DHCP leases or DNS cache problems.
+  Releases and renews IP addresses on all DHCP-enabled network adapters, and
+  flushes the DNS cache. Useful for resolving network connectivity issues caused
+  by stale DHCP leases or DNS cache problems.
 
 
   ## Usage
@@ -30,9 +30,8 @@ readme: '## Purpose
   - DHCP-enabled network adapters (static IP adapters are skipped)
 
   - Admin privileges recommended for DNS flush
-
-  '
 runtimeVariables: []
 placeholderVariables: []
-scriptId: '259059100479512576'
+scriptId: "259059100479512576"
 lastPushedChecksum: sha256:aee4d4bf40d78b00
+lastPushedMetaChecksum: sha256:e52c99827d376ff2

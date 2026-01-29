@@ -4,19 +4,20 @@ language: Bash
 runAs: SYSTEM_USER
 timeout: 15
 tags:
-- Mac
-- Network
-- Services
+  - Mac
+  - Network
+  - Services
 shared: false
 favourite: false
-readme: 'Purpose
+readme: >
+  Purpose
 
   -------
 
-  Refreshes all network services on macOS by toggling them off and on. Preserves the
-  original enabled/disabled state of each service. Useful for resolving DHCP lease
-  issues, DNS problems, or general network connectivity problems without requiring
-  a full system restart.
+  Refreshes all network services on macOS by toggling them off and on. Preserves
+  the original enabled/disabled state of each service. Useful for resolving DHCP
+  lease issues, DNS problems, or general network connectivity problems without
+  requiring a full system restart.
 
 
   Usage Notes
@@ -41,9 +42,8 @@ readme: 'Purpose
   - macOS 10.14 or later
 
   - networksetup command available
-
-  '
 runtimeVariables: []
 placeholderVariables: []
-scriptId: '259059108515799040'
+scriptId: "259059108515799040"
 lastPushedChecksum: sha256:5c518394b55357ae
+lastPushedMetaChecksum: sha256:d1373fcff8ff14e5

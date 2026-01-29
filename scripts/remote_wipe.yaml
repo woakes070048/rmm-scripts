@@ -4,14 +4,15 @@ language: PowerShell
 runAs: SYSTEM_USER
 timeout: 15
 tags:
-- Security
-- Windows
+  - Security
+  - Windows
 shared: true
 favourite: false
-readme: 'Purpose:
+readme: >
+  Purpose:
 
-  Initiates a remote wipe of the Windows device using the MDM RemoteWipe CSP. This
-  completely erases all data on the device and resets it to factory state.
+  Initiates a remote wipe of the Windows device using the MDM RemoteWipe CSP.
+  This completely erases all data on the device and resets it to factory state.
 
 
   WARNING: THIS ACTION IS IRREVERSIBLE. ALL DATA WILL BE PERMANENTLY DELETED.
@@ -35,7 +36,6 @@ readme: 'Purpose:
   - Administrator privileges
 
   - Device must have MDM RemoteWipe capability
-
-  '
-scriptId: '259059159342374912'
+scriptId: "259059159342374912"
 lastPushedChecksum: sha256:9867f9f8b36cef7d
+lastPushedMetaChecksum: sha256:3372d528ce918782

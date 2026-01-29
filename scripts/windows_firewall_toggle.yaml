@@ -4,16 +4,17 @@ language: PowerShell
 runAs: SYSTEM_USER
 timeout: 15
 tags:
-- Firewall
-- Windows
+  - Firewall
+  - Windows
 shared: true
 favourite: false
-readme: 'Purpose
+readme: >
+  Purpose
 
   -------
 
-  Toggles Windows Firewall state for all profiles (Domain, Private, Public). If firewall
-  is ON, turns it OFF. If firewall is OFF, turns it ON.
+  Toggles Windows Firewall state for all profiles (Domain, Private, Public). If
+  firewall is ON, turns it OFF. If firewall is OFF, turns it ON.
 
 
   Usage Notes
@@ -38,9 +39,8 @@ readme: 'Purpose
   - Windows 10/11
 
   - Administrator privileges required
-
-  '
 runtimeVariables: []
 placeholderVariables: []
-scriptId: '6103852407269097472'
+scriptId: "6103852407269097472"
 lastPushedChecksum: sha256:3ababf5f681c4117
+lastPushedMetaChecksum: sha256:c3aa7f2c07a60529

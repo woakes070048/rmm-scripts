@@ -4,15 +4,16 @@ language: Bash
 runAs: SYSTEM_USER
 timeout: 15
 tags:
-- Mac
-- Services
+  - Mac
+  - Services
 shared: false
 favourite: false
-readme: '## Purpose
+readme: >
+  ## Purpose
 
-  Toggles the CUPS (Common Unix Printing System) web interface on or off. If currently
-  enabled, disables it. If disabled, enables it. Useful for managing printer administration
-  access on macOS and Linux systems.
+  Toggles the CUPS (Common Unix Printing System) web interface on or off. If
+  currently enabled, disables it. If disabled, enables it. Useful for managing
+  printer administration access on macOS and Linux systems.
 
 
   ## Usage Notes
@@ -31,9 +32,8 @@ readme: '## Purpose
   - cupsctl command available
 
   - Root/sudo privileges
-
-  '
 runtimeVariables: []
 placeholderVariables: []
-scriptId: '259059066321100800'
+scriptId: "259059066321100800"
 lastPushedChecksum: sha256:798218624bddb90d
+lastPushedMetaChecksum: sha256:82b5f93972d87f1f

@@ -4,15 +4,17 @@ language: Bash
 runAs: SYSTEM_USER
 timeout: 15
 tags:
-- Cleanup
-- Mac
-- Software
+  - Cleanup
+  - Mac
+  - Software
 shared: false
 favourite: false
-readme: 'Purpose:
+readme: >
+  Purpose:
 
-  Uninstalls the SuperOps RMM agent from macOS systems by executing the agent''s built-in
-  uninstall script. Provides a clean removal of the agent and all associated components.
+  Uninstalls the SuperOps RMM agent from macOS systems by executing the agent's
+  built-in uninstall script. Provides a clean removal of the agent and all
+  associated components.
 
 
   Usage Notes:
@@ -37,9 +39,8 @@ readme: 'Purpose:
   - SuperOps RMM agent must be installed
 
   - Uninstall script must exist at /Library/superops/uninstall.sh
-
-  '
 runtimeVariables: []
 placeholderVariables: []
-scriptId: '259059202858278912'
+scriptId: "259059202858278912"
 lastPushedChecksum: sha256:1f2ddeee28510922
+lastPushedMetaChecksum: sha256:fb5abfb022b72a93

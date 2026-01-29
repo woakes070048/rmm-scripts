@@ -1,26 +1,28 @@
 name: antivirus_uninstall.ps1
-description: Removes common third-party antivirus software (McAfee, Sophos, Microsoft
-  Security Essentials)
+description: Removes common third-party antivirus software (McAfee, Sophos,
+  Microsoft Security Essentials)
 language: PowerShell
 runAs: SYSTEM_USER
 timeout: 15
 tags:
-- Antivirus
-- Cleanup
-- Windows
+  - Antivirus
+  - Cleanup
+  - Windows
 shared: false
 favourite: false
-readme: '## Purpose
+readme: >
+  ## Purpose
 
-  Detects and uninstalls common third-party antivirus software from Windows systems
-  including McAfee, Sophos, and Microsoft Security Essentials. Designed for scenarios
-  where existing AV must be removed before deploying a new endpoint protection solution.
+  Detects and uninstalls common third-party antivirus software from Windows
+  systems including McAfee, Sophos, and Microsoft Security Essentials. Designed
+  for scenarios where existing AV must be removed before deploying a new
+  endpoint protection solution.
 
 
   ## Usage Notes
 
-  - Uses multiple detection methods: registry, services, file paths, packages, and
-  WMI
+  - Uses multiple detection methods: registry, services, file paths, packages,
+  and WMI
 
   - Attempts silent uninstall via packages, WMI, and MCPR tool (for McAfee)
 
@@ -36,9 +38,8 @@ readme: '## Purpose
   - Administrator privileges
 
   - Internet access (optional, for downloading MCPR tool)
-
-  '
 runtimeVariables: []
 placeholderVariables: []
-scriptId: '259059054442831872'
+scriptId: "259059054442831872"
 lastPushedChecksum: sha256:e1dbdae358948a7a
+lastPushedMetaChecksum: sha256:0cf393def1a9c061

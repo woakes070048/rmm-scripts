@@ -4,16 +4,17 @@ language: PowerShell
 runAs: SYSTEM_USER
 timeout: 15
 tags:
-- Monitoring
-- Windows
+  - Monitoring
+  - Windows
 shared: true
 favourite: false
-readme: '## Purpose
+readme: >
+  ## Purpose
 
-  Generates a comprehensive hardware inventory report for the local machine. Collects
-  system information, CPU, memory, storage, GPU, network adapters, and BIOS details.
-  Designed for unattended execution in RMM environments to gather standardized hardware
-  data for asset management.
+  Generates a comprehensive hardware inventory report for the local machine.
+  Collects system information, CPU, memory, storage, GPU, network adapters, and
+  BIOS details. Designed for unattended execution in RMM environments to gather
+  standardized hardware data for asset management.
 
 
   ## Usage
@@ -38,9 +39,8 @@ readme: '## Purpose
   - Windows operating system with CIM/WMI support
 
   - No special permissions required (runs in user context)
-
-  '
 runtimeVariables: []
 placeholderVariables: []
-scriptId: '2059287687210598400'
+scriptId: "2059287687210598400"
 lastPushedChecksum: sha256:de8ba9756cb4a9ce
+lastPushedMetaChecksum: sha256:57ac5e11726931e9
