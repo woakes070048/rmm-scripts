@@ -8,7 +8,7 @@ $ErrorActionPreference = 'Stop'
 ███████╗██║██║ ╚═╝ ██║███████╗██║  ██║██║  ██║╚███╔███╔╝██║  ██╗
 ╚══════╝╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚══╝╚══╝ ╚═╝  ╚═╝
 ================================================================================
- SCRIPT   : Disk Cleanup                                                 v1.2.1
+ SCRIPT   : Disk Cleanup                                                 v1.2.3
  AUTHOR   : Limehawk.io
  DATE     : January 2026
  USAGE    : .\disk_cleanup.ps1
@@ -32,7 +32,7 @@ $ErrorActionPreference = 'Stop'
  REQUIRED INPUTS
 
  - CleanupProfile : 'verylow' (hardcoded) - Determines cleanup aggressiveness.
- - CleanmgrTimeout : 1800 (hardcoded) - Maximum seconds to wait for cleanmgr.
+ - CleanmgrTimeout : 3600 (hardcoded) - Maximum seconds to wait for cleanmgr.
  - StatusInterval : 60 (hardcoded) - Seconds between progress updates.
 
  SETTINGS
@@ -115,6 +115,8 @@ $ErrorActionPreference = 'Stop'
 --------------------------------------------------------------------------------
  CHANGELOG
 --------------------------------------------------------------------------------
+ 2026-01-29 v1.2.3 Increase cleanmgr timeout from 30 to 60 minutes per drive
+ 2026-01-29 v1.2.2 Fix Get-FreeSpaceBytes calls using incorrect named parameter
  2026-01-29 v1.2.1 Increased script timeout to 180 minutes in metadata
  2026-01-29 v1.2.0 Added progress updates and disk space reporting during cleanup
  2025-12-23 v1.1.1 Updated to Limehawk Script Framework
@@ -135,7 +137,7 @@ $totalFreedBytes = 0
 
 # ==== HARDCODED INPUTS ====
 $CleanupProfile = 'verylow'
-$CleanmgrTimeout = 1800  # 30 minutes max per drive
+$CleanmgrTimeout = 3600  # 60 minutes max per drive
 $StatusInterval = 60     # Show status every 60 seconds
 
 # ==== HELPER FUNCTIONS ====
@@ -227,7 +229,7 @@ foreach ($drive in $drives) {
     Write-Host "=============================================================="
 
     # Get free space before
-    $freeSpaceBefore = Get-FreeSpaceBytes -DriveLetter $driveLetter
+    $freeSpaceBefore = Get-FreeSpaceBytes $driveLetter
     Write-Host "Free space before : $(Format-Bytes $freeSpaceBefore)"
     Write-Host "Running cleanmgr /verylowdisk (this may take 10-30 minutes)..."
 
@@ -251,7 +253,7 @@ foreach ($drive in $drives) {
         }
 
         # Get free space after
-        $freeSpaceAfter = Get-FreeSpaceBytes -DriveLetter $driveLetter
+        $freeSpaceAfter = Get-FreeSpaceBytes $driveLetter
         $freedBytes = $freeSpaceAfter - $freeSpaceBefore
         $totalFreedBytes += $freedBytes
 
