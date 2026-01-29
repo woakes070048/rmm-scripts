@@ -8,7 +8,7 @@ $ErrorActionPreference = 'Stop'
 ███████╗██║██║ ╚═╝ ██║███████╗██║  ██║██║  ██║╚███╔███╔╝██║  ██╗
 ╚══════╝╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚══╝╚══╝ ╚═╝  ╚═╝
 ================================================================================
- SCRIPT   : Directory Size Analyze                                        v2.2.0
+ SCRIPT   : Directory Size Analyze                                        v2.2.1
  AUTHOR   : Limehawk.io
  DATE     : January 2026
  USAGE    : .\directory_size_analyze.ps1
@@ -84,6 +84,7 @@ $ErrorActionPreference = 'Stop'
 --------------------------------------------------------------------------------
  CHANGELOG
 --------------------------------------------------------------------------------
+ 2026-01-29 v2.2.1 Added runtime variable to yaml metadata for sync
  2026-01-29 v2.2.0 Added SuperOps runtime variable for ScanPath, updated console output format
  2025-12-23 v2.1.0 Updated to Limehawk Script Framework
  2025-10-30 v2.0.0 Complete rewrite using direct gdu download
