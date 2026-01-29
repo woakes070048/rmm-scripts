@@ -4,15 +4,17 @@ language: PowerShell
 runAs: SYSTEM_USER
 timeout: 180
 tags:
-- Cleanup
-- Disk
-- Windows
+  - Cleanup
+  - Disk
+  - Windows
 shared: true
 favourite: false
-readme: '## Purpose
+readme: >
+  ## Purpose
 
-  Runs Windows Disk Cleanup utility on all fixed local drives, plus targeted cleanups
-  for SoftwareDistribution, WinSxS, and Search Index to free up disk space.
+  Runs Windows Disk Cleanup utility on all fixed local drives, plus targeted
+  cleanups for SoftwareDistribution, WinSxS, and Search Index to free up disk
+  space.
 
 
   ## Usage Notes
@@ -43,10 +45,8 @@ readme: '## Purpose
   - WMI service running
 
   - Admin privileges for DISM/services
-
-  '
 runtimeVariables: []
 placeholderVariables: []
 scriptId: "5261212187550191616"
-lastPushedChecksum: sha256:4bedae12c53dbc95
-lastPushedMetaChecksum: sha256:af0b9d4e684159b8
+lastPushedChecksum: sha256:d26785a0694ecbc9
+lastPushedMetaChecksum: sha256:a19a257f33665e4a
