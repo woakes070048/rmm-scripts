@@ -7,7 +7,7 @@
 # ███████╗██║██║ ╚═╝ ██║███████╗██║  ██║██║  ██║╚███╔███╔╝██║  ██╗
 # ╚══════╝╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚══╝╚══╝ ╚═╝  ╚═╝
 # ================================================================================
-#  SCRIPT   : Ubuntu/Debian System Update (Verbose)                        v1.3.0
+#  SCRIPT   : Ubuntu/Debian System Update (Verbose)                        v1.3.1
 #  AUTHOR   : Limehawk.io
 #  DATE     : January 2026
 #  USAGE    : sudo ./ubuntu_debian_update_verbose.sh
@@ -110,6 +110,7 @@
 # --------------------------------------------------------------------------------
 #  CHANGELOG
 # --------------------------------------------------------------------------------
+#  2026-01-29 v1.3.1 Increase timeout from 90 to 180 minutes (3 hours)
 #  2026-01-20 v1.3.0 Add warning for held-back packages needing dist-upgrade
 #  2026-01-20 v1.2.0 Add trap handler for dpkg recovery on interrupt
 #  2026-01-20 v1.1.2 Fixed README structure for framework compliance

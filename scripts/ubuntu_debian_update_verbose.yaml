@@ -1,51 +1,27 @@
 name: ubuntu_debian_update_verbose.sh
-description: Automates Ubuntu/Debian package updates with verbose output and
-  reboot detection
+description: Automates Ubuntu/Debian package updates with verbose output and reboot
+  detection
 language: Bash
 runAs: SYSTEM_USER
-timeout: 90
+timeout: 180
 tags:
-  - Linux
-  - Maintenance
+- Linux
+- Maintenance
 shared: true
 favourite: false
-readme: >
-  Purpose
-
-  -------
-
-  Automates system package updates for Ubuntu/Debian systems with verbose output
-  and error handling. Updates package lists, upgrades installed packages,
-  removes unused dependencies, and cleans package cache. Provides color-coded
-  status messages and reboot detection.
-
-
-  Usage Notes
-
-  -----------
-
-  - Run with sudo or as root
-
-  - Configure options at top of script:
-    - ENSURE_APT_UTILS: Install apt-utils if missing
-    - ENABLE_FULL_UPGRADE: Use dist-upgrade instead of upgrade
-    - ENABLE_AUTOREMOVE: Remove unused packages after upgrade
-    - ENABLE_CACHE_CLEAN: Clean apt cache to free disk space
-    - ENABLE_COLOR_OUTPUT: Use colored terminal output
-
-  Requirements
-
-  ------------
-
-  - Root/sudo access required
-
-  - Ubuntu or Debian-based Linux distribution
-
-  - Network connectivity to package repositories
-
-  - apt package manager
+readme: "Purpose\n-------\nAutomates system package updates for Ubuntu/Debian systems\
+  \ with verbose output and error handling. Updates package lists, upgrades installed\
+  \ packages, removes unused dependencies, and cleans package cache. Provides color-coded\
+  \ status messages and reboot detection.\n\nUsage Notes\n-----------\n- Run with\
+  \ sudo or as root\n- Configure options at top of script:\n  - ENSURE_APT_UTILS:\
+  \ Install apt-utils if missing\n  - ENABLE_FULL_UPGRADE: Use dist-upgrade instead\
+  \ of upgrade\n  - ENABLE_AUTOREMOVE: Remove unused packages after upgrade\n  - ENABLE_CACHE_CLEAN:\
+  \ Clean apt cache to free disk space\n  - ENABLE_COLOR_OUTPUT: Use colored terminal\
+  \ output\n\nRequirements\n------------\n- Root/sudo access required\n- Ubuntu or\
+  \ Debian-based Linux distribution\n- Network connectivity to package repositories\n\
+  - apt package manager\n"
 runtimeVariables: []
 placeholderVariables: []
-scriptId: "259059219677437952"
+scriptId: '259059219677437952'
 lastPushedChecksum: sha256:a6338a1bc9c15517
 lastPushedMetaChecksum: sha256:e9aea4b4d08a77af
