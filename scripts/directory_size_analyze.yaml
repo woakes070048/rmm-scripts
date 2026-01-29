@@ -18,6 +18,8 @@ readme: >
 
   ## Usage Notes
 
+  - Set $YourTargetDirectoryHere runtime variable to the path to scan (e.g., C:\Users)
+
   - Designed for unattended RMM execution
 
   - Downloads and caches gdu utility automatically
@@ -36,7 +38,8 @@ readme: >
   - Internet access to reach github.com for initial download
 
   - Write permissions to the cache directory
-runtimeVariables: []
+runtimeVariables:
+  - name: YourTargetDirectoryHere
 placeholderVariables: []
 scriptId: "259059079201808384"
 lastPushedChecksum: sha256:3b5971f9905e36f3
