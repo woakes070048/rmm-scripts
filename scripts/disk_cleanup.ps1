@@ -8,7 +8,7 @@ $ErrorActionPreference = 'Stop'
 ███████╗██║██║ ╚═╝ ██║███████╗██║  ██║██║  ██║╚███╔███╔╝██║  ██╗
 ╚══════╝╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚══╝╚══╝ ╚═╝  ╚═╝
 ================================================================================
- SCRIPT   : Disk Cleanup                                                 v1.2.0
+ SCRIPT   : Disk Cleanup                                                 v1.2.1
  AUTHOR   : Limehawk.io
  DATE     : January 2026
  USAGE    : .\disk_cleanup.ps1
@@ -115,6 +115,7 @@ $ErrorActionPreference = 'Stop'
 --------------------------------------------------------------------------------
  CHANGELOG
 --------------------------------------------------------------------------------
+ 2026-01-29 v1.2.1 Increased script timeout to 180 minutes in metadata
  2026-01-29 v1.2.0 Added progress updates and disk space reporting during cleanup
  2025-12-23 v1.1.1 Updated to Limehawk Script Framework
  2025-11-29 v1.1.0 Added SoftwareDistribution, DISM WinSxS, Search Index; admin check
