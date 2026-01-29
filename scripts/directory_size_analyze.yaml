@@ -4,14 +4,16 @@ language: PowerShell
 runAs: SYSTEM_USER
 timeout: 15
 tags:
-- Disk
-- Windows
+  - Disk
+  - Windows
 shared: false
 favourite: false
-readme: '## Purpose
+readme: >
+  ## Purpose
 
-  Runs a command-line disk usage analysis on a specified directory using gdu (Go Disk
-  Usage analyzer). Downloads gdu from GitHub releases if not already present.
+  Runs a command-line disk usage analysis on a specified directory using gdu (Go
+  Disk Usage analyzer). Downloads gdu from GitHub releases if not already
+  present.
 
 
   ## Usage Notes
@@ -34,9 +36,7 @@ readme: '## Purpose
   - Internet access to reach github.com for initial download
 
   - Write permissions to the cache directory
-
-  '
 runtimeVariables: []
 placeholderVariables: []
-scriptId: '259059079201808384'
-lastPushedChecksum: sha256:68facb14d2680187
+scriptId: "259059079201808384"
+lastPushedChecksum: sha256:3b5971f9905e36f3
