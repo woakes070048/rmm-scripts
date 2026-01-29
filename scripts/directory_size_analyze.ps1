@@ -8,9 +8,9 @@ $ErrorActionPreference = 'Stop'
 ███████╗██║██║ ╚═╝ ██║███████╗██║  ██║██║  ██║╚███╔███╔╝██║  ██╗
 ╚══════╝╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚══╝╚══╝ ╚═╝  ╚═╝
 ================================================================================
- SCRIPT   : Directory Size Analyze                                        v2.1.0
+ SCRIPT   : Directory Size Analyze                                        v2.2.0
  AUTHOR   : Limehawk.io
- DATE      : December 2025
+ DATE     : January 2026
  USAGE    : .\directory_size_analyze.ps1
 ================================================================================
  FILE     : directory_size_analyze.ps1
@@ -28,12 +28,12 @@ $ErrorActionPreference = 'Stop'
  mode to return text or JSON output.
 
  DATA SOURCES & PRIORITY
- 1) Hardcoded values (defined within the script body)
- 2) Error
+ 1) SuperOps runtime variable ($YourTargetDirectoryHere)
+ 2) Hardcoded values (all other settings)
 
  REQUIRED INPUTS
- - ScanPath        : C:\Users
-   (The target directory to scan.)
+ - ScanPath        : $YourTargetDirectoryHere (SuperOps runtime variable)
+   (The target directory to scan. Must be set in SuperOps.)
  - ScanDepth       : 1
    (The number of levels deep to report sizes for. Controls top N items shown.)
  - ScanTimeout     : 600
@@ -79,19 +79,19 @@ $ErrorActionPreference = 'Stop'
  - 0 success
  - 1 failure
 
- EXAMPLE RUN (Style A)
- (This script is intended for unattended RMM execution. Running manually
- will produce console output defined by the Style A format.)
+ EXAMPLE RUN
+ (This script is intended for unattended RMM execution.)
 --------------------------------------------------------------------------------
  CHANGELOG
 --------------------------------------------------------------------------------
+ 2026-01-29 v2.2.0 Added SuperOps runtime variable for ScanPath, updated console output format
  2025-12-23 v2.1.0 Updated to Limehawk Script Framework
  2025-10-30 v2.0.0 Complete rewrite using direct gdu download
  2025-10-01 v1.0.0 Initial release
 ================================================================================
 #>
 
-# Optional strict mode (placed AFTER README)
+# Set strict mode (placed after README block)
 Set-StrictMode -Version Latest
 
 # ==== STATE (NO ARRAYS/LISTS) ====
@@ -100,7 +100,7 @@ $errorText     = ""   # Accumulate newline-delimited messages.
 $scanOutput    = ""   # Store the final output from gdu.
 
 # ==== HARDCODED INPUTS (MANDATORY) ====
-$ScanPath         = "$PATHTOSCAN"
+$ScanPath         = "$YourTargetDirectoryHere"
 $ScanDepth        = 1
 $ScanTimeout      = 600  # seconds (10 minutes) - set to 0 to disable timeout
 $OutputFormat     = 'text'  # 'text' or 'json'
@@ -111,10 +111,10 @@ $GduExeName       = 'gdu.exe'
 $CleanupAfterRun  = $true  # Set to $false to keep gdu cached for future runs
 
 # ==== VALIDATION ====
-if ([string]::IsNullOrWhiteSpace($ScanPath)) {
+if ([string]::IsNullOrWhiteSpace($ScanPath) -or $ScanPath -eq '$' + 'YourTargetDirectoryHere') {
      $errorOccurred = $true
      if ($errorText.Length -gt 0) { $errorText += "`n" }
-     $errorText += "- ScanPath is required."
+     $errorText += "- SuperOps runtime variable `$YourTargetDirectoryHere was not replaced."
 }
 if ($ScanDepth -le 0) {
      $errorOccurred = $true
@@ -154,31 +154,28 @@ if (-not (Test-Path $ScanPath -PathType Container)) {
 
 if ($errorOccurred) {
     Write-Host ""
-    Write-Host "[ ERROR OCCURRED ]"
-    Write-Host "--------------------------------------------------------------"
+    Write-Host "[ERROR] ERROR OCCURRED"
+    Write-Host "=============================================================="
     Write-Host "Input validation failed:"
     Write-Host $errorText
 
     Write-Host ""
-    Write-Host "[ RESULT ]"
-    Write-Host "--------------------------------------------------------------"
+    Write-Host "[INFO] RESULT"
+    Write-Host "=============================================================="
     Write-Host "Status : Failure"
 
     Write-Host ""
-    Write-Host "[ FINAL STATUS ]"
-    Write-Host "--------------------------------------------------------------"
-    Write-Host "Script cannot proceed due to invalid hardcoded inputs."
+    Write-Host "[ERROR] FINAL STATUS"
+    Write-Host "=============================================================="
+    Write-Host "Script cannot proceed due to invalid inputs."
 
-    Write-Host ""
-    Write-Host "[ SCRIPT COMPLETED ]"
-    Write-Host "--------------------------------------------------------------"
     exit 1
 }
 
-# ==== RUNTIME OUTPUT (Style A) ====
+# ==== RUNTIME OUTPUT ====
 Write-Host ""
-Write-Host "[ INPUT VALIDATION ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[INFO] INPUT VALIDATION"
+Write-Host "=============================================================="
 Write-Host "ScanPath        : $ScanPath"
 Write-Host "ScanDepth       : $ScanDepth"
 Write-Host "ScanTimeout     : $ScanTimeout seconds"
@@ -188,8 +185,8 @@ Write-Host "GduCacheDir     : $GduCacheDir"
 Write-Host "CleanupAfterRun : $CleanupAfterRun"
 
 Write-Host ""
-Write-Host "[ OPERATION ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[RUN] OPERATION"
+Write-Host "=============================================================="
 
 try {
     # 1. Ensure cache directory exists
@@ -322,14 +319,14 @@ try {
 
 if ($errorOccurred) {
     Write-Host ""
-    Write-Host "[ ERROR OCCURRED ]"
-    Write-Host "--------------------------------------------------------------"
+    Write-Host "[ERROR] ERROR OCCURRED"
+    Write-Host "=============================================================="
     Write-Host $errorText
 }
 
 Write-Host ""
-Write-Host "[ RESULT ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[INFO] RESULT"
+Write-Host "=============================================================="
 if ($errorOccurred) {
     Write-Host "Status : Failure"
 } else {
@@ -337,11 +334,13 @@ if ($errorOccurred) {
 }
 
 Write-Host ""
-Write-Host "[ FINAL STATUS ]"
-Write-Host "--------------------------------------------------------------"
 if ($errorOccurred) {
+    Write-Host "[ERROR] FINAL STATUS"
+    Write-Host "=============================================================="
     Write-Host "Script failed during operation. See error details above."
 } else {
+    Write-Host "[OK] FINAL STATUS"
+    Write-Host "=============================================================="
     Write-Host "Directory scan complete. Output:"
     Write-Host $scanOutput
 }
@@ -349,8 +348,8 @@ if ($errorOccurred) {
 # ==== CLEANUP ====
 if ($CleanupAfterRun) {
     Write-Host ""
-    Write-Host "[ CLEANUP ]"
-    Write-Host "--------------------------------------------------------------"
+    Write-Host "[RUN] CLEANUP"
+    Write-Host "=============================================================="
     Write-Host "Cleaning up gdu cache directory: $GduCacheDir"
 
     try {
@@ -366,15 +365,15 @@ if ($CleanupAfterRun) {
     }
 } else {
     Write-Host ""
-    Write-Host "[ CLEANUP ]"
-    Write-Host "--------------------------------------------------------------"
+    Write-Host "[RUN] CLEANUP"
+    Write-Host "=============================================================="
     Write-Host "Cleanup disabled. gdu executable cached at: $GduCacheDir"
     Write-Host "This will speed up future runs of this script."
 }
 
 Write-Host ""
-Write-Host "[ SCRIPT COMPLETED ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[OK] SCRIPT COMPLETED"
+Write-Host "=============================================================="
 if ($errorOccurred) {
     exit 1
 } else {
