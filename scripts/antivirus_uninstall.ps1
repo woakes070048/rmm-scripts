@@ -7,20 +7,20 @@ $ErrorActionPreference = 'Stop'
 ███████╗██║██║ ╚═╝ ██║███████╗██║  ██║██║  ██║╚███╔███╔╝██║  ██╗
 ╚══════╝╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚══╝╚══╝ ╚═╝  ╚═╝
 ================================================================================
- SCRIPT   : Antivirus Uninstall (Multi-Vendor)                           v1.3.1
+ SCRIPT   : Antivirus Uninstall (Multi-Vendor)                           v1.4.0
  AUTHOR   : Limehawk.io
- DATE     : January 2026
+ DATE     : February 2026
  USAGE    : .\antivirus_uninstall.ps1
 ================================================================================
  FILE     : antivirus_uninstall.ps1
- DESCRIPTION : Removes common third-party antivirus software (McAfee, Sophos, etc.)
+ DESCRIPTION : Removes common third-party antivirus software (McAfee, Sophos, AVG, etc.)
 --------------------------------------------------------------------------------
  README
 --------------------------------------------------------------------------------
 PURPOSE
 
 Detects and uninstalls common third-party antivirus software from Windows
-systems including McAfee, Sophos, and Microsoft Security Essentials. This
+systems including McAfee, Sophos, AVG, and Microsoft Security Essentials. This
 script is designed for scenarios where existing AV must be removed before
 deploying a new endpoint protection solution.
 
@@ -41,6 +41,7 @@ inputs required. The script will attempt to uninstall:
 
 - McAfee products (all variants including consumer and enterprise)
 - Sophos products (all variants)
+- AVG products (all variants including consumer and business)
 - Microsoft Security Essentials
 
 --------------------------------------------------------------------------------
@@ -60,8 +61,10 @@ BEHAVIOR
 3. Attempts uninstall via multiple methods (packages, WMI, MCPR tool)
 4. Detects Sophos software
 5. Stops Sophos services and uninstalls components
-6. Detects and removes Microsoft Security Essentials
-7. Reports final status with detection and removal details
+6. Detects AVG software using registry, services, paths, packages, and WMI
+7. Attempts AVG uninstall via multiple methods (packages, WMI, AVG Clear tool)
+8. Detects and removes Microsoft Security Essentials
+9. Reports final status with detection and removal details
 
 --------------------------------------------------------------------------------
 PREREQUISITES
@@ -82,6 +85,7 @@ SECURITY NOTES
 ENDPOINTS
 
 - download.mcafee.com (optional, for MCPR tool download)
+- honzik.avcdn.net (optional, for AVG Clear tool download)
 
 --------------------------------------------------------------------------------
 EXIT CODES
@@ -124,6 +128,7 @@ EXAMPLE RUN
   McAfee detected                        : Yes
   McAfee removal attempted               : Yes
   Sophos detected                        : No
+  AVG detected                           : No
   Microsoft Security Essentials detected : No
 
   Note: A system reboot is recommended for complete removal
@@ -134,6 +139,7 @@ EXAMPLE RUN
 --------------------------------------------------------------------------------
  CHANGELOG
 --------------------------------------------------------------------------------
+ 2026-02-02 v1.4.0 Added AVG antivirus detection and removal support
  2026-01-19 v1.3.1 Updated to two-line ASCII console output style
  2026-01-19 v1.3.0 Updated to corner bracket style section headers
  2026-01-18 v1.2.5 Improved MCPR log display and added verbose McAfee detection
@@ -157,6 +163,8 @@ $mcAfeeDetected = $false
 $mcAfeeRemovalAttempted = $false
 $sophosDetected = $false
 $sophosRemovalAttempted = $false
+$avgDetected = $false
+$avgRemovalAttempted = $false
 $mseDetected = $false
 $mseRemovalAttempted = $false
 
@@ -218,6 +226,32 @@ $sophosServices = @(
     "Sophos MCS Agent",
     "Sophos MCS Client"
 )
+
+# AVG registry paths to check
+$avgRegistryPaths = @(
+    "HKLM:\SOFTWARE\AVG",
+    "HKLM:\SOFTWARE\WOW6432Node\AVG",
+    "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\*",
+    "HKLM:\SOFTWARE\WOW6432Node\Microsoft\Windows\CurrentVersion\Uninstall\*"
+)
+
+# AVG services to look for and stop
+$avgServices = @(
+    "AVGSvc",         # AVG Antivirus service
+    "avgwdsvc",       # AVG Watchdog service
+    "AVG Antivirus"   # AVG Antivirus (display name)
+)
+
+# AVG installation paths to check
+$avgPaths = @(
+    "C:\Program Files\AVG",
+    "C:\Program Files (x86)\AVG",
+    "C:\ProgramData\AVG"
+)
+
+# AVG Clear download URL
+$avgClearUrl = "https://honzik.avcdn.net/setup/avg-av/release/avg_av_clear.exe"
+$avgClearPath = "$env:TEMP\avg_av_clear.exe"
 
 # Microsoft Security Essentials installation path
 $mseSetupPath = "C:\Program Files\Microsoft Security Client\Setup.exe"
@@ -619,6 +653,246 @@ if ($sophosDetected) {
 }
 
 # ==============================================================================
+# AVG DETECTION (Multi-Method)
+# ==============================================================================
+
+Write-Host ""
+Write-Host "[INFO] AVG DETECTION"
+Write-Host "=============================================================="
+Write-Host "Checking for AVG software..."
+
+$avgRegistryFound = $false
+$avgServicesFound = @()
+$avgPathsFound = @()
+$avgPackages = @()
+$avgWmiProducts = @()
+
+# Method 1: Registry check
+$regKeys = Get-ChildItem -Path "HKLM:\SOFTWARE" -ErrorAction SilentlyContinue | Where-Object { $_.Name -match "AVG" }
+$regKeys32 = Get-ChildItem -Path "HKLM:\SOFTWARE\WOW6432Node" -ErrorAction SilentlyContinue | Where-Object { $_.Name -match "AVG" }
+if ($regKeys -or $regKeys32) {
+    $avgRegistryFound = $true
+    $allRegKeys = @($regKeys) + @($regKeys32) | Where-Object { $_ }
+    $keyCount = $allRegKeys.Count
+    Write-Host "  Registry keys    : Found ($keyCount keys)"
+    foreach ($key in $allRegKeys) {
+        $keyPath = $key.Name -replace 'HKEY_LOCAL_MACHINE', 'HKLM:'
+        Write-Host "    - $keyPath"
+    }
+} else {
+    # Also check uninstall keys
+    $uninstallKeys = Get-ChildItem -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall" -ErrorAction SilentlyContinue
+    $avgUninstall = $uninstallKeys | Get-ItemProperty -ErrorAction SilentlyContinue | Where-Object { $_.DisplayName -match "AVG" }
+    if ($avgUninstall) {
+        $avgRegistryFound = $true
+        Write-Host "  Registry keys    : Found (uninstall entries)"
+        foreach ($entry in @($avgUninstall)) {
+            Write-Host "    - $($entry.DisplayName)"
+        }
+    } else {
+        Write-Host "  Registry keys    : Not found"
+    }
+}
+
+# Method 2: Services check
+foreach ($svcName in $avgServices) {
+    $svc = Get-Service -Name $svcName -ErrorAction SilentlyContinue
+    if ($svc) {
+        $avgServicesFound += $svc
+    }
+}
+if ($avgServicesFound.Count -gt 0) {
+    $svcCount = $avgServicesFound.Count
+    Write-Host "  Services         : Found ($svcCount services)"
+    foreach ($svc in $avgServicesFound) {
+        $svcName = $svc.Name
+        $svcStatus = $svc.Status
+        Write-Host "    - $svcName ($svcStatus)"
+    }
+} else {
+    Write-Host "  Services         : Not found"
+}
+
+# Method 3: Path check
+foreach ($path in $avgPaths) {
+    if (Test-Path -Path $path) {
+        $avgPathsFound += $path
+    }
+}
+if ($avgPathsFound.Count -gt 0) {
+    $pathCount = $avgPathsFound.Count
+    Write-Host "  Install paths    : Found ($pathCount locations)"
+    foreach ($p in $avgPathsFound) {
+        Write-Host "    - $p"
+    }
+} else {
+    Write-Host "  Install paths    : Not found"
+}
+
+# Method 4: Get-Package check
+try {
+    $pkgs = Get-Package -Name "*AVG*" -ErrorAction SilentlyContinue
+    if ($pkgs) {
+        $avgPackages = @($pkgs)
+        $pkgCount = $avgPackages.Count
+        Write-Host "  Get-Package      : Found ($pkgCount packages)"
+        foreach ($pkg in $avgPackages) {
+            $pkgName = $pkg.Name
+            $pkgVer = $pkg.Version
+            Write-Host "    - $pkgName v$pkgVer"
+        }
+    } else {
+        Write-Host "  Get-Package      : Not found"
+    }
+} catch {
+    Write-Host "  Get-Package      : Not found"
+}
+
+# Method 5: WMI check (slower but catches more)
+try {
+    $wmiProducts = Get-CimInstance -ClassName Win32_Product -ErrorAction SilentlyContinue | Where-Object { $_.Name -match "AVG" }
+    if ($wmiProducts) {
+        $avgWmiProducts = @($wmiProducts)
+        $wmiCount = $avgWmiProducts.Count
+        Write-Host "  WMI Products     : Found ($wmiCount products)"
+        foreach ($prod in $avgWmiProducts) {
+            $prodName = $prod.Name
+            Write-Host "    - $prodName"
+        }
+    } else {
+        Write-Host "  WMI Products     : Not found"
+    }
+} catch {
+    Write-Host "  WMI Products     : Check failed"
+}
+
+# Determine if AVG is detected
+if ($avgRegistryFound -or $avgServicesFound.Count -gt 0 -or $avgPathsFound.Count -gt 0 -or $avgPackages.Count -gt 0 -or $avgWmiProducts.Count -gt 0) {
+    $avgDetected = $true
+    Write-Host "AVG detected       : Yes"
+} else {
+    Write-Host "AVG detected       : No"
+}
+
+# ==============================================================================
+# AVG UNINSTALLATION (Multi-Method)
+# ==============================================================================
+
+if ($avgDetected) {
+    Write-Host ""
+    Write-Host "[RUN] AVG UNINSTALLATION"
+    Write-Host "=============================================================="
+    $avgRemovalAttempted = $true
+
+    # Step 1: Stop services
+    if ($avgServicesFound.Count -gt 0) {
+        Write-Host "Stopping AVG services..."
+        foreach ($svc in $avgServicesFound) {
+            try {
+                Stop-Service -Name $svc.Name -Force -ErrorAction SilentlyContinue
+                Write-Host "  Stopped: $($svc.Name)"
+            } catch {
+                Write-Host "  Failed to stop: $($svc.Name)"
+            }
+        }
+    }
+
+    # Step 2: Uninstall via Get-Package
+    if ($avgPackages.Count -gt 0) {
+        Write-Host "Uninstalling via Get-Package..."
+        foreach ($pkg in $avgPackages) {
+            try {
+                Write-Host "  Uninstalling: $($pkg.Name)..."
+                $pkg | Uninstall-Package -AllVersions -Force -ErrorAction Stop
+                Write-Host "    Success"
+            } catch {
+                Write-Host "    Failed: $($_.Exception.Message)"
+            }
+        }
+    }
+
+    # Step 3: Uninstall via WMI (with timeout)
+    if ($avgWmiProducts.Count -gt 0) {
+        Write-Host "Uninstalling via WMI..."
+        foreach ($product in $avgWmiProducts) {
+            try {
+                Write-Host "  Uninstalling: $($product.Name)..."
+                $job = Start-Job -ScriptBlock {
+                    param($prodId)
+                    $p = Get-CimInstance -ClassName Win32_Product | Where-Object { $_.IdentifyingNumber -eq $prodId }
+                    if ($p) { $p | Invoke-CimMethod -MethodName Uninstall }
+                } -ArgumentList $product.IdentifyingNumber
+
+                $completed = Wait-Job -Job $job -Timeout 120
+                if ($completed) {
+                    Remove-Job -Job $job -Force
+                    Write-Host "    Success"
+                } else {
+                    Stop-Job -Job $job
+                    Remove-Job -Job $job -Force
+                    Write-Host "    Timeout (120s) - skipping"
+                }
+            } catch {
+                Write-Host "    Failed: $($_.Exception.Message)"
+            }
+        }
+    }
+
+    # Step 4: Download and run AVG Clear tool (with timeout)
+    Write-Host "Downloading AVG Clear tool..."
+    $avgClearSuccess = $false
+    try {
+        [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
+
+        # Download with timeout
+        $downloadJob = Start-Job -ScriptBlock {
+            param($url, $path)
+            Invoke-WebRequest -Uri $url -OutFile $path -UseBasicParsing
+        } -ArgumentList $avgClearUrl, $avgClearPath
+
+        $downloadCompleted = Wait-Job -Job $downloadJob -Timeout 60
+        if (-not $downloadCompleted) {
+            Stop-Job -Job $downloadJob
+            Remove-Job -Job $downloadJob -Force
+            throw "Download timeout (60s)"
+        }
+
+        $downloadResult = Receive-Job -Job $downloadJob -ErrorAction Stop
+        Remove-Job -Job $downloadJob -Force
+
+        if (-not (Test-Path $avgClearPath)) {
+            throw "Download failed - file not found"
+        }
+
+        Write-Host "  Downloaded to: $avgClearPath"
+        Write-Host "Starting AVG Clear tool in background (silent mode)..."
+
+        # Run AVG Clear in background with /silent flag
+        Start-Process -FilePath $avgClearPath -ArgumentList "/silent" -ErrorAction Stop
+        Write-Host "  AVG Clear started (PID will run in background)"
+        Write-Host "  Note: AVG Clear may take 10+ minutes to complete"
+        $avgClearSuccess = $true
+    } catch {
+        Write-Host "  AVG Clear failed: $($_.Exception.Message)"
+    }
+
+    if (-not $avgClearSuccess) {
+        Write-Host ""
+        Write-Host "  Note: AVG Clear could not be started."
+        Write-Host "  Manual steps may be required:"
+        Write-Host "  1. Download AVG Clear from avg.com/avg-remover"
+        Write-Host "  2. Run it manually as administrator"
+        Write-Host "  3. Reboot and verify removal"
+        Write-Host ""
+        Write-Host "  If AVG persists, self-defense module may be enabled."
+        Write-Host "  Disable it in AVG settings before running uninstaller."
+    }
+
+    Write-Host ""
+    Write-Host "AVG removal attempted"
+}
+
+# ==============================================================================
 # MICROSOFT SECURITY ESSENTIALS DETECTION
 # ==============================================================================
 
@@ -675,12 +949,17 @@ if ($sophosDetected) {
     Write-Host "Sophos removal attempted               : $(if ($sophosRemovalAttempted) { 'Yes' } else { 'No' })"
 }
 
+Write-Host "AVG detected                           : $(if ($avgDetected) { 'Yes' } else { 'No' })"
+if ($avgDetected) {
+    Write-Host "AVG removal attempted                  : $(if ($avgRemovalAttempted) { 'Yes' } else { 'No' })"
+}
+
 Write-Host "Microsoft Security Essentials detected : $(if ($mseDetected) { 'Yes' } else { 'No' })"
 if ($mseDetected) {
     Write-Host "MSE removal attempted                  : $(if ($mseRemovalAttempted) { 'Yes' } else { 'No' })"
 }
 
-if ($mcAfeeDetected -or $sophosDetected -or $mseDetected) {
+if ($mcAfeeDetected -or $sophosDetected -or $avgDetected -or $mseDetected) {
     Write-Host ""
     Write-Host "Note: A system reboot is recommended for complete removal"
 }
