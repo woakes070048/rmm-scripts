@@ -1,0 +1,4 @@
+fileignoreconfig:
+- filename: scripts/antivirus_uninstall.ps1
+  checksum: 14264477bd3a2d6ac97a41aa0bc4c43bb5ee1261a8ef1f7c8efa50deeebe71e0
+version: "1.0"
