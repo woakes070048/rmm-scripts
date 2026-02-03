@@ -7,7 +7,7 @@ $ErrorActionPreference = 'Stop'
 ███████╗██║██║ ╚═╝ ██║███████╗██║  ██║██║  ██║╚███╔███╔╝██║  ██╗
 ╚══════╝╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚══╝╚══╝ ╚═╝  ╚═╝
 ================================================================================
- SCRIPT   : Antivirus Uninstall (Multi-Vendor)                           v1.4.0
+ SCRIPT   : Antivirus Uninstall (Multi-Vendor)                           v1.4.1
  AUTHOR   : Limehawk.io
  DATE     : February 2026
  USAGE    : .\antivirus_uninstall.ps1
@@ -139,6 +139,7 @@ EXAMPLE RUN
 --------------------------------------------------------------------------------
  CHANGELOG
 --------------------------------------------------------------------------------
+ 2026-02-02 v1.4.1 Fixed DisplayName property check in strict mode
  2026-02-02 v1.4.0 Added AVG antivirus detection and removal support
  2026-01-19 v1.3.1 Updated to two-line ASCII console output style
  2026-01-19 v1.3.0 Updated to corner bracket style section headers
@@ -319,7 +320,7 @@ if ($regKeys -or $regKeys32) {
 } else {
     # Also check uninstall keys
     $uninstallKeys = Get-ChildItem -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall" -ErrorAction SilentlyContinue
-    $mcAfeeUninstall = $uninstallKeys | Get-ItemProperty -ErrorAction SilentlyContinue | Where-Object { $_.DisplayName -match "McAfee" }
+    $mcAfeeUninstall = $uninstallKeys | Get-ItemProperty -ErrorAction SilentlyContinue | Where-Object { $_.DisplayName -and ($_.DisplayName -match "McAfee") }
     if ($mcAfeeUninstall) {
         $mcAfeeRegistryFound = $true
         Write-Host "  Registry keys    : Found (uninstall entries)"
@@ -682,7 +683,7 @@ if ($regKeys -or $regKeys32) {
 } else {
     # Also check uninstall keys
     $uninstallKeys = Get-ChildItem -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall" -ErrorAction SilentlyContinue
-    $avgUninstall = $uninstallKeys | Get-ItemProperty -ErrorAction SilentlyContinue | Where-Object { $_.DisplayName -match "AVG" }
+    $avgUninstall = $uninstallKeys | Get-ItemProperty -ErrorAction SilentlyContinue | Where-Object { $_.DisplayName -and ($_.DisplayName -match "AVG") }
     if ($avgUninstall) {
         $avgRegistryFound = $true
         Write-Host "  Registry keys    : Found (uninstall entries)"
