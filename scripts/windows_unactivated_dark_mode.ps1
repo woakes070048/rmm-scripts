@@ -7,7 +7,7 @@ $ErrorActionPreference = 'Stop'
 ███████╗██║██║ ╚═╝ ██║███████╗██║  ██║██║  ██║╚███╔███╔╝██║  ██╗
 ╚══════╝╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚══╝╚══╝ ╚═╝  ╚═╝
 ================================================================================
- SCRIPT   : Windows Unactivated Dark Mode                                 v1.0.0
+ SCRIPT   : Windows Unactivated Dark Mode                                 v1.0.2
  AUTHOR   : Limehawk.io
  DATE     : January 2026
  USAGE    : .\windows_unactivated_dark_mode.ps1
@@ -76,44 +76,46 @@ $ErrorActionPreference = 'Stop'
 
  EXAMPLE RUN
 
-   [ INPUT VALIDATION ]
-   --------------------------------------------------------------
+   [INFO] INPUT VALIDATION
+   ==============================================================
    All required inputs are valid
 
-   [ WALLPAPER DOWNLOAD ]
-   --------------------------------------------------------------
+   [RUN] WALLPAPER DOWNLOAD
+   ==============================================================
    Downloading wallpaper...
    Saved to : C:\Users\Public\Pictures\wallpaper.jpg
 
-   [ DARK MODE ]
-   --------------------------------------------------------------
+   [RUN] DARK MODE
+   ==============================================================
    Enabled dark mode for Apps
    Enabled dark mode for System
 
-   [ WALLPAPER CONFIGURATION ]
-   --------------------------------------------------------------
+   [RUN] WALLPAPER CONFIGURATION
+   ==============================================================
    Set wallpaper path in registry
 
-   [ UTC CLOCK FIX ]
-   --------------------------------------------------------------
+   [RUN] UTC CLOCK FIX
+   ==============================================================
    Enabled RealTimeIsUniversal for dual-boot compatibility
 
-   [ APPLY CHANGES ]
-   --------------------------------------------------------------
+   [RUN] APPLY CHANGES
+   ==============================================================
    Wallpaper applied via UpdatePerUserSystemParameters
    Restarting Explorer to apply theme changes...
    Explorer restarted
 
-   [ FINAL STATUS ]
-   --------------------------------------------------------------
+   [OK] FINAL STATUS
+   ==============================================================
    Result : SUCCESS
 
-   [ SCRIPT COMPLETE ]
-   --------------------------------------------------------------
+   [OK] SCRIPT COMPLETED
+   ==============================================================
 
 --------------------------------------------------------------------------------
  CHANGELOG
 --------------------------------------------------------------------------------
+ 2026-02-12 v1.0.2 Fix console output to use [STATUS] SECTION format with = dividers
+ 2026-02-12 v1.0.1 Add User-Agent header to wallpaper download to bypass 403 blocks
  2026-01-08 v1.0.0 Initial release
 ================================================================================
 #>
@@ -148,14 +150,14 @@ if ([string]::IsNullOrWhiteSpace($wallpaperPath)) {
 }
 
 Write-Host ""
-Write-Host "[ INPUT VALIDATION ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[INFO] INPUT VALIDATION"
+Write-Host "=============================================================="
 
 if ($errorOccurred) {
     Write-Host $errorText
     Write-Host ""
-    Write-Host "[ ERROR OCCURRED ]"
-    Write-Host "--------------------------------------------------------------"
+    Write-Host "[ERROR] ERROR OCCURRED"
+    Write-Host "=============================================================="
     Write-Host "Input validation failed. Please check the hardcoded values."
     exit 1
 }
@@ -167,8 +169,8 @@ Write-Host "All required inputs are valid"
 # ==============================================================================
 
 Write-Host ""
-Write-Host "[ WALLPAPER DOWNLOAD ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[RUN] WALLPAPER DOWNLOAD"
+Write-Host "=============================================================="
 
 try {
     Write-Host "Downloading wallpaper..."
@@ -178,13 +180,14 @@ try {
         New-Item -ItemType Directory -Path $parentDir -Force | Out-Null
     }
 
-    Invoke-WebRequest -Uri $wallpaperUrl -OutFile $wallpaperPath -UseBasicParsing
+    $headers = @{ 'User-Agent' = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36' }
+    Invoke-WebRequest -Uri $wallpaperUrl -OutFile $wallpaperPath -UseBasicParsing -Headers $headers
     Write-Host "Saved to : $wallpaperPath"
 }
 catch {
     Write-Host ""
-    Write-Host "[ ERROR OCCURRED ]"
-    Write-Host "--------------------------------------------------------------"
+    Write-Host "[ERROR] ERROR OCCURRED"
+    Write-Host "=============================================================="
     Write-Host "Failed to download wallpaper"
     Write-Host "URL : $wallpaperUrl"
     Write-Host "Error : $($_.Exception.Message)"
@@ -197,8 +200,8 @@ catch {
 
 if ($enableDarkMode) {
     Write-Host ""
-    Write-Host "[ DARK MODE ]"
-    Write-Host "--------------------------------------------------------------"
+    Write-Host "[RUN] DARK MODE"
+    Write-Host "=============================================================="
 
     try {
         $personalizePath = 'HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Themes\Personalize'
@@ -215,8 +218,8 @@ if ($enableDarkMode) {
     }
     catch {
         Write-Host ""
-        Write-Host "[ ERROR OCCURRED ]"
-        Write-Host "--------------------------------------------------------------"
+        Write-Host "[ERROR] ERROR OCCURRED"
+        Write-Host "=============================================================="
         Write-Host "Failed to set dark mode"
         Write-Host "Error : $($_.Exception.Message)"
         exit 1
@@ -228,8 +231,8 @@ if ($enableDarkMode) {
 # ==============================================================================
 
 Write-Host ""
-Write-Host "[ WALLPAPER CONFIGURATION ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[RUN] WALLPAPER CONFIGURATION"
+Write-Host "=============================================================="
 
 try {
     $desktopPath = 'HKCU:\Control Panel\Desktop'
@@ -238,8 +241,8 @@ try {
 }
 catch {
     Write-Host ""
-    Write-Host "[ ERROR OCCURRED ]"
-    Write-Host "--------------------------------------------------------------"
+    Write-Host "[ERROR] ERROR OCCURRED"
+    Write-Host "=============================================================="
     Write-Host "Failed to set wallpaper registry key"
     Write-Host "Error : $($_.Exception.Message)"
     exit 1
@@ -251,8 +254,8 @@ catch {
 
 if ($fixUtcClock) {
     Write-Host ""
-    Write-Host "[ UTC CLOCK FIX ]"
-    Write-Host "--------------------------------------------------------------"
+    Write-Host "[RUN] UTC CLOCK FIX"
+    Write-Host "=============================================================="
 
     try {
         $tzPath = 'HKLM:\SYSTEM\CurrentControlSet\Control\TimeZoneInformation'
@@ -261,8 +264,8 @@ if ($fixUtcClock) {
     }
     catch {
         Write-Host ""
-        Write-Host "[ ERROR OCCURRED ]"
-        Write-Host "--------------------------------------------------------------"
+        Write-Host "[ERROR] ERROR OCCURRED"
+        Write-Host "=============================================================="
         Write-Host "Failed to set UTC clock registry key (admin required)"
         Write-Host "Error : $($_.Exception.Message)"
         exit 1
@@ -274,8 +277,8 @@ if ($fixUtcClock) {
 # ==============================================================================
 
 Write-Host ""
-Write-Host "[ APPLY CHANGES ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[RUN] APPLY CHANGES"
+Write-Host "=============================================================="
 
 try {
     # Apply wallpaper
@@ -290,8 +293,8 @@ try {
 }
 catch {
     Write-Host ""
-    Write-Host "[ ERROR OCCURRED ]"
-    Write-Host "--------------------------------------------------------------"
+    Write-Host "[ERROR] ERROR OCCURRED"
+    Write-Host "=============================================================="
     Write-Host "Failed to apply changes"
     Write-Host "Error : $($_.Exception.Message)"
     exit 1
@@ -302,12 +305,12 @@ catch {
 # ==============================================================================
 
 Write-Host ""
-Write-Host "[ FINAL STATUS ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[OK] FINAL STATUS"
+Write-Host "=============================================================="
 Write-Host "Result : SUCCESS"
 
 Write-Host ""
-Write-Host "[ SCRIPT COMPLETE ]"
-Write-Host "--------------------------------------------------------------"
+Write-Host "[OK] SCRIPT COMPLETED"
+Write-Host "=============================================================="
 
 exit 0
