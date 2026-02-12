@@ -7,7 +7,7 @@ $ErrorActionPreference = 'Stop'
 ███████╗██║██║ ╚═╝ ██║███████╗██║  ██║██║  ██║╚███╔███╔╝██║  ██╗
 ╚══════╝╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚══╝╚══╝ ╚═╝  ╚═╝
 ================================================================================
- SCRIPT   : Windows Unactivated Dark Mode                                 v1.0.2
+ SCRIPT   : Windows Unactivated Dark Mode                                 v1.0.3
  AUTHOR   : Limehawk.io
  DATE     : January 2026
  USAGE    : .\windows_unactivated_dark_mode.ps1
@@ -114,8 +114,8 @@ $ErrorActionPreference = 'Stop'
 --------------------------------------------------------------------------------
  CHANGELOG
 --------------------------------------------------------------------------------
+ 2026-02-12 v1.0.3 Switch wallpaper source to Unsplash for reliable direct downloads
  2026-02-12 v1.0.2 Fix console output to use [STATUS] SECTION format with = dividers
- 2026-02-12 v1.0.1 Add User-Agent header to wallpaper download to bypass 403 blocks
  2026-01-08 v1.0.0 Initial release
 ================================================================================
 #>
@@ -125,7 +125,7 @@ Set-StrictMode -Version Latest
 # HARDCODED INPUTS
 # ==============================================================================
 
-$wallpaperUrl  = 'https://wallpapercave.com/download/firewatch-4k-wallpapers-wp9960747'
+$wallpaperUrl  = 'https://images.unsplash.com/photo-1439792675105-701e6a4ab6f0?ixlib=rb-4.1.0&q=85&fm=jpg&crop=entropy&cs=srgb&dl=elliott-engelmann-DjlKxYFJlTc-unsplash.jpg'
 $wallpaperPath = 'C:\Users\Public\Pictures\wallpaper.jpg'
 $enableDarkMode = $true
 $fixUtcClock    = $true
@@ -180,8 +180,7 @@ try {
         New-Item -ItemType Directory -Path $parentDir -Force | Out-Null
     }
 
-    $headers = @{ 'User-Agent' = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36' }
-    Invoke-WebRequest -Uri $wallpaperUrl -OutFile $wallpaperPath -UseBasicParsing -Headers $headers
+    Invoke-WebRequest -Uri $wallpaperUrl -OutFile $wallpaperPath -UseBasicParsing
     Write-Host "Saved to : $wallpaperPath"
 }
 catch {
