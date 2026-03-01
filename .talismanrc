@@ -2,7 +2,7 @@ fileignoreconfig:
 - filename: scripts/antivirus_uninstall.ps1
   checksum: 99675200395b1e7179122311b899ec9c8a7f5a08c430bc30d7ef8fe5d233f52a
 - filename: scripts/restic_backup_b2_install.ps1
-  checksum: 5f5c64e978d8b84f49c5a7864f307614f1cb607e4ba612977668a383f51f6005
+  checksum: 8aa8d1416753110ccc635ef2f735dc170aaf7fde4775463ed1df9be8e0d04a1c
 - filename: scripts/restic_backup_b2_install.yaml
-  checksum: 105ace845ab21c32a25b911c9393f9fdb2e2c234edce58d6a1adfbccbd0dde60
+  checksum: 2ebbfd81dd6d0e03dae3f9d8e1526cfd36637d75746b62c6e16553f27e694c18
 version: "1.0"
