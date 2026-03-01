@@ -52,7 +52,12 @@ readme: >
   - PowerShell 5.1+
 
   - Network access to github.com and Backblaze B2
-runtimeVariables: []
+runtimeVariables:
+  - name: B2AccountId
+  - name: B2AccountKey
+  - name: B2BucketName
+  - name: ResticPassword
+  - name: ClientName
 placeholderVariables: []
 scriptId: "6720104393029890048"
 lastPushedChecksum: sha256:75d7f781f635f858

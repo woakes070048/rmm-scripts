@@ -8,7 +8,7 @@ $ErrorActionPreference = 'Stop'
 ███████╗██║██║ ╚═╝ ██║███████╗██║  ██║██║  ██║╚███╔███╔╝██║  ██╗
 ╚══════╝╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚══╝╚══╝ ╚═╝  ╚═╝
 ================================================================================
- SCRIPT   : Restic Backup B2 Install                                    v1.0.0
+ SCRIPT   : Restic Backup B2 Install                                    v1.1.0
  AUTHOR   : Limehawk.io
  DATE     : March 2026
  USAGE    : .\restic_backup_b2_install.ps1
@@ -33,12 +33,12 @@ $ErrorActionPreference = 'Stop'
 
  REQUIRED INPUTS
 
-   All inputs are hardcoded in the script body:
-     - $b2AccountId    : Backblaze B2 Application Key ID
-     - $b2AccountKey   : Backblaze B2 Application Key
-     - $b2BucketName   : B2 bucket name (e.g., limehawk-backups-clientname)
-     - $resticPassword : Repository encryption password
-     - $clientName     : Short client identifier for display (e.g., bell)
+   SuperOps runtime variables (prompted at deploy time):
+     - $B2AccountId    : Backblaze B2 Application Key ID
+     - $B2AccountKey   : Backblaze B2 Application Key
+     - $B2BucketName   : B2 bucket name (e.g., limehawk-backups-clientname)
+     - $ResticPassword : Repository encryption password
+     - $ClientName     : Short client identifier for display (e.g., bell)
 
  SETTINGS
 
@@ -144,6 +144,7 @@ $ErrorActionPreference = 'Stop'
 --------------------------------------------------------------------------------
  CHANGELOG
 --------------------------------------------------------------------------------
+ 2026-03-01 v1.1.0 Add SuperOps runtime variables for B2 credentials
  2026-03-01 v1.0.0 Initial release
 ================================================================================
 #>
@@ -156,12 +157,12 @@ $errorText     = ""
 
 # ==== HARDCODED INPUTS (MANDATORY) ====
 
-# --- REQUIRED: Backblaze B2 Credentials ---
-$b2AccountId   = ""   # B2 Application Key ID
-$b2AccountKey  = ""   # B2 Application Key
-$b2BucketName  = ""   # B2 bucket name (e.g., limehawk-backups-clientname)
-$resticPassword = ""  # Repository encryption password
-$clientName    = ""   # Short client ID (e.g., bell)
+# --- REQUIRED: Backblaze B2 Credentials (SuperOps runtime variables) ---
+$b2AccountId    = "$B2AccountId"       # B2 Application Key ID
+$b2AccountKey   = "$B2AccountKey"      # B2 Application Key
+$b2BucketName   = "$B2BucketName"      # B2 bucket name (e.g., limehawk-backups-clientname)
+$resticPassword = "$ResticPassword"    # Repository encryption password
+$clientName     = "$ClientName"        # Short client ID (e.g., bell)
 
 # --- Backup Paths (workstation defaults) ---
 $backupPaths = @(
@@ -207,30 +208,30 @@ $repository  = "b2:${b2BucketName}:$env:COMPUTERNAME"
 $taskName    = 'Limehawk Restic Backup'
 
 # ==== VALIDATION ====
-if ([string]::IsNullOrWhiteSpace($b2AccountId)) {
+if ([string]::IsNullOrWhiteSpace($b2AccountId) -or $b2AccountId -eq '$' + 'B2AccountId') {
     $errorOccurred = $true
     if ($errorText.Length -gt 0) { $errorText += "`n" }
-    $errorText += "- B2 Account ID is required"
+    $errorText += "- SuperOps runtime variable `$B2AccountId was not replaced."
 }
-if ([string]::IsNullOrWhiteSpace($b2AccountKey)) {
+if ([string]::IsNullOrWhiteSpace($b2AccountKey) -or $b2AccountKey -eq '$' + 'B2AccountKey') {
     $errorOccurred = $true
     if ($errorText.Length -gt 0) { $errorText += "`n" }
-    $errorText += "- B2 Account Key is required"
+    $errorText += "- SuperOps runtime variable `$B2AccountKey was not replaced."
 }
-if ([string]::IsNullOrWhiteSpace($b2BucketName)) {
+if ([string]::IsNullOrWhiteSpace($b2BucketName) -or $b2BucketName -eq '$' + 'B2BucketName') {
     $errorOccurred = $true
     if ($errorText.Length -gt 0) { $errorText += "`n" }
-    $errorText += "- B2 Bucket Name is required"
+    $errorText += "- SuperOps runtime variable `$B2BucketName was not replaced."
 }
-if ([string]::IsNullOrWhiteSpace($resticPassword)) {
+if ([string]::IsNullOrWhiteSpace($resticPassword) -or $resticPassword -eq '$' + 'ResticPassword') {
     $errorOccurred = $true
     if ($errorText.Length -gt 0) { $errorText += "`n" }
-    $errorText += "- Restic Password is required"
+    $errorText += "- SuperOps runtime variable `$ResticPassword was not replaced."
 }
-if ([string]::IsNullOrWhiteSpace($clientName)) {
+if ([string]::IsNullOrWhiteSpace($clientName) -or $clientName -eq '$' + 'ClientName') {
     $errorOccurred = $true
     if ($errorText.Length -gt 0) { $errorText += "`n" }
-    $errorText += "- Client Name is required"
+    $errorText += "- SuperOps runtime variable `$ClientName was not replaced."
 }
 if ($backupPaths.Count -eq 0) {
     $errorOccurred = $true
