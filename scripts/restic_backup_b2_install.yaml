@@ -53,10 +53,10 @@ readme: >
 
   - Network access to github.com and Backblaze B2
 runtimeVariables:
-  - name: B2AccountId
-  - name: B2AccountKey
+  - name: B2KeyId
+  - name: B2AppKey
   - name: B2BucketName
-  - name: ResticPassword
+  - name: RepoPassword
   - name: ClientName
 placeholderVariables: []
 scriptId: "6720104393029890048"
