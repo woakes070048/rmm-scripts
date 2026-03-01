@@ -50,13 +50,12 @@ $ErrorActionPreference = 'Stop'
      - $keepDaily        : Daily snapshots to retain (default: 7)
      - $keepWeekly       : Weekly snapshots to retain (default: 4)
      - $keepMonthly      : Monthly snapshots to retain (default: 6)
-     - $resticVersion    : Pinned Restic version (default: 0.17.3)
 
  BEHAVIOR
 
    The script performs the following actions in order:
    1. Validates all hardcoded inputs are non-empty
-   2. Downloads Restic from GitHub, verifies SHA256, extracts to install dir
+   2. Installs Restic via winget, copies binary to managed install dir
    3. ACL-locks install directory to SYSTEM + Administrators only
    4. Initializes B2 repository (skips if already exists)
    5. Generates daily backup script with embedded credentials and retention
@@ -67,7 +66,8 @@ $ErrorActionPreference = 'Stop'
 
    - Windows 10/11 or Windows Server 2016+
    - Administrator privileges (runs as SYSTEM via RMM)
-   - Network access to github.com and Backblaze B2
+   - winget (App Installer) available on the system
+   - Network access to Backblaze B2
 
  SECURITY NOTES
 
@@ -78,7 +78,7 @@ $ErrorActionPreference = 'Stop'
 
  ENDPOINTS
 
-   - https://github.com/restic/restic/releases - Restic binary download
+   - winget (restic.restic) - Restic binary install
    - Backblaze B2 API (via Restic) - backup storage
 
  EXIT CODES
@@ -93,7 +93,7 @@ $ErrorActionPreference = 'Stop'
      B2 Bucket    : limehawk-backups-bell
      Client       : bell
      Repository   : b2:limehawk-backups-bell:WORKSTATION01
-     Restic Ver   : 0.17.3
+     Install      : winget (restic.restic)
      Schedule     : Daily at 02:00
      Retention    : 7 daily, 4 weekly, 6 monthly
      Backup Paths : 5 paths configured
@@ -101,11 +101,10 @@ $ErrorActionPreference = 'Stop'
 
    [RUN] INSTALL RESTIC
    ==============================================================
-     Downloading restic 0.17.3 for windows/amd64...
-     Download complete (15.2 MB)
-     SHA256 verified
-     Extracted to C:\ProgramData\Limehawk\Restic\restic.exe
-     Directory ACL locked to SYSTEM + Administrators
+     Installing restic via winget...
+     Restic installed at C:\Program Files\restic\restic.exe
+     Version: restic 0.17.3 compiled with go1.23.4 on windows/amd64
+     Config directory ACL locked to SYSTEM + Administrators
 
    [RUN] INITIALIZE REPOSITORY
    ==============================================================
@@ -133,7 +132,7 @@ $ErrorActionPreference = 'Stop'
    [OK] FINAL STATUS
    ==============================================================
      Result   : SUCCESS
-     Restic   : C:\ProgramData\Limehawk\Restic\restic.exe
+     Restic   : restic (via winget)
      Repo     : b2:limehawk-backups-bell:WORKSTATION01
      Schedule : Daily at 02:00
      Client   : bell
@@ -144,6 +143,7 @@ $ErrorActionPreference = 'Stop'
 --------------------------------------------------------------------------------
  CHANGELOG
 --------------------------------------------------------------------------------
+ 2026-03-01 v1.3.0 Switch from GitHub download to winget install, bump timeout to 30m
  2026-03-01 v1.2.0 Rename variables to match B2 console labels (keyID, applicationKey)
  2026-03-01 v1.1.0 Add SuperOps runtime variables for B2 credentials
  2026-03-01 v1.0.0 Initial release
@@ -197,12 +197,9 @@ $keepDaily   = 7
 $keepWeekly  = 4
 $keepMonthly = 6
 
-# --- Restic Version ---
-$resticVersion = '0.17.3'
-
 # ==== DERIVED VALUES ====
 $installDir  = 'C:\ProgramData\Limehawk\Restic'
-$resticExe   = "$installDir\restic.exe"
+$resticExe   = 'restic'
 $backupScript = "$installDir\restic-backup.ps1"
 $logDir      = "$installDir\Logs"
 $repository  = "b2:${b2BucketName}:$env:COMPUTERNAME"
@@ -258,7 +255,7 @@ Write-Host "=============================================================="
 Write-Host "  B2 Bucket    : $b2BucketName"
 Write-Host "  Client       : $clientName"
 Write-Host "  Repository   : $repository"
-Write-Host "  Restic Ver   : $resticVersion"
+Write-Host "  Install      : winget (restic.restic)"
 Write-Host "  Schedule     : Daily at $($backupHour.ToString('00')):$($backupMinute.ToString('00'))"
 Write-Host "  Retention    : $keepDaily daily, $keepWeekly weekly, $keepMonthly monthly"
 Write-Host "  Backup Paths : $($backupPaths.Count) paths configured"
@@ -278,48 +275,29 @@ try {
         New-Item -Path $logDir -ItemType Directory -Force | Out-Null
     }
 
-    # Download restic zip and SHA256 checksum
-    $zipFileName = "restic_${resticVersion}_windows_amd64.zip"
-    $zipUrl      = "https://github.com/restic/restic/releases/download/v${resticVersion}/${zipFileName}"
-    $shaUrl      = "https://github.com/restic/restic/releases/download/v${resticVersion}/SHA256SUMS"
-    $zipPath     = "$installDir\$zipFileName"
-    $shaPath     = "$installDir\SHA256SUMS"
+    # Install restic via winget
+    Write-Host "  Installing restic via winget..."
+    $wingetResult = winget install restic.restic --accept-source-agreements --accept-package-agreements --silent 2>&1
+    $wingetExit = $LASTEXITCODE
 
-    Write-Host "  Downloading restic $resticVersion for windows/amd64..."
-    [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
-
-    $wc = New-Object System.Net.WebClient
-    $wc.DownloadFile($zipUrl, $zipPath)
-    $wc.DownloadFile($shaUrl, $shaPath)
-
-    $sizeMB = [math]::Round((Get-Item $zipPath).Length / 1MB, 1)
-    Write-Host "  Download complete ($sizeMB MB)"
-
-    # Verify SHA256
-    $actualHash = (Get-FileHash -Path $zipPath -Algorithm SHA256).Hash.ToLower()
-    $expectedLine = Get-Content $shaPath | Where-Object { $_ -match $zipFileName }
-    if (-not $expectedLine) {
-        throw "Could not find SHA256 entry for $zipFileName in SHA256SUMS"
+    # winget exit 0 = installed, -1978335189 (0x8A150019) = already installed
+    if ($wingetExit -ne 0 -and $wingetExit -ne -1978335189) {
+        throw "winget install failed (exit $wingetExit): $wingetResult"
     }
-    $expectedHash = ($expectedLine -split '\s+')[0].ToLower()
 
-    if ($actualHash -ne $expectedHash) {
-        throw "SHA256 mismatch! Expected: $expectedHash Got: $actualHash"
+    # Refresh PATH so current session can find restic
+    $env:Path = [System.Environment]::GetEnvironmentVariable('Path', 'Machine') + ';' + [System.Environment]::GetEnvironmentVariable('Path', 'User')
+
+    $wingetExe = Get-Command restic.exe -ErrorAction SilentlyContinue
+    if (-not $wingetExe) {
+        throw "restic.exe not found in PATH after winget install"
     }
-    Write-Host "  SHA256 verified"
+    Write-Host "  Restic installed at $($wingetExe.Source)"
 
-    # Extract
-    Expand-Archive -Path $zipPath -DestinationPath $installDir -Force
-    if (-not (Test-Path $resticExe)) {
-        throw "restic.exe not found after extraction"
-    }
-    Write-Host "  Extracted to $resticExe"
+    $version = & restic version 2>&1 | Select-Object -First 1
+    Write-Host "  Version: $version"
 
-    # Cleanup download artifacts
-    Remove-Item -Path $zipPath -Force -ErrorAction SilentlyContinue
-    Remove-Item -Path $shaPath -Force -ErrorAction SilentlyContinue
-
-    # ACL-lock directory: SYSTEM + Administrators only, disable inheritance
+    # ACL-lock config directory: SYSTEM + Administrators only, disable inheritance
     $acl = New-Object System.Security.AccessControl.DirectorySecurity
     $acl.SetAccessRuleProtection($true, $false)
     $systemRule = New-Object System.Security.AccessControl.FileSystemAccessRule(
@@ -553,7 +531,7 @@ Write-Host ""
 Write-Host "[OK] FINAL STATUS"
 Write-Host "=============================================================="
 Write-Host "  Result   : SUCCESS"
-Write-Host "  Restic   : $resticExe"
+Write-Host "  Restic   : $((Get-Command restic.exe).Source)"
 Write-Host "  Repo     : $repository"
 Write-Host "  Schedule : Daily at $($backupHour.ToString('00')):$($backupMinute.ToString('00'))"
 Write-Host "  Client   : $clientName"

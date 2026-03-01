@@ -3,7 +3,7 @@ description: Installs Restic, configures B2 repository, and schedules daily
   immutable backups
 language: PowerShell
 runAs: SYSTEM_USER
-timeout: 15
+timeout: 30
 tags:
   - Backup
   - Software
@@ -16,9 +16,9 @@ readme: >
   -------
 
   All-in-one installer for Restic backup to Backblaze B2 with immutable storage.
-  Downloads Restic, initializes an encrypted B2 repository scoped to the machine
-  hostname, generates a daily backup script with embedded credentials, and
-  creates a Windows Scheduled Task.
+  Installs Restic via winget, initializes an encrypted B2 repository scoped to
+  the machine hostname, generates a daily backup script with embedded
+  credentials, and creates a Windows Scheduled Task.
 
 
   Usage Notes
@@ -51,7 +51,9 @@ readme: >
 
   - PowerShell 5.1+
 
-  - Network access to github.com and Backblaze B2
+  - winget (App Installer) available
+
+  - Network access to Backblaze B2
 runtimeVariables:
   - name: B2KeyId
   - name: B2AppKey
