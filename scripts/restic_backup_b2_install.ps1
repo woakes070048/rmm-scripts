@@ -143,6 +143,7 @@ $ErrorActionPreference = 'Stop'
 --------------------------------------------------------------------------------
  CHANGELOG
 --------------------------------------------------------------------------------
+ 2026-03-01 v1.3.2 Resolve glob patterns in backup paths before passing to restic
  2026-03-01 v1.3.1 Fix ErrorActionPreference breaking restic init on new repos
  2026-03-01 v1.3.0 Switch from GitHub download to winget install, bump timeout to 30m
  2026-03-01 v1.2.0 Rename variables to match B2 console labels (keyID, applicationKey)
@@ -374,8 +375,8 @@ Write-Host "[RUN] CREATE BACKUP SCRIPT"
 Write-Host "=============================================================="
 
 try {
-    # Build backup paths argument string
-    $pathArgs = ($backupPaths | ForEach-Object { "`"$_`"" }) -join " "
+    # Build backup path patterns (stored as array, resolved at runtime)
+    $pathPatterns = ($backupPaths | ForEach-Object { "'$_'" }) -join ",`n    "
 
     # Build exclude arguments
     $excludeArgs = ($excludePatterns | ForEach-Object { "--exclude `"$_`"" }) -join " "
@@ -406,8 +407,26 @@ try {
 
     Write-Output "[`$(Get-Date -Format 'yyyy-MM-dd HH:mm:ss')] Starting backup"
 
+    # Resolve glob patterns to actual paths (picks up new user profiles)
+    `$pathPatterns = @(
+    $pathPatterns
+    )
+    `$resolvedPaths = @()
+    foreach (`$pattern in `$pathPatterns) {
+        `$resolved = Resolve-Path -Path `$pattern -ErrorAction SilentlyContinue
+        if (`$resolved) { `$resolvedPaths += `$resolved.Path }
+    }
+
+    if (`$resolvedPaths.Count -eq 0) {
+        Write-Output "[`$(Get-Date -Format 'yyyy-MM-dd HH:mm:ss')] WARNING: No backup paths resolved"
+        Stop-Transcript
+        exit 1
+    }
+
+    Write-Output "[`$(Get-Date -Format 'yyyy-MM-dd HH:mm:ss')] Backing up `$(`$resolvedPaths.Count) paths"
+
     # Run backup
-    & `$restic backup $pathArgs $excludeArgs --verbose
+    & `$restic backup `$resolvedPaths $excludeArgs --verbose
     Write-Output "[`$(Get-Date -Format 'yyyy-MM-dd HH:mm:ss')] Backup completed with exit code `$LASTEXITCODE"
 
     # Run retention policy (prune may partially fail on Object Lock protected objects - expected)
@@ -514,8 +533,15 @@ try {
     $env:RESTIC_PASSWORD = $resticPassword
 
     Write-Host "  Running dry-run backup..."
+    # Resolve glob patterns to actual paths
+    $resolvedPaths = @()
+    foreach ($pattern in $backupPaths) {
+        $resolved = Resolve-Path -Path $pattern -ErrorAction SilentlyContinue
+        if ($resolved) { $resolvedPaths += $resolved.Path }
+    }
+    Write-Host "  Resolved $($resolvedPaths.Count) backup paths"
     $ErrorActionPreference = 'Continue'
-    $dryRunOutput = & restic backup --repo $repository --dry-run $backupPaths 2>&1
+    $dryRunOutput = & restic backup --repo $repository --dry-run $resolvedPaths 2>&1
     $dryRunExit = $LASTEXITCODE
     $ErrorActionPreference = 'Stop'
     if ($dryRunExit -ne 0) {
