@@ -1,0 +1,55 @@
+name: restic_backup_b2_install.ps1
+description: Installs Restic, configures B2 repository, and schedules daily immutable backups
+language: PowerShell
+runAs: SYSTEM_USER
+timeout: 15
+tags:
+  - Backup
+  - Software
+  - Windows
+shared: false
+favourite: false
+readme: >
+  Purpose
+
+  -------
+
+  All-in-one installer for Restic backup to Backblaze B2 with immutable
+  storage. Downloads Restic, initializes an encrypted B2 repository scoped
+  to the machine hostname, generates a daily backup script with embedded
+  credentials, and creates a Windows Scheduled Task.
+
+
+  Usage Notes
+
+  -----------
+
+  - Fill in B2 credentials, bucket name, repo password, and client name before
+  deploying
+
+  - Default backup paths cover user Documents, Desktop, Downloads, Pictures,
+  and Videos
+
+  - Scheduled task runs daily at 2:00 AM as SYSTEM
+
+  - Install directory is ACL-locked to SYSTEM + Administrators
+
+  - B2 Object Lock (governance mode) provides 30-day immutability for
+  ransomware protection
+
+  - Retention policy: 7 daily, 4 weekly, 6 monthly snapshots
+
+
+  Requirements
+
+  ------------
+
+  - Windows 10/11 or Windows Server 2016+
+
+  - Administrator privileges
+
+  - PowerShell 5.1+
+
+  - Network access to github.com and Backblaze B2
+runtimeVariables: []
+placeholderVariables: []
