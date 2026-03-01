@@ -143,6 +143,7 @@ $ErrorActionPreference = 'Stop'
 --------------------------------------------------------------------------------
  CHANGELOG
 --------------------------------------------------------------------------------
+ 2026-03-01 v1.3.1 Fix ErrorActionPreference breaking restic init on new repos
  2026-03-01 v1.3.0 Switch from GitHub download to winget install, bump timeout to 30m
  2026-03-01 v1.2.0 Rename variables to match B2 console labels (keyID, applicationKey)
  2026-03-01 v1.1.0 Add SuperOps runtime variables for B2 credentials
@@ -332,17 +333,22 @@ try {
 
     Write-Host "  Repository : $repository"
 
-    # Check if repo already exists by running snapshots
-    $checkResult = & $resticExe snapshots --repo $repository --json 2>&1
+    # Check if repo already exists (snapshots returns non-zero if no repo)
+    $ErrorActionPreference = 'Continue'
+    & restic snapshots --repo $repository --json 2>&1 | Out-Null
     $repoExists = $LASTEXITCODE -eq 0
+    $ErrorActionPreference = 'Stop'
 
     if ($repoExists) {
         Write-Host "  Repository already initialized, skipping"
     } else {
         Write-Host "  Initializing new repository..."
-        & $resticExe init --repo $repository 2>&1 | Out-Null
-        if ($LASTEXITCODE -ne 0) {
-            throw "restic init failed with exit code $LASTEXITCODE"
+        $ErrorActionPreference = 'Continue'
+        $initOutput = & restic init --repo $repository 2>&1
+        $initExit = $LASTEXITCODE
+        $ErrorActionPreference = 'Stop'
+        if ($initExit -ne 0) {
+            throw "restic init failed (exit $initExit): $initOutput"
         }
         Write-Host "  Repository initialized successfully"
     }
@@ -508,9 +514,12 @@ try {
     $env:RESTIC_PASSWORD = $resticPassword
 
     Write-Host "  Running dry-run backup..."
-    $dryRunOutput = & $resticExe backup --repo $repository --dry-run $backupPaths 2>&1
-    if ($LASTEXITCODE -ne 0) {
-        throw "Dry-run failed with exit code $LASTEXITCODE`n$dryRunOutput"
+    $ErrorActionPreference = 'Continue'
+    $dryRunOutput = & restic backup --repo $repository --dry-run $backupPaths 2>&1
+    $dryRunExit = $LASTEXITCODE
+    $ErrorActionPreference = 'Stop'
+    if ($dryRunExit -ne 0) {
+        throw "Dry-run failed (exit $dryRunExit): $dryRunOutput"
     }
     Write-Host "  Dry-run completed successfully"
 
